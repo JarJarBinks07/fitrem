@@ -1,0 +1,19 @@
+.app-info {
+  bottom: 0;
+  padding-left: 20px;
+}
+
+.app-info p {
+  font-size: 11px;
+}
+
+.my-tab-button {
+  color: var(--ion-color-dark);
+}
+
+.my-tab-button.tab-selected {
+  color: white;
+  background-color: var(--ion-color-dark);
+  transition: background-color 2s ease;
+  /* border-top: 4px var(--ion-color-warning) solid; */
+}
