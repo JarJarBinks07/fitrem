@@ -3,9 +3,9 @@ import { IonBadge, IonIcon, IonLabel, IonTabBar, IonTabButton, IonTabs } from "@
 
 import { home, stopwatch, layers, settings } from "ionicons/icons";
 
-import "./MainTabs.css";
+import "./FooterButtons.css";
 
-const BottomMenu: React.FC = () => {
+const FooterButtons: React.FC = () => {
   return (
     <IonTabBar slot="bottom" color="warning">
       <IonTabButton className="my-tab-button" tab="home" href="/home">
@@ -24,4 +24,4 @@ const BottomMenu: React.FC = () => {
     </IonTabBar>
   );
 };
-export default BottomMenu;
+export default FooterButtons;

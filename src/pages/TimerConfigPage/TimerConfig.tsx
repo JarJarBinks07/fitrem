@@ -35,7 +35,7 @@ const TimerConfig: React.FC = () => {
 
   const onSaveHandler = () => {
     setTimerConfiguration(initialValue as number);
-    setRemainingTime((initialValue as number) * 60);
+    setRemainingTime(0);
     setIsOpen(true);
   };
 

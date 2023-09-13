@@ -18,5 +18,5 @@ export const createTimerState: MyStateCreator<ITimer> = (set) => ({
     set((state) => ({ timerStatus: state.timerStatus === "idle" ? "running" : "idle" })),
 
   remainingTime: 0,
-  setRemainingTime: (value) => set(() => ({ remainingTime: value })),
+  setRemainingTime: (value) => set((state) => ({ remainingTime: value })),
 });

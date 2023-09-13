@@ -19,7 +19,7 @@ import { useSQLiteDB } from "../../hooks/useSQLiteDB";
 import { useConfirmationAlert } from "../../hooks/useConfirmationAlert";
 import { SQLItem } from "../../types/types";
 import MainMenu from "../../components/Menu/MainMenu";
-import BottomMenu from "../../components/Menu/BottomMenu";
+import FooterButtons from "../../components/Footer/FooterButtons";
 
 const Home: React.FC = () => {
   //store
@@ -134,7 +134,7 @@ const Home: React.FC = () => {
 
           {ConfirmationAlert}
         </IonContent>
-        <BottomMenu />
+        <FooterButtons />
       </IonPage>
     </>
   );

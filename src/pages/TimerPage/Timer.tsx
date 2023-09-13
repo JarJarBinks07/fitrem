@@ -17,7 +17,7 @@ import TimerFace from "./components/TimerFace";
 import TimerPlayButton from "./components/TimerPlayButton";
 import { useCombineStates } from "../../store/useCombineStates";
 import MainMenu from "../../components/Menu/MainMenu";
-import BottomMenu from "../../components/Menu/BottomMenu";
+import FooterButtons from "../../components/Footer/FooterButtons";
 
 const TimerPage: React.FC = () => {
   const { timerStatus, startTimerHandler, timerConfiguration, remainingTime, setRemainingTime } =
@@ -62,7 +62,7 @@ const TimerPage: React.FC = () => {
             </IonRow>
           </IonGrid>
         </IonContent>
-        <BottomMenu />
+        <FooterButtons />
       </IonPage>
     </>
   );

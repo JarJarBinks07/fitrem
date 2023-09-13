@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
+import { Duration } from "luxon";
 import "./TimerFace.css";
 
 interface IProps {
@@ -21,28 +22,15 @@ const TimerFace: React.FC<IProps> = ({
   remainingTime,
   setRemainingTime,
 }) => {
-  console.log(remainingTime);
   const secondsInOneMinute = 60;
+
   const renderTime = (time: number, timerActive: boolean) => {
-    const minutes = Math.floor(time / secondsInOneMinute);
-    const seconds = Math.floor(time % secondsInOneMinute);
-
-    let timeString: string = "";
-
-    timeString = minutes < 10 ? "0" + minutes : `${minutes}`;
-    timeString += seconds < 10 ? "0" + seconds : `${seconds}`;
-
-    const digits: string[] = timeString.split("");
-
+    const formattedTime = Duration.fromMillis(time * 1000).toFormat("mm:ss");
     return (
       <div className="time-wrapper">
         <div>{timerActive ? "NEXT BREAK IS IN" : "CLICK PLAY BUTTON"}</div>
         <div className="timer-digits">
-          <div className="timer-digits__digit">{digits[0]}</div>
-          <div className="timer-digits__digit">{digits[1]}</div>
-          <div className="timer-digits__colon">:</div>
-          <div className="timer-digits__digit">{digits[2]}</div>
-          <div className="timer-digits__digit">{digits[3]}</div>
+          <div>{formattedTime}</div>
         </div>
       </div>
     );
@@ -65,7 +53,7 @@ const TimerFace: React.FC<IProps> = ({
       }}
       onUpdate={setRemainingTime}
     >
-      {({ remainingTime }) => renderTime(remainingTime, timerActive)}
+      {() => renderTime(remainingTime, timerActive)}
     </CountdownCircleTimer>
   );
 };
