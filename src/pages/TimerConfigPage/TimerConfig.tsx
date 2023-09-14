@@ -29,12 +29,12 @@ type RangeValue =
     };
 
 const TimerConfig: React.FC = () => {
-  const { timerConfiguration, setTimerConfiguration, setRemainingTime } = useCombineStates();
-  const [initialValue, setInitialValue] = useState<RangeValue>(timerConfiguration);
+  const { timerInterval, setTimerInterval, setRemainingTime } = useCombineStates();
+  const [initialValue, setInitialValue] = useState<RangeValue>(timerInterval);
   const [isOpen, setIsOpen] = useState(false);
 
   const onSaveHandler = () => {
-    setTimerConfiguration(initialValue as number);
+    setTimerInterval(initialValue as number);
     setRemainingTime(0);
     setIsOpen(true);
   };
@@ -55,7 +55,7 @@ const TimerConfig: React.FC = () => {
               <IonText>
                 <h2>Timer Settings</h2>
                 <p>
-                  Your timer is set to ring in {initialValue.toString()} minutes.
+                  Your timer is set to ring in {initialValue.toString()} seconds.
                   <IonIcon slot="icon-only" icon={helpCircleOutline} color="primary"></IonIcon>
                 </p>
               </IonText>
@@ -69,13 +69,13 @@ const TimerConfig: React.FC = () => {
                 value={initialValue}
                 onIonChange={(e) => setInitialValue(e.detail.value)}
               >
-                <IonLabel slot="start">5 min</IonLabel>
-                <IonLabel slot="end">60 min</IonLabel>
+                <IonLabel slot="start">5 sec</IonLabel>
+                <IonLabel slot="end">60 sec</IonLabel>
               </IonRange>
               <IonText>
                 <small>
                   If you wish to change the settings drag the nob to the desired time interval (5 to
-                  60 minutes).
+                  60 seconds).
                 </small>
               </IonText>
             </IonCol>

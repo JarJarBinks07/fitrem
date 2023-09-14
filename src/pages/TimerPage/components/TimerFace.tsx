@@ -8,10 +8,11 @@ interface IProps {
   timerEnds: number;
   timerActive: boolean;
   resetTimer: () => void;
-  key: number;
+  timerReactivated: number;
   reactivated: number;
   remainingTime: number;
   setRemainingTime: (value: number) => void;
+  startTimerHandler: () => void;
 }
 
 const TimerFace: React.FC<IProps> = ({
@@ -21,8 +22,10 @@ const TimerFace: React.FC<IProps> = ({
   reactivated,
   remainingTime,
   setRemainingTime,
+  timerReactivated,
+  startTimerHandler,
 }) => {
-  const secondsInOneMinute = 60;
+  const secondsInOneMinute = 1;
 
   const renderTime = (time: number, timerActive: boolean) => {
     const formattedTime = Duration.fromMillis(time * 1000).toFormat("mm:ss");
@@ -39,7 +42,7 @@ const TimerFace: React.FC<IProps> = ({
   return (
     <CountdownCircleTimer
       isPlaying={timerActive}
-      // key={reactivated}
+      key={timerReactivated}
       size={300}
       strokeWidth={22}
       colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
@@ -48,7 +51,8 @@ const TimerFace: React.FC<IProps> = ({
       duration={workInterval * secondsInOneMinute}
       initialRemainingTime={remainingTime || workInterval * secondsInOneMinute}
       onComplete={() => {
-        resetTimer();
+        // resetTimer();
+        startTimerHandler();
         return { shouldRepeat: false, delay: 0 }; // repeat animation in 1.5 seconds
       }}
       onUpdate={setRemainingTime}

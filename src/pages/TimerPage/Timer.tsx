@@ -20,8 +20,15 @@ import MainMenu from "../../components/Menu/MainMenu";
 import FooterButtons from "../../components/Footer/FooterButtons";
 
 const TimerPage: React.FC = () => {
-  const { timerStatus, startTimerHandler, timerConfiguration, remainingTime, setRemainingTime } =
-    useCombineStates();
+  const {
+    timerStatus,
+    startTimerHandler,
+    timerInterval,
+    remainingTime,
+    setRemainingTime,
+    timerReactivated,
+    setTimerReactivated,
+  } = useCombineStates();
 
   return (
     <>
@@ -42,8 +49,8 @@ const TimerPage: React.FC = () => {
             <IonRow>
               <IonCol className="timer-content">
                 <TimerFace
-                  key={0}
-                  workInterval={timerConfiguration}
+                  timerReactivated={timerReactivated}
+                  workInterval={timerInterval}
                   timerEnds={0}
                   timerActive={timerStatus === "running"}
                   resetTimer={function (): void {
@@ -52,12 +59,17 @@ const TimerPage: React.FC = () => {
                   reactivated={0}
                   remainingTime={remainingTime}
                   setRemainingTime={setRemainingTime}
+                  startTimerHandler={startTimerHandler}
                 />
               </IonCol>
             </IonRow>
             <IonRow className="ion-text-center">
               <IonCol>
-                <TimerPlayButton timerStatus={timerStatus} startTimerHandler={startTimerHandler} />
+                <TimerPlayButton
+                  timerStatus={timerStatus}
+                  startTimerHandler={startTimerHandler}
+                  setTimerReactivated={setTimerReactivated}
+                />
               </IonCol>
             </IonRow>
           </IonGrid>

@@ -1,17 +1,19 @@
 import { MyStateCreator } from "./useCombineStates";
 
 export interface ITimer {
-  timerConfiguration: number;
+  timerInterval: number;
   timerStatus: "running" | "idle";
   remainingTime: number;
-  setTimerConfiguration: (value: number) => void;
+  timerReactivated: number;
+  setTimerInterval: (value: number) => void;
   startTimerHandler: () => void;
   setRemainingTime: (value: number) => void;
+  setTimerReactivated: () => void;
 }
 
 export const createTimerState: MyStateCreator<ITimer> = (set) => ({
-  timerConfiguration: 25,
-  setTimerConfiguration: (value) => set(() => ({ timerConfiguration: value })),
+  timerInterval: 25,
+  setTimerInterval: (value) => set(() => ({ timerInterval: value })),
 
   timerStatus: "idle",
   startTimerHandler: () =>
@@ -19,4 +21,7 @@ export const createTimerState: MyStateCreator<ITimer> = (set) => ({
 
   remainingTime: 0,
   setRemainingTime: (value) => set((state) => ({ remainingTime: value })),
+
+  timerReactivated: 0,
+  setTimerReactivated: () => set(() => ({ timerReactivated: Date.now() })),
 });
