@@ -69,6 +69,7 @@ const TimerPage: React.FC = () => {
                   timerStatus={timerStatus}
                   startTimerHandler={startTimerHandler}
                   setTimerReactivated={setTimerReactivated}
+                  workInterval={timerInterval}
                 />
               </IonCol>
             </IonRow>
