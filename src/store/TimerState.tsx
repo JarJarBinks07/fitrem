@@ -5,10 +5,12 @@ export interface ITimer {
   timerStatus: "running" | "idle";
   remainingTime: number;
   timerReactivated: number;
+  timerEnds: number;
   setTimerInterval: (value: number) => void;
   startTimerHandler: () => void;
   setRemainingTime: (value: number) => void;
   setTimerReactivated: () => void;
+  setTimerEnds: () => void;
 }
 
 export const createTimerState: MyStateCreator<ITimer> = (set) => ({
@@ -24,4 +26,7 @@ export const createTimerState: MyStateCreator<ITimer> = (set) => ({
 
   timerReactivated: 0,
   setTimerReactivated: () => set(() => ({ timerReactivated: Date.now() })),
+
+  timerEnds: 0,
+  setTimerEnds: () => set((state) => ({ timerEnds: Date.now() + state.timerInterval * 1000 })),
 });

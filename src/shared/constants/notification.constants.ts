@@ -11,14 +11,15 @@ export const setTimerLocalNotification = async (workInterval: number) => {
           title: "Friendly Reminder",
           body: "Get up and workout",
           id: 1,
-          //workInterval must be passed in milliseconds
           schedule: { at: new Date(Date.now() + workInterval) },
           extra: {
             data: "Pass data to your handler",
           },
-          iconColor: "#0000ff",
-          sound: "beep_08b.wav",
+          iconColor: "#FF7F50",
+          // sound: "beep_08b.wav",
           // vibrate: true,
+          largeIcon: "res://drawable/icon.png",
+          smallIcon: "res://drawable/icon.png",
         },
       ],
     });
