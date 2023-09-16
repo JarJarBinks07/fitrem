@@ -16,10 +16,7 @@ export const setTimerLocalNotification = async (workInterval: number) => {
             data: "Pass data to your handler",
           },
           iconColor: "#FF7F50",
-          // sound: "beep_08b.wav",
-          // vibrate: true,
-          largeIcon: "res://drawable/icon.png",
-          smallIcon: "res://drawable/icon.png",
+          sound: "birds.wav",
         },
       ],
     });
