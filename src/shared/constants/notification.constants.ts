@@ -1,6 +1,6 @@
 import { LocalNotifications } from "@capacitor/local-notifications";
 
-export const setTimerLocalNotification = async (workInterval: number) => {
+export const setTimerLocalNotification = async (interval: number) => {
   try {
     if ((await LocalNotifications.requestPermissions()).display !== "granted") {
       throw new Error("Permissions haven't been granted");
@@ -11,7 +11,7 @@ export const setTimerLocalNotification = async (workInterval: number) => {
           title: "Friendly Reminder",
           body: "Get up and workout",
           id: 1,
-          schedule: { at: new Date(Date.now() + workInterval) },
+          schedule: { at: new Date(Date.now() + interval) },
           extra: {
             data: "Pass data to your handler",
           },

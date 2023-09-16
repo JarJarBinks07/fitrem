@@ -18,17 +18,40 @@ import TimerPlayButton from "./components/TimerPlayButton";
 import { useCombineStates } from "../../store/useCombineStates";
 import MainMenu from "../../components/Menu/MainMenu";
 import FooterButtons from "../../components/Footer/FooterButtons";
+import TimerResetButton from "./components/TimerResetButton";
+import { setTimerLocalNotification, unsetTimerLocalNotifications } from "../../shared/constants/notification.constants";
 
 const TimerPage: React.FC = () => {
   const {
-    timerStatus,
-    startTimerHandler,
     timerInterval,
-    remainingTime,
-    setRemainingTime,
-    timerReactivated,
-    setTimerReactivated,
+    timerStatus,
+    timerKey,
+    timerDuration,
+    timerPausedTime,
+    setTimerStatus,
+    setTimerDuration,
+    setTimerPausedTime,
+    unsetTimer,
   } = useCombineStates();
+
+  const pauseButtonHandler = () => {
+    setTimerStatus("pause");
+    setTimerPausedTime();
+    unsetTimerLocalNotifications();
+  };
+
+  const playButtonHandler = () => {
+    if (timerPausedTime) {
+      //get timerPausedTime in milliseconds
+      setTimerDuration(timerPausedTime);
+      setTimerLocalNotification(timerPausedTime);
+    } else {
+      //get timerInterval in seconds
+      setTimerDuration(timerInterval * 1000);
+      setTimerLocalNotification(timerInterval * 1000);
+    }
+    setTimerStatus("running");
+  };
 
   return (
     <>
@@ -49,28 +72,23 @@ const TimerPage: React.FC = () => {
             <IonRow>
               <IonCol className="timer-content">
                 <TimerFace
-                  timerReactivated={timerReactivated}
-                  workInterval={timerInterval}
-                  timerEnds={0}
+                  timerKey={timerKey}
+                  timerInterval={timerInterval}
+                  timerDuration={timerPausedTime ? Date.now() + timerPausedTime : timerDuration}
                   timerActive={timerStatus === "running"}
-                  resetTimer={function (): void {
-                    throw new Error("Function not implemented.");
-                  }}
-                  reactivated={0}
-                  remainingTime={remainingTime}
-                  setRemainingTime={setRemainingTime}
-                  startTimerHandler={startTimerHandler}
+                  unsetTimer={unsetTimer}
                 />
               </IonCol>
             </IonRow>
             <IonRow className="ion-text-center">
               <IonCol>
                 <TimerPlayButton
+                  timerHandler={timerStatus === "running" ? pauseButtonHandler : playButtonHandler}
                   timerStatus={timerStatus}
-                  startTimerHandler={startTimerHandler}
-                  setTimerReactivated={setTimerReactivated}
-                  workInterval={remainingTime}
                 />
+              </IonCol>
+              <IonCol>
+                <TimerResetButton unsetTimer={unsetTimer} timerStatus={timerStatus} />
               </IonCol>
             </IonRow>
           </IonGrid>

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-
 import {
   IonBackButton,
   IonButton,
@@ -29,14 +28,15 @@ type RangeValue =
     };
 
 const TimerConfig: React.FC = () => {
-  const { timerInterval, setTimerInterval, setRemainingTime } = useCombineStates();
+  const { unsetTimer } = useCombineStates();
+  const { timerInterval, setTimerInterval } = useCombineStates();
   const [initialValue, setInitialValue] = useState<RangeValue>(timerInterval);
   const [isOpen, setIsOpen] = useState(false);
 
   const onSaveHandler = () => {
     setTimerInterval(initialValue as number);
-    setRemainingTime(0);
     setIsOpen(true);
+    unsetTimer();
   };
 
   return (
@@ -74,8 +74,7 @@ const TimerConfig: React.FC = () => {
               </IonRange>
               <IonText>
                 <small>
-                  If you wish to change the settings drag the nob to the desired time interval (5 to
-                  60 seconds).
+                  If you wish to change the settings drag the nob to the desired time interval (5 to 60 seconds).
                 </small>
               </IonText>
             </IonCol>

@@ -1,34 +1,23 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { Duration } from "luxon";
 import "./TimerFace.css";
-
 interface IProps {
-  workInterval: number;
-  timerEnds: number;
+  timerInterval: number;
+  timerKey: number;
+  timerDuration: number;
   timerActive: boolean;
-  resetTimer: () => void;
-  timerReactivated: number;
-  reactivated: number;
-  remainingTime: number;
-  setRemainingTime: (value: number) => void;
-  startTimerHandler: () => void;
+  unsetTimer: () => void;
 }
 
-const TimerFace: React.FC<IProps> = ({
-  timerActive,
-  workInterval,
-  resetTimer,
-  reactivated,
-  remainingTime,
-  setRemainingTime,
-  timerReactivated,
-  startTimerHandler,
-}) => {
+const TimerFace: React.FC<IProps> = ({ timerInterval, timerKey, timerDuration, timerActive, unsetTimer }) => {
+  //secondsInOneMinute=60
   const secondsInOneMinute = 1;
+  const timeLeft = !!timerDuration ? (timerDuration - Date.now()) / 1000 : timerInterval * secondsInOneMinute;
 
   const renderTime = (time: number, timerActive: boolean) => {
     const formattedTime = Duration.fromMillis(time * 1000).toFormat("mm:ss");
+
     return (
       <div className="time-wrapper">
         <div>{timerActive ? "NEXT BREAK IS IN" : "CLICK PLAY BUTTON"}</div>
@@ -42,22 +31,19 @@ const TimerFace: React.FC<IProps> = ({
   return (
     <CountdownCircleTimer
       isPlaying={timerActive}
-      key={timerReactivated}
+      key={timerKey}
       size={300}
       strokeWidth={22}
       colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
       colorsTime={[7, 5, 2, 0]}
       rotation="clockwise"
-      duration={workInterval * secondsInOneMinute}
-      initialRemainingTime={remainingTime || workInterval * secondsInOneMinute}
+      duration={timerInterval * secondsInOneMinute}
+      initialRemainingTime={timeLeft > 0 ? timeLeft : timerInterval * secondsInOneMinute}
       onComplete={() => {
-        // resetTimer();
-        startTimerHandler();
-        return { shouldRepeat: false, delay: 0 }; // repeat animation in 1.5 seconds
+        unsetTimer();
       }}
-      onUpdate={setRemainingTime}
     >
-      {() => renderTime(remainingTime, timerActive)}
+      {({ remainingTime }) => renderTime(remainingTime, timerActive)}
     </CountdownCircleTimer>
   );
 };
