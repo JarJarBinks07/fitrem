@@ -14,7 +14,9 @@ function TimerConfirmationSettings({ isOpen, setIsOpen }: Props) {
       subHeader="Nice choice"
       message="Let's do it!"
       buttons={["OK"]}
-      onDidDismiss={() => setIsOpen(false)}
+      onDidDismiss={() => {
+        setIsOpen(false), history.back();
+      }}
     ></IonAlert>
   );
 }
