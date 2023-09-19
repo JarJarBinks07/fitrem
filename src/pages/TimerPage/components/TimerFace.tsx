@@ -17,7 +17,6 @@ const TimerFace: React.FC<IProps> = ({ timerInterval, timerKey, timerDuration, t
 
   const renderTime = (time: number, timerActive: boolean) => {
     const formattedTime = Duration.fromMillis(time * 1000).toFormat("mm:ss");
-
     return (
       <div className="time-wrapper">
         <div>{timerActive ? "NEXT BREAK IS IN" : "CLICK PLAY BUTTON"}</div>
