@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Home.css";
+import favicon from "../../assets/favicon.png";
 import {
   IonHeader,
   IonPage,
@@ -12,7 +13,9 @@ import {
   IonButtons,
   IonMenuButton,
   IonTitle,
+  IonImg,
 } from "@ionic/react";
+import { createConnection, DataSource } from "typeorm";
 
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 import { useSQLiteDB } from "../../hooks/useSQLiteDB";
@@ -25,9 +28,33 @@ import { SqlConnectionService } from "../../db";
 import { ItemEntity } from "../../db/item";
 
 const Home: React.FC = () => {
+  //BLOB
+  // let blob = new Promise((resolve) => favicon.toBlob(resolve, "image/png"));
+  // const imgElement = document.getElementById("myImg");
+  // const canvas = document.createElement("canvas");
+  // const ctx = canvas.getContext("2d");
+  // canvas.width = 200;
+  // canvas.height = 200;
+  // ctx.drawImage(imgElement, 0, 0);
+  const [blob, setBlob] = useState();
+  const imgUrl =
+    "https://images.rapidload-cdn.io/spai/ret_img,q_lossy,to_avif/https://www.itpedia.nl/wp-content/uploads/2018/02/Thinking_Face_Emoji-600x600.png";
+  useEffect(() => {
+    fetch(imgUrl)
+      .then((response) => response.blob())
+      .then((blob) => {
+        setBlob(blob);
+      })
+      .catch((error) => {
+        console.error("Error with blob:", error);
+      });
+  }, []);
+
+  console.log(blob);
+
   // test for JSON sqlite
   const JSONFromState = JSON.stringify(useCombineStates());
-  console.log("Combine States: ", JSONFromState);
+  // console.log("Combine States: ", JSONFromState);
   //store
   const [inputName, setInputName] = useState("");
   const [items, setItems] = useState<Array<SQLItem>>();
@@ -70,32 +97,10 @@ const Home: React.FC = () => {
   useEffect(() => {
     getData();
   }, []);
-  //
-
-  // const addItem = async () => {
-  //   try {
-  //     // add test record to db
-  //     performSQLAction(
-  //       async (db: SQLiteDBConnection | undefined) => {
-  //         await db?.query(`INSERT INTO test (id,JSON) values (?,?);`, [Date.now(), JSONFromState]);
-
-  //         // update ui
-  //         const respSelect = await db?.query(`SELECT * FROM test;`);
-  //         setItems(respSelect?.values);
-  //       },
-  //       async () => {
-  //         setInputName("");
-  //       }
-  //     );
-  //   } catch (error) {
-  //     alert((error as Error).message);
-  //   }
-  // };
 
   const addItem = async () => {
     try {
       const sqlConnectionService = new SqlConnectionService();
-
       const con = await sqlConnectionService.configureNativeConnection();
       const res = sqlConnectionService.connection?.getRepository(ItemEntity);
       await res?.save({
@@ -110,6 +115,28 @@ const Home: React.FC = () => {
           },
         }),
       });
+      await getData();
+    } catch (error) {
+      alert((error as Error).message);
+    }
+  };
+
+  const upDateItem = async (id: string) => {
+    try {
+      const sqlConnectionService = new SqlConnectionService();
+      const con = await sqlConnectionService.configureNativeConnection();
+      const res = sqlConnectionService.connection?.getRepository(ItemEntity);
+      if (res) {
+        const getItem = await res.findOne({ where: { id: id } });
+        if (getItem) {
+          getItem.name;
+          await res.save(getItem);
+        } else {
+          console.log("can't rename input:", getItem!.name);
+        }
+      } else {
+        console.log("Connection to DB is absent");
+      }
       await getData();
     } catch (error) {
       alert((error as Error).message);
@@ -166,6 +193,7 @@ const Home: React.FC = () => {
             <IonButton slot="end" onClick={addItem} disabled={inputName.trim() === ""}>
               ADD
             </IonButton>
+            <IonImg id="myImg" src={favicon} alt="img" />
           </IonItem>
 
           <h3>THE SQLITE DATA</h3>
@@ -173,7 +201,7 @@ const Home: React.FC = () => {
           {state?.map((e) => (
             <IonItem key={e?.id}>
               <IonLabel className="ion-text-wrap">{JSON.stringify(e)}</IonLabel>
-              {/* <IonButton onClick={() => confirmDelete(e?.id)}>DELETE</IonButton> */}
+              <IonButton onClick={() => upDateItem(e?.id)}>DELETE</IonButton>
             </IonItem>
           ))}
 

@@ -23,8 +23,7 @@ export const useCombineStates = create<CombineState>()(
       }),
       {
         name: "combineStore",
-        partialize: (state) =>
-          Object.fromEntries(Object.entries(state).filter(([key]) => !ignoreList.includes(key))),
+        partialize: (state) => Object.fromEntries(Object.entries(state).filter(([key]) => !ignoreList.includes(key))),
       }
     )
   )

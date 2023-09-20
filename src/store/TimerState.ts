@@ -1,4 +1,4 @@
-import { MyStateCreator } from "./useCombineStates";
+import { MyStateCreator, useCombineStates } from "./useCombineStates";
 
 export interface ITimer {
   timerInterval: number;
@@ -38,3 +38,12 @@ export const createTimerState: MyStateCreator<ITimer> = (set) => ({
       "unsetTimer"
     ),
 });
+
+class State {
+  constructor(state: ITimer) {
+    this.state = state;
+  }
+  get state(): ITimer {
+    return this.state;
+  }
+}

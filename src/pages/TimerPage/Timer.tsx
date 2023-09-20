@@ -20,6 +20,7 @@ import MainMenu from "../../components/Menu/MainMenu";
 import FooterButtons from "../../components/Footer/FooterButtons";
 import TimerResetButton from "./components/TimerResetButton";
 import { setTimerLocalNotification, unsetTimerLocalNotifications } from "../../shared/constants/notification.constants";
+import { CombineState } from "../../store/useCombineStates";
 
 const TimerPage: React.FC = () => {
   const {
@@ -33,6 +34,19 @@ const TimerPage: React.FC = () => {
     setTimerPausedTime,
     unsetTimer,
   } = useCombineStates();
+
+  // class State {
+  //   constructor(state: CombineState) {
+  //     this.state = state;
+  //   }
+  //   get getItem(): CombineState {
+  //     return JSON.stringify(this.state);
+  //   }
+  //   // set setItem(value) {
+  //   // }
+  // }
+  // const myState = new State(useCombineStates());
+  // console.log(myState.getItem);
 
   const pauseButtonHandler = () => {
     setTimerStatus("pause");

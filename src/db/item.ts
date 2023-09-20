@@ -14,6 +14,6 @@ export class ItemEntity {
   @Column({ type: "varchar", length: 255 })
   name: string;
 
-  // @Column({ type: "text", length: 255 })
-  // jsonTest: string;
+  @Column({ type: "text", length: 255 })
+  jsonTest: string;
 }
