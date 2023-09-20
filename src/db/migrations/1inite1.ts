@@ -6,7 +6,7 @@ export class Item1695050284142 implements MigrationInterface {
             CREATE TABLE "item" (
                 "id" integer PRIMARY KEY NOT NULL,
                 "isActive" boolean NOT NULL,
-                "image" BLOB,
+                "image" BLOB
             )
         `);
   }

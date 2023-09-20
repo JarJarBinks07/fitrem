@@ -108,6 +108,7 @@ const Home: React.FC = () => {
         isActive: true,
         isActive2: false,
         name: inputName,
+        image: blob,
         jsonTest: JSON.stringify({
           id: Math.random(),
           nest: {
