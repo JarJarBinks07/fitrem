@@ -43,7 +43,6 @@ async function base64FromPath(path: string): Promise<string> {
     reader.onerror = reject;
     reader.onload = () => {
       if (typeof reader.result === "string") {
-        console.log(reader.result);
         resolve(reader.result);
       } else {
         reject("base64 format isn't string");
@@ -51,66 +50,128 @@ async function base64FromPath(path: string): Promise<string> {
     };
   });
 }
-export const writeBlob64File = async (urlPath: string, fileName: string) => {
-  const base64Data = await base64FromPath(urlPath).then((resp) => resp.split(",")[1]);
-  console.log("base64Data:", base64Data);
-  const buffer = await Buffer.from(base64Data, "base64");
-  console.log("buffer: ", buffer);
+// export const writeBlob64File = async (urlPath: string, fileName: string) => {
+//   const base64Data = await base64FromPath(urlPath).then((resp) => resp.split(",")[1]);
+//   console.log("base64Data:", base64Data);
+//   const buffer = await Buffer.from(base64Data, "base64");
+//   console.log("buffer: ", buffer);
 
+//   try {
+//     await Filesystem.writeFile({
+//       path: `videos/${fileName}`,
+//       data: buffer,
+//       directory: Directory.Documents,
+//       encoding: Encoding.UTF8, // reguired for base64
+//     });
+//     console.log("Blob file was saved successfully");
+//   } catch (error) {
+//     console.log("Error with writing blob file");
+//   }
+// };
+///////////////////////////////////////////////////////
+// works with web
+export const writeBlob64File = async (urlPath: string, fileName: string) => {
   try {
+    const base64Data = await base64FromPath(urlPath);
     await Filesystem.writeFile({
       path: `videos/${fileName}`,
-      data: buffer,
+      data: base64Data,
       directory: Directory.Documents,
       encoding: Encoding.UTF8, // reguired for base64
     });
-    console.log("Blob file was saved successfully");
+    console.log("Base64 file was saved successfully");
   } catch (error) {
-    console.log("Error with writing blob file");
+    console.log("Error with writing base64 file ", error);
   }
 };
+///////////////////////////////////////////////////////
+// export const readBlob64File = async (fileName: string) => {
+//   try {
+//     const contents = await Filesystem.readFile({
+//       path: `${fileName}`,
+//       directory: Directory.Documents,
+//       //   encoding: Encoding.UTF8,
+//     });
+//     console.log("Base64 data from DB:", contents);
+//     return contents;
+//   } catch (error) {
+//     console.log("Error with reciving base64 data from DB:", error);
+//   }
+// };
 
-export const readBlob64File = async (fileName: string) => {
+///////////////////////////////////////////////////////////////
+//saving data to device and web - works //
+
+export const saveTrack = async (urlPath: string, fileName: string) => {
   try {
-    const contents = await Filesystem.readFile({
-      path: `/videos/${fileName}`,
-      directory: Directory.Documents,
-      //   encoding: Encoding.UTF8,
+    const base64Data = await base64FromPath(urlPath);
+    const savedFile = await Filesystem.writeFile({
+      path: `${fileName}`,
+      data: base64Data,
+      directory: Directory.Data,
     });
-    console.log("Blob data from DB:", contents);
-    return contents;
-  } catch (error) {
-    console.log("Error with reciving blob file:", error);
-  }
-};
-
-export const saveImage = async (image: Photo, fileName: string): Promise<PhotoItem> => {
-  let base64Data: string;
-
-  if (isPlatform("hybrid")) {
-    const file = await Filesystem.readFile({
-      path: image.path!,
-    });
-    base64Data = file.data;
-  } else {
-    base64Data = await base64FromPath(image.webPath!);
-  }
-
-  const savedFile = await Filesystem.writeFile({
-    path: fileName,
-    data: base64Data,
-    directory: Directory.Data,
-  });
-
-  if (isPlatform("hybrid")) {
+    if (isPlatform("hybrid")) {
+      console.log("Base64 file for hybrid platform");
+      return {
+        filePath: savedFile.uri,
+        webviewPath: Capacitor.convertFileSrc(savedFile.uri),
+      };
+    }
+    console.log("Base64 file for web platform");
     return {
-      filePath: savedFile.uri,
-      webviewPath: Capacitor.convertFileSrc(savedFile.uri),
+      filePath: fileName,
+      webviewPath: `/test/${fileName}`,
     };
+  } catch (error) {
+    console.log("Error with writing base64 file ", error);
+  }
+};
+
+//////////////////////////////////////////////////////////////
+export const readStoredFile = async (fileName: string): Promise<string | null> => {
+  try {
+    const fileData = await Filesystem.readFile({
+      path: fileName,
+      directory: Directory.Data,
+    });
+    console.log("*********** read");
+    return fileData.data;
+  } catch (error) {
+    console.error("Error with reading", error);
+    return null;
+  }
+};
+// removing data from device and web - works //
+
+export const removeTrack = async (fileName: string) => {
+  try {
+    await Filesystem.deleteFile({
+      path: fileName,
+      directory: Directory.Data,
+    });
+    console.log("Track was removed successfully");
+  } catch (error) {
+    console.log("Error with removing track ", error);
+  }
+};
+////////////////////////////////////////////
+const PHOTOS_PREF_KEY = "photos";
+const loadSaved = async () => {
+  const { value } = await Preferences.get({ key: PHOTOS_PREF_KEY });
+  const photosInPreferences: Photo[] = value ? JSON.parse(value) : [];
+
+  if (!isPlatform("hybrid")) {
+    for (let photo of photosInPreferences) {
+      const file = await Filesystem.readFile({
+        path: filePath,
+        directory: Directory.Data,
+      });
+
+      photo.webviewPath = `data:image/jpeg;base64,${file.data}`;
+    }
   }
 
-  return {
-    filePath: fileName,
-    webviewPath: image.webPath,
-  };
+  setPhotos(photosInPreferences);
 };
+
+loadSaved();

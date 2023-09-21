@@ -25,7 +25,14 @@ import FooterButtons from "../../components/Footer/FooterButtons";
 import { useCombineStates } from "../../store/useCombineStates";
 import { SqlConnectionService } from "../../db";
 import { ItemEntity } from "../../db/item";
-import { readBlob64File, writeBlob64File } from "../../settings/capacitor.storage";
+import {
+  removeTrack,
+  readBlob64File,
+  saveTrack,
+  writeBlob64File,
+  readStoredFile,
+} from "../../settings/capacitor.storage";
+
 const Home: React.FC = () => {
   // const path =
   //   "https://png.pngtree.com/png-vector/20191121/ourmid/pngtree-big-and-small-palm-trees-on-sand-illustration-vector-on-white-png-image_2013172.jpg";
@@ -35,21 +42,22 @@ const Home: React.FC = () => {
   // const path = "/assets/icons/redman.png";
   const [media, setMedia] = useState();
   useEffect(() => {
-    writeBlob64File(path, fileName);
-    readBlob64File(fileName).then((res) => setMedia(res?.data));
+    // writeBlob64File(path, fileName);
+    // readBlob64File(fileName).then((res) => setMedia(res?.data));
   }, []);
   console.log("Media: ", media);
+  const read = () => readStoredFile(fileName).then((res) => setMedia(res));
 
   // function convertBase64toURL(base64: Uint8Array, format: string) {
   //   const imageData = new Uint8Array(base64);
   //   const blob = new Blob([imageData], { type: `${format}` });
   //   return URL.createObjectURL(blob);
   // }
-  const imageData = new Uint8Array(media);
-  const blob = new Blob([imageData], { type: "video/mp4" });
+  // const imageData = new Uint8Array(media);
+  // const blob = new Blob([imageData], { type: "video/mp4" });
   // const blob = new Blob([imageData], { type: "image/jpeg" });
-  const dataUri = URL.createObjectURL(blob);
-  console.log(dataUri);
+  // const dataUri = URL.createObjectURL(blob);
+  // console.log(dataUri);
 
   // test for JSON sqlite
   // const JSONFromState = JSON.stringify(useCombineStates());
@@ -123,6 +131,7 @@ const Home: React.FC = () => {
   // };
 
   const addItem = async () => {
+    saveTrack(path, fileName);
     const response = await axios.request({
       url: itemUrl,
       method: "get",
@@ -144,9 +153,9 @@ const Home: React.FC = () => {
       }),
       file: Buffer.from(response.data).toString("base64"),
     });
-    console.log(item);
-    console.log(response.data.toString("base64"));
-    console.log(Buffer.from(response.data).toString("base64"));
+    // console.log(item);
+    // console.log(response.data.toString("base64"));
+    // console.log(Buffer.from(response.data).toString("base64"));
     await getData();
   };
 
@@ -195,7 +204,14 @@ const Home: React.FC = () => {
         <IonContent fullscreen className="ion-padding">
           <IonItem>
             {/* <IonImg src={dataUri} alt="img" /> */}
-            <iframe width="560" height="315" src={dataUri} title="TestFitRem" allowFullScreen />
+            <iframe
+              width="560"
+              height="315"
+              // src={"data:image/png;base64, " + media}
+              src={"data:video/mp4;base64, " + media}
+              title="TestFitRem"
+              allowFullScreen
+            />
           </IonItem>
           <IonItem>
             <IonInput
@@ -205,6 +221,12 @@ const Home: React.FC = () => {
             ></IonInput>
             <IonButton slot="end" onClick={addItem} disabled={inputName.trim() === ""}>
               ADD
+            </IonButton>
+            <IonButton slot="end" onClick={() => removeTrack(fileName)}>
+              DELETE
+            </IonButton>
+            <IonButton slot="end" onClick={read}>
+              READ
             </IonButton>
           </IonItem>
 
