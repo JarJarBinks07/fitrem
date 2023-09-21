@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Home.css";
+import axios from "axios";
 import {
   IonHeader,
   IonPage,
@@ -34,10 +35,16 @@ const Home: React.FC = () => {
   // const path = "/assets/icons/redman.png";
   const [media, setMedia] = useState();
   useEffect(() => {
-    // writeBlob64File(path, fileName);
+    writeBlob64File(path, fileName);
     readBlob64File(fileName).then((res) => setMedia(res?.data));
   }, []);
-  console.log(media);
+  console.log("Media: ", media);
+
+  // function convertBase64toURL(base64: Uint8Array, format: string) {
+  //   const imageData = new Uint8Array(base64);
+  //   const blob = new Blob([imageData], { type: `${format}` });
+  //   return URL.createObjectURL(blob);
+  // }
   const imageData = new Uint8Array(media);
   const blob = new Blob([imageData], { type: "video/mp4" });
   // const blob = new Blob([imageData], { type: "image/jpeg" });
@@ -77,40 +84,70 @@ const Home: React.FC = () => {
   // };
   //typeorm
   const [state, saveState] = useState<ItemEntity[]>();
+  useEffect(() => {
+    getData();
+  }, []);
 
   const getData = async () => {
     const sqlConnectionService = new SqlConnectionService();
     await sqlConnectionService.configureNativeConnection();
     const res = sqlConnectionService.connection?.getRepository(ItemEntity);
     const data = await res?.find({});
+    console.log(data);
     saveState(data);
   };
 
-  useEffect(() => {
-    getData();
-  }, []);
+  const itemUrl = "https://cdn.pixabay.com/photo/2013/07/12/17/47/test-pattern-152459_1280.png";
+
+  // const addItem = async () => {
+  //   try {
+  //     const sqlConnectionService = new SqlConnectionService();
+  //     const con = await sqlConnectionService.configureNativeConnection();
+  //     const res = sqlConnectionService.connection?.getRepository(ItemEntity);
+  //     await res?.save({
+  //       id: Date.now().toString(),
+  //       isActive: true,
+  //       isActive2: false,
+  //       name: inputName,
+  //       jsonTest: JSON.stringify({
+  //         id: Math.random(),
+  //         nest: {
+  //           nested: true,
+  //         },
+  //       }),
+  //     });
+  //     await getData();
+  //   } catch (error) {
+  //     alert((error as Error).message);
+  //   }
+  // };
 
   const addItem = async () => {
-    try {
-      const sqlConnectionService = new SqlConnectionService();
-      const con = await sqlConnectionService.configureNativeConnection();
-      const res = sqlConnectionService.connection?.getRepository(ItemEntity);
-      await res?.save({
-        id: Date.now().toString(),
-        isActive: true,
-        isActive2: false,
-        name: inputName,
-        jsonTest: JSON.stringify({
-          id: Math.random(),
-          nest: {
-            nested: true,
-          },
-        }),
-      });
-      await getData();
-    } catch (error) {
-      alert((error as Error).message);
-    }
+    const response = await axios.request({
+      url: itemUrl,
+      method: "get",
+      responseType: "arraybuffer",
+    });
+    const sqlConnectionService = new SqlConnectionService();
+    const con = await sqlConnectionService.configureNativeConnection();
+    const res = sqlConnectionService.connection?.getRepository(ItemEntity);
+    const item = await res?.save({
+      id: Date.now().toString(),
+      isActive: true,
+      isActive2: false,
+      name: inputName,
+      jsonTest: JSON.stringify({
+        id: Math.random(),
+        nest: {
+          nested: true,
+        },
+      }),
+      file: Buffer.from(response.data).toString("base64"),
+    });
+    console.log(item);
+    console.log(response.data.toString("base64"));
+    console.log(Buffer.from(response.data).toString("base64"));
+    await getData();
   };
 
   const upDateItem = async (id: string) => {
@@ -141,26 +178,6 @@ const Home: React.FC = () => {
     });
   };
 
-  // const deleteItem = async (itemId: number) => {
-  //   try {
-  //     // add test record to db
-  //     performSQLAction(
-  //       async (db: SQLiteDBConnection | undefined) => {
-  //         await db?.query(`DELETE FROM test_db123 WHERE id=?;`, [itemId]);
-
-  //         // update ui
-  //         const respSelect = await db?.query(`SELECT * FROM test_db123;`);
-  //         setItems(respSelect?.values);
-  //       },
-  //       async () => {
-  //         setInputName("");
-  //       }
-  //     );
-  //   } catch (error) {
-  //     alert((error as Error).message);
-  //   }
-  // };
-
   return (
     <>
       <MainMenu />
@@ -178,13 +195,7 @@ const Home: React.FC = () => {
         <IonContent fullscreen className="ion-padding">
           <IonItem>
             {/* <IonImg src={dataUri} alt="img" /> */}
-            <iframe
-              width="560"
-              height="315"
-              src="/assets/icons/Step jacks_wo bounce0030-0150.mp4"
-              title="TestFitRem"
-              allowFullScreen
-            />
+            <iframe width="560" height="315" src={dataUri} title="TestFitRem" allowFullScreen />
           </IonItem>
           <IonItem>
             <IonInput
@@ -201,7 +212,9 @@ const Home: React.FC = () => {
 
           {state?.map((e) => (
             <IonItem key={e?.id}>
+              {e.file && <IonImg src={"data:image/png;base64, " + e.file} />}
               <IonLabel className="ion-text-wrap">{JSON.stringify(e)}</IonLabel>
+
               <IonButton onClick={() => upDateItem(e?.id)}>DELETE</IonButton>
             </IonItem>
           ))}

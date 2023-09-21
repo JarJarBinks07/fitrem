@@ -30,6 +30,7 @@ export class SqlConnectionService {
       logging: ["error", "query", "schema"],
       entities: [ItemEntity],
       migrationsRun: true,
+      synchronize: true,
       migrations: [Item1695050284142, Item21695050284142, Item31695050284142, Item41695050284142],
     });
     const con = await this.connection.initialize();
