@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import "./Home.css";
-import favicon from "../../assets/favicon.png";
 import {
   IonHeader,
   IonPage,
@@ -16,7 +15,6 @@ import {
   IonImg,
 } from "@ionic/react";
 import { createConnection, DataSource } from "typeorm";
-
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 import { useSQLiteDB } from "../../hooks/useSQLiteDB";
 import { useConfirmationAlert } from "../../hooks/useConfirmationAlert";
@@ -26,34 +24,28 @@ import FooterButtons from "../../components/Footer/FooterButtons";
 import { useCombineStates } from "../../store/useCombineStates";
 import { SqlConnectionService } from "../../db";
 import { ItemEntity } from "../../db/item";
-
+import { readBlob64File, writeBlob64File } from "../../settings/capacitor.storage";
 const Home: React.FC = () => {
-  //BLOB
-  // let blob = new Promise((resolve) => favicon.toBlob(resolve, "image/png"));
-  // const imgElement = document.getElementById("myImg");
-  // const canvas = document.createElement("canvas");
-  // const ctx = canvas.getContext("2d");
-  // canvas.width = 200;
-  // canvas.height = 200;
-  // ctx.drawImage(imgElement, 0, 0);
-  const [blob, setBlob] = useState();
-  const imgUrl =
-    "https://images.rapidload-cdn.io/spai/ret_img,q_lossy,to_avif/https://www.itpedia.nl/wp-content/uploads/2018/02/Thinking_Face_Emoji-600x600.png";
+  // const path =
+  //   "https://png.pngtree.com/png-vector/20191121/ourmid/pngtree-big-and-small-palm-trees-on-sand-illustration-vector-on-white-png-image_2013172.jpg";
+  const fileName = "track.mp4";
+  const path = "/assets/icons/Step jacks_wo bounce0030-0150.mp4";
+  // const fileName = "redman.png";
+  // const path = "/assets/icons/redman.png";
+  const [media, setMedia] = useState();
   useEffect(() => {
-    fetch(imgUrl)
-      .then((response) => response.blob())
-      .then((blob) => {
-        setBlob(blob);
-      })
-      .catch((error) => {
-        console.error("Error with blob:", error);
-      });
+    // writeBlob64File(path, fileName);
+    readBlob64File(fileName).then((res) => setMedia(res?.data));
   }, []);
-
-  console.log(blob);
+  console.log(media);
+  const imageData = new Uint8Array(media);
+  const blob = new Blob([imageData], { type: "video/mp4" });
+  // const blob = new Blob([imageData], { type: "image/jpeg" });
+  const dataUri = URL.createObjectURL(blob);
+  console.log(dataUri);
 
   // test for JSON sqlite
-  const JSONFromState = JSON.stringify(useCombineStates());
+  // const JSONFromState = JSON.stringify(useCombineStates());
   // console.log("Combine States: ", JSONFromState);
   //store
   const [inputName, setInputName] = useState("");
@@ -108,7 +100,6 @@ const Home: React.FC = () => {
         isActive: true,
         isActive2: false,
         name: inputName,
-        image: blob,
         jsonTest: JSON.stringify({
           id: Math.random(),
           nest: {
@@ -186,6 +177,16 @@ const Home: React.FC = () => {
         </IonHeader>
         <IonContent fullscreen className="ion-padding">
           <IonItem>
+            {/* <IonImg src={dataUri} alt="img" /> */}
+            <iframe
+              width="560"
+              height="315"
+              src="/assets/icons/Step jacks_wo bounce0030-0150.mp4"
+              title="TestFitRem"
+              allowFullScreen
+            />
+          </IonItem>
+          <IonItem>
             <IonInput
               type="text"
               value={inputName}
@@ -194,7 +195,6 @@ const Home: React.FC = () => {
             <IonButton slot="end" onClick={addItem} disabled={inputName.trim() === ""}>
               ADD
             </IonButton>
-            <IonImg id="myImg" src={favicon} alt="img" />
           </IonItem>
 
           <h3>THE SQLITE DATA</h3>

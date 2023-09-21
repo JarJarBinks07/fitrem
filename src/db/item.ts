@@ -18,6 +18,6 @@ export class ItemEntity {
   @Column({ type: "text", length: 255 })
   jsonTest: string;
 
-  @Column({ type: "blob" })
-  image: Buffer;
+  // @Column({ type: "blob" })
+  // image: Buffer;
 }
