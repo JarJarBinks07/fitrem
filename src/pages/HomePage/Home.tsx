@@ -31,13 +31,16 @@ import {
   saveTrack,
   writeBlob64File,
   readStoredFile,
+  base64FromPath,
 } from "../../settings/capacitor.storage";
 
 const Home: React.FC = () => {
   // const path =
   //   "https://png.pngtree.com/png-vector/20191121/ourmid/pngtree-big-and-small-palm-trees-on-sand-illustration-vector-on-white-png-image_2013172.jpg";
-  const fileName = "track.mp4";
-  const path = "/assets/icons/Step jacks_wo bounce0030-0150.mp4";
+  // const fileName = "track.mp4";
+  // const path = "/assets/icons/Step_jacks_wo_bounce0030-0150.mp4";
+  const fileName = "track.gif";
+  const path = "/assets/icons/Step_jacks.gif";
 
   // const fileName = "redman.png";
   // const path = "/assets/icons/redman.png";
@@ -47,7 +50,7 @@ const Home: React.FC = () => {
     // readBlob64File(fileName).then((res) => setMedia(res?.data));
   }, []);
   console.log("Media: ", media);
-  const read = () => readStoredFile(fileName).then((res) => setMedia(res));
+  const readTrack = () => readStoredFile(fileName).then((res) => setMedia(res));
 
   // function convertBase64toURL(base64: Uint8Array, format: string) {
   //   const imageData = new Uint8Array(base64);
@@ -132,7 +135,6 @@ const Home: React.FC = () => {
   const itemVideoUrl = path;
 
   const addItem = async () => {
-    saveTrack(path, fileName);
     const response = await axios.request({
       url: itemVideoUrl,
       method: "get",
@@ -224,15 +226,16 @@ const Home: React.FC = () => {
         </IonHeader>
         <IonContent fullscreen className="ion-padding">
           <IonItem>
-            {/* <IonImg src={dataUri} alt="img" /> */}
-            <iframe
+            <IonImg src={"data:image/gif;base64, " + media} alt="img" />
+            {/* <iframe
               width="560"
               height="315"
               // src={"data:image/png;base64, " + media}
-              src={"data:video/mp4;base64, " + media}
+              // src={"data:video/mp4;base64, " + media}
+              src={"data:image/gif;base64, " + media}
               title="TestFitRem"
               allowFullScreen
-            />
+            /> */}
           </IonItem>
           <IonItem>
             <IonInput
@@ -249,7 +252,7 @@ const Home: React.FC = () => {
             <IonButton slot="end" onClick={() => removeTrack(fileName)}>
               DELETE
             </IonButton>
-            <IonButton slot="end" onClick={read}>
+            <IonButton slot="end" onClick={readTrack}>
               READ
             </IonButton>
           </IonItem>
@@ -258,15 +261,17 @@ const Home: React.FC = () => {
 
           {state?.map((e) => (
             <IonItem key={e?.id}>
-              <iframe
+              {/* <iframe
                 width="300"
                 height="315"
-                // src={"data:image/png;base64, " + media}
+                // src={"data:image/png;base64, " +  e.file}
+                // src={"data:video/mp4;base64, " + e.file}
                 src={"data:video/mp4;base64, " + e.file}
                 title="TestFitRem"
                 allowFullScreen
-              />
-              {/* {e.file && <IonImg src={"data:image/png;base64, " + e.file} />} */}
+              /> */}
+              {e.file && <IonImg src={"data:image/gif;base64, " + e.file} />}
+              {/* {e.file && <IonImg src={"data:video/mp4;base64, " + e.file} />} */}
               {/* <IonLabel className="ion-text-wrap">{JSON.stringify(e)}</IonLabel> */}
 
               <IonButton onClick={() => DeleteDateItem(e?.id)}>DELETE</IonButton>

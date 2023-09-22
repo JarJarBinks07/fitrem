@@ -35,7 +35,7 @@ import { Filesystem, Directory, Encoding } from "@capacitor/filesystem";
 //   webviewPath?: string;
 // }
 
-async function base64FromPath(path: string): Promise<string> {
+export async function base64FromPath(path: string): Promise<string> {
   const blob = await fetch(path).then((r) => r.blob());
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
@@ -155,23 +155,3 @@ export const removeTrack = async (fileName: string) => {
   }
 };
 ////////////////////////////////////////////
-const PHOTOS_PREF_KEY = "photos";
-const loadSaved = async () => {
-  const { value } = await Preferences.get({ key: PHOTOS_PREF_KEY });
-  const photosInPreferences: Photo[] = value ? JSON.parse(value) : [];
-
-  if (!isPlatform("hybrid")) {
-    for (let photo of photosInPreferences) {
-      const file = await Filesystem.readFile({
-        path: filePath,
-        directory: Directory.Data,
-      });
-
-      photo.webviewPath = `data:image/jpeg;base64,${file.data}`;
-    }
-  }
-
-  setPhotos(photosInPreferences);
-};
-
-loadSaved();
