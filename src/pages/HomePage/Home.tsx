@@ -226,7 +226,7 @@ const Home: React.FC = () => {
         </IonHeader>
         <IonContent fullscreen className="ion-padding">
           <IonItem>
-            <IonImg src={"data:image/gif;base64, " + media} alt="img" />
+            <IonImg src={"data:image/gif;base64, " + media} alt="img" className="test-image" />
             {/* <iframe
               width="560"
               height="315"
@@ -270,7 +270,7 @@ const Home: React.FC = () => {
                 title="TestFitRem"
                 allowFullScreen
               /> */}
-              {e.file && <IonImg src={"data:image/gif;base64, " + e.file} />}
+              {e.file && <IonImg src={"data:image/gif;base64, " + e.file} className="test-image" />}
               {/* {e.file && <IonImg src={"data:video/mp4;base64, " + e.file} />} */}
               {/* <IonLabel className="ion-text-wrap">{JSON.stringify(e)}</IonLabel> */}
 
