@@ -120,7 +120,7 @@ export const saveTrack = async (urlPath: string, fileName: string) => {
     console.log("Base64 file for web platform");
     return {
       filePath: fileName,
-      webviewPath: `/test/${fileName}`,
+      webviewPath: `${fileName}`,
     };
   } catch (error) {
     console.log("Error with writing base64 file ", error);

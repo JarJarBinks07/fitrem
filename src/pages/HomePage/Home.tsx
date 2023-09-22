@@ -38,6 +38,7 @@ const Home: React.FC = () => {
   //   "https://png.pngtree.com/png-vector/20191121/ourmid/pngtree-big-and-small-palm-trees-on-sand-illustration-vector-on-white-png-image_2013172.jpg";
   const fileName = "track.mp4";
   const path = "/assets/icons/Step jacks_wo bounce0030-0150.mp4";
+
   // const fileName = "redman.png";
   // const path = "/assets/icons/redman.png";
   const [media, setMedia] = useState();
@@ -105,8 +106,6 @@ const Home: React.FC = () => {
     saveState(data);
   };
 
-  const itemUrl = "https://cdn.pixabay.com/photo/2013/07/12/17/47/test-pattern-152459_1280.png";
-
   // const addItem = async () => {
   //   try {
   //     const sqlConnectionService = new SqlConnectionService();
@@ -129,11 +128,13 @@ const Home: React.FC = () => {
   //     alert((error as Error).message);
   //   }
   // };
+  const itemUrl = "https://cdn.pixabay.com/photo/2013/07/12/17/47/test-pattern-152459_1280.png";
+  const itemVideoUrl = path;
 
   const addItem = async () => {
     saveTrack(path, fileName);
     const response = await axios.request({
-      url: itemUrl,
+      url: itemVideoUrl,
       method: "get",
       responseType: "arraybuffer",
     });
@@ -169,6 +170,26 @@ const Home: React.FC = () => {
         if (getItem) {
           getItem.name;
           await res.save(getItem);
+        } else {
+          console.log("can't rename input:", getItem!.name);
+        }
+      } else {
+        console.log("Connection to DB is absent");
+      }
+      await getData();
+    } catch (error) {
+      alert((error as Error).message);
+    }
+  };
+  const DeleteDateItem = async (id: string) => {
+    try {
+      const sqlConnectionService = new SqlConnectionService();
+      const con = await sqlConnectionService.configureNativeConnection();
+      const res = sqlConnectionService.connection?.getRepository(ItemEntity);
+      if (res) {
+        const getItem = await res.findOne({ where: { id: id } });
+        if (getItem) {
+          await res.remove(getItem);
         } else {
           console.log("can't rename input:", getItem!.name);
         }
@@ -222,6 +243,9 @@ const Home: React.FC = () => {
             <IonButton slot="end" onClick={addItem} disabled={inputName.trim() === ""}>
               ADD
             </IonButton>
+            <IonButton slot="end" onClick={() => saveTrack(path, fileName)}>
+              ADD TRACK
+            </IonButton>
             <IonButton slot="end" onClick={() => removeTrack(fileName)}>
               DELETE
             </IonButton>
@@ -234,10 +258,18 @@ const Home: React.FC = () => {
 
           {state?.map((e) => (
             <IonItem key={e?.id}>
-              {e.file && <IonImg src={"data:image/png;base64, " + e.file} />}
-              <IonLabel className="ion-text-wrap">{JSON.stringify(e)}</IonLabel>
+              <iframe
+                width="300"
+                height="315"
+                // src={"data:image/png;base64, " + media}
+                src={"data:video/mp4;base64, " + e.file}
+                title="TestFitRem"
+                allowFullScreen
+              />
+              {/* {e.file && <IonImg src={"data:image/png;base64, " + e.file} />} */}
+              {/* <IonLabel className="ion-text-wrap">{JSON.stringify(e)}</IonLabel> */}
 
-              <IonButton onClick={() => upDateItem(e?.id)}>DELETE</IonButton>
+              <IonButton onClick={() => DeleteDateItem(e?.id)}>DELETE</IonButton>
             </IonItem>
           ))}
 
