@@ -24,7 +24,7 @@ import MainMenu from "../../components/Menu/MainMenu";
 import FooterButtons from "../../components/Footer/FooterButtons";
 import { useCombineStates } from "../../store/useCombineStates";
 import { SqlConnectionService } from "../../db";
-import { ItemEntity } from "../../db/item";
+import { TestEntity } from "../../db/entities/TestEntity";
 import {
   removeTrack,
   readBlob64File,
@@ -33,6 +33,7 @@ import {
   readStoredFile,
   base64FromPath,
 } from "../../settings/capacitor.storage";
+import { AppState } from "../../db/entities/AppState";
 
 const Home: React.FC = () => {
   // const path =
@@ -95,15 +96,15 @@ const Home: React.FC = () => {
   //   }
   // };
   //typeorm
-  const [state, saveState] = useState<ItemEntity[]>();
-  useEffect(() => {
-    getData();
-  }, []);
+  const [state, saveState] = useState<TestEntity[]>();
+  // useEffect(() => {
+  //   getData();
+  // }, []);
 
   const getData = async () => {
     const sqlConnectionService = new SqlConnectionService();
     await sqlConnectionService.configureNativeConnection();
-    const res = sqlConnectionService.connection?.getRepository(ItemEntity);
+    const res = sqlConnectionService.connection?.getRepository(TestEntity);
     const data = await res?.find({});
     console.log(data);
     saveState(data);
@@ -113,7 +114,7 @@ const Home: React.FC = () => {
   //   try {
   //     const sqlConnectionService = new SqlConnectionService();
   //     const con = await sqlConnectionService.configureNativeConnection();
-  //     const res = sqlConnectionService.connection?.getRepository(ItemEntity);
+  //     const res = sqlConnectionService.connection?.getRepository(TestEntity);
   //     await res?.save({
   //       id: Date.now().toString(),
   //       isActive: true,
@@ -142,7 +143,7 @@ const Home: React.FC = () => {
     });
     const sqlConnectionService = new SqlConnectionService();
     const con = await sqlConnectionService.configureNativeConnection();
-    const res = sqlConnectionService.connection?.getRepository(ItemEntity);
+    const res = sqlConnectionService.connection?.getRepository(TestEntity);
     const item = await res?.save({
       id: Date.now().toString(),
       isActive: true,
@@ -159,14 +160,16 @@ const Home: React.FC = () => {
     // console.log(item);
     // console.log(response.data.toString("base64"));
     // console.log(Buffer.from(response.data).toString("base64"));
-    await getData();
+    // await getData();
+    const data = await res?.find({});
+    saveState(data);
   };
 
   const upDateItem = async (id: string) => {
     try {
       const sqlConnectionService = new SqlConnectionService();
       const con = await sqlConnectionService.configureNativeConnection();
-      const res = sqlConnectionService.connection?.getRepository(ItemEntity);
+      const res = sqlConnectionService.connection?.getRepository(TestEntity);
       if (res) {
         const getItem = await res.findOne({ where: { id: id } });
         if (getItem) {
@@ -187,7 +190,7 @@ const Home: React.FC = () => {
     try {
       const sqlConnectionService = new SqlConnectionService();
       const con = await sqlConnectionService.configureNativeConnection();
-      const res = sqlConnectionService.connection?.getRepository(ItemEntity);
+      const res = sqlConnectionService.connection?.getRepository(TestEntity);
       if (res) {
         const getItem = await res.findOne({ where: { id: id } });
         if (getItem) {
@@ -198,17 +201,19 @@ const Home: React.FC = () => {
       } else {
         console.log("Connection to DB is absent");
       }
-      await getData();
+      //
+      const data = await res?.find({});
+      saveState(data);
     } catch (error) {
       alert((error as Error).message);
     }
   };
 
-  const confirmDelete = (itemId: number) => {
-    showConfirmationAlert("Are You Sure You Want To Delete This Item?", () => {
-      deleteItem(itemId);
-    });
-  };
+  // const confirmDelete = (itemId: number) => {
+  //   showConfirmationAlert("Are You Sure You Want To Delete This Item?", () => {
+  //     deleteItem(itemId);
+  //   });
+  // };
 
   return (
     <>

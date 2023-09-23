@@ -1,7 +1,8 @@
 import { StateCreator, create } from "zustand";
-import { devtools, persist } from "zustand/middleware";
+import { StateStorage, createJSONStorage, devtools, persist } from "zustand/middleware";
 import { createTestState, ITest } from "./TestState";
 import { createTimerState, ITimer } from "./TimerState";
+import { CustomSqliteStorage } from "./CustomSqliteStorage";
 
 export type CombineState = ITest & ITimer;
 
@@ -14,6 +15,8 @@ export type MyStateCreator<T> = StateCreator<
 // Add keys to ignore from persist
 const ignoreList = ["timerStatus"];
 
+const SqliteStorage = new CustomSqliteStorage();
+
 export const useCombineStates = create<CombineState>()(
   devtools(
     persist(
@@ -24,6 +27,7 @@ export const useCombineStates = create<CombineState>()(
       {
         name: "combineStore",
         partialize: (state) => Object.fromEntries(Object.entries(state).filter(([key]) => !ignoreList.includes(key))),
+        storage: createJSONStorage(() => SqliteStorage),
       }
     )
   )

@@ -35,19 +35,6 @@ const TimerPage: React.FC = () => {
     unsetTimer,
   } = useCombineStates();
 
-  // class State {
-  //   constructor(state: CombineState) {
-  //     this.state = state;
-  //   }
-  //   get getItem(): CombineState {
-  //     return JSON.stringify(this.state);
-  //   }
-  //   // set setItem(value) {
-  //   // }
-  // }
-  // const myState = new State(useCombineStates());
-  // console.log(myState.getItem);
-
   const pauseButtonHandler = () => {
     setTimerStatus("pause");
     setTimerPausedTime();

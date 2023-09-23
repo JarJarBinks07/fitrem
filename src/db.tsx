@@ -1,10 +1,12 @@
 import { CapacitorSQLite, SQLiteConnection } from "@capacitor-community/sqlite";
-import { createConnection, DataSource } from "typeorm";
-import { ItemEntity } from "./db/item";
+import { DataSource } from "typeorm";
+import { TestEntity } from "./db/entities/TestEntity";
+import { AppState } from "./db/entities/AppState";
 import { Item1695050284142 } from "./db/migrations/1inite1";
-import { Item21695050284142 } from "./db/migrations/2inite2";
-import { Item31695050284142 } from "./db/migrations/3inite3";
-import { Item41695050284142 } from "./db/migrations/4inite4";
+import { Item1695471857674 } from "./db/migrations/5inite5";
+// import { Item21695050284142 } from "./db/migrations/2inite2";
+// import { Item31695050284142 } from "./db/migrations/3inite3";
+// import { Item41695050284142 } from "./db/migrations/4inite4";
 
 export class SqlConnectionService {
   localForage: any;
@@ -13,10 +15,12 @@ export class SqlConnectionService {
 
   async configureNativeConnection() {
     try {
-      await CapacitorSQLite.checkConnectionsConsistency({
-        dbNames: [],
-        openModes: [],
-      });
+      Promise.all([
+        await CapacitorSQLite.checkConnectionsConsistency({
+          dbNames: [],
+          openModes: [],
+        }),
+      ]);
     } catch (error) {
       console.log("Error with ConnectionsConsistency: ", error);
     }
@@ -24,14 +28,19 @@ export class SqlConnectionService {
 
     this.connection = new DataSource({
       type: "capacitor",
-      database: "test_db123",
+      database: "fitrem_db",
       driver: sqlite,
       migrationsTransactionMode: "none",
       logging: ["error", "query", "schema"],
-      entities: [ItemEntity],
+      // entities: [],
+      entities: [TestEntity, AppState],
       migrationsRun: true,
-      synchronize: true,
-      migrations: [Item1695050284142, Item21695050284142, Item31695050284142, Item41695050284142],
+      // synchronize: true,
+      migrations: [
+        Item1695050284142,
+        // Item21695050284142, Item31695050284142, Item41695050284142,
+        Item1695471857674,
+      ],
     });
     const con = await this.connection.initialize();
     return con;
