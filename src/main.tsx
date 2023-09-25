@@ -26,9 +26,9 @@ window.addEventListener("DOMContentLoaded", async () => {
     const container = document.getElementById("root");
     const root = createRoot(container!);
     root.render(
-      <React.StrictMode>
-        <App />
-      </React.StrictMode>
+      // <React.StrictMode>
+      <App />
+      // </React.StrictMode>
     );
   } catch (e) {
     console.log(e);

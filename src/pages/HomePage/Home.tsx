@@ -97,18 +97,18 @@ const Home: React.FC = () => {
   // };
   //typeorm
   const [state, saveState] = useState<TestEntity[]>();
-  // useEffect(() => {
-  //   getData();
-  // }, []);
+  useEffect(() => {
+    getData();
+  }, []);
 
   const getData = async () => {
     const sqlConnectionService = new SqlConnectionService();
     await sqlConnectionService.configureNativeConnection();
     const res = sqlConnectionService.connection?.getRepository(TestEntity);
     const data = await res?.find({});
-    console.log(data);
     saveState(data);
   };
+  // console.log(state);
 
   // const addItem = async () => {
   //   try {
@@ -173,7 +173,7 @@ const Home: React.FC = () => {
       if (res) {
         const getItem = await res.findOne({ where: { id: id } });
         if (getItem) {
-          getItem.name;
+          getItem.name = inputName;
           await res.save(getItem);
         } else {
           console.log("can't rename input:", getItem!.name);

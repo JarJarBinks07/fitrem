@@ -38,12 +38,3 @@ export const createTimerState: MyStateCreator<ITimer> = (set) => ({
       "unsetTimer"
     ),
 });
-
-class State {
-  constructor(state: ITimer) {
-    this.state = state;
-  }
-  get state(): ITimer {
-    return this.state;
-  }
-}
