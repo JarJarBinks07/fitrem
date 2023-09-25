@@ -71,19 +71,29 @@ export class CustomSqliteStorage implements StateStorage {
   async setItem(name: string, value: string): Promise<void> {
     try {
       const res = await getRepository();
+      // await res?.upsert([{ store: JSON.stringify(value) }, { id: Date.now().toString() }], ["id"]);
       if (res) {
         const dataID = (await res.find({}))[0]?.id;
-        let getItem = await res.findOne({ where: { id: dataID } });
-        if (getItem) {
-          getItem = { ...getItem, store: JSON.stringify(value) };
-          await res.save(getItem);
+        if (dataID) {
+          await res.save([{ id: dataID, store: JSON.stringify(value) }]);
         } else {
-          console.log("******First record*********");
           await res.save({
             id: Date.now().toString(),
             store: JSON.stringify(value),
           });
         }
+
+        // let getItem = await res.findOne({ where: { id: dataID } });
+        // if (getItem) {
+        //   getItem = { ...getItem, store: JSON.stringify(value) };
+        //   await res.save(getItem);
+        // } else {
+        //   console.log("******First record*********");
+        //   await res.save({
+        //     id: Date.now().toString(),
+        //     store: JSON.stringify(value),
+        //   });
+        // }
       }
       console.log("********SET_ITEM: ", await res?.find({}));
     } catch (error) {
