@@ -1,5 +1,14 @@
 import { Redirect, Route } from "react-router-dom";
-import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
+import {
+  IonApp,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonRouterOutlet,
+  IonRow,
+  IonSpinner,
+  setupIonicReact,
+} from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 
 /* Core CSS required for Ionic components to work properly */
@@ -20,16 +29,20 @@ import "@ionic/react/css/display.css";
 
 /* Theme variables */
 import "./theme/variables.css";
+import "./App.css";
 
 import TimerConfig from "./pages/TimerConfigPage/TimerConfig";
 import TimerPage from "./pages/TimerPage/Timer";
 import Home from "./pages/HomePage/Home";
+import { useCombineStates } from "./store/useCombineStates";
 
 setupIonicReact();
 
 const App: React.FC = () => {
+  const { rehydrated } = useCombineStates();
   return (
     <IonApp>
+      {/* {rehydrated ? ( */}
       <IonReactRouter>
         <IonRouterOutlet>
           <Route exact path="/home">
@@ -46,6 +59,9 @@ const App: React.FC = () => {
           </Route>
         </IonRouterOutlet>
       </IonReactRouter>
+      {/* ) : (
+        <IonSpinner className="spinner" />
+      )} */}
     </IonApp>
   );
 };

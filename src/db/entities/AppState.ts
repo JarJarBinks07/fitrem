@@ -4,6 +4,6 @@ import { Entity, PrimaryColumn, Column } from "typeorm";
 export class AppState {
   @PrimaryColumn({ type: "varchar" })
   id: string;
-  @Column({ type: "json" })
+  @Column({ type: "text" })
   store: string;
 }

@@ -4,7 +4,7 @@ export class Item1695471857674 implements MigrationInterface {
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.query(`
             CREATE TABLE "state" (
-                "id" integer PRIMARY KEY NOT NULL,
+                "id" text PRIMARY KEY NOT NULL,
                 "store" text NOT NULL
             )
         `);

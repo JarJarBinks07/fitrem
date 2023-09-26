@@ -3,8 +3,9 @@ import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { createTestState, ITest } from "./TestState";
 import { createTimerState, ITimer } from "./TimerState";
 import { CustomSqliteStorage } from "./CustomSqliteStorage";
+import { IRoot, createRootState } from "./RootState";
 
-export type CombineState = ITest & ITimer;
+export type CombineState = IRoot & ITimer;
 
 export type MyStateCreator<T> = StateCreator<
   CombineState,
@@ -21,7 +22,7 @@ export const useCombineStates = create<CombineState>()(
   devtools(
     persist(
       (...a) => ({
-        ...createTestState(...a),
+        ...createRootState(...a),
         ...createTimerState(...a),
       }),
       {
@@ -37,6 +38,7 @@ export const useCombineStates = create<CombineState>()(
             if (error) {
               console.log("an error happened during hydration", error);
             } else {
+              useCombineStates.setState({ rehydrated: true });
               console.log("hydration finished", state);
             }
           };
