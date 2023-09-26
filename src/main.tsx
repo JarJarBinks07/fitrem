@@ -1,36 +1,99 @@
+import "reflect-metadata";
 import React from "react";
 import { createRoot } from "react-dom/client";
-import App from "./App";
+import { defineCustomElements as jeepSqlite, applyPolyfills, JSX as LocalJSX } from "jeep-sqlite/loader";
+import { HTMLAttributes } from "react";
 import { Capacitor } from "@capacitor/core";
-import { CapacitorSQLite, SQLiteConnection } from "@capacitor-community/sqlite";
+import { CapacitorSQLite } from "@capacitor-community/sqlite";
 import { JeepSqlite } from "jeep-sqlite/dist/components/jeep-sqlite";
+import App from "./App";
+import * as serviceWorkerRegistration from "./serviceWorkerRegistration";
+import reportWebVitals from "./reportWebVitals";
+
+import sqliteConnection from "./database";
+import StoreDataSource from "./data-sources/StoreDataSource";
+
+type StencilToReact<T> = {
+  [P in keyof T]?: T[P] &
+    Omit<HTMLAttributes<Element>, "className"> & {
+      class?: string;
+    };
+};
+
+declare global {
+  export namespace JSX {
+    interface IntrinsicElements extends StencilToReact<LocalJSX.IntrinsicElements> {}
+  }
+}
+
+// applyPolyfills().then(() => {
+//   jeepSqlite(window);
+// });
 
 window.addEventListener("DOMContentLoaded", async () => {
-  try {
-    const platform = Capacitor.getPlatform();
+  const platform = Capacitor.getPlatform();
 
-    // Only for web
+  try {
     if (platform === "web") {
-      console.log("Start of initialization IndexedDB");
-      const sqlite = new SQLiteConnection(CapacitorSQLite);
-      // Create the 'jeep-sqlite' custom component
+      console.log("Start initialization sqlite");
+      const sqlite = sqliteConnection;
+      // Create the 'jeep-sqlite' Stencil component
       customElements.define("jeep-sqlite", JeepSqlite);
       const jeepSqliteEl = document.createElement("jeep-sqlite");
       document.body.appendChild(jeepSqliteEl);
       await customElements.whenDefined("jeep-sqlite");
+      console.log(`after customElements.whenDefined`);
+
       // Initialize the Web store
       await sqlite.initWebStore();
-      console.log("End of initialization IndexedDB");
+      console.log(`after initWebStore`);
+    }
+
+    // when using Capacitor, you might want to close existing connections,
+    // otherwise new connections will fail when using dev-live-reload
+    // see https://github.com/capacitor-community/sqlite/issues/106
+    await CapacitorSQLite.checkConnectionsConsistency({
+      dbNames: [], // i.e. "i expect no connections to be open"
+      openModes: [],
+    }).catch((e) => {
+      // the plugin throws an error when closing connections. we can ignore
+      // that since it is expected behaviour
+      console.log(e);
+      return {};
+    });
+
+    for (const connection of [StoreDataSource]) {
+      if (!connection.isInitialized) {
+        await connection.initialize();
+      }
+
+      await connection.runMigrations();
+    }
+
+    if (platform === "web") {
+      // save the database from memory to store
+      await sqliteConnection.saveToStore("ionic-react-user");
     }
 
     const container = document.getElementById("root");
     const root = createRoot(container!);
     root.render(
-      // <React.StrictMode>
-      <App />
-      // </React.StrictMode>
+      <React.StrictMode>
+        <App />
+      </React.StrictMode>
     );
-  } catch (e) {
-    console.log(e);
+
+    // If you want your app to work offline and load faster, you can change
+    // unregister() to register() below. Note this comes with some pitfalls.
+    // Learn more about service workers: https://cra.link/PWA
+    serviceWorkerRegistration.unregister();
+
+    // If you want to start measuring performance in your app, pass a function
+    // to log results (for example: reportWebVitals(console.log))
+    // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
+    reportWebVitals();
+  } catch (err) {
+    console.log(`Error: ${err}`);
+    throw new Error(`Error: ${err}`);
   }
 });
