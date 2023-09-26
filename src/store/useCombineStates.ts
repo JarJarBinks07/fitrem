@@ -1,5 +1,5 @@
 import { StateCreator, create } from "zustand";
-import { StateStorage, createJSONStorage, devtools, persist } from "zustand/middleware";
+import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { createTestState, ITest } from "./TestState";
 import { createTimerState, ITimer } from "./TimerState";
 import { CustomSqliteStorage } from "./CustomSqliteStorage";
@@ -27,7 +27,20 @@ export const useCombineStates = create<CombineState>()(
       {
         name: "combineStore",
         partialize: (state) => Object.fromEntries(Object.entries(state).filter(([key]) => !ignoreList.includes(key))),
+
         storage: createJSONStorage(() => SqliteStorage),
+        onRehydrateStorage: (state) => {
+          console.log("hydration starts");
+
+          // optional
+          return (state, error) => {
+            if (error) {
+              console.log("an error happened during hydration", error);
+            } else {
+              console.log("hydration finished", state);
+            }
+          };
+        },
       }
     )
   )

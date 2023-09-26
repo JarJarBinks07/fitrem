@@ -23,7 +23,7 @@ import { SQLItem } from "../../types/types";
 import MainMenu from "../../components/Menu/MainMenu";
 import FooterButtons from "../../components/Footer/FooterButtons";
 import { useCombineStates } from "../../store/useCombineStates";
-import { SqlConnectionService } from "../../db";
+import { sqlService as sqlConnectionService } from "../../db";
 import { TestEntity } from "../../db/entities/TestEntity";
 import {
   removeTrack,
@@ -102,8 +102,6 @@ const Home: React.FC = () => {
   }, []);
 
   const getData = async () => {
-    const sqlConnectionService = new SqlConnectionService();
-    await sqlConnectionService.configureNativeConnection();
     const res = sqlConnectionService.connection?.getRepository(TestEntity);
     const data = await res?.find({});
     saveState(data);
@@ -141,8 +139,6 @@ const Home: React.FC = () => {
       method: "get",
       responseType: "arraybuffer",
     });
-    const sqlConnectionService = new SqlConnectionService();
-    const con = await sqlConnectionService.configureNativeConnection();
     const res = sqlConnectionService.connection?.getRepository(TestEntity);
     const item = await res?.save({
       id: Date.now().toString(),
@@ -167,8 +163,6 @@ const Home: React.FC = () => {
 
   const upDateItem = async (id: string) => {
     try {
-      const sqlConnectionService = new SqlConnectionService();
-      const con = await sqlConnectionService.configureNativeConnection();
       const res = sqlConnectionService.connection?.getRepository(TestEntity);
       if (res) {
         const getItem = await res.findOne({ where: { id: id } });
@@ -176,7 +170,7 @@ const Home: React.FC = () => {
           getItem.name = inputName;
           await res.save(getItem);
         } else {
-          console.log("can't rename input:", getItem!.name);
+          console.log("can't rename input:", getItem!.id);
         }
       } else {
         console.log("Connection to DB is absent");
@@ -188,15 +182,13 @@ const Home: React.FC = () => {
   };
   const DeleteDateItem = async (id: string) => {
     try {
-      const sqlConnectionService = new SqlConnectionService();
-      const con = await sqlConnectionService.configureNativeConnection();
       const res = sqlConnectionService.connection?.getRepository(TestEntity);
       if (res) {
         const getItem = await res.findOne({ where: { id: id } });
         if (getItem) {
           await res.remove(getItem);
         } else {
-          console.log("can't rename input:", getItem!.name);
+          console.log("can't rename input:", getItem!.id);
         }
       } else {
         console.log("Connection to DB is absent");

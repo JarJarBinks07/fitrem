@@ -1,132 +1,47 @@
 import { StateStorage } from "zustand/middleware";
-import { SqlConnectionService } from "../db";
+import { sqlService } from "../db";
 import { AppState } from "../db/entities/AppState";
-import StoreDataSource from "../data-sources/StoreDataSource";
-import { Capacitor } from "@capacitor/core";
-import sqliteConnection from "../database";
-
-// const getRepository = async () => {
-//   const sqlConnectionService = new SqlConnectionService();
-//   const con = await sqlConnectionService.configureNativeConnection();
-//   return sqlConnectionService.connection?.getRepository(AppState);
-// };
-
-// const getData = () => {
-//   return new Promise(async (resolve, reject) => {
-//     try {
-//       const res = await getRepository();
-//       const data = await res?.find({});
-//       if (!data) {
-//         throw new Error("Error with GET_DATA");
-//       }
-//       resolve(JSON.parse(data[0].store));
-//     } catch (error) {
-//       reject(error);
-//     }
-//   });
-// };
+const getAppStateRepository = async () => {
+  return sqlService.connection?.getRepository(AppState);
+};
 
 export class CustomSqliteStorage implements StateStorage {
   async getItem(name: string): Promise<string | null> {
-    //add setTimeout for resolving problem with jeepSQLite when rerendering starts
-    // setTimeout(async () => {
-    //   try {
-    //     const result = await getData();
-    //     console.log("**********GET_ITEM:", result);
-    //     return result;
-    //   } catch (error) {
-    //     console.log("Error with SET_TIMEOUT_IN_GET_ITEM:", error);
-    //   }
-    // }, 1000);
+    await sqlService.init();
+
+    try {
+      const res = await getAppStateRepository();
+      const state = await res?.findOne({
+        where: {
+          id: name,
+        },
+      });
+
+      if (!state) return null;
+
+      console.log("before, getItem", state?.store);
+      return state.store;
+    } catch (error) {
+      console.log("Error with SET_TIMEOUT_IN_GET_ITEM:", error);
+      return null;
+    }
   }
 
-  //   setTimeout(async () => {
-  //     try {
-  //       const res = await getRepository();
-  //       const data = await res?.find({});
-  //       if (!data) {
-  //         throw new Error("Error with method GET_ITEM");
-  //       }
-  //       console.log(JSON.parse(data[0].store));
-  //       return JSON.parse(data[0].store);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   }, 1000);
-  // }
-
-  // const getData = async () => {
-  //     try {
-  //       const res = await getRepository();
-  //       const data = await res?.find({});
-  //       if (!data) {
-  //         throw new Error("Error with method GET_ITEM");
-  //       }
-  //       console.log(JSON.parse(data[0].store));
-  //       return JSON.parse(data[0].store);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   getData();
-  // }
-
   async setItem(name: string, value: string): Promise<void> {
+    console.log("before, setItem", value);
     try {
-      const connection = StoreDataSource;
-      const database = connection.options.database;
-      const res = connection.getRepository(AppState);
-      if (res) {
-        const dataID = (await res.find({}))[0]?.id;
-        if (dataID) {
-          res.save([{ id: dataID, store: JSON.stringify(value) }]);
-        } else {
-          await res.save({
-            id: Date.now().toString(),
-            store: JSON.stringify(value),
-          });
-        }
-      }
-      if (Capacitor.getPlatform() === "web" && typeof database === "string") {
-        await sqliteConnection.saveToStore(database);
-      }
+      const res = await getAppStateRepository();
+      await res?.upsert(
+        {
+          id: name,
+          store: value,
+        },
+        { conflictPaths: ["id"] }
+      );
       console.log("********SET_ITEM: ", await res?.find({}));
     } catch (error) {
       console.log("Error with SET_ITEM", error);
     }
-
-    // try {
-
-    //   const res = await getRepository();
-    //   // await res?.upsert([{ store: JSON.stringify(value) }, { id: Date.now().toString() }], ["id"]);
-    //   if (res) {
-    //     const dataID = (await res.find({}))[0]?.id;
-    //     if (dataID) {
-    //       await res.save([{ id: dataID, store: JSON.stringify(value) }]);
-    //     } else {
-    //       await res.save({
-    //         id: Date.now().toString(),
-    //         store: JSON.stringify(value),
-    //       });
-    //     }
-    /////////////////////////////////////////////////////
-    // let getItem = await res.findOne({ where: { id: dataID } });
-    // if (getItem) {
-    //   getItem = { ...getItem, store: JSON.stringify(value) };
-    //   await res.save(getItem);
-    // } else {
-    //   console.log("******First record*********");
-    //   await res.save({
-    //     id: Date.now().toString(),
-    //     store: JSON.stringify(value),
-    //   });
-    // }
-    //////////////////////////////////////////////////
-    //   }
-    //   console.log("********SET_ITEM: ", await res?.find({}));
-    // } catch (error) {
-    //   console.log("Error with SET_ITEM", error);
-    // }
   }
 
   async removeItem(name: string): Promise<void> {
