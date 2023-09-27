@@ -15,7 +15,6 @@ const sharedDbSettings = {
 };
 class SqlConnectionService {
   static dbName = "fitrem_db";
-  static instance: SqlConnectionService;
   static connection: DataSource | null = null;
   static localForage: LocalForage;
 
@@ -25,7 +24,9 @@ class SqlConnectionService {
         dbNames: [],
         openModes: [],
       });
-    } catch (e) {}
+    } catch (e) {
+      console.log("Error with checkConnectionsConsistency method:", e);
+    }
     try {
       SqlConnectionService.connection = new DataSource({
         type: "capacitor",
