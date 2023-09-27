@@ -42,26 +42,26 @@ const App: React.FC = () => {
   const { rehydrated } = useCombineStates();
   return (
     <IonApp>
-      {/* {rehydrated ? ( */}
-      <IonReactRouter>
-        <IonRouterOutlet>
-          <Route exact path="/home">
-            <Home />
-          </Route>
-          <Route exact path="/timer">
-            <TimerPage />
-          </Route>
-          <Route exact path="/timer-configuration">
-            <TimerConfig />
-          </Route>
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
-        </IonRouterOutlet>
-      </IonReactRouter>
-      {/* ) : (
+      {rehydrated ? (
+        <IonReactRouter>
+          <IonRouterOutlet>
+            <Route exact path="/home">
+              <Home />
+            </Route>
+            <Route exact path="/timer">
+              <TimerPage />
+            </Route>
+            <Route exact path="/timer-configuration">
+              <TimerConfig />
+            </Route>
+            <Route exact path="/">
+              <Redirect to="/home" />
+            </Route>
+          </IonRouterOutlet>
+        </IonReactRouter>
+      ) : (
         <IonSpinner className="spinner" />
-      )} */}
+      )}
     </IonApp>
   );
 };
