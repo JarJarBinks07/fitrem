@@ -1,14 +1,15 @@
 import { StateStorage } from "zustand/middleware";
-import { sqlService } from "../db";
+import { SqlConnectionService } from "../db";
 import { AppState } from "../db/entities/AppState";
 
 const getAppStateRepository = async () => {
-  return sqlService.connection?.getRepository(AppState);
+  return SqlConnectionService.connection?.getRepository(AppState);
 };
 
 export class CustomSqliteStorage implements StateStorage {
+  //Get
   async getItem(name: string): Promise<string | null> {
-    await sqlService.init();
+    await SqlConnectionService.initConnection();
 
     try {
       const res = await getAppStateRepository();
@@ -20,16 +21,15 @@ export class CustomSqliteStorage implements StateStorage {
 
       if (!state) return null;
 
-      console.log("before, getItem", state?.store);
+      console.log("***GET_ITEM", state?.store);
       return state.store;
     } catch (error) {
-      console.log("Error with SET_TIMEOUT_IN_GET_ITEM:", error);
+      console.log("Error GET_ITEM:", error);
       return null;
     }
   }
-
+  //Set
   async setItem(name: string, value: string): Promise<void> {
-    console.log("before, setItem", value);
     try {
       const res = await getAppStateRepository();
       await res?.upsert(
@@ -37,9 +37,9 @@ export class CustomSqliteStorage implements StateStorage {
           id: name,
           store: value,
         },
-        { conflictPaths: ["id"] }
+        { conflictPaths: ["id"], skipUpdateIfNoValuesChanged: true }
       );
-      console.log("********SET_ITEM: ", await res?.find({}));
+      console.log("***SET_ITEM: ", await res?.find({}));
     } catch (error) {
       console.log("Error with SET_ITEM", error);
     }

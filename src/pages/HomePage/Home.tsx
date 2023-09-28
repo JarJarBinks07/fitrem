@@ -23,7 +23,7 @@ import { SQLItem } from "../../types/types";
 import MainMenu from "../../components/Menu/MainMenu";
 import FooterButtons from "../../components/Footer/FooterButtons";
 import { useCombineStates } from "../../store/useCombineStates";
-import { sqlService as sqlConnectionService } from "../../db";
+import { SqlConnectionService } from "../../db";
 import { TestEntity } from "../../db/entities/TestEntity";
 import {
   removeTrack,
@@ -103,7 +103,7 @@ const Home: React.FC = () => {
   }, []);
 
   const getData = async () => {
-    const res = sqlConnectionService.connection?.getRepository(TestEntity);
+    const res = SqlConnectionService.connection?.getRepository(TestEntity);
     const data = await res?.find({});
     saveState(data);
   };
@@ -140,7 +140,7 @@ const Home: React.FC = () => {
       method: "get",
       responseType: "arraybuffer",
     });
-    const res = sqlConnectionService.connection?.getRepository(TestEntity);
+    const res = SqlConnectionService.connection?.getRepository(TestEntity);
     const item = await res?.save({
       id: Date.now().toString(),
       isActive: true,
@@ -164,7 +164,7 @@ const Home: React.FC = () => {
 
   const upDateItem = async (id: string) => {
     try {
-      const res = sqlConnectionService.connection?.getRepository(TestEntity);
+      const res = SqlConnectionService.connection?.getRepository(TestEntity);
       if (res) {
         const getItem = await res.findOne({ where: { id: id } });
         if (getItem) {
@@ -183,7 +183,7 @@ const Home: React.FC = () => {
   };
   const DeleteDateItem = async (id: string) => {
     try {
-      const res = sqlConnectionService.connection?.getRepository(TestEntity);
+      const res = SqlConnectionService.connection?.getRepository(TestEntity);
       if (res) {
         const getItem = await res.findOne({ where: { id: id } });
         if (getItem) {
