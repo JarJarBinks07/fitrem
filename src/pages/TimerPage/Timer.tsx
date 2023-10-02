@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Timer.css";
 import {
   IonButtons,
@@ -21,8 +21,10 @@ import FooterButtons from "../../components/Footer/FooterButtons";
 import TimerResetButton from "./components/TimerResetButton";
 import { setTimerLocalNotification, unsetTimerLocalNotifications } from "../../shared/constants/notification.constants";
 import { CombineState } from "../../store/useCombineStates";
+import ImageContainer from "../../components/ImageContainer/ImageContainer";
 
 const TimerPage: React.FC = () => {
+  const [statusImg, setStatusImg] = useState(true);
   const {
     timerInterval,
     timerStatus,
@@ -69,30 +71,34 @@ const TimerPage: React.FC = () => {
           </IonHeader>
         </IonHeader>
         <IonContent>
-          <IonGrid>
-            <IonRow>
-              <IonCol className="timer-content">
-                <TimerFace
-                  timerKey={timerKey}
-                  timerInterval={timerInterval}
-                  timerDuration={timerPausedTime ? Date.now() + timerPausedTime : timerDuration}
-                  timerActive={timerStatus === "running"}
-                  unsetTimer={unsetTimer}
-                />
-              </IonCol>
-            </IonRow>
-            <IonRow className="ion-text-center">
-              <IonCol>
-                <TimerPlayButton
-                  timerHandler={timerStatus === "running" ? pauseButtonHandler : playButtonHandler}
-                  timerStatus={timerStatus}
-                />
-              </IonCol>
-              <IonCol>
-                <TimerResetButton unsetTimer={unsetTimer} timerStatus={timerStatus} />
-              </IonCol>
-            </IonRow>
-          </IonGrid>
+          {!statusImg ? (
+            <IonGrid>
+              <IonRow>
+                <IonCol className="timer-content">
+                  <TimerFace
+                    timerKey={timerKey}
+                    timerInterval={timerInterval}
+                    timerDuration={timerPausedTime ? Date.now() + timerPausedTime : timerDuration}
+                    timerActive={timerStatus === "running"}
+                    unsetTimer={unsetTimer}
+                  />
+                </IonCol>
+              </IonRow>
+              <IonRow className="ion-text-center">
+                <IonCol>
+                  <TimerPlayButton
+                    timerHandler={timerStatus === "running" ? pauseButtonHandler : playButtonHandler}
+                    timerStatus={timerStatus}
+                  />
+                </IonCol>
+                <IonCol>
+                  <TimerResetButton unsetTimer={unsetTimer} timerStatus={timerStatus} />
+                </IonCol>
+              </IonRow>
+            </IonGrid>
+          ) : (
+            <ImageContainer />
+          )}
         </IonContent>
         <FooterButtons />
       </IonPage>
