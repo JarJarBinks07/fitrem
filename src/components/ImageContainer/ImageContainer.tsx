@@ -1,14 +1,17 @@
 import React from "react";
-import { IonButton, IonCol, IonGrid, IonImg, IonItem, IonLabel, IonRow } from "@ionic/react";
+import { IonButton, IonCol, IonGrid, IonImg, IonRow } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 // import { Swiper as SwiperInterface } from "swiper";
-import { Pagination, A11y, Navigation } from "swiper/modules";
+import { Pagination, A11y, Navigation, EffectFade, EffectFlip, EffectCube } from "swiper/modules";
 import { Capacitor } from "@capacitor/core";
 import SwiperButtons from "./SwiperButtons";
 
 import "swiper/css";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
+import "swiper/css/effect-fade";
+import "swiper/css/effect-flip";
+import "swiper/css/effect-cube";
 import "./ImageContainer.css";
 
 const ImageContainer: React.FC = () => {
@@ -26,23 +29,39 @@ const ImageContainer: React.FC = () => {
         </IonRow>
       </IonGrid>
       <Swiper
-        modules={[Pagination, Navigation]}
+        modules={[Pagination, Navigation, EffectCube]}
+        // spaceBetween={10}
         slidesPerView={1}
         loop={true}
         pagination={{
           clickable: true,
         }}
+        simulateTouch={false}
+        touchRatio={0}
+        speed={800}
+        // cubeEffect={{
+        //   shadow: true,
+        //   slideShadows: true,
+        //   shadowOffset: 20,
+        //   shadowScale: 0.94,
+        // }}
+        // effect={"cube"}
+        // effect="fade"
+        // effect={"flip"}
         // navigation={true}
-        // className="mySwiper"
+        observer={true}
+        observeParents={true}
+        observeSlideChildren={true}
+        className="mySwiper"
       >
         <SwiperSlide>
-          <IonImg src="/assets/icons/step_000.jpg" alt="img" />
+          <IonImg src="/assets/icons/step_000.jpg" alt="img" className="swiper__image" />
         </SwiperSlide>
         <SwiperSlide>
-          <IonImg src="/assets/icons/step_015.jpg" alt="img" />
+          <IonImg src="/assets/icons/step_015.jpg" alt="img" className="swiper__image" />
         </SwiperSlide>
         <SwiperSlide>
-          <IonImg src="/assets/icons/step_030.jpg" alt="img" />
+          <IonImg src="/assets/icons/step_030.jpg" alt="img" className="swiper__image" />
         </SwiperSlide>
         <SwiperButtons />
         {/* {platform === "web" ? <SwiperButtons /> : null} */}
