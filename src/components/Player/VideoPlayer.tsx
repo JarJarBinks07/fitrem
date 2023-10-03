@@ -14,6 +14,8 @@ const VideoPlayer = ({ attachment }: IProps) => {
       const init = await CapacitorVideoPlayer.initPlayer({
         mode: "fullscreen",
         url: url,
+        // width: 500,
+        title: "Hello",
         playerId: "fullscreen",
         componentTag: "div",
       });
@@ -29,6 +31,6 @@ const VideoPlayer = ({ attachment }: IProps) => {
     // });
     playVideo();
   });
-  return <div id="fullscreen" slot="fixed"></div>;
+  return <div id="fullscreen" slot="fixed" style={{ maxHeight: 300 }}></div>;
 };
 export default VideoPlayer;
