@@ -14,7 +14,7 @@ import "swiper/css/effect-flip";
 import "swiper/css/effect-cube";
 import "./ImageContainer.css";
 import ModalWindow from "../ModalWindow/ModalWindow";
-import VideoPlayer from "../Player/VideoPlayer";
+import VideoPlayer from "../PlayerCapacitor/VideoPlayer";
 
 const ImageContainer: React.FC = () => {
   const platform = Capacitor.getPlatform();

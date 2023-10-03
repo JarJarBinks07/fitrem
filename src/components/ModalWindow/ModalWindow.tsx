@@ -1,6 +1,17 @@
 import React, { useState } from "react";
-import { IonButtons, IonButton, IonModal, IonHeader, IonContent, IonToolbar, IonTitle, IonPage } from "@ionic/react";
-import VideoPlayer from "../Player/VideoPlayer";
+import {
+  IonButtons,
+  IonButton,
+  IonModal,
+  IonHeader,
+  IonContent,
+  IonToolbar,
+  IonTitle,
+  IonPage,
+  IonImg,
+} from "@ionic/react";
+// import VideoPlayer from "../PlayerCapacitor/VideoPlayer";
+import VideoPlayer from "../PlayerVideoJs/VideoPlayerJS";
 
 interface IProps {
   isOpen: boolean;
@@ -8,9 +19,23 @@ interface IProps {
 }
 
 function ModalWindow({ isOpen, setIsOpen }: IProps) {
-  const [url, setUrl] = useState({
-    temporary_url: "https://brenopolanski.github.io/html5-video-webvtt-example/MIB2.mp4",
-  });
+  const videoJsOptions = {
+    autoplay: true,
+    controls: false,
+    responsive: true,
+    loop: true,
+    fluid: true,
+    sources: [
+      {
+        src: "/assets/icons/Step_jacks_wo_bounce0030-0150.mp4",
+        type: "video/mp4",
+      },
+    ],
+  };
+
+  // const [url, setUrl] = useState({
+  //   temporary_url: "https://brenopolanski.github.io/html5-video-webvtt-example/MIB2.mp4",
+  // });
   return (
     <IonPage>
       <IonHeader>
@@ -22,19 +47,26 @@ function ModalWindow({ isOpen, setIsOpen }: IProps) {
         <IonModal isOpen={isOpen}>
           <IonHeader>
             <IonToolbar>
-              <IonTitle>Explanation</IonTitle>
+              <IonTitle>Description</IonTitle>
               <IonButtons slot="end">
                 <IonButton onClick={() => setIsOpen(false)}>Close</IonButton>
               </IonButtons>
             </IonToolbar>
           </IonHeader>
           <IonContent className="ion-padding">
-            <VideoPlayer attachment={url} />
-            {/* <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos
-              reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui.
-              Eaque, dicta.
-            </p> */}
+            <>
+              <div>Exercises</div>
+              <VideoPlayer options={videoJsOptions} />
+              <div>
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos
+                reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui.
+                Eaque, dicta.
+              </div>
+            </>
+
+            {/* <IonImg src="/assets/icons/step.webp" alt="img"></IonImg> */}
+
+            {/* <VideoPlayer attachment={url} /> */}
           </IonContent>
         </IonModal>
       </IonContent>
