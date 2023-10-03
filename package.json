@@ -30,6 +30,7 @@
     "@types/react-router-dom": "^5.3.3",
     "axios": "^1.5.0",
     "buffer": "^6.0.3",
+    "capacitor-video-player": "^5.0.2",
     "immer": "^10.0.2",
     "ionicons": "^7.0.0",
     "jeep-sqlite": "^2.5.2",
