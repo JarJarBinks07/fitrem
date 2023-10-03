@@ -21,7 +21,7 @@ import FooterButtons from "../../components/Footer/FooterButtons";
 import TimerResetButton from "./components/TimerResetButton";
 import { setTimerLocalNotification, unsetTimerLocalNotifications } from "../../shared/constants/notification.constants";
 import { CombineState } from "../../store/useCombineStates";
-import ImageContainer from "../../components/ImageContainer/ImageContainer";
+import SwiperContainer from "../../components/SwiperContainer/SwiperContainer";
 
 const TimerPage: React.FC = () => {
   const [statusImg, setStatusImg] = useState(true);
@@ -97,7 +97,7 @@ const TimerPage: React.FC = () => {
               </IonRow>
             </IonGrid>
           ) : (
-            <ImageContainer />
+            <SwiperContainer />
           )}
         </IonContent>
         <FooterButtons />

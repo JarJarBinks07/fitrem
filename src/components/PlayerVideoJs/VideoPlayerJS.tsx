@@ -8,8 +8,7 @@ interface IVideoPlayerProps {
   options: videojs.PlayerOptions;
 }
 
-const initialOptions: videojs.PlayerOptions = {
-  controls: true,
+const initialOptions: videojs = {
   fluid: true,
   controlBar: {
     volumePanel: {
@@ -27,8 +26,9 @@ const VideoPlayer: React.FC<IVideoPlayerProps> = ({ options }) => {
       ...initialOptions,
       ...options,
     }).ready(function () {
-      // console.log('onPlayerReady', this);
+      // console.log("onPlayerReady");
     });
+
     return () => {
       if (player.current) {
         player.current.dispose();

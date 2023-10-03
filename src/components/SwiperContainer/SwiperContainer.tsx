@@ -12,7 +12,7 @@ import "swiper/css/navigation";
 import "swiper/css/effect-fade";
 import "swiper/css/effect-flip";
 import "swiper/css/effect-cube";
-import "./ImageContainer.css";
+import "./SwiperContainer.css";
 import ModalWindow from "../ModalWindow/ModalWindow";
 import VideoPlayer from "../PlayerCapacitor/VideoPlayer";
 
@@ -22,7 +22,7 @@ const ImageContainer: React.FC = () => {
   return (
     <>
       <div>
-        <IonGrid>
+        {/* <IonGrid>
           <IonRow>
             <IonCol class="ion-no-padding">
               <p className="track__exercises">Biceps Curls</p>
@@ -31,9 +31,9 @@ const ImageContainer: React.FC = () => {
               </div>
             </IonCol>
           </IonRow>
-        </IonGrid>
+        </IonGrid> */}
         <Swiper
-          modules={[Pagination, Navigation, EffectCube]}
+          modules={[Pagination, Navigation, EffectCube, EffectFade, EffectFlip]}
           // spaceBetween={10}
           slidesPerView={1}
           loop={true}
@@ -41,8 +41,8 @@ const ImageContainer: React.FC = () => {
             clickable: true,
           }}
           simulateTouch={false}
-          touchRatio={0}
-          speed={800}
+          touchRatio={1}
+          speed={900}
           // cubeEffect={{
           //   shadow: true,
           //   slideShadows: true,
@@ -59,12 +59,24 @@ const ImageContainer: React.FC = () => {
           className="mySwiper"
         >
           <SwiperSlide>
+            <p className="track__exercises">Biceps Curls#1</p>
+            <div className="ion-text-uppercase">
+              <p className="track__category">Track: Upper Body#1</p>
+            </div>
             <IonImg src="/assets/icons/step_000.jpg" alt="img" className="swiper__image" />
           </SwiperSlide>
           <SwiperSlide>
+            <p className="track__exercises">Biceps Curls#2</p>
+            <div className="ion-text-uppercase">
+              <p className="track__category">Track: Upper Body#2</p>
+            </div>
             <IonImg src="/assets/icons/step_015.jpg" alt="img" className="swiper__image" />
           </SwiperSlide>
           <SwiperSlide>
+            <p className="track__exercises">Biceps Curls#3</p>
+            <div className="ion-text-uppercase">
+              <p className="track__category">Track: Upper Body#3</p>
+            </div>
             <IonImg src="/assets/icons/step_030.jpg" alt="img" className="swiper__image" />
           </SwiperSlide>
           <SwiperButtons />

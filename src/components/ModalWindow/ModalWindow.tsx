@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import {
   IonButtons,
   IonButton,
@@ -21,10 +21,14 @@ interface IProps {
 function ModalWindow({ isOpen, setIsOpen }: IProps) {
   const videoJsOptions = {
     autoplay: true,
-    controls: false,
-    responsive: true,
+    controls: true,
+    // responsive: true,
     loop: true,
-    fluid: true,
+    // muted: true,
+    // videoWidth: 480,
+    // videoHeight: 680,
+    poster: "/assets/icons/step_000.jpg",
+    // fluid: true,
     sources: [
       {
         src: "/assets/icons/Step_jacks_wo_bounce0030-0150.mp4",
@@ -54,6 +58,8 @@ function ModalWindow({ isOpen, setIsOpen }: IProps) {
             </IonToolbar>
           </IonHeader>
           <IonContent className="ion-padding">
+            {/* <IonImg src="/assets/icons/step_500x500.webp" alt="img"></IonImg> */}
+            {/* <IonImg src="/assets/icons/step_1000x1000.webp" alt="img"></IonImg> */}
             <>
               <div>Exercises</div>
               <VideoPlayer options={videoJsOptions} />
@@ -63,8 +69,6 @@ function ModalWindow({ isOpen, setIsOpen }: IProps) {
                 Eaque, dicta.
               </div>
             </>
-
-            {/* <IonImg src="/assets/icons/step.webp" alt="img"></IonImg> */}
 
             {/* <VideoPlayer attachment={url} /> */}
           </IonContent>
