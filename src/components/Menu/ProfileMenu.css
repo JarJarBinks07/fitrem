@@ -1,0 +1,21 @@
+.bpg-block {
+  background-image: url("https://img.freepik.com/free-photo/vivid-blurred-colorful-background_58702-2655.jpg?w=2000&t=st=1693908730~exp=1693909330~hmac=37207fca4e2a1c7c9f1e4ab088da7e4352cde834e7331325fbfa59125381b96e");
+  min-height: 300px;
+  background-size: cover;
+}
+
+.profile__bar_btn::part(native) {
+  background-color: var(--ion-color-dark);
+  box-shadow: none;
+}
+.profile__item {
+  margin: 10px 0 0 0;
+}
+.profile__icon {
+  margin: 0 10px 0 0px;
+}
+
+/* ion-menu::part(container) {
+  border-radius: 20px 20px 20px 20px;
+  box-shadow: 4px 0px 16px rgba(98, 95, 98, 0.18);
+} */

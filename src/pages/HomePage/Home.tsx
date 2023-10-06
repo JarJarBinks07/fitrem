@@ -20,7 +20,7 @@ import { SQLiteDBConnection } from "@capacitor-community/sqlite";
 import { useSQLiteDB } from "../../hooks/useSQLiteDB";
 import { useConfirmationAlert } from "../../hooks/useConfirmationAlert";
 import { SQLItem } from "../../types/types";
-import MainMenu from "../../components/Menu/MainMenu";
+import MainMenu from "../../components/Menu/ProfileMenu";
 import FooterButtons from "../../components/Footer/FooterButtons";
 import { useCombineStates } from "../../store/useCombineStates";
 import { SqlConnectionService } from "../../db";
@@ -210,18 +210,17 @@ const Home: React.FC = () => {
 
   return (
     <>
-      <MainMenu />
-      <IonPage id="main-content">
+      {/* <MainMenu /> */}
+      <IonPage id="profile">
         <IonHeader>
-          <IonHeader>
-            <IonToolbar color="warning">
-              <IonButtons slot="start">
-                <IonMenuButton />
-              </IonButtons>
-              <IonTitle>Home</IonTitle>
-            </IonToolbar>
-          </IonHeader>
+          <IonToolbar color="warning">
+            <IonButtons slot="start">
+              <IonMenuButton />
+            </IonButtons>
+            <IonTitle>Home</IonTitle>
+          </IonToolbar>
         </IonHeader>
+
         <IonContent fullscreen className="ion-padding">
           <IonItem>
             {/* <IonImg src={"data:image/gif;base64, " + media} alt="img" className="test-image" /> */}
@@ -286,7 +285,7 @@ const Home: React.FC = () => {
 
           {ConfirmationAlert}
         </IonContent>
-        <FooterButtons />
+        {/* <FooterButtons /> */}
       </IonPage>
     </>
   );

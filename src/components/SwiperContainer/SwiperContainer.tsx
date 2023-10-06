@@ -19,9 +19,17 @@ import VideoPlayer from "../PlayerCapacitor/VideoPlayer";
 const ImageContainer: React.FC = () => {
   const platform = Capacitor.getPlatform();
   const [isOpen, setIsOpen] = useState(false);
+
+  const [status, setStatus] = useState(false);
+  const [statusName, setStatusName] = useState("PLAY");
+  const changeStatus = () => {
+    setStatus((prev) => !prev);
+    setStatusName((prev) => (prev === "PLAY" ? "PAUSE" : "PLAY"));
+  };
+
   return (
     <>
-      <div>
+      <div className="swiper">
         {/* <IonGrid>
           <IonRow>
             <IonCol class="ion-no-padding">
@@ -42,7 +50,7 @@ const ImageContainer: React.FC = () => {
           }}
           simulateTouch={false}
           touchRatio={1}
-          speed={900}
+          speed={0}
           // cubeEffect={{
           //   shadow: true,
           //   slideShadows: true,
@@ -50,7 +58,7 @@ const ImageContainer: React.FC = () => {
           //   shadowScale: 0.94,
           // }}
           // effect={"cube"}
-          // effect="fade"
+          effect="fade"
           // effect={"flip"}
           // navigation={true}
           observer={true}
@@ -59,18 +67,24 @@ const ImageContainer: React.FC = () => {
           className="mySwiper"
         >
           <SwiperSlide>
-            <p className="track__exercises">Biceps Curls#1</p>
+            <p className="track__exercises">Biceps Curls</p>
             <div className="ion-text-uppercase">
               <p className="track__category">Track: Upper Body#1</p>
             </div>
-            <IonImg src="/assets/icons/step_000.jpg" alt="img" className="swiper__image" />
+            <div>
+              <IonImg
+                src={status ? "/assets/icons/step_500x500.webp" : "/assets/icons/step_000.jpg"}
+                alt=""
+                className="swiper__image"
+              />
+            </div>
           </SwiperSlide>
           <SwiperSlide>
             <p className="track__exercises">Biceps Curls#2</p>
             <div className="ion-text-uppercase">
               <p className="track__category">Track: Upper Body#2</p>
             </div>
-            <IonImg src="/assets/icons/step_015.jpg" alt="img" className="swiper__image" />
+            <IonImg src="/assets/icons/step_500x500.webp" alt="img" className="swiper__image" />
           </SwiperSlide>
           <SwiperSlide>
             <p className="track__exercises">Biceps Curls#3</p>
@@ -85,15 +99,19 @@ const ImageContainer: React.FC = () => {
         <IonGrid>
           <IonRow>
             <IonCol>
+              <IonButton expand="full" onClick={changeStatus}>
+                {statusName}
+              </IonButton>
+            </IonCol>
+            <IonCol>
               <IonButton expand="full" onClick={() => setIsOpen(true)}>
                 EXPLAIN
               </IonButton>
             </IonCol>
             <IonCol>
-              <IonButton expand="full">MARK DOWN</IonButton>
-            </IonCol>
-            <IonCol>
-              <IonButton expand="full">SKIP</IonButton>
+              <IonButton disabled={true} expand="full">
+                MARK DOWN
+              </IonButton>
             </IonCol>
           </IonRow>
         </IonGrid>

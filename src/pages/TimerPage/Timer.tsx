@@ -11,20 +11,25 @@ import {
   IonTitle,
   IonToolbar,
   IonMenuButton,
+  IonMenuToggle,
+  IonButton,
+  IonIcon,
 } from "@ionic/react";
 
 import TimerFace from "./components/TimerFace";
 import TimerPlayButton from "./components/TimerPlayButton";
 import { useCombineStates } from "../../store/useCombineStates";
-import MainMenu from "../../components/Menu/MainMenu";
+import MainMenu from "../../components/Menu/ProfileMenu";
 import FooterButtons from "../../components/Footer/FooterButtons";
 import TimerResetButton from "./components/TimerResetButton";
 import { setTimerLocalNotification, unsetTimerLocalNotifications } from "../../shared/constants/notification.constants";
 import { CombineState } from "../../store/useCombineStates";
 import SwiperContainer from "../../components/SwiperContainer/SwiperContainer";
+import { personCircle } from "ionicons/icons";
+import ProfileMenu from "../../components/Menu/ProfileMenu";
 
 const TimerPage: React.FC = () => {
-  const [statusImg, setStatusImg] = useState(true);
+  const [statusImg, setStatusImg] = useState(false);
   const {
     timerInterval,
     timerStatus,
@@ -58,21 +63,29 @@ const TimerPage: React.FC = () => {
 
   return (
     <>
-      <MainMenu />
-      <IonPage id="main-content">
+      <ProfileMenu />
+      <IonPage id="profile">
         <IonHeader>
-          <IonHeader>
-            <IonToolbar color="warning">
-              <IonButtons slot="start">
-                <IonMenuButton />
-              </IonButtons>
-              <IonTitle>Timer</IonTitle>
-            </IonToolbar>
-          </IonHeader>
+          <IonToolbar color="warning">
+            <IonButtons slot="primary">
+              <IonMenuToggle>
+                <IonButton className="timer__bar_btn">
+                  <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
+                </IonButton>
+              </IonMenuToggle>
+            </IonButtons>
+            <IonTitle>Tracks</IonTitle>
+          </IonToolbar>
         </IonHeader>
+
         <IonContent>
           {!statusImg ? (
             <IonGrid>
+              <IonRow>
+                <IonCol>
+                  <SwiperContainer />
+                </IonCol>
+              </IonRow>
               <IonRow>
                 <IonCol className="timer-content">
                   <TimerFace
@@ -100,7 +113,7 @@ const TimerPage: React.FC = () => {
             <SwiperContainer />
           )}
         </IonContent>
-        <FooterButtons />
+        {/* <FooterButtons /> */}
       </IonPage>
     </>
   );

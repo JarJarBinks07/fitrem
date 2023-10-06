@@ -11,9 +11,13 @@
   color: var(--ion-color-dark);
 }
 
-.my-tab-button.tab-selected {
+.my-tab-button.tab-selected icon {
   color: white;
   background-color: var(--ion-color-dark);
   transition: background-color 2s ease;
   /* border-top: 4px var(--ion-color-warning) solid; */
+}
+.footer__bar {
+  display: absolute;
+  z-index: -10;
 }

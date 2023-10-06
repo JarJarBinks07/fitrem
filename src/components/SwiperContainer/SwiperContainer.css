@@ -30,4 +30,11 @@ ion-button {
 }
 .mySwiper {
   max-width: 500px;
+  background-color: #e8e8e8;
+}
+
+.swiper__image {
+  height: 32vh;
+  width: 100%;
+  display: block;
 }

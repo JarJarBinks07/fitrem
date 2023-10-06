@@ -3,3 +3,7 @@
   flex-direction: column;
   align-items: center;
 }
+.timer__bar_btn::part(native) {
+  background-color: var(--ion-color-warning);
+  box-shadow: none;
+}

@@ -1,12 +1,13 @@
 import { Redirect, Route } from "react-router-dom";
 import {
   IonApp,
-  IonCol,
-  IonContent,
-  IonGrid,
+  IonIcon,
+  IonLabel,
   IonRouterOutlet,
-  IonRow,
   IonSpinner,
+  IonTabBar,
+  IonTabButton,
+  IonTabs,
   setupIonicReact,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
@@ -31,10 +32,12 @@ import "@ionic/react/css/display.css";
 import "./theme/variables.css";
 import "./App.css";
 
-import TimerConfig from "./pages/TimerConfigPage/TimerConfig";
+import Settings from "./pages/SettingsPage/Settings";
 import TimerPage from "./pages/TimerPage/Timer";
 import Home from "./pages/HomePage/Home";
 import { useCombineStates } from "./store/useCombineStates";
+import { home, timer, settings, optionsOutline } from "ionicons/icons";
+import Tracks from "./pages/TracksPage/Tracks";
 
 setupIonicReact();
 
@@ -44,20 +47,45 @@ const App: React.FC = () => {
     <IonApp>
       {rehydrated ? (
         <IonReactRouter>
-          <IonRouterOutlet>
-            <Route exact path="/home">
-              <Home />
-            </Route>
-            <Route exact path="/timer">
-              <TimerPage />
-            </Route>
-            <Route exact path="/timer-configuration">
-              <TimerConfig />
-            </Route>
-            <Route exact path="/">
-              <Redirect to="/home" />
-            </Route>
-          </IonRouterOutlet>
+          <IonTabs>
+            <IonRouterOutlet>
+              <Route exact path="/timer">
+                <TimerPage />
+              </Route>
+              {/* <Route exact path="/home">
+                <Home />
+              </Route> */}
+              <Route exact path="/tracks">
+                <Tracks />
+              </Route>
+              <Route exact path="/settings">
+                <Settings />
+              </Route>
+              <Route exact path="/">
+                <Redirect to="/timer" />
+              </Route>
+            </IonRouterOutlet>
+            <IonTabBar className="app__tab_bar" slot="bottom" color="warning">
+              <IonTabButton className="app__tab_button" tab="timer" href="/timer">
+                <IonIcon className="app__icon" icon={timer} />
+                <IonLabel className="app__label" color="light">
+                  Timer
+                </IonLabel>
+              </IonTabButton>
+              <IonTabButton className="app__tab_button" tab="tracks" href="/tracks">
+                <IonIcon className="app__icon" icon={optionsOutline} />
+                <IonLabel className="app__label" color="light">
+                  Tracks
+                </IonLabel>
+              </IonTabButton>
+              <IonTabButton className="app__tab_button" tab="settings" href="/settings">
+                <IonIcon className="app__icon" icon={settings} />
+                <IonLabel className="app__label" color="light">
+                  Settings
+                </IonLabel>
+              </IonTabButton>
+            </IonTabBar>
+          </IonTabs>
         </IonReactRouter>
       ) : (
         <IonSpinner className="spinner" />

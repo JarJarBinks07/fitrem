@@ -31,9 +31,9 @@ const TimerFace: React.FC<IProps> = ({ timerInterval, timerKey, timerDuration, t
     <CountdownCircleTimer
       isPlaying={timerActive}
       key={timerKey}
-      size={300}
+      size={280}
       strokeWidth={22}
-      colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+      colors={["#ffc409", "#F7B801", "#A30000", "#A30000"]}
       colorsTime={[7, 5, 2, 0]}
       rotation="clockwise"
       duration={timerInterval * secondsInOneMinute}

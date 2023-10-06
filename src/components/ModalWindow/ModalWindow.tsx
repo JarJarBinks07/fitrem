@@ -20,7 +20,7 @@ interface IProps {
 
 function ModalWindow({ isOpen, setIsOpen }: IProps) {
   const videoJsOptions = {
-    autoplay: true,
+    autoplay: false,
     controls: true,
     // responsive: true,
     loop: true,
@@ -58,11 +58,11 @@ function ModalWindow({ isOpen, setIsOpen }: IProps) {
             </IonToolbar>
           </IonHeader>
           <IonContent className="ion-padding">
-            {/* <IonImg src="/assets/icons/step_500x500.webp" alt="img"></IonImg> */}
+            <IonImg src="/assets/icons/step_500x500.webp" alt=""></IonImg>
             {/* <IonImg src="/assets/icons/step_1000x1000.webp" alt="img"></IonImg> */}
             <>
               <div>Exercises</div>
-              <VideoPlayer options={videoJsOptions} />
+              {/* <VideoPlayer options={videoJsOptions} /> */}
               <div>
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos
                 reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui.
