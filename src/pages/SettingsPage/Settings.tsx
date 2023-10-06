@@ -26,6 +26,7 @@ import FooterButtons from "../../components/Footer/FooterButtons";
 import ProfileMenu from "../../components/Menu/ProfileMenu";
 
 import "./Settings.css";
+import Demo from "../../components/Demo/Demo";
 
 type RangeValue =
   | number
@@ -105,7 +106,9 @@ const Settings: React.FC = () => {
               </IonCol>
             </IonRow>
           </IonGrid>
-          <Chart />
+          {/* <Chart />
+           */}
+          <Demo />
           <TimerConfirmationSettings isOpen={isOpen} setIsOpen={setIsOpen} />
         </IonContent>
       </IonPage>
