@@ -28,13 +28,12 @@ ion-button {
   height: 10px;
   /* background-color: var(--ion-color-dark); */
 }
+.mySwiper .swiper-pagination-fraction {
+  /* background-color: var(--ion-color-dark); */
+}
 .mySwiper {
   max-width: 500px;
-  background-color: #e8e8e8;
 }
-
-.swiper__image {
-  height: 32vh;
-  width: 100%;
-  display: block;
+.swiper__slide {
+  margin-top: 50px;
 }
