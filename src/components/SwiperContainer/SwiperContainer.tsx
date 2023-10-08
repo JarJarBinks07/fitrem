@@ -65,44 +65,44 @@ const ImageContainer: React.FC = () => {
     try {
       const data = [
         {
-          id: 111,
+          id: 1,
           video_path: "/assets/tracks/bicep/Bicep_01.mp4",
           image_path: "/assets/tracks/bicep/Bicep_01.jpg",
           category: "Biceps",
           exercise: "upper body #1",
           tools: false,
           description:
-            "111_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+            "1_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
         },
         {
-          id: 222,
+          id: 2,
           video_path: "/assets/tracks/bicep/Bicep_02.mp4",
           image_path: "/assets/tracks/bicep/Bicep_02.jpg",
           category: "Biceps",
           exercise: "upper body #2",
           tools: false,
           description:
-            "222_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+            "2_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
         },
         {
-          id: 333,
+          id: 3,
           video_path: "/assets/tracks/bicep/Bicep_03.mp4",
           image_path: "/assets/tracks/bicep/Bicep_03.jpg",
           category: "Biceps",
           exercise: "upper body #4",
           tools: false,
           description:
-            "333_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+            "3_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
         },
         {
-          id: 444,
+          id: 4,
           video_path: "/assets/tracks/bicep/Bicep_04.mp4",
           image_path: "/assets/tracks/bicep/Bicep_04.jpg",
           category: "Biceps",
           exercise: "upper body #4",
           tools: false,
           description:
-            "444_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+            "4_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
         },
       ];
 
@@ -133,9 +133,6 @@ const ImageContainer: React.FC = () => {
             speed={800}
             // effect="fade"
             // navigation={true}
-            // observer={true}
-            // observeParents={true}
-            // observeSlideChildren={true}
             className="mySwiper"
             // onSwiper={(swiper) => console.log(swiper.realIndex)}
             // onBeforeTransitionStart={(swiper) => console.log(swiper.realIndex)}
@@ -152,8 +149,14 @@ const ImageContainer: React.FC = () => {
                 <div className="ion-text-uppercase">
                   <p className="track__category">Track: {item.exercise}</p>
                 </div>
+
+                <VideoPlayer
+                  play={getTrackIndex === index ? playStatus : false}
+                  path={item.video_path}
+                  src={item.image_path}
+                />
+
                 <SwiperButtons />
-                <VideoPlayer play={getTrackIndex === index ? playStatus : false} path={item.video_path} />
               </SwiperSlide>
             ))}
 
