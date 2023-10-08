@@ -1,18 +1,8 @@
 import React from "react";
-import {
-  IonButtons,
-  IonButton,
-  IonModal,
-  IonHeader,
-  IonContent,
-  IonToolbar,
-  IonTitle,
-  IonPage,
-  IonImg,
-} from "@ionic/react";
-// import VideoPlayer from "../PlayerCapacitor/VideoPlayer";
-import VideoPlayer from "../PlayerVideoJs/VideoPlayer";
+import { IonButtons, IonButton, IonModal, IonHeader, IonContent, IonToolbar, IonTitle, IonItem } from "@ionic/react";
 import VideoPlayerReact from "../PlayerReact/VideoPlayer";
+
+import "./ModalWindow.css";
 
 interface IProps {
   path: string;
@@ -33,8 +23,12 @@ function ModalWindow({ path, description, isOpen, setIsOpen }: IProps) {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <div>{description}</div>
-        <VideoPlayerReact play={true} path={path} />
+        <IonItem>
+          <VideoPlayerReact play={true} path={path} />
+        </IonItem>
+        <IonItem className="modal__item" lines="none">
+          {description}
+        </IonItem>
 
         {/* <VideoPlayer attachment={url} /> */}
       </IonContent>

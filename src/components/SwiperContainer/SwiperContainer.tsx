@@ -144,7 +144,7 @@ const ImageContainer: React.FC = () => {
           >
             {/* //////////////////////////////////// */}
 
-            {videoData.map((item) => (
+            {videoData.map((item, index) => (
               <SwiperSlide key={item.id}>
                 <p>{item.id}</p>
                 <p className="track__exercises">{item.category}</p>
@@ -153,26 +153,9 @@ const ImageContainer: React.FC = () => {
                   <p className="track__category">Track: {item.exercise}</p>
                 </div>
                 <SwiperButtons />
-                <VideoPlayer play={playStatus} path={item.video_path} />
+                <VideoPlayer play={getTrackIndex === index ? playStatus : false} path={item.video_path} />
               </SwiperSlide>
             ))}
-
-            {/* //////////////////////////////////// */}
-
-            {/* {videoData.map((item) => (
-            <SwiperSlide key={item.id}>
-              <p className="track__exercises">{item.category}</p>
-              <div className="ion-text-uppercase">
-                <p className="track__category">Track: {item.exercise}</p>
-              </div>
-              <div>
-                <IonImg src={item.image_path} alt="" className="swiper__image" />
-              </div>
-            </SwiperSlide>
-          ))} */}
-
-            {/* //////////////////////////////////// */}
-            {/* <SwiperButtons /> */}
 
             {/* {platform === "web" ? <SwiperButtons /> : null} */}
           </Swiper>
@@ -201,12 +184,14 @@ const ImageContainer: React.FC = () => {
             </IonCol>
           </IonRow>
         </IonGrid>
-        <ModalWindow
-          isOpen={isOpen}
-          setIsOpen={setIsOpen}
-          path={videoData[getTrackIndex].video_path}
-          description={videoData[getTrackIndex].description}
-        />
+        {videoData.length > 0 ? (
+          <ModalWindow
+            isOpen={isOpen}
+            setIsOpen={setIsOpen}
+            path={videoData[getTrackIndex].video_path}
+            description={videoData[getTrackIndex].description}
+          />
+        ) : null}
       </div>
     </>
   );
