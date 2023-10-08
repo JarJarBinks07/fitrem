@@ -11,70 +11,34 @@ import {
   IonImg,
 } from "@ionic/react";
 // import VideoPlayer from "../PlayerCapacitor/VideoPlayer";
-import VideoPlayer from "../PlayerVideoJs/VideoPlayerJS";
+import VideoPlayer from "../PlayerVideoJs/VideoPlayer";
+import VideoPlayerReact from "../PlayerReact/VideoPlayer";
 
 interface IProps {
+  path: string;
+  description: string;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-function ModalWindow({ isOpen, setIsOpen }: IProps) {
-  const videoJsOptions = {
-    autoplay: false,
-    controls: true,
-    // responsive: true,
-    loop: true,
-    // muted: true,
-    // videoWidth: 480,
-    // videoHeight: 680,
-    poster: "/assets/icons/step_000.jpg",
-    // fluid: true,
-    sources: [
-      {
-        src: "/assets/icons/Step_jacks_wo_bounce0030-0150.mp4",
-        type: "video/mp4",
-      },
-    ],
-  };
-
-  // const [url, setUrl] = useState({
-  //   temporary_url: "https://brenopolanski.github.io/html5-video-webvtt-example/MIB2.mp4",
-  // });
+function ModalWindow({ path, description, isOpen, setIsOpen }: IProps) {
   return (
-    <IonPage>
+    <IonModal isOpen={isOpen}>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Inline Modal</IonTitle>
+          <IonTitle>Description</IonTitle>
+          <IonButtons slot="end">
+            <IonButton onClick={() => setIsOpen(false)}>Close</IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <IonModal isOpen={isOpen}>
-          <IonHeader>
-            <IonToolbar>
-              <IonTitle>Description</IonTitle>
-              <IonButtons slot="end">
-                <IonButton onClick={() => setIsOpen(false)}>Close</IonButton>
-              </IonButtons>
-            </IonToolbar>
-          </IonHeader>
-          <IonContent className="ion-padding">
-            <IonImg src="/assets/icons/step_500x500.webp" alt=""></IonImg>
-            {/* <IonImg src="/assets/icons/step_1000x1000.webp" alt="img"></IonImg> */}
-            <>
-              <div>Exercises</div>
-              {/* <VideoPlayer options={videoJsOptions} /> */}
-              <div>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos
-                reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui.
-                Eaque, dicta.
-              </div>
-            </>
+        <div>{description}</div>
+        <VideoPlayerReact play={true} path={path} />
 
-            {/* <VideoPlayer attachment={url} /> */}
-          </IonContent>
-        </IonModal>
+        {/* <VideoPlayer attachment={url} /> */}
       </IonContent>
-    </IonPage>
+    </IonModal>
   );
 }
 

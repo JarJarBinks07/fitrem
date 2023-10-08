@@ -17,7 +17,7 @@ const initialOptions: videojs = {
   },
 };
 
-const VideoPlayer: React.FC<IVideoPlayerProps> = ({ options }) => {
+const VideoPlayerJS: React.FC<IVideoPlayerProps> = ({ options }) => {
   const videoNode = React.useRef<HTMLVideoElement>();
   const player = React.useRef<videojs.Player>();
 
@@ -39,4 +39,4 @@ const VideoPlayer: React.FC<IVideoPlayerProps> = ({ options }) => {
   return <video ref={videoNode} className="video-js" />;
 };
 
-export default VideoPlayer;
+export default VideoPlayerJS;

@@ -6,7 +6,7 @@ interface IProps {
   path: string;
 }
 
-const VideoPlayer: React.FC<IProps> = ({ play, path }) => {
+const VideoPlayerReact: React.FC<IProps> = ({ play, path }) => {
   return (
     <ReactPlayer
       playing={play}
@@ -22,4 +22,4 @@ const VideoPlayer: React.FC<IProps> = ({ play, path }) => {
   );
 };
 
-export default VideoPlayer;
+export default VideoPlayerReact;

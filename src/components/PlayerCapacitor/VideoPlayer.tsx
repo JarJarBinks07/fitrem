@@ -6,7 +6,7 @@ interface IProps {
   attachment: { temporary_url?: string; path?: string };
 }
 
-const VideoPlayer = ({ attachment }: IProps) => {
+const VideoPlayerCapacitor = ({ attachment }: IProps) => {
   useEffect(() => {
     const playVideo = async () => {
       const url = attachment.path ? attachment.path : attachment.temporary_url;
@@ -25,4 +25,4 @@ const VideoPlayer = ({ attachment }: IProps) => {
   });
   return <div id="fullscreen" slot="fixed"></div>;
 };
-export default VideoPlayer;
+export default VideoPlayerCapacitor;

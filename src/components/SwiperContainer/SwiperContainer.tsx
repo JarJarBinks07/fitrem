@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { register } from "swiper/element/bundle";
 import {
   IonButton,
   IonCol,
@@ -11,8 +12,9 @@ import {
   IonSpinner,
   IonTitle,
 } from "@ionic/react";
-import { Swiper, SwiperSlide } from "swiper/react";
-// import { Swiper as SwiperInterface } from "swiper";
+
+import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import SwiperInterface from "swiper";
 import { Pagination, Navigation, EffectFade } from "swiper/modules";
 import { Capacitor } from "@capacitor/core";
 import SwiperButtons from "./SwiperButtons";
@@ -23,7 +25,7 @@ import "swiper/css/navigation";
 import "swiper/css/effect-fade";
 import "./SwiperContainer.css";
 import ModalWindow from "../ModalWindow/ModalWindow";
-import VideoPlayer from "../PlayerReact/VideoPlayerReact";
+import VideoPlayer from "../PlayerReact/VideoPlayer";
 
 interface IVideo {
   id: number;
@@ -39,16 +41,21 @@ const ImageContainer: React.FC = () => {
   const platform = Capacitor.getPlatform();
   const [isOpen, setIsOpen] = useState(false);
 
+  ///////ModalRender////////////
+  const [getTrackIndex, setGetTrackIndex] = useState(0);
+  console.log(getTrackIndex);
+
   /////////////////////////////////
-  const [play, setPlay] = useState(false);
-  const [mode, setMode] = useState("play");
+  const [playStatus, setPlayStatus] = useState(false);
+  const [playMode, setPlayMode] = useState("play");
 
   const changeStatus = () => {
-    setPlay((prev) => !prev);
-    setMode((prev) => (prev === "play" ? "pause" : "play"));
+    setPlayStatus((prev) => !prev);
+    setPlayMode((prev) => (prev === "play" ? "pause" : "play"));
   };
 
   useEffect(() => {
+    register();
     setTimeout(getVideoData, 1000);
   }, []);
 
@@ -58,44 +65,44 @@ const ImageContainer: React.FC = () => {
     try {
       const data = [
         {
-          id: 0,
+          id: 111,
           video_path: "/assets/tracks/bicep/Bicep_01.mp4",
           image_path: "/assets/tracks/bicep/Bicep_01.jpg",
           category: "Biceps",
           exercise: "upper body #1",
           tools: false,
           description:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+            "111_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
         },
         {
-          id: 1,
+          id: 222,
           video_path: "/assets/tracks/bicep/Bicep_02.mp4",
           image_path: "/assets/tracks/bicep/Bicep_02.jpg",
           category: "Biceps",
           exercise: "upper body #2",
           tools: false,
           description:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+            "222_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
         },
         {
-          id: 2,
+          id: 333,
           video_path: "/assets/tracks/bicep/Bicep_03.mp4",
           image_path: "/assets/tracks/bicep/Bicep_03.jpg",
           category: "Biceps",
           exercise: "upper body #4",
           tools: false,
           description:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+            "333_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
         },
         {
-          id: 3,
+          id: 444,
           video_path: "/assets/tracks/bicep/Bicep_04.mp4",
           image_path: "/assets/tracks/bicep/Bicep_04.jpg",
           category: "Biceps",
           exercise: "upper body #4",
           tools: false,
           description:
-            "Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+            "444_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
         },
       ];
 
@@ -104,6 +111,10 @@ const ImageContainer: React.FC = () => {
       console.log("Error with receiving videoFetchData: ", error);
     }
   };
+  ///////////////SWIPER METHODS/////////////////
+  const swiper = useSwiper();
+  // const [swiper, setswiper] = useState<SwiperInterface>();
+  // swiper?.slideTo(0);
 
   return (
     <>
@@ -118,27 +129,31 @@ const ImageContainer: React.FC = () => {
               type: "fraction",
             }}
             simulateTouch={false}
-            touchRatio={1}
+            touchRatio={0}
             speed={800}
             // effect="fade"
             // navigation={true}
-            observer={true}
-            observeParents={true}
-            observeSlideChildren={true}
+            // observer={true}
+            // observeParents={true}
+            // observeSlideChildren={true}
             className="mySwiper"
-            onAny={() => {
-              console.log("hello");
-            }}
+            // onSwiper={(swiper) => console.log(swiper.realIndex)}
+            // onBeforeTransitionStart={(swiper) => console.log(swiper.realIndex)}
+            onRealIndexChange={(swiper) => setGetTrackIndex(swiper.realIndex)}
+            // onSlideChange={(swiper) => console.log(swiper.realIndex)}
           >
             {/* //////////////////////////////////// */}
 
             {videoData.map((item) => (
               <SwiperSlide key={item.id}>
+                <p>{item.id}</p>
                 <p className="track__exercises">{item.category}</p>
+
                 <div className="ion-text-uppercase">
                   <p className="track__category">Track: {item.exercise}</p>
                 </div>
-                <VideoPlayer play={play} path={item.video_path} />
+                <SwiperButtons />
+                <VideoPlayer play={playStatus} path={item.video_path} />
               </SwiperSlide>
             ))}
 
@@ -157,7 +172,8 @@ const ImageContainer: React.FC = () => {
           ))} */}
 
             {/* //////////////////////////////////// */}
-            <SwiperButtons />
+            {/* <SwiperButtons /> */}
+
             {/* {platform === "web" ? <SwiperButtons /> : null} */}
           </Swiper>
         ) : (
@@ -170,7 +186,7 @@ const ImageContainer: React.FC = () => {
           <IonRow>
             <IonCol>
               <IonButton expand="full" onClick={changeStatus}>
-                <div className="ion-text-uppercase">{mode}</div>
+                <div className="ion-text-uppercase">{playMode}</div>
               </IonButton>
             </IonCol>
             <IonCol>
@@ -185,8 +201,13 @@ const ImageContainer: React.FC = () => {
             </IonCol>
           </IonRow>
         </IonGrid>
+        <ModalWindow
+          isOpen={isOpen}
+          setIsOpen={setIsOpen}
+          path={videoData[getTrackIndex].video_path}
+          description={videoData[getTrackIndex].description}
+        />
       </div>
-      {isOpen ? <ModalWindow isOpen={isOpen} setIsOpen={setIsOpen} /> : null}
     </>
   );
 };

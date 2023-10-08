@@ -58,7 +58,7 @@ const ProfileMenu: React.FC = () => {
         <Chart />
         <IonList>
           {profileArr.map((item) => (
-            <IonMenuToggle>
+            <IonMenuToggle key={item.label}>
               <IonItem className="profile__item">
                 <IonIcon slot="start" icon={item.icon} className="profile__icon" />
                 <IonLabel>{item.label}</IonLabel>
