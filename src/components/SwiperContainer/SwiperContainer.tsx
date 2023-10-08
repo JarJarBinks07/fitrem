@@ -80,48 +80,61 @@ const ImageContainer: React.FC = () => {
     <>
       <div className="swiper">
         {videoData.length > 0 ? (
-          <Swiper
-            modules={[Pagination, Navigation, EffectFade]}
-            slidesPerView={1}
-            loop={true}
-            pagination={{
-              clickable: true,
-              type: "fraction",
-            }}
-            simulateTouch={false}
-            touchRatio={0}
-            speed={800}
-            // effect="fade"
-            // navigation={true}
-            className="mySwiper"
-            // onSwiper={(swiper) => console.log(swiper.realIndex)}
-            // onBeforeTransitionStart={(swiper) => console.log(swiper.realIndex)}
-            onRealIndexChange={(swiper) => setGetTrackIndex(swiper.realIndex)}
-            // onSlideChange={(swiper) => console.log(swiper.realIndex)}
-          >
-            {/* //////////////////////////////////// */}
+          <>
+            {videoData.map((item, index) =>
+              getTrackIndex === index ? (
+                <>
+                  <p className="track__exercises">{item.category}</p>
+                  <div className="ion-text-uppercase">
+                    <p className="track__category">Track: {item.exercise}</p>
+                  </div>
+                </>
+              ) : (
+                []
+              )
+            )}
+            <Swiper
+              modules={[Pagination, Navigation, EffectFade]}
+              slidesPerView={1}
+              loop={true}
+              pagination={{
+                clickable: true,
+                type: "fraction",
+              }}
+              simulateTouch={false}
+              touchRatio={0}
+              speed={800}
+              // effect="fade"
+              // navigation={true}
+              className="mySwiper"
+              // onSwiper={(swiper) => console.log(swiper.realIndex)}
+              // onBeforeTransitionStart={(swiper) => console.log(swiper.realIndex)}
+              onRealIndexChange={(swiper) => setGetTrackIndex(swiper.realIndex)}
+              // onSlideChange={(swiper) => console.log(swiper.realIndex)}
+            >
+              {/* //////////////////////////////////// */}
 
-            {videoData.map((item, index) => (
-              <SwiperSlide key={item.id}>
-                <p>{item.id}</p>
+              {videoData.map((item, index) => (
+                <SwiperSlide key={item.id}>
+                  {/* <p>{item.id}</p>
                 <p className="track__exercises">{item.category}</p>
 
                 <div className="ion-text-uppercase">
                   <p className="track__category">Track: {item.exercise}</p>
-                </div>
+                </div> */}
 
-                <VideoPlayer
-                  play={getTrackIndex === index ? playStatus : false}
-                  path={item.video_path}
-                  // src={item.image_path}
-                />
+                  <VideoPlayer
+                    play={getTrackIndex === index ? playStatus : false}
+                    path={item.video_path}
+                    // src={item.image_path}
+                  />
+                </SwiperSlide>
+              ))}
+              <SwiperButtons />
 
-                <SwiperButtons />
-              </SwiperSlide>
-            ))}
-
-            {/* {platform === "web" ? <SwiperButtons /> : null} */}
-          </Swiper>
+              {/* {platform === "web" ? <SwiperButtons /> : null} */}
+            </Swiper>
+          </>
         ) : (
           <IonItem>{/* <IonSpinner name="bubbles"></IonSpinner> */}</IonItem>
         )}
