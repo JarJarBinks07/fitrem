@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { register } from "swiper/element/bundle";
+// import { register } from "swiper/element/bundle";
 import {
   IonButton,
   IonCol,
@@ -26,6 +26,7 @@ import "swiper/css/effect-fade";
 import "./SwiperContainer.css";
 import ModalWindow from "../ModalWindow/ModalWindow";
 import VideoPlayer from "../PlayerReact/VideoPlayer";
+import { dataTracks } from "../../shared/tracks/tracks";
 
 interface IVideo {
   id: number;
@@ -55,60 +56,19 @@ const ImageContainer: React.FC = () => {
   };
 
   useEffect(() => {
-    register();
-    setTimeout(getVideoData, 1000);
+    getVideoData();
   }, []);
 
   const [videoData, setVideoData] = useState<IVideo[]>([]);
 
   const getVideoData = async () => {
     try {
-      const data = [
-        {
-          id: 1,
-          video_path: "/assets/tracks/bicep/Bicep_01.mp4",
-          image_path: "/assets/tracks/bicep/Bicep_01.jpg",
-          category: "Biceps",
-          exercise: "upper body #1",
-          tools: false,
-          description:
-            "1_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
-        },
-        {
-          id: 2,
-          video_path: "/assets/tracks/bicep/Bicep_02.mp4",
-          image_path: "/assets/tracks/bicep/Bicep_02.jpg",
-          category: "Biceps",
-          exercise: "upper body #2",
-          tools: false,
-          description:
-            "2_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
-        },
-        {
-          id: 3,
-          video_path: "/assets/tracks/bicep/Bicep_03.mp4",
-          image_path: "/assets/tracks/bicep/Bicep_03.jpg",
-          category: "Biceps",
-          exercise: "upper body #4",
-          tools: false,
-          description:
-            "3_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
-        },
-        {
-          id: 4,
-          video_path: "/assets/tracks/bicep/Bicep_04.mp4",
-          image_path: "/assets/tracks/bicep/Bicep_04.jpg",
-          category: "Biceps",
-          exercise: "upper body #4",
-          tools: false,
-          description:
-            "4_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
-        },
-      ];
-
+      const data = await new Promise<IVideo[]>((resolve) => {
+        resolve(dataTracks);
+      });
       setVideoData(data);
     } catch (error) {
-      console.log("Error with receiving videoFetchData: ", error);
+      console.log("Error with receiving VideoData: ", error);
     }
   };
   ///////////////SWIPER METHODS/////////////////
@@ -153,7 +113,7 @@ const ImageContainer: React.FC = () => {
                 <VideoPlayer
                   play={getTrackIndex === index ? playStatus : false}
                   path={item.video_path}
-                  src={item.image_path}
+                  // src={item.image_path}
                 />
 
                 <SwiperButtons />
@@ -163,9 +123,7 @@ const ImageContainer: React.FC = () => {
             {/* {platform === "web" ? <SwiperButtons /> : null} */}
           </Swiper>
         ) : (
-          <IonItem>
-            <IonSpinner name="bubbles"></IonSpinner>
-          </IonItem>
+          <IonItem>{/* <IonSpinner name="bubbles"></IonSpinner> */}</IonItem>
         )}
 
         <IonGrid>
