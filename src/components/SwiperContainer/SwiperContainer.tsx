@@ -27,6 +27,7 @@ import "./SwiperContainer.css";
 import ModalWindow from "../ModalWindow/ModalWindow";
 import VideoPlayer from "../PlayerReact/VideoPlayer";
 import { dataTracks } from "../../shared/tracks/tracks";
+import { useCombineStates } from "../../store/useCombineStates";
 
 interface IVideo {
   id: number;
@@ -58,9 +59,11 @@ const ImageContainer: React.FC = () => {
   useEffect(() => {
     getVideoData();
   }, []);
-
+  const { selectedCategories } = useCombineStates();
   const [videoData, setVideoData] = useState<IVideo[]>([]);
 
+  const arrIncludesCurrentCategory = videoData.filter((e) => selectedCategories.includes(e.category));
+  console.log(arrIncludesCurrentCategory);
   const getVideoData = async () => {
     try {
       const data = await new Promise<IVideo[]>((resolve) => {
@@ -79,16 +82,16 @@ const ImageContainer: React.FC = () => {
   return (
     <>
       <div className="swiper">
-        {videoData.length > 0 ? (
+        {videoData.length ? (
           <>
             {videoData.map((item, index) =>
               getTrackIndex === index ? (
-                <>
+                <div key={item.id}>
                   <p className="track__exercises">{item.category}</p>
                   <div className="ion-text-uppercase">
                     <p className="track__category">Track: {item.exercise}</p>
                   </div>
-                </>
+                </div>
               ) : (
                 []
               )

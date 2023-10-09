@@ -4,8 +4,9 @@ import { createTestState, ITest } from "./TestState";
 import { createTimerState, ITimer } from "./TimerState";
 import { CustomSqliteStorage } from "./CustomSqliteStorage";
 import { IRoot, createRootState } from "./RootState";
+import { ITracks, createTrackState } from "./TracksState";
 
-export type CombineState = IRoot & ITimer;
+export type CombineState = IRoot & ITimer & ITracks;
 
 export type MyStateCreator<T> = StateCreator<
   CombineState,
@@ -24,6 +25,7 @@ export const useCombineStates = create<CombineState>()(
       (...a) => ({
         ...createRootState(...a),
         ...createTimerState(...a),
+        ...createTrackState(...a),
       }),
       {
         name: "combineStore",

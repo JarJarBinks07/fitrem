@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import {
   IonButton,
   IonButtons,
@@ -9,55 +9,24 @@ import {
   IonHeader,
   IonIcon,
   IonItem,
-  IonItemOption,
-  IonItemOptions,
-  IonItemSliding,
-  IonLabel,
-  IonList,
-  IonMenuButton,
   IonMenuToggle,
   IonPage,
-  IonReorder,
-  IonReorderGroup,
-  IonRouterOutlet,
   IonRow,
-  IonSpinner,
-  IonText,
   IonThumbnail,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { ItemReorderEventDetail } from "@ionic/core";
-import {
-  listCircleOutline,
-  listCircle,
-  powerOutline,
-  radioButtonOnOutline,
-  informationCircleOutline,
-  personCircle,
-  backspaceOutline,
-  personCircleSharp,
-} from "ionicons/icons";
 
-// import { getTrackList } from "../../selectors/track-selectors";
-// import { setTrackStatus } from "../../setters/track-setters";
-// import TrackFormModal from "../modals/TrackFormModal";
-// import TracksHelpModal from "../../components/tracks/TracksHelpModal";
-
-import "./Tracks.css";
-import MainMenu from "../../components/Menu/ProfileMenu";
+import { personCircle } from "ionicons/icons";
 import ProfileMenu from "../../components/Menu/ProfileMenu";
 import ModalWindowTracks from "../../components/ModalWindow/ModalWindowTracks";
-import { dataTracks } from "../../shared/tracks/tracks";
+import { useCombineStates } from "../../store/useCombineStates";
 
-// type Track = {
-//   id: number;
-//   title: string;
-//   description: string;
-//   active: number;
-// };
+import "./Tracks.css";
 
 const Tracks: React.FC = () => {
+  const { setSelectedCategories, selectedCategories } = useCombineStates();
+
   const [isOpen, setIsOpen] = useState(false);
   const [currentCategory, setCurrentCategory] = useState("");
 
@@ -103,10 +72,14 @@ const Tracks: React.FC = () => {
         <IonContent fullscreen={true}>
           <IonGrid>
             {trackCategory.map((item) => (
-              <>
-                <IonRow key={item.id}>
+              <div key={item.id}>
+                <IonRow>
                   <IonCol size="2">
-                    <IonCheckbox className="tracks__check_box"></IonCheckbox>
+                    <IonCheckbox
+                      className="tracks__check_box"
+                      checked={selectedCategories.includes(item.category)}
+                      onIonChange={() => setSelectedCategories(item.category)}
+                    ></IonCheckbox>
                   </IonCol>
                   <IonCol>
                     <IonItem button className="track__item" onClick={() => handlerCategory(item.category)}>
@@ -118,7 +91,7 @@ const Tracks: React.FC = () => {
                   </IonCol>
                 </IonRow>
                 <ModalWindowTracks isOpen={isOpen} setIsOpen={setIsOpen} category={currentCategory} />
-              </>
+              </div>
             ))}
           </IonGrid>
         </IonContent>
