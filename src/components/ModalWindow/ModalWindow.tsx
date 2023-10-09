@@ -1,5 +1,15 @@
 import React from "react";
-import { IonButtons, IonButton, IonModal, IonHeader, IonContent, IonToolbar, IonTitle, IonItem } from "@ionic/react";
+import {
+  IonButtons,
+  IonButton,
+  IonModal,
+  IonHeader,
+  IonContent,
+  IonToolbar,
+  IonTitle,
+  IonItem,
+  IonText,
+} from "@ionic/react";
 import VideoPlayerReact from "../PlayerReact/VideoPlayer";
 
 import "./ModalWindow.css";
@@ -29,8 +39,6 @@ function ModalWindow({ path, description, isOpen, setIsOpen }: IProps) {
         <IonItem className="modal__item" lines="none">
           {description}
         </IonItem>
-
-        {/* <VideoPlayer attachment={url} /> */}
       </IonContent>
     </IonModal>
   );

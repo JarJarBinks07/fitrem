@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { IonDatetime } from "@ionic/react";
 import {
   IonBackButton,
   IonButton,
@@ -95,11 +96,6 @@ const Settings: React.FC = () => {
             </IonRow>
             <IonRow>
               <IonCol>
-                <IonText></IonText>
-              </IonCol>
-            </IonRow>
-            <IonRow>
-              <IonCol>
                 <IonButton expand="block" onClick={onSaveHandler}>
                   Save
                 </IonButton>
@@ -108,7 +104,8 @@ const Settings: React.FC = () => {
           </IonGrid>
           {/* <Chart />
            */}
-          <Demo />
+          <IonDatetime></IonDatetime>
+          {/* <Demo /> */}
           <TimerConfirmationSettings isOpen={isOpen} setIsOpen={setIsOpen} />
         </IonContent>
       </IonPage>

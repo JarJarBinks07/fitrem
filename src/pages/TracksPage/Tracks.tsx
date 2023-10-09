@@ -3,7 +3,9 @@ import {
   IonButton,
   IonButtons,
   IonCheckbox,
+  IonCol,
   IonContent,
+  IonGrid,
   IonHeader,
   IonIcon,
   IonItem,
@@ -18,7 +20,9 @@ import {
   IonReorder,
   IonReorderGroup,
   IonRouterOutlet,
+  IonRow,
   IonSpinner,
+  IonText,
   IonThumbnail,
   IonTitle,
   IonToolbar,
@@ -43,6 +47,8 @@ import {
 import "./Tracks.css";
 import MainMenu from "../../components/Menu/ProfileMenu";
 import ProfileMenu from "../../components/Menu/ProfileMenu";
+import ModalWindowTracks from "../../components/ModalWindow/ModalWindowTracks";
+import { dataTracks } from "../../shared/tracks/tracks";
 
 // type Track = {
 //   id: number;
@@ -52,6 +58,32 @@ import ProfileMenu from "../../components/Menu/ProfileMenu";
 // };
 
 const Tracks: React.FC = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [currentCategory, setCurrentCategory] = useState("");
+
+  const handlerCategory = (value: string) => {
+    setIsOpen(true);
+    setCurrentCategory(value);
+  };
+
+  const trackCategory = [
+    {
+      id: 0,
+      category: "Biceps",
+      img_path: "/assets/icons/bicep_image.png",
+    },
+    {
+      id: 1,
+      category: "Jumps",
+      img_path: "/assets/icons/jump_image.png",
+    },
+    {
+      id: 2,
+      category: "Steps",
+      img_path: "/assets/icons/step_image.png",
+    },
+  ];
+
   return (
     <>
       <ProfileMenu />
@@ -69,29 +101,26 @@ const Tracks: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen={true}>
-          <IonList>
-            <IonItem button className="track__item">
-              <IonCheckbox slot="start"></IonCheckbox>
-              <IonThumbnail>
-                <img alt="Bicep" src="/assets/icons/bicep_image.png" />
-              </IonThumbnail>
-              <IonTitle>Bicep category</IonTitle>
-            </IonItem>
-            <IonItem button className="track__item">
-              <IonCheckbox slot="start"></IonCheckbox>
-              <IonThumbnail>
-                <img alt="Bicep" src="/assets/icons/step_image.png" />
-              </IonThumbnail>
-              <IonTitle>Step category</IonTitle>
-            </IonItem>
-            <IonItem button className="track__item">
-              <IonCheckbox slot="start" onIonChange={() => console.log("true")}></IonCheckbox>
-              <IonThumbnail>
-                <img alt="Bicep" src="/assets/icons/jump_image.png" />
-              </IonThumbnail>
-              <IonTitle>Jump category</IonTitle>
-            </IonItem>
-          </IonList>
+          <IonGrid>
+            {trackCategory.map((item) => (
+              <>
+                <IonRow key={item.id}>
+                  <IonCol size="2">
+                    <IonCheckbox className="tracks__check_box"></IonCheckbox>
+                  </IonCol>
+                  <IonCol>
+                    <IonItem button className="track__item" onClick={() => handlerCategory(item.category)}>
+                      <IonThumbnail>
+                        <img src={item.img_path} alt="" />
+                      </IonThumbnail>
+                      <IonTitle>{item.category} category</IonTitle>
+                    </IonItem>
+                  </IonCol>
+                </IonRow>
+                <ModalWindowTracks isOpen={isOpen} setIsOpen={setIsOpen} category={currentCategory} />
+              </>
+            ))}
+          </IonGrid>
         </IonContent>
       </IonPage>
     </>

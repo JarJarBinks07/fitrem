@@ -24,3 +24,10 @@ ion-checkbox::part(container) {
   border-radius: 6px;
   border: 2px solid var(--ion-color-warning);
 }
+.tracks__page_div {
+  display: flex;
+}
+
+.tracks__check_box {
+  padding: 20px;
+}
