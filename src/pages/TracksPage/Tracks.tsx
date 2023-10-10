@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { ItemReorderEventDetail } from "@ionic/core";
 import {
   IonButton,
   IonButtons,
@@ -11,6 +12,8 @@ import {
   IonItem,
   IonMenuToggle,
   IonPage,
+  IonReorder,
+  IonReorderGroup,
   IonRow,
   IonThumbnail,
   IonTitle,
@@ -53,6 +56,18 @@ const Tracks: React.FC = () => {
     },
   ];
 
+  ///////////Reorder///////////
+  function handleReorder(event: CustomEvent<ItemReorderEventDetail>) {
+    // The `from` and `to` properties contain the index of the item
+    // when the drag started and ended, respectively
+    console.log("Dragged from index", event.detail.from, "to", event.detail.to);
+
+    // Finish the reorder and position the item in the DOM based on
+    // where the gesture ended. This method can also be called directly
+    // by the reorder group
+    event.detail.complete();
+  }
+
   return (
     <>
       <ProfileMenu />
@@ -71,8 +86,10 @@ const Tracks: React.FC = () => {
         </IonHeader>
         <IonContent fullscreen={true}>
           <IonGrid>
+            {/* <IonReorderGroup disabled={true} onIonItemReorder={handleReorder}> */}
             {trackCategory.map((item) => (
               <div key={item.id}>
+                {/* <IonReorder> */}
                 <IonRow>
                   <IonCol size="2">
                     <IonCheckbox
@@ -82,7 +99,7 @@ const Tracks: React.FC = () => {
                     ></IonCheckbox>
                   </IonCol>
                   <IonCol>
-                    <IonItem button className="track__item" onClick={() => handlerCategory(item.category)}>
+                    <IonItem button lines="full" className="track__item" onClick={() => handlerCategory(item.category)}>
                       <IonThumbnail>
                         <img src={item.img_path} alt="" />
                       </IonThumbnail>
@@ -90,9 +107,11 @@ const Tracks: React.FC = () => {
                     </IonItem>
                   </IonCol>
                 </IonRow>
+                {/* </IonReorder> */}
                 <ModalWindowTracks isOpen={isOpen} setIsOpen={setIsOpen} category={currentCategory} />
               </div>
             ))}
+            {/* </IonReorderGroup> */}
           </IonGrid>
         </IonContent>
       </IonPage>

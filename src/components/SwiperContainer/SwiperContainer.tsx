@@ -49,40 +49,42 @@ const ImageContainer: React.FC = () => {
 
   const arrIncludesCurrentCategory = videoData?.filter((e) => selectedCategories.includes(e.category));
   ////////////////FilterforExerciseses Option#1////////////////////////////////
-  // const groupedData = {};
-  // arrIncludesCurrentCategory.forEach((item) => {
-  //   if (!groupedData[item.category]) {
-  //     groupedData[item.category] = [];
-  //   }
-  //   groupedData[item.category].push(item);
-  // });
 
-  // // Функція для чергування елементів з різних категорій
-  // const interleaveCategories = (groupedData) => {
-  //   const result = [];
-  //   let maxGroupLength = 0;
+  const groupedData: any = {};
+  arrIncludesCurrentCategory.forEach((item) => {
+    if (!groupedData[item.category]) {
+      groupedData[item.category] = [];
+    }
+    groupedData[item.category].push(item);
+  });
 
-  //   // Знаходимо найбільшу кількість елементів в одній з груп
-  //   Object.values(groupedData).forEach((group) => {
-  //     if (group.length > maxGroupLength) {
-  //       maxGroupLength = group.length;
-  //     }
-  //   });
+  // Функція для чергування елементів з різних категорій
+  const interleaveCategories = (groupedData: IVideo[]) => {
+    const result = [];
+    let maxGroupLength = 0;
 
-  //   // Додаємо по одному елементу з кожної групи в результат
-  //   for (let i = 0; i < maxGroupLength; i++) {
-  //     Object.values(groupedData).forEach((group) => {
-  //       if (i < group.length) {
-  //         result.push(group[i]);
-  //       }
-  //     });
-  //   }
+    // Знаходимо найбільшу кількість елементів в одній з груп
+    Object.values(groupedData).forEach((group) => {
+      if (group.length > maxGroupLength) {
+        maxGroupLength = group.length;
+      }
+    });
 
-  //   return result;
-  // };
+    // Додаємо по одному елементу з кожної групи в результат
+    for (let i = 0; i < maxGroupLength; i++) {
+      Object.values(groupedData).forEach((group) => {
+        if (i < group.length) {
+          result.push(group[i]);
+        }
+      });
+    }
 
-  // // Викликаємо функцію для чергування
-  // const interleavedData = interleaveCategories(groupedData);
+    return result;
+  };
+
+  const interleavedData = interleaveCategories(groupedData);
+  // const newinterleavedData = interleavedData;
+  const newinterleavedData = interleavedData.slice(0, count);
 
   // console.log(interleavedData);
 
@@ -90,26 +92,27 @@ const ImageContainer: React.FC = () => {
 
   // const [exerciseOneByOne, setExerciseOneByOne] = useState<IVideo[] | null>(null);
 
-  const bicepsData = arrIncludesCurrentCategory?.filter((item) => item.category === "Biceps");
-  const jumpsData = arrIncludesCurrentCategory?.filter((item) => item.category === "Jumps");
-  const stepsData = arrIncludesCurrentCategory?.filter((item) => item.category === "Steps");
+  // const bicepsData = arrIncludesCurrentCategory?.filter((item) => item.category === "Biceps");
+  // const jumpsData = arrIncludesCurrentCategory?.filter((item) => item.category === "Jumps");
+  // const stepsData = arrIncludesCurrentCategory?.filter((item) => item.category === "Steps");
 
-  const interleavedData: any = [];
-  const slicedinterleavedData = [...interleavedData].slice(0, count);
-  const maxLength = Math.max(bicepsData.length, jumpsData.length);
+  // const interleavedData: any = [];
+  // const slicedinterleavedData = [...interleavedData].slice(0, count);
+  // console.log("Sliced:", slicedinterleavedData);
+  // const maxLength = Math.max(bicepsData.length, jumpsData.length);
 
-  for (let i = 0; i < maxLength; i++) {
-    if (i < bicepsData.length) {
-      interleavedData.push(bicepsData[i]);
-    }
-    if (i < jumpsData.length) {
-      interleavedData.push(jumpsData[i]);
-    }
-    if (i < stepsData.length) {
-      interleavedData.push(stepsData[i]);
-    }
-  }
-  console.log("Count: ", count, "Data: ", interleavedData);
+  // for (let i = 0; i < maxLength; i++) {
+  //   if (i < bicepsData.length) {
+  //     interleavedData.push(bicepsData[i]);
+  //   }
+  //   if (i < jumpsData.length) {
+  //     interleavedData.push(jumpsData[i]);
+  //   }
+  //   if (i < stepsData.length) {
+  //     interleavedData.push(stepsData[i]);
+  //   }
+  // }
+  // console.log("Count: ", count, "Data: ", interleavedData);
 
   ////////////////////////////////////////////////
   const getVideoData = async () => {
@@ -126,9 +129,9 @@ const ImageContainer: React.FC = () => {
   return (
     <>
       <div className="swiper">
-        {interleavedData.length ? (
+        {newinterleavedData.length ? (
           <>
-            {interleavedData.map((item, index) =>
+            {newinterleavedData.map((item, index) =>
               getTrackIndex === index ? (
                 <div key={item.id}>
                   <p className="track__exercises">{item.category}</p>
@@ -159,7 +162,7 @@ const ImageContainer: React.FC = () => {
               onRealIndexChange={(swiper) => setGetTrackIndex(swiper.realIndex)}
               // onSlideChange={(swiper) => console.log(swiper.realIndex)}
             >
-              {interleavedData.map((item, index) => (
+              {newinterleavedData.map((item, index) => (
                 <SwiperSlide key={item.id}>
                   <VideoPlayer play={getTrackIndex === index ? playStatus : false} path={item.video_path} />
                 </SwiperSlide>
@@ -192,12 +195,12 @@ const ImageContainer: React.FC = () => {
             </IonCol>
           </IonRow>
         </IonGrid>
-        {interleavedData.length ? (
+        {newinterleavedData.length ? (
           <ModalWindow
             isOpen={isOpen}
             setIsOpen={setIsOpen}
-            path={interleavedData[getTrackIndex].video_path}
-            description={interleavedData[getTrackIndex].description}
+            path={newinterleavedData[getTrackIndex].video_path}
+            description={newinterleavedData[getTrackIndex].description}
           />
         ) : null}
       </div>
