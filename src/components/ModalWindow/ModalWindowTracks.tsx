@@ -65,7 +65,7 @@ function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
 
   const currentExercise = filteredData.filter((item) => item.id === exerciseID);
 
-  console.log(currentExercise);
+  // console.log(currentExercise);
 
   return (
     <IonModal isOpen={isOpen}>
