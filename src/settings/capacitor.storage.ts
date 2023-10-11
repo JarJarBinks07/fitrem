@@ -102,7 +102,7 @@ export const writeBlob64File = async (urlPath: string, fileName: string) => {
 ///////////////////////////////////////////////////////////////
 //saving data to device and web - works //
 
-export const saveTrack = async (urlPath: string, fileName: string) => {
+export const saveTrackResources = async (urlPath: string, fileName: string) => {
   try {
     const base64Data = await base64FromPath(urlPath);
     const savedFile = await Filesystem.writeFile({
@@ -135,7 +135,7 @@ export const readStoredFile = async (fileName: string): Promise<string | null> =
       directory: Directory.Data,
     });
     console.log("*********** read");
-    return fileData.data;
+    return fileData.data as string;
   } catch (error) {
     console.error("Error with reading", error);
     return null;

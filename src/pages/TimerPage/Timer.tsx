@@ -52,15 +52,15 @@ const TimerPage: React.FC = () => {
   //   getData();
   // }, []);
 
-  const getBase64FromUrl = async (url: string) => {
-    const response = await axios.request({
-      url: url,
-      method: "get",
-      responseType: "arraybuffer",
-    });
+  // const getBase64FromUrl = async (url: string) => {
+  //   const response = await axios.request({
+  //     url: url,
+  //     method: "get",
+  //     responseType: "arraybuffer",
+  //   });
 
-    return Buffer.from(response.data).toString("base64");
-  };
+  //   return Buffer.from(response.data).toString("base64");
+  // };
 
   const [statusImg, setStatusImg] = useState(false);
   const {

@@ -38,10 +38,31 @@ import Home from "./pages/HomePage/Home";
 import { useCombineStates } from "./store/useCombineStates";
 import { home, timer, settings, optionsOutline } from "ionicons/icons";
 import Tracks from "./pages/TracksPage/Tracks";
+import { useEffect } from "react";
+import { Exercise } from "./store/TracksState";
+import { dataTracks } from "./shared/tracks/tracks";
+import { saveTrackResources } from "./settings/capacitor.storage";
 
 setupIonicReact();
 
 const App: React.FC = () => {
+  const { setExercises } = useCombineStates();
+
+  const getData = async () => {
+    const response: Exercise[] = dataTracks;
+    const modifiedExercises = await Promise.all(
+      response.map(async (e) => {
+        const imageName = e.image_path.split("/").pop() as string;
+        const writtenImageToFileSystem = await saveTrackResources(e.image_path, imageName);
+        return { ...e, localImageName: writtenImageToFileSystem?.filePath };
+      })
+    );
+    setExercises(modifiedExercises);
+  };
+  useEffect(() => {
+    getData();
+  }, []);
+
   const { rehydrated } = useCombineStates();
   return (
     <IonApp>

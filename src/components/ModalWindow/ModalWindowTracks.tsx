@@ -19,6 +19,8 @@ import VideoPlayerReact from "../PlayerReact/VideoPlayer";
 import "./ModalWindowTracks.css";
 import { dataTracks } from "../../shared/tracks/tracks";
 import ModalWindow from "./ModalWindow";
+import { useCombineStates } from "../../store/useCombineStates";
+import CashedImage from "../CashedImage/CashedImage";
 
 interface IProps {
   category: string;
@@ -37,6 +39,9 @@ interface IVideo {
 }
 
 function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
+  const { exercises } = useCombineStates();
+  console.log("*****", exercises);
+
   const [openNewWindow, setOpenNewWindow] = useState(false);
   const [videoData, setVideoData] = useState<IVideo[]>([]);
   const [exerciseID, setExerciseID] = useState<number | null>(null);
@@ -46,22 +51,22 @@ function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
     setOpenNewWindow(true);
   };
 
-  useEffect(() => {
-    getVideoData();
-  }, []);
+  // useEffect(() => {
+  //   getVideoData();
+  // }, []);
 
-  const getVideoData = async () => {
-    try {
-      const data = await new Promise<IVideo[]>((resolve) => {
-        resolve(dataTracks);
-      });
-      setVideoData(data);
-    } catch (error) {
-      console.log("Error with receiving VideoData: ", error);
-    }
-  };
+  // const getVideoData = async () => {
+  //   try {
+  //     const data = await new Promise<IVideo[]>((resolve) => {
+  //       resolve(dataTracks);
+  //     });
+  //     setVideoData(data);
+  //   } catch (error) {
+  //     console.log("Error with receiving VideoData: ", error);
+  //   }
+  // };
 
-  const filteredData = videoData.filter((item) => item.category.toLowerCase() === category.toLowerCase());
+  const filteredData = exercises.filter((item) => item.category.toLowerCase() === category.toLowerCase());
 
   const currentExercise = filteredData.filter((item) => item.id === exerciseID);
 
@@ -86,9 +91,7 @@ function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
                   <IonGrid>
                     <IonRow>
                       <IonCol size="5">
-                        <IonThumbnail className="tracks__thumbnail">
-                          <img src={item.image_path} alt="" />
-                        </IonThumbnail>
+                        <CashedImage path={item.image_path} />
                       </IonCol>
                       <IonCol>
                         <IonTitle>{item.exercise}</IonTitle>

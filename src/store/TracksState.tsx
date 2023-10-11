@@ -2,13 +2,13 @@ import { MyStateCreator } from "./useCombineStates";
 
 export type Exercise = {
   id: number;
-  name: string;
-  image: string;
-  imageUrl: string;
-  video: string;
-  videoUrl: string;
+  video_path: string;
+  image_path: string;
+  category: string;
+  exercise: string;
+  tools: boolean;
   description: string;
-  subtitle: string;
+  writtenImageToFileSystem?: string;
 };
 
 export type StateExercise = {
