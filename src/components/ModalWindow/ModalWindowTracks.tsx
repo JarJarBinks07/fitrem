@@ -20,7 +20,7 @@ import "./ModalWindowTracks.css";
 import { dataTracks } from "../../shared/tracks/tracks";
 import ModalWindow from "./ModalWindow";
 import { useCombineStates } from "../../store/useCombineStates";
-import CashedImage from "../CashedImage/CashedImage";
+import CashedImage from "../CachedImage/CachedImage";
 
 interface IProps {
   category: string;

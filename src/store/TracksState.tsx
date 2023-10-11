@@ -8,7 +8,6 @@ export type Exercise = {
   exercise: string;
   tools: boolean;
   description: string;
-  writtenImageToFileSystem?: string;
 };
 
 export type StateExercise = {

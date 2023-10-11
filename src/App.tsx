@@ -53,11 +53,11 @@ const App: React.FC = () => {
     const modifiedExercises = await Promise.all(
       response.map(async (e) => {
         const imageName = e.image_path.split("/").pop() as string;
-        const writtenImageToFileSystem = await saveTrackResources(e.image_path, imageName);
-        return { ...e, localImageName: writtenImageToFileSystem?.filePath };
+        const videoName = e.video_path.split("/").pop() as string;
+        await Promise.all([saveTrackResources(e.image_path, imageName), saveTrackResources(e.video_path, videoName)]);
       })
     );
-    setExercises(modifiedExercises);
+    setExercises(response);
   };
   useEffect(() => {
     getData();

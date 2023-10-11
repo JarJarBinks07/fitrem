@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import ReactPlayer from "react-player";
+import { useCachedResource } from "../../hooks/useCachedResource";
 
 interface IProps {
   play: boolean;
@@ -7,8 +8,10 @@ interface IProps {
   src?: string;
 }
 
-const VideoPlayerReact: React.FC<IProps> = ({ play, path, src }) => {
+const VideoPlayerReact: React.FC<IProps> = ({ play, path }) => {
   const [test, setTest] = useState(true);
+
+  const video = useCachedResource(path, "video");
 
   return (
     <ReactPlayer
@@ -20,7 +23,7 @@ const VideoPlayerReact: React.FC<IProps> = ({ play, path, src }) => {
       playsinline={true}
       controls={false}
       loop={true}
-      url={[{ src: path, type: "video/mp4" }]}
+      url={video}
       //   className="react-player"
     />
   );
