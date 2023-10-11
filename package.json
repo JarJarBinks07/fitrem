@@ -43,6 +43,7 @@
     "react-countdown-circle-timer": "^3.2.1",
     "react-dom": "^18.2.0",
     "react-freezeframe": "^5.0.2",
+    "react-player": "^2.13.0",
     "react-router": "^5.3.4",
     "react-router-dom": "^5.3.4",
     "recharts": "^2.8.0",

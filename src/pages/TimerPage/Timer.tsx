@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./Timer.css";
 import {
   IonButtons,
@@ -27,8 +27,41 @@ import { CombineState } from "../../store/useCombineStates";
 import SwiperContainer from "../../components/SwiperContainer/SwiperContainer";
 import { personCircle } from "ionicons/icons";
 import ProfileMenu from "../../components/Menu/ProfileMenu";
+import axios from "axios";
+import { Exercise, StateExercise } from "../../store/TracksState";
+import { saveTrack } from "../../settings/capacitor.storage";
 
 const TimerPage: React.FC = () => {
+  // const { setExercises, exercises } = useCombineStates();
+  // console.log(exercises[0].id);
+
+  // const getData = async () => {
+  //   const response = await fetch("http://192.168.0.153:3000/api/hello");
+  //   const data: { exercise: Exercise[] } = await response.json();
+  //   console.log(data);
+  //   const modifiedExercises = await Promise.all(
+  //     data.exercise.map(async (e) => {
+  //       const video = await getBase64FromUrl(e.videoUrl);
+  //       const image = await getBase64FromUrl(e.imageUrl);
+  //       return { ...e, video, image };
+  //     })
+  //   );
+  //   setExercises(modifiedExercises);
+  // };
+  // useEffect(() => {
+  //   getData();
+  // }, []);
+
+  const getBase64FromUrl = async (url: string) => {
+    const response = await axios.request({
+      url: url,
+      method: "get",
+      responseType: "arraybuffer",
+    });
+
+    return Buffer.from(response.data).toString("base64");
+  };
+
   const [statusImg, setStatusImg] = useState(false);
   const {
     timerInterval,
