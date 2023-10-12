@@ -1,4 +1,5 @@
 import { MyStateCreator } from "./useCombineStates";
+import _ from "lodash";
 
 export interface ITrack {
   id: number;
@@ -20,6 +21,7 @@ export type StateTrackWithExercise = {
   tracks: ITrack[];
   allExercises: IExercise[];
   selectedExercises: IExercise[];
+  userTraining: IExercise[];
   setTracks: (value: ITrack[]) => void;
   setExercises: (value: IExercise[]) => void;
   setCheckedExercises: (value: number) => void;
@@ -64,10 +66,33 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
       "setCheckedExercises"
     ),
 
+  userTraining: [],
   generateUserTraining: () =>
     set((state) => {
       const activeTracks = state.selectedTracks;
+      console.log(activeTracks);
+
       const filteredExercises = state.selectedExercises.filter((e) => activeTracks.includes(e.category));
-      return state;
+      const groupedByCategory = _.groupBy(filteredExercises, "category");
+      console.log(groupedByCategory);
+      const result = [];
+      let maxLength = 0;
+      for (const key of activeTracks) {
+        if (!groupedByCategory[key]) {
+          groupedByCategory[key] = [];
+        }
+        maxLength = Math.max(groupedByCategory[key].length, maxLength);
+      }
+      for (let i = 0; i < maxLength; i++) {
+        for (const key of activeTracks) {
+          const currentArray = groupedByCategory[key];
+          if (i < currentArray.length) {
+            const currentElement = currentArray[i];
+            result.push(currentElement);
+          }
+        }
+      }
+
+      return { userTraining: result };
     }),
 });
