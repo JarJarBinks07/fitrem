@@ -28,7 +28,7 @@ import { useCombineStates } from "../../store/useCombineStates";
 import "./Tracks.css";
 
 const Tracks: React.FC = () => {
-  const { setSelectedCategories, selectedCategories, tracks } = useCombineStates();
+  const { setSelectedTracks: setSelectedCategories, selectedTracks: selectedCategories, tracks } = useCombineStates();
 
   //////////////ModalWindow/////////////
   const [isOpen, setIsOpen] = useState(false);
@@ -69,13 +69,14 @@ const Tracks: React.FC = () => {
         </IonHeader>
         <IonContent fullscreen={true}>
           <IonGrid>
-            {/* <IonReorderGroup disabled={true} onIonItemReorder={handleReorder}> */}
+            {/* <IonReorderGroup disabled={false} onIonItemReorder={handleReorder}> */}
             {tracks.map((item) => (
               <div key={item.id}>
                 {/* <IonReorder> */}
                 <IonRow>
                   <IonCol size="2">
                     <IonCheckbox
+                      style={{ position: "absolute", right: 0, zIndex: "999" }}
                       className="tracks__check_box"
                       checked={selectedCategories.includes(item.category)}
                       onIonChange={() => setSelectedCategories(item.category)}

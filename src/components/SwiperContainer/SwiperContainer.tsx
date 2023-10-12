@@ -40,7 +40,7 @@ const ImageContainer: React.FC = () => {
     setPlayStatus((prev) => !prev);
     setPlayMode((prev) => (prev === "play" ? "pause" : "play"));
   };
-  const { selectedCategories, count, allExercises, selectedExercises } = useCombineStates();
+  const { selectedTracks: selectedCategories, count, allExercises, selectedExercises } = useCombineStates();
   const slicedExercises = allExercises.slice(0, count);
 
   console.log(count);

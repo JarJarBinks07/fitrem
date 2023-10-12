@@ -23,9 +23,10 @@ export type StateTrackWithExercise = {
   setTracks: (value: ITrack[]) => void;
   setExercises: (value: IExercise[]) => void;
   setCheckedExercises: (value: number) => void;
+  generateUserTraining: () => void;
 };
 
-export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set: any) => ({
+export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) => ({
   tracks: [],
   setTracks: (value) => set({ tracks: value }, false, "setTracks"),
 
@@ -46,13 +47,13 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set: a
   ],
   setCheckedExercises: (value: number) =>
     set(
-      (state: StateTrackWithExercise) => {
+      (state) => {
         let newExercises = [...state.selectedExercises];
         if (state.selectedExercises.find((e) => e.id === value)) {
           if (state.selectedExercises.length > 1) {
             newExercises = state.selectedExercises.filter((e) => e.id != value);
           } else {
-            return;
+            return state;
           }
         } else {
           newExercises.push(...state.allExercises.filter((e) => e.id === value));
@@ -62,4 +63,11 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set: a
       false,
       "setCheckedExercises"
     ),
+
+  generateUserTraining: () =>
+    set((state) => {
+      const activeTracks = state.selectedTracks;
+      const filteredExercises = state.selectedExercises.filter((e) => activeTracks.includes(e.category));
+      return state;
+    }),
 });

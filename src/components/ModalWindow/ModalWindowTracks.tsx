@@ -86,7 +86,7 @@ function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
                   aria-label="Warning toggle"
                   color="warning"
                   style={{ marginTop: "5vh" }}
-                  checked={selectedExercises.find((e) => e.id === item.id) !== undefined}
+                  checked={!!selectedExercises.find((e) => e.id === item.id)}
                   onIonChange={() => setCheckedExercises(item.id)}
                 ></IonToggle>
               </IonCol>

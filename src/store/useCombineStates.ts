@@ -4,10 +4,10 @@ import { createTestState, ITest } from "./TestState";
 import { createTimerState, ITimer } from "./TimerState";
 import { CustomSqliteStorage } from "./CustomSqliteStorage";
 import { IRoot, createRootState } from "./RootState";
-import { ICheckBox, createCheckBoxState } from "./CheckBoxState";
+import { IActiveTrack, createActiveTrackState } from "./ActiveTrackState";
 import { StateTrackWithExercise, createTracksState } from "./TracksState";
 
-export type CombineState = IRoot & ITimer & ICheckBox & StateTrackWithExercise;
+export type CombineState = IRoot & ITimer & IActiveTrack & StateTrackWithExercise;
 
 export type MyStateCreator<T> = StateCreator<
   CombineState,
@@ -26,7 +26,7 @@ export const useCombineStates = create<CombineState>()(
       (...a) => ({
         ...createRootState(...a),
         ...createTimerState(...a),
-        ...createCheckBoxState(...a),
+        ...createActiveTrackState(...a),
         ...createTracksState(...a),
       }),
       {
