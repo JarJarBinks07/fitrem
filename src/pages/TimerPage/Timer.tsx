@@ -62,7 +62,7 @@ const TimerPage: React.FC = () => {
   //   return Buffer.from(response.data).toString("base64");
   // };
 
-  const [statusImg, setStatusImg] = useState(false);
+  const [status, setStatus] = useState(true);
   const {
     timerInterval,
     timerStatus,
@@ -112,7 +112,7 @@ const TimerPage: React.FC = () => {
         </IonHeader>
 
         <IonContent>
-          {!statusImg ? (
+          {!status ? (
             <IonGrid>
               <IonRow>
                 <IonCol>

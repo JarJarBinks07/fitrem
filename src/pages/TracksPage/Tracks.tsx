@@ -28,33 +28,16 @@ import { useCombineStates } from "../../store/useCombineStates";
 import "./Tracks.css";
 
 const Tracks: React.FC = () => {
-  const { setSelectedCategories, selectedCategories } = useCombineStates();
+  const { setSelectedCategories, selectedCategories, tracks } = useCombineStates();
 
+  //////////////ModalWindow/////////////
   const [isOpen, setIsOpen] = useState(false);
   const [currentCategory, setCurrentCategory] = useState("");
-
   const handlerCategory = (value: string) => {
     setIsOpen(true);
     setCurrentCategory(value);
   };
-
-  const trackCategory = [
-    {
-      id: 0,
-      category: "Biceps",
-      img_path: "/assets/icons/bicep_image.png",
-    },
-    {
-      id: 1,
-      category: "Jumps",
-      img_path: "/assets/icons/jump_image.png",
-    },
-    {
-      id: 2,
-      category: "Steps",
-      img_path: "/assets/icons/step_image.png",
-    },
-  ];
+  console.log(isOpen);
 
   ///////////Reorder///////////
   function handleReorder(event: CustomEvent<ItemReorderEventDetail>) {
@@ -87,7 +70,7 @@ const Tracks: React.FC = () => {
         <IonContent fullscreen={true}>
           <IonGrid>
             {/* <IonReorderGroup disabled={true} onIonItemReorder={handleReorder}> */}
-            {trackCategory.map((item) => (
+            {tracks.map((item) => (
               <div key={item.id}>
                 {/* <IonReorder> */}
                 <IonRow>
@@ -108,12 +91,12 @@ const Tracks: React.FC = () => {
                   </IonCol>
                 </IonRow>
                 {/* </IonReorder> */}
-                <ModalWindowTracks isOpen={isOpen} setIsOpen={setIsOpen} category={currentCategory} />
               </div>
             ))}
             {/* </IonReorderGroup> */}
           </IonGrid>
         </IonContent>
+        <ModalWindowTracks isOpen={isOpen} setIsOpen={setIsOpen} category={currentCategory} />
       </IonPage>
     </>
   );

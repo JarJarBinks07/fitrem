@@ -40,51 +40,45 @@ const ImageContainer: React.FC = () => {
     setPlayStatus((prev) => !prev);
     setPlayMode((prev) => (prev === "play" ? "pause" : "play"));
   };
+  const { selectedCategories, count, exercises } = useCombineStates();
 
-  useEffect(() => {
-    getVideoData();
-  }, []);
-  const { selectedCategories, count } = useCombineStates();
-  const [videoData, setVideoData] = useState<IVideo[]>([]);
-
-  const arrIncludesCurrentCategory = videoData?.filter((e) => selectedCategories.includes(e.category));
+  // const arrIncludesCurrentCategory = exercises?.filter((e) => selectedCategories.includes(e.category));
   ////////////////FilterforExerciseses Option#1////////////////////////////////
 
-  const groupedData: any = {};
-  arrIncludesCurrentCategory.forEach((item) => {
-    if (!groupedData[item.category]) {
-      groupedData[item.category] = [];
-    }
-    groupedData[item.category].push(item);
-  });
+  // const groupedData: any = {};
+  // arrIncludesCurrentCategory.forEach((item) => {
+  //   if (!groupedData[item.category]) {
+  //     groupedData[item.category] = [];
+  //   }
+  //   groupedData[item.category].push(item);
+  // });
 
-  // Функція для чергування елементів з різних категорій
-  const interleaveCategories = (groupedData: IVideo[]) => {
-    const result = [];
-    let maxGroupLength = 0;
+  // // Функція для чергування елементів з різних категорій
+  // const interleaveCategories = (groupedData: IVideo[]) => {
+  //   const result = [];
+  //   let maxGroupLength = 0;
 
-    // Знаходимо найбільшу кількість елементів в одній з груп
-    Object.values(groupedData).forEach((group) => {
-      if (group.length > maxGroupLength) {
-        maxGroupLength = group.length;
-      }
-    });
+  //   // Знаходимо найбільшу кількість елементів в одній з груп
+  //   Object.values(groupedData).forEach((group) => {
+  //     if (group.length > maxGroupLength) {
+  //       maxGroupLength = group.length;
+  //     }
+  //   });
 
-    // Додаємо по одному елементу з кожної групи в результат
-    for (let i = 0; i < maxGroupLength; i++) {
-      Object.values(groupedData).forEach((group) => {
-        if (i < group.length) {
-          result.push(group[i]);
-        }
-      });
-    }
+  // Додаємо по одному елементу з кожної групи в результат
+  //   for (let i = 0; i < maxGroupLength; i++) {
+  //     Object.values(groupedData).forEach((group) => {
+  //       if (i < group.length) {
+  //         result.push(group[i]);
+  //       }
+  //     });
+  //   }
 
-    return result;
-  };
+  //   return result;
+  // };
 
-  const interleavedData = interleaveCategories(groupedData);
-  // const newinterleavedData = interleavedData;
-  const newinterleavedData = interleavedData.slice(0, count);
+  // const interleavedData = interleaveCategories(groupedData);
+  // const newinterleavedData = interleavedData.slice(0, count);
 
   // console.log(interleavedData);
 
@@ -114,97 +108,79 @@ const ImageContainer: React.FC = () => {
   // }
   // console.log("Count: ", count, "Data: ", interleavedData);
 
-  ////////////////////////////////////////////////
-  const getVideoData = async () => {
-    try {
-      const data = await new Promise<IVideo[]>((resolve) => {
-        resolve(exercisesData);
-      });
-      setVideoData(data);
-    } catch (error) {
-      console.log("Error with receiving VideoData: ", error);
-    }
-  };
-
   return (
-    <>
-      <div className="swiper">
-        {newinterleavedData.length ? (
-          <>
-            {newinterleavedData.map((item, index) =>
-              getTrackIndex === index ? (
-                <div key={item.id}>
-                  <p className="track__exercises">{item.category}</p>
-                  <div className="ion-text-uppercase">
-                    <p className="track__category">Track: {item.exercise}</p>
-                  </div>
+    <div className="swiper">
+      {exercises.length ? (
+        <>
+          {exercises.map((item, index) =>
+            getTrackIndex === index ? (
+              <div key={item.id}>
+                <p className="track__exercises">{item.category}</p>
+                <div className="ion-text-uppercase">
+                  <p className="track__category">Track: {item.exercise}</p>
                 </div>
-              ) : (
-                []
-              )
-            )}
-            <Swiper
-              modules={[Pagination, Navigation, EffectFade]}
-              slidesPerView={1}
-              loop={true}
-              pagination={{
-                clickable: true,
-                type: "fraction",
-              }}
-              simulateTouch={false}
-              touchRatio={0}
-              speed={800}
-              // effect="fade"
-              // navigation={true}
-              className="mySwiper"
-              // onSwiper={(swiper) => console.log(swiper.realIndex)}
-              // onBeforeTransitionStart={(swiper) => console.log(swiper.realIndex)}
-              onRealIndexChange={(swiper) => setGetTrackIndex(swiper.realIndex)}
-              // onSlideChange={(swiper) => console.log(swiper.realIndex)}
-            >
-              {newinterleavedData.map((item, index) => (
-                <SwiperSlide key={item.id}>
-                  <VideoPlayer play={getTrackIndex === index ? playStatus : false} path={item.video_path} />
-                </SwiperSlide>
-              ))}
-              <SwiperButtons />
+              </div>
+            ) : (
+              []
+            )
+          )}
+          <Swiper
+            modules={[Pagination, Navigation, EffectFade]}
+            slidesPerView={1}
+            loop={true}
+            pagination={{
+              clickable: true,
+              type: "fraction",
+            }}
+            simulateTouch={false}
+            touchRatio={0}
+            speed={800}
+            className="mySwiper"
+            // onSwiper={(swiper) => console.log(swiper.realIndex)}
+            // onBeforeTransitionStart={(swiper) => console.log(swiper.realIndex)}
+            onRealIndexChange={(swiper) => setGetTrackIndex(swiper.realIndex)}
+            // onSlideChange={(swiper) => console.log(swiper.realIndex)}
+          >
+            {exercises.map((item, index) => (
+              <SwiperSlide key={item.id}>
+                <VideoPlayer play={getTrackIndex === index ? playStatus : false} path={item.video_path} />
+              </SwiperSlide>
+            ))}
+            <SwiperButtons />
 
-              {/* {platform === "web" ? <SwiperButtons /> : null} */}
-            </Swiper>
-          </>
-        ) : (
-          <IonItem>{/* <IonSpinner name="bubbles"></IonSpinner> */}</IonItem>
-        )}
+            {/* {platform === "web" ? <SwiperButtons /> : null} */}
+          </Swiper>
+        </>
+      ) : (
+        <IonItem>{/* <IonSpinner name="bubbles"></IonSpinner> */}</IonItem>
+      )}
 
-        <IonGrid>
-          <IonRow>
-            <IonCol>
-              <IonButton expand="full" onClick={changeStatus}>
-                <div className="ion-text-uppercase">{playMode}</div>
-              </IonButton>
-            </IonCol>
-            <IonCol>
-              <IonButton expand="full" onClick={() => setIsOpen(true)}>
-                <div className="ion-text-uppercase">Explain</div>
-              </IonButton>
-            </IonCol>
-            <IonCol>
-              <IonButton disabled={true} expand="full">
-                <div className="ion-text-uppercase">Done</div>
-              </IonButton>
-            </IonCol>
-          </IonRow>
-        </IonGrid>
-        {newinterleavedData.length ? (
-          <ModalWindow
-            isOpen={isOpen}
-            setIsOpen={setIsOpen}
-            path={newinterleavedData[getTrackIndex].video_path}
-            description={newinterleavedData[getTrackIndex].description}
-          />
-        ) : null}
-      </div>
-    </>
+      <IonGrid>
+        <IonRow>
+          <IonCol>
+            <IonButton expand="full" onClick={changeStatus}>
+              <div className="ion-text-uppercase">{playMode}</div>
+            </IonButton>
+          </IonCol>
+          <IonCol>
+            <IonButton expand="full" onClick={() => setIsOpen(true)}>
+              <div className="ion-text-uppercase">Explain</div>
+            </IonButton>
+          </IonCol>
+          <IonCol>
+            <IonButton disabled={true} expand="full">
+              <div className="ion-text-uppercase">Done</div>
+            </IonButton>
+          </IonCol>
+        </IonRow>
+      </IonGrid>
+      <ModalWindow
+        isOpen={isOpen}
+        setIsOpen={setIsOpen}
+        path={exercises[getTrackIndex].video_path}
+        description={exercises[getTrackIndex].description}
+      />
+    </div>
   );
 };
 

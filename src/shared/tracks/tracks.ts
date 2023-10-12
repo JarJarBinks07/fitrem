@@ -1,3 +1,21 @@
+export const tracksData = [
+  {
+    id: 0,
+    category: "Biceps",
+    img_path: "/assets/icons/bicep_image.png",
+  },
+  {
+    id: 1,
+    category: "Jumps",
+    img_path: "/assets/icons/jump_image.png",
+  },
+  {
+    id: 2,
+    category: "Steps",
+    img_path: "/assets/icons/step_image.png",
+  },
+];
+
 export const exercisesData = [
   {
     id: 1,

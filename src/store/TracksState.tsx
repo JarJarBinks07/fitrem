@@ -1,8 +1,12 @@
 import { MyStateCreator } from "./useCombineStates";
 
-// export typetracksData = [
+export interface ITrack {
+  id: number;
+  category: string;
+  img_path: string;
+}
 
-export type Exercise = {
+export interface IExercise {
   id: number;
   video_path: string;
   image_path: string;
@@ -10,14 +14,19 @@ export type Exercise = {
   exercise: string;
   tools: boolean;
   description: string;
+}
+
+export type StateTrackWithExercise = {
+  tracks: ITrack[];
+  exercises: IExercise[];
+  setTracks: (value: ITrack[]) => void;
+  setExercises: (value: IExercise[]) => void;
 };
 
-export type StateExercise = {
-  exercises: Exercise[];
-  setExercises: (value: Exercise[]) => void;
-};
+export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set: any) => ({
+  tracks: [],
+  setTracks: (value) => set({ tracks: value }, false, "setTracks"),
 
-export const createTracksState: MyStateCreator<StateExercise> = (set: any) => ({
   exercises: [],
   setExercises: (value) => set(() => ({ exercises: value }), false, "setExercises"),
 });

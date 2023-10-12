@@ -39,25 +39,27 @@ import { useCombineStates } from "./store/useCombineStates";
 import { home, timer, settings, optionsOutline } from "ionicons/icons";
 import Tracks from "./pages/TracksPage/Tracks";
 import { useEffect } from "react";
-import { Exercise } from "./store/TracksState";
-import { exercisesData } from "./shared/tracks/tracks";
+import { IExercise, ITrack } from "./store/TracksState";
+import { exercisesData, tracksData } from "./shared/tracks/tracks";
 import { saveTrackResources } from "./settings/capacitor.storage";
 
 setupIonicReact();
 
 const App: React.FC = () => {
-  const { setExercises } = useCombineStates();
+  const { setExercises, setTracks } = useCombineStates();
 
   const getData = async () => {
-    const response: Exercise[] = exercisesData;
+    const responseWithTracks: ITrack[] = tracksData;
+    const responseWithExercises: IExercise[] = exercisesData;
     await Promise.all(
-      response.map(async (e) => {
+      responseWithExercises.map(async (e) => {
         const imageName = e.image_path.split("/").pop() as string;
         const videoName = e.video_path.split("/").pop() as string;
         await Promise.all([saveTrackResources(e.image_path, imageName), saveTrackResources(e.video_path, videoName)]);
       })
     );
-    setExercises(response);
+    setTracks(responseWithTracks);
+    setExercises(responseWithExercises);
   };
 
   useEffect(() => {

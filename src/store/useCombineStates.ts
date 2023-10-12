@@ -5,9 +5,9 @@ import { createTimerState, ITimer } from "./TimerState";
 import { CustomSqliteStorage } from "./CustomSqliteStorage";
 import { IRoot, createRootState } from "./RootState";
 import { ICheckBox, createCheckBoxState } from "./CheckBoxState";
-import { StateExercise, createTracksState } from "./TracksState";
+import { StateTrackWithExercise, createTracksState } from "./TracksState";
 
-export type CombineState = IRoot & ITimer & ICheckBox & StateExercise;
+export type CombineState = IRoot & ITimer & ICheckBox & StateTrackWithExercise;
 
 export type MyStateCreator<T> = StateCreator<
   CombineState,

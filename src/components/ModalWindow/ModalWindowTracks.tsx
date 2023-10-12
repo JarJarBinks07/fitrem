@@ -14,7 +14,6 @@ import {
   IonRow,
   IonThumbnail,
 } from "@ionic/react";
-import VideoPlayerReact from "../PlayerReact/VideoPlayer";
 
 import "./ModalWindowTracks.css";
 import { exercisesData } from "../../shared/tracks/tracks";
@@ -39,36 +38,17 @@ interface IVideo {
 }
 
 function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
-  // const { exercises } = useCombineStates();
-  // console.log("*****", exercises);
+  const { exercises } = useCombineStates();
 
   const [openNewWindow, setOpenNewWindow] = useState(false);
-  const [videoData, setVideoData] = useState<IVideo[]>([]);
   const [exerciseID, setExerciseID] = useState<number | null>(null);
 
   const handlerExercise = (id: number | null) => {
     setExerciseID(id);
     setOpenNewWindow(true);
   };
-
-  useEffect(() => {
-    getVideoData();
-  }, []);
-
-  const getVideoData = async () => {
-    try {
-      const data = await new Promise<IVideo[]>((resolve) => {
-        resolve(exercisesData);
-      });
-      setVideoData(data);
-    } catch (error) {
-      console.log("Error with receiving VideoData: ", error);
-    }
-  };
-
-  const filteredData = videoData.filter((item) => item.category.toLowerCase() === category.toLowerCase());
-
-  const currentExercise = filteredData.filter((item) => item.id === exerciseID);
+  const filteredData = exercises?.filter((item) => item.category.toLowerCase() === category.toLowerCase());
+  const [currentExercise] = filteredData.filter((item) => item.id === exerciseID);
 
   // console.log(currentExercise);
 
@@ -104,14 +84,12 @@ function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
           ))}
         </IonGrid>
       </IonContent>
-      {currentExercise?.map((item) => (
-        <ModalWindow
-          isOpen={openNewWindow}
-          setIsOpen={setOpenNewWindow}
-          description={item.description}
-          path={item.video_path}
-        />
-      ))}
+      <ModalWindow
+        isOpen={openNewWindow}
+        setIsOpen={setOpenNewWindow}
+        description={currentExercise?.description}
+        path={currentExercise?.video_path}
+      />
     </IonModal>
   );
 }
