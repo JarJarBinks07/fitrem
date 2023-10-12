@@ -7,7 +7,7 @@ import { Capacitor } from "@capacitor/core";
 import SwiperButtons from "./SwiperButtons";
 import ModalWindow from "../ModalWindow/ModalWindow";
 import VideoPlayer from "../PlayerReact/VideoPlayer";
-import { dataTracks } from "../../shared/tracks/tracks";
+import { exercisesData } from "../../shared/tracks/tracks";
 import { useCombineStates } from "../../store/useCombineStates";
 
 import "swiper/css";
@@ -118,7 +118,7 @@ const ImageContainer: React.FC = () => {
   const getVideoData = async () => {
     try {
       const data = await new Promise<IVideo[]>((resolve) => {
-        resolve(dataTracks);
+        resolve(exercisesData);
       });
       setVideoData(data);
     } catch (error) {

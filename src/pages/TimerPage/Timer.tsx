@@ -107,7 +107,7 @@ const TimerPage: React.FC = () => {
                 </IonButton>
               </IonMenuToggle>
             </IonButtons>
-            <IonTitle>Tracks</IonTitle>
+            <IonTitle>Timer</IonTitle>
           </IonToolbar>
         </IonHeader>
 

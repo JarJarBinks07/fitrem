@@ -17,7 +17,7 @@ import {
 import VideoPlayerReact from "../PlayerReact/VideoPlayer";
 
 import "./ModalWindowTracks.css";
-import { dataTracks } from "../../shared/tracks/tracks";
+import { exercisesData } from "../../shared/tracks/tracks";
 import ModalWindow from "./ModalWindow";
 import { useCombineStates } from "../../store/useCombineStates";
 import CashedImage from "../CachedImage/CachedImage";
@@ -39,8 +39,8 @@ interface IVideo {
 }
 
 function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
-  const { exercises } = useCombineStates();
-  console.log("*****", exercises);
+  // const { exercises } = useCombineStates();
+  // console.log("*****", exercises);
 
   const [openNewWindow, setOpenNewWindow] = useState(false);
   const [videoData, setVideoData] = useState<IVideo[]>([]);
@@ -51,22 +51,22 @@ function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
     setOpenNewWindow(true);
   };
 
-  // useEffect(() => {
-  //   getVideoData();
-  // }, []);
+  useEffect(() => {
+    getVideoData();
+  }, []);
 
-  // const getVideoData = async () => {
-  //   try {
-  //     const data = await new Promise<IVideo[]>((resolve) => {
-  //       resolve(dataTracks);
-  //     });
-  //     setVideoData(data);
-  //   } catch (error) {
-  //     console.log("Error with receiving VideoData: ", error);
-  //   }
-  // };
+  const getVideoData = async () => {
+    try {
+      const data = await new Promise<IVideo[]>((resolve) => {
+        resolve(exercisesData);
+      });
+      setVideoData(data);
+    } catch (error) {
+      console.log("Error with receiving VideoData: ", error);
+    }
+  };
 
-  const filteredData = exercises.filter((item) => item.category.toLowerCase() === category.toLowerCase());
+  const filteredData = videoData.filter((item) => item.category.toLowerCase() === category.toLowerCase());
 
   const currentExercise = filteredData.filter((item) => item.id === exerciseID);
 

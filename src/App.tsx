@@ -40,7 +40,7 @@ import { home, timer, settings, optionsOutline } from "ionicons/icons";
 import Tracks from "./pages/TracksPage/Tracks";
 import { useEffect } from "react";
 import { Exercise } from "./store/TracksState";
-import { dataTracks } from "./shared/tracks/tracks";
+import { exercisesData } from "./shared/tracks/tracks";
 import { saveTrackResources } from "./settings/capacitor.storage";
 
 setupIonicReact();
@@ -49,8 +49,8 @@ const App: React.FC = () => {
   const { setExercises } = useCombineStates();
 
   const getData = async () => {
-    const response: Exercise[] = dataTracks;
-    const modifiedExercises = await Promise.all(
+    const response: Exercise[] = exercisesData;
+    await Promise.all(
       response.map(async (e) => {
         const imageName = e.image_path.split("/").pop() as string;
         const videoName = e.video_path.split("/").pop() as string;
@@ -59,6 +59,7 @@ const App: React.FC = () => {
     );
     setExercises(response);
   };
+
   useEffect(() => {
     getData();
   }, []);

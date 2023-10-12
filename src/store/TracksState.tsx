@@ -1,5 +1,7 @@
 import { MyStateCreator } from "./useCombineStates";
 
+// export typetracksData = [
+
 export type Exercise = {
   id: number;
   video_path: string;

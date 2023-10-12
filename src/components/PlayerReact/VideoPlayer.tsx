@@ -9,21 +9,28 @@ interface IProps {
 }
 
 const VideoPlayerReact: React.FC<IProps> = ({ play, path }) => {
-  const [test, setTest] = useState(true);
+  /////////////Fix problem with android launching///////////////
+  const [loading, setLoading] = useState(true);
 
   const video = useCachedResource(path, "video");
 
+  // const checkVideoDestination = video.split("/").includes("https");
+  // console.log(checkVideoDestination);
+  // console.log(video);
+
   return (
     <ReactPlayer
-      onReady={() => setTest(false)}
+      onReady={() => setLoading(false)}
       width={"100%"}
       height={"100%"}
       light={false}
-      playing={test || play}
+      playing={loading || play}
       playsinline={true}
       controls={false}
       loop={true}
+      // url={checkVideoDestination ? [{ src: video }] : video}
       url={video}
+
       //   className="react-player"
     />
   );
