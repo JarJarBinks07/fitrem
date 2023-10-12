@@ -57,7 +57,7 @@ export class SqlConnectionService {
   static async initSqlJs() {
     try {
       const res = await initSqlite({
-        locateFile: (file: string) => `/static/assets/sql.js/${file}`,
+        locateFile: (file: string) => `/assets/sql.js/${file}`,
       });
       (window as any).SQL = res;
     } catch (error) {
