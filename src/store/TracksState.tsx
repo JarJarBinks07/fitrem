@@ -19,7 +19,7 @@ export interface IExercise {
 export type StateTrackWithExercise = {
   tracks: ITrack[];
   allExercises: IExercise[];
-  checkedExercises: IExercise[];
+  selectedExercises: IExercise[];
   setTracks: (value: ITrack[]) => void;
   setExercises: (value: IExercise[]) => void;
   setCheckedExercises: (value: number) => void;
@@ -32,17 +32,32 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set: a
   allExercises: [],
   setExercises: (value) => set(() => ({ allExercises: value }), false, "setExercises"),
 
-  checkedExercises: [],
+  selectedExercises: [
+    {
+      id: 1,
+      video_path: "/assets/tracks/bicep/Bicep_01.mp4",
+      image_path: "/assets/tracks/bicep/Bicep_01.jpg",
+      category: "Biceps",
+      exercise: "upper body #1",
+      tools: true,
+      description:
+        "1_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+    },
+  ],
   setCheckedExercises: (value: number) =>
     set(
       (state: StateTrackWithExercise) => {
-        let newExercises = [...state.checkedExercises];
-        if (state.checkedExercises.find((e) => e.id === value)) {
-          newExercises = state.checkedExercises.filter((e) => e.id != value);
+        let newExercises = [...state.selectedExercises];
+        if (state.selectedExercises.find((e) => e.id === value)) {
+          if (state.selectedExercises.length > 1) {
+            newExercises = state.selectedExercises.filter((e) => e.id != value);
+          } else {
+            return;
+          }
         } else {
           newExercises.push(...state.allExercises.filter((e) => e.id === value));
         }
-        return { checkedExercises: newExercises };
+        return { selectedExercises: newExercises };
       },
       false,
       "setCheckedExercises"

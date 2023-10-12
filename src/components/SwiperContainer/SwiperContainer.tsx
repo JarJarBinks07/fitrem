@@ -40,7 +40,7 @@ const ImageContainer: React.FC = () => {
     setPlayStatus((prev) => !prev);
     setPlayMode((prev) => (prev === "play" ? "pause" : "play"));
   };
-  const { selectedCategories, count, allExercises } = useCombineStates();
+  const { selectedCategories, count, allExercises, selectedExercises } = useCombineStates();
   const slicedExercises = allExercises.slice(0, count);
 
   console.log(count);
@@ -113,9 +113,9 @@ const ImageContainer: React.FC = () => {
 
   return (
     <div className="swiper">
-      {allExercises.length ? (
+      {selectedExercises.length ? (
         <>
-          {allExercises.map((item, index) =>
+          {selectedExercises.map((item, index) =>
             getTrackIndex === index ? (
               <div key={item.id}>
                 <p className="track__exercises">{item.category}</p>
@@ -144,7 +144,7 @@ const ImageContainer: React.FC = () => {
             onRealIndexChange={(swiper) => setGetTrackIndex(swiper.realIndex)}
             // onSlideChange={(swiper) => console.log(swiper.realIndex)}
           >
-            {allExercises.map((item, index) => (
+            {selectedExercises.map((item, index) => (
               <SwiperSlide key={item.id}>
                 <VideoPlayer play={getTrackIndex === index ? playStatus : false} path={item.video_path} />
               </SwiperSlide>
@@ -180,8 +180,8 @@ const ImageContainer: React.FC = () => {
       <ModalWindow
         isOpen={isOpen}
         setIsOpen={setIsOpen}
-        path={slicedExercises[getTrackIndex].video_path}
-        description={slicedExercises[getTrackIndex].description}
+        path={selectedExercises[getTrackIndex].video_path}
+        description={selectedExercises[getTrackIndex].description}
       />
     </div>
   );
