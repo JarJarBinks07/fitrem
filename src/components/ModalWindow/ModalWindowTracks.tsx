@@ -13,6 +13,7 @@ import {
   IonGrid,
   IonRow,
   IonThumbnail,
+  IonToggle,
 } from "@ionic/react";
 
 import "./ModalWindowTracks.css";
@@ -38,7 +39,7 @@ interface IVideo {
 }
 
 function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
-  const { exercises } = useCombineStates();
+  const { allExercises, checkedExercises, setCheckedExercises } = useCombineStates();
 
   const [openNewWindow, setOpenNewWindow] = useState(false);
   const [exerciseID, setExerciseID] = useState<number | null>(null);
@@ -47,7 +48,7 @@ function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
     setExerciseID(id);
     setOpenNewWindow(true);
   };
-  const filteredData = exercises?.filter((item) => item.category.toLowerCase() === category.toLowerCase());
+  const filteredData = allExercises?.filter((item) => item.category.toLowerCase() === category.toLowerCase());
   const [currentExercise] = filteredData.filter((item) => item.id === exerciseID);
 
   // console.log(currentExercise);
@@ -65,12 +66,12 @@ function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
       <IonContent className="ion-padding">
         <IonGrid>
           {filteredData?.map((item) => (
-            <IonRow>
-              <IonCol>
+            <IonRow key={item.id}>
+              <IonCol size="10">
                 <IonItem className="track__item" onClick={() => handlerExercise(item.id)}>
                   <IonGrid>
                     <IonRow>
-                      <IonCol size="5">
+                      <IonCol sizeSm="">
                         <CashedImage path={item.image_path} />
                       </IonCol>
                       <IonCol>
@@ -79,6 +80,15 @@ function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
                     </IonRow>
                   </IonGrid>
                 </IonItem>
+              </IonCol>
+              <IonCol>
+                <IonToggle
+                  aria-label="Warning toggle"
+                  color="warning"
+                  style={{ marginTop: "5vh" }}
+                  checked={checkedExercises.find((e) => e.id === item.id) !== undefined}
+                  onIonChange={() => setCheckedExercises(item.id)}
+                ></IonToggle>
               </IonCol>
             </IonRow>
           ))}

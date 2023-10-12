@@ -18,15 +18,33 @@ export interface IExercise {
 
 export type StateTrackWithExercise = {
   tracks: ITrack[];
-  exercises: IExercise[];
+  allExercises: IExercise[];
+  checkedExercises: IExercise[];
   setTracks: (value: ITrack[]) => void;
   setExercises: (value: IExercise[]) => void;
+  setCheckedExercises: (value: number) => void;
 };
 
 export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set: any) => ({
   tracks: [],
   setTracks: (value) => set({ tracks: value }, false, "setTracks"),
 
-  exercises: [],
-  setExercises: (value) => set(() => ({ exercises: value }), false, "setExercises"),
+  allExercises: [],
+  setExercises: (value) => set(() => ({ allExercises: value }), false, "setExercises"),
+
+  checkedExercises: [],
+  setCheckedExercises: (value: number) =>
+    set(
+      (state: StateTrackWithExercise) => {
+        let newExercises = [...state.checkedExercises];
+        if (state.checkedExercises.find((e) => e.id === value)) {
+          newExercises = state.checkedExercises.filter((e) => e.id != value);
+        } else {
+          newExercises.push(...state.allExercises.filter((e) => e.id === value));
+        }
+        return { checkedExercises: newExercises };
+      },
+      false,
+      "setCheckedExercises"
+    ),
 });
