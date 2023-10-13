@@ -70,6 +70,8 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
   userTraining: [],
   generateUserTraining: () =>
     set((state) => {
+      /////Getting active exercises/////
+      console.log("********START");
       const activeTracks = state.selectedTracks;
       const activeExercises = [];
       for (const key of state.selectedExercisesID) {
@@ -78,9 +80,17 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
           activeExercises.push(...currentActiveExercise);
         }
       }
-      console.log(activeTracks);
-
-      const filteredExercises = activeExercises.filter((e) => activeTracks.includes(e.category));
+      /////Shuffle activeTracks/////
+      const newArrOfActiveExercises = [...activeExercises];
+      for (let i = newArrOfActiveExercises.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [newArrOfActiveExercises[i], newArrOfActiveExercises[j]] = [
+          newArrOfActiveExercises[j],
+          newArrOfActiveExercises[i],
+        ];
+      }
+      /////Sorting one by one/////
+      const filteredExercises = newArrOfActiveExercises.filter((e) => activeTracks.includes(e.category));
       const groupedByCategory = _.groupBy(filteredExercises, "category");
       console.log(groupedByCategory);
       const result = [];
@@ -100,7 +110,7 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
           }
         }
       }
-
+      console.log("********FINISH");
       return { userTraining: result };
     }),
 });
