@@ -27,12 +27,16 @@ interface IVideo {
 }
 
 const ImageContainer: React.FC = () => {
+  const { userTraining, generateUserTraining } = useCombineStates();
+
+  /////use platform if we want to disabled buttons in Swiper for device/////
   const platform = Capacitor.getPlatform();
+
+  //////ModalRender: value should be 0 when Swiper init/////
+  const [swiperTrackIndex, setSwiperTrackIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
 
-  ///////ModalRender////////////
-  const [trackIndex, setTrackIndex] = useState(0);
-  /////////////////////////////////
+  /////Video player/////
   const [playStatus, setPlayStatus] = useState(false);
   const [playMode, setPlayMode] = useState("play");
 
@@ -40,13 +44,8 @@ const ImageContainer: React.FC = () => {
     setPlayStatus((prev) => !prev);
     setPlayMode((prev) => (prev === "play" ? "pause" : "play"));
   };
-  const {
-    selectedTracks: selectedCategories,
-    userTraining,
-    allExercises,
-    selectedExercises,
-    generateUserTraining,
-  } = useCombineStates();
+
+  /////If one field checkbox and one track chosen we use useEffect (at least one must be chosen always). Init level/////
   useEffect(() => {
     if (!userTraining.length) {
       generateUserTraining();
@@ -57,16 +56,14 @@ const ImageContainer: React.FC = () => {
       {userTraining.length ? (
         <>
           {userTraining.map((item, index) =>
-            trackIndex === index ? (
+            swiperTrackIndex === index ? (
               <div key={item.id}>
                 <p className="track__exercises">{item.category}</p>
                 <div className="ion-text-uppercase">
                   <p className="track__category">Track: {item.exercise}</p>
                 </div>
               </div>
-            ) : (
-              []
-            )
+            ) : null
           )}
           <Swiper
             modules={[Pagination, Navigation, EffectFade]}
@@ -80,12 +77,16 @@ const ImageContainer: React.FC = () => {
             touchRatio={0}
             speed={800}
             className="mySwiper"
-            onRealIndexChange={(swiper) => setTrackIndex(swiper.realIndex)}
-            // onSlideChange={(swiper) => console.log(swiper.realIndex)}
+            // onInit={(swiper) => {
+            //   setSwiperTrackIndex(swiper.realIndex);
+            // }}
+            onRealIndexChange={(swiper) => {
+              setSwiperTrackIndex(swiper.realIndex);
+            }}
           >
             {userTraining.map((item, index) => (
               <SwiperSlide key={item.id}>
-                <VideoPlayer play={trackIndex === index ? playStatus : false} path={item.video_path} />
+                <VideoPlayer play={swiperTrackIndex === index ? playStatus : false} path={item.video_path} />
               </SwiperSlide>
             ))}
             <SwiperButtons />
@@ -93,9 +94,7 @@ const ImageContainer: React.FC = () => {
             {/* {platform === "web" ? <SwiperButtons /> : null} */}
           </Swiper>
         </>
-      ) : (
-        <IonItem>{/* <IonSpinner name="bubbles"></IonSpinner> */}</IonItem>
-      )}
+      ) : null}
 
       <IonGrid>
         <IonRow>
@@ -116,12 +115,12 @@ const ImageContainer: React.FC = () => {
           </IonCol>
         </IonRow>
       </IonGrid>
-      {trackIndex ? (
+      {userTraining[swiperTrackIndex] ? (
         <ModalWindow
           isOpen={isOpen}
           setIsOpen={setIsOpen}
-          path={userTraining[trackIndex].video_path}
-          description={userTraining[trackIndex].description}
+          path={userTraining[swiperTrackIndex].video_path}
+          description={userTraining[swiperTrackIndex].description}
         />
       ) : null}
     </div>

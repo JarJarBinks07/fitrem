@@ -20,11 +20,11 @@ export interface IExercise {
 export type StateTrackWithExercise = {
   tracks: ITrack[];
   allExercises: IExercise[];
-  selectedExercises: IExercise[];
+  selectedExercisesID: number[];
   userTraining: IExercise[];
   setTracks: (value: ITrack[]) => void;
   setExercises: (value: IExercise[]) => void;
-  setCheckedExercises: (value: number) => void;
+  setSelectedExercisesID: (value: number) => void;
   generateUserTraining: () => void;
 };
 
@@ -35,33 +35,34 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
   allExercises: [],
   setExercises: (value) => set(() => ({ allExercises: value }), false, "setExercises"),
 
-  selectedExercises: [
-    {
-      id: 1,
-      video_path: "/assets/tracks/bicep/Bicep_01.mp4",
-      image_path: "/assets/tracks/bicep/Bicep_01.jpg",
-      category: "Biceps",
-      exercise: "upper body #1",
-      tools: true,
-      description:
-        "1_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
-    },
-  ],
-  setCheckedExercises: (value: number) =>
+  selectedExercisesID: [1],
+  setSelectedExercisesID: (value) =>
     set(
       (state) => {
-        let newExercises = [...state.selectedExercises];
-        if (state.selectedExercises.find((e) => e.id === value)) {
-          if (state.selectedExercises.length > 1) {
-            newExercises = state.selectedExercises.filter((e) => e.id != value);
+        let newExercisesID = [...state.selectedExercisesID];
+        if (state.selectedExercisesID.includes(value)) {
+          if (state.selectedExercisesID.length > 1) {
+            newExercisesID = state.selectedExercisesID.filter((e) => e != value);
           } else {
             return state;
           }
         } else {
-          newExercises.push(...state.allExercises.filter((e) => e.id === value));
+          newExercisesID.push(value);
         }
-        return { selectedExercises: newExercises };
+        return { selectedExercisesID: newExercisesID };
       },
+      //   let newCategories = [...state.selectedExercisesID];
+      //   if (state.selectedExercisesID.includes(value)) {
+      //     // if (state.selectedExercisesID.length > 1) {
+      //     newCategories = state.selectedExercisesID.filter((e) => e != value);
+      //     // } else {
+      //     //   return state;
+      //     // }
+      //   } else {
+      //     newCategories.push(value);
+      //   }
+      //   return { ...state, selectedExercisesID: newCategories };
+      // },
       false,
       "setCheckedExercises"
     ),
@@ -70,9 +71,16 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
   generateUserTraining: () =>
     set((state) => {
       const activeTracks = state.selectedTracks;
+      const activeExercises = [];
+      for (const key of state.selectedExercisesID) {
+        const currentActiveExercise = state.allExercises.filter((e) => e.id === key);
+        if (currentActiveExercise.length) {
+          activeExercises.push(...currentActiveExercise);
+        }
+      }
       console.log(activeTracks);
 
-      const filteredExercises = state.selectedExercises.filter((e) => activeTracks.includes(e.category));
+      const filteredExercises = activeExercises.filter((e) => activeTracks.includes(e.category));
       const groupedByCategory = _.groupBy(filteredExercises, "category");
       console.log(groupedByCategory);
       const result = [];

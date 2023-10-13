@@ -13,7 +13,7 @@ export const createActiveTrackState: MyStateCreator<IActiveTrack> = (set) => ({
         let newCategories = [...state.selectedTracks];
         if (state.selectedTracks.includes(value)) {
           if (state.selectedTracks.length > 1) {
-            newCategories = state.selectedTracks.filter((e) => e != value);
+            newCategories = state.selectedTracks.filter((e) => e !== value);
           } else {
             return state;
           }
