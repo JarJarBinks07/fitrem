@@ -16,7 +16,7 @@
 
 ion-button {
   --background: var(--ion-color-dark);
-  --background-activated: #ffc409;
+  --background-activated: none;
   --background-hover: #e09c9c;
   --background-focused: #a588f4;
   --color: #ffffff;

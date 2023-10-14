@@ -5,7 +5,7 @@
 .item-option {
   min-width: 80px;
 }
-.track__bar_btn::part(native) {
+.toggle__bar_btn::part(native) {
   background-color: var(--ion-color-warning);
   box-shadow: none;
 }
@@ -30,4 +30,9 @@ ion-checkbox::part(container) {
 
 .tracks__check_box {
   padding: 20px;
+}
+.content__btn::part(native) {
+  background-color: var(--ion-color-default);
+  color: black;
+  box-shadow: none;
 }

@@ -58,8 +58,8 @@ const App: React.FC = () => {
         await Promise.all([saveTrackResources(e.image_path, imageName), saveTrackResources(e.video_path, videoName)]);
       })
     );
-    setTracks(responseWithTracks);
-    setExercises(responseWithExercises);
+    // setTracks(responseWithTracks);
+    // setExercises(responseWithExercises);
   };
 
   useEffect(() => {

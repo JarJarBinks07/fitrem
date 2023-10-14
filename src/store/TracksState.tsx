@@ -23,6 +23,7 @@ export type StateTrackWithExercise = {
   selectedExercisesID: number[];
   userTraining: IExercise[];
   setTracks: (value: ITrack[]) => void;
+  setOrderTracks: (value: ITrack[]) => void;
   setExercises: (value: IExercise[]) => void;
   setSelectedExercisesID: (value: number) => void;
   generateUserTraining: () => void;
@@ -30,6 +31,7 @@ export type StateTrackWithExercise = {
 
 export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) => ({
   tracks: [],
+  setOrderTracks: (value) => set(() => ({ tracks: value }), false, "setOrderTracks"),
   setTracks: (value) => set({ tracks: value }, false, "setTracks"),
 
   allExercises: [],
@@ -51,18 +53,6 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
         }
         return { selectedExercisesID: newExercisesID };
       },
-      //   let newCategories = [...state.selectedExercisesID];
-      //   if (state.selectedExercisesID.includes(value)) {
-      //     // if (state.selectedExercisesID.length > 1) {
-      //     newCategories = state.selectedExercisesID.filter((e) => e != value);
-      //     // } else {
-      //     //   return state;
-      //     // }
-      //   } else {
-      //     newCategories.push(value);
-      //   }
-      //   return { ...state, selectedExercisesID: newCategories };
-      // },
       false,
       "setCheckedExercises"
     ),
@@ -72,7 +62,7 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
     set((state) => {
       /////Getting active exercises/////
       console.log("********START");
-      const activeTracks = state.selectedTracks;
+      const activeTracks = state.selectedCategoryTracks;
       const activeExercises = [];
       for (const key of state.selectedExercisesID) {
         const currentActiveExercise = state.allExercises.filter((e) => e.id === key);
