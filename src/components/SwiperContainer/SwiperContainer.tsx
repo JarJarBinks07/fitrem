@@ -27,7 +27,8 @@ interface IVideo {
 }
 
 const ImageContainer: React.FC = () => {
-  const { userTraining, generateUserTraining } = useCombineStates();
+  const { userTraining, generateUserTraining, selectedCategoryTracks } = useCombineStates();
+  const slicedUserTraining = [...userTraining].slice(0, selectedCategoryTracks.length);
 
   /////use platform if we want to disabled buttons in Swiper for device/////
   const platform = Capacitor.getPlatform();
@@ -53,9 +54,9 @@ const ImageContainer: React.FC = () => {
   }, []);
   return (
     <div className="swiper">
-      {userTraining.length ? (
+      {slicedUserTraining.length ? (
         <>
-          {userTraining.map((item, index) =>
+          {slicedUserTraining.map((item, index) =>
             swiperTrackIndex === index ? (
               <div key={item.id}>
                 <p className="track__exercises">{item.category}</p>
@@ -84,7 +85,7 @@ const ImageContainer: React.FC = () => {
               setSwiperTrackIndex(swiper.realIndex);
             }}
           >
-            {userTraining.map((item, index) => (
+            {slicedUserTraining.map((item, index) => (
               <SwiperSlide key={item.id}>
                 <VideoPlayer play={swiperTrackIndex === index ? playStatus : false} path={item.video_path} />
               </SwiperSlide>
@@ -115,12 +116,12 @@ const ImageContainer: React.FC = () => {
           </IonCol>
         </IonRow>
       </IonGrid>
-      {userTraining[swiperTrackIndex] ? (
+      {slicedUserTraining[swiperTrackIndex] ? (
         <ModalWindow
           isOpen={isOpen}
           setIsOpen={setIsOpen}
-          path={userTraining[swiperTrackIndex].video_path}
-          description={userTraining[swiperTrackIndex].description}
+          path={slicedUserTraining[swiperTrackIndex].video_path}
+          description={slicedUserTraining[swiperTrackIndex].description}
         />
       ) : null}
     </div>
