@@ -34,7 +34,7 @@ const Tracks: React.FC = () => {
     setReorderedSelectedCategoryTracks,
     setSelectedCategoryTracks,
     selectedCategoryTracks,
-    tracks,
+    allTracks,
     generateUserTraining,
     setOrderTracks,
   } = useCombineStates();
@@ -48,11 +48,11 @@ const Tracks: React.FC = () => {
   };
   console.log(isOpen);
   // const [replacedTracks, setReplacedTracks] = useState<string[]>(["Biceps", "Jumps", "Steps"]);
-  console.log(tracks);
+  console.log(allTracks);
   console.log(selectedCategoryTracks);
   ///////////Change order tracks///////////
   function handleReorder(event: CustomEvent<ItemReorderEventDetail>) {
-    const newArrOfTracks = [...tracks];
+    const newArrOfTracks = [...allTracks];
     const [removedTrackFrom] = newArrOfTracks.splice(event.detail.from, 1);
     console.log(removedTrackFrom);
     newArrOfTracks.splice(event.detail.to, 0, removedTrackFrom);
@@ -81,7 +81,7 @@ const Tracks: React.FC = () => {
         <IonContent fullscreen={true}>
           <IonGrid>
             <IonReorderGroup disabled={false} onIonItemReorder={handleReorder}>
-              {tracks.map((item) => (
+              {allTracks.map((item) => (
                 <div key={item.id}>
                   <IonCheckbox
                     style={{ position: "fixed", left: 0 }}

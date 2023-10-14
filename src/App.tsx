@@ -46,7 +46,7 @@ import { saveTrackResources } from "./settings/capacitor.storage";
 setupIonicReact();
 
 const App: React.FC = () => {
-  const { setExercises, setTracks } = useCombineStates();
+  const { setAllExercises, setAllTracks } = useCombineStates();
 
   const getData = async () => {
     const responseWithTracks: ITrack[] = tracksData;
@@ -58,8 +58,8 @@ const App: React.FC = () => {
         await Promise.all([saveTrackResources(e.image_path, imageName), saveTrackResources(e.video_path, videoName)]);
       })
     );
-    // setTracks(responseWithTracks);
-    // setExercises(responseWithExercises);
+    setAllTracks(responseWithTracks);
+    setAllExercises(responseWithExercises);
   };
 
   useEffect(() => {

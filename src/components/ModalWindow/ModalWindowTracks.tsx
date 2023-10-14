@@ -39,9 +39,9 @@ interface IVideo {
 }
 
 function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
-  const { allExercises, selectedExercisesID, setSelectedExercisesID, generateUserTraining } = useCombineStates();
+  const { allExercises, selectedExercisesByID, setSelectedExercisesByID, generateUserTraining } = useCombineStates();
 
-  console.log(selectedExercisesID);
+  console.log(selectedExercisesByID);
 
   const [openNewWindow, setOpenNewWindow] = useState(false);
   const [exerciseID, setExerciseID] = useState<number | null>(null);
@@ -88,9 +88,9 @@ function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
                   aria-label="Warning toggle"
                   color="warning"
                   style={{ marginTop: "5vh" }}
-                  checked={selectedExercisesID.includes(item.id)}
+                  checked={selectedExercisesByID.includes(item.id)}
                   onIonChange={() => {
-                    setSelectedExercisesID(item.id);
+                    setSelectedExercisesByID(item.id);
                     generateUserTraining();
                   }}
                 ></IonToggle>

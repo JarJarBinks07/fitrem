@@ -32,7 +32,7 @@ import { Exercise, StateExercise } from "../../store/TracksState";
 import { saveTrack } from "../../settings/capacitor.storage";
 
 const TimerPage: React.FC = () => {
-  // const { setExercises, exercises } = useCombineStates();
+  // const { setAllExercises, exercises } = useCombineStates();
   // console.log(exercises[0].id);
 
   // const getData = async () => {
@@ -46,7 +46,7 @@ const TimerPage: React.FC = () => {
   //       return { ...e, video, image };
   //     })
   //   );
-  //   setExercises(modifiedExercises);
+  //   setAllExercises(modifiedExercises);
   // };
   // useEffect(() => {
   //   getData();

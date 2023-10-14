@@ -30,7 +30,7 @@ export const createActiveTrackState: MyStateCreator<IActiveTrack> = (set) => ({
   setReorderedSelectedCategoryTracks: () =>
     set(
       (state) => {
-        const reorderedArr = [...state.tracks].map((item) => item.category);
+        const reorderedArr = [...state.allTracks].map((item) => item.category);
         const filteredActiveTracks = reorderedArr.filter((e) => state.selectedCategoryTracks.includes(e));
         return { selectedCategoryTracks: filteredActiveTracks };
       },

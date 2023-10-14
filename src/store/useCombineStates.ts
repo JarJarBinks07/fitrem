@@ -1,13 +1,13 @@
 import { StateCreator, create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
-import { createTestState, ITest } from "./TestState";
+// import { createTestState, ITest } from "./TestState";
 import { createTimerState, ITimer } from "./TimerState";
 import { CustomSqliteStorage } from "./CustomSqliteStorage";
 import { IRoot, createRootState } from "./RootState";
-import { IActiveTrack, createActiveTrackState } from "./ActiveTrackState";
+// import { IActiveTrack, createActiveTrackState } from "./ActiveTrackState";
 import { StateTrackWithExercise, createTracksState } from "./TracksState";
 
-export type CombineState = IRoot & ITimer & IActiveTrack & StateTrackWithExercise;
+export type CombineState = IRoot & ITimer & StateTrackWithExercise;
 
 export type MyStateCreator<T> = StateCreator<
   CombineState,
@@ -26,7 +26,7 @@ export const useCombineStates = create<CombineState>()(
       (...a) => ({
         ...createRootState(...a),
         ...createTimerState(...a),
-        ...createActiveTrackState(...a),
+        // ...createActiveTrackState(...a),
         ...createTracksState(...a),
       }),
       {
