@@ -26,9 +26,12 @@ ion-checkbox::part(container) {
 }
 .tracks__page_div {
   display: flex;
+  align-items: center;
 }
 
 .tracks__check_box {
+  /* position: "fixed";
+  left: 0; */
   padding: 20px;
 }
 .content__btn::part(native) {

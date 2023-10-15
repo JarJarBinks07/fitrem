@@ -4,6 +4,6 @@ export interface IRoot {
   rehydrated: boolean;
 }
 
-export const createRootState: MyStateCreator<IRoot> = (set: any) => ({
+export const createRootState: MyStateCreator<IRoot> = (set) => ({
   rehydrated: false,
 });

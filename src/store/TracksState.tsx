@@ -15,6 +15,7 @@ export interface IExercise {
   exercise: string;
   tools: boolean;
   description: string;
+  status?: "done" | "skipped";
 }
 
 export type StateTrackWithExercise = {
@@ -23,14 +24,16 @@ export type StateTrackWithExercise = {
   selectedExercisesByID: number[];
   selectedCategoryTracks: string[];
   userTraining: IExercise[];
+  doneExercises: IExercise[];
   setAllTracks: (value: ITrack[]) => void;
   setOrderTracks: (value: ITrack[]) => void;
   setAllExercises: (value: IExercise[]) => void;
   setSelectedExercisesByID: (value: number) => void;
-  generateUserTraining: () => void;
-
   setSelectedCategoryTracks: (value: string) => void;
   setReorderedSelectedCategoryTracks: () => void;
+  generateUserTraining: () => void;
+  setSkippedExercises: (value: number, status: string) => void;
+  setDoneExercises: (value: number) => void;
 };
 
 export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) => ({
@@ -58,7 +61,7 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
         return { selectedExercisesByID: newExercisesID };
       },
       false,
-      "setCheckedExercises"
+      "setSelectedExercisesByID"
     ),
 
   selectedCategoryTracks: ["Biceps"],
@@ -78,7 +81,7 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
         return { ...state, selectedCategoryTracks: newCategories };
       },
       false,
-      "setSelectedCategories"
+      "setSelectedCategoryTracks"
     ),
   setReorderedSelectedCategoryTracks: () =>
     set(
@@ -93,45 +96,88 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
 
   userTraining: [],
   generateUserTraining: () =>
-    set((state) => {
-      /////Getting active exercises/////
-      const activeTracks = state.selectedCategoryTracks;
-      const activeExercises = [];
-      for (const key of state.selectedExercisesByID) {
-        const currentActiveExercise = state.allExercises.filter((e) => e.id === key);
-        if (currentActiveExercise.length) {
-          activeExercises.push(...currentActiveExercise);
-        }
-      }
-      /////Shuffle activeTracks/////
-      const newArrOfActiveExercises = [...activeExercises];
-      for (let i = newArrOfActiveExercises.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [newArrOfActiveExercises[i], newArrOfActiveExercises[j]] = [
-          newArrOfActiveExercises[j],
-          newArrOfActiveExercises[i],
-        ];
-      }
-      /////Sorting one by one/////
-      const filteredExercises = newArrOfActiveExercises.filter((e) => activeTracks.includes(e.category));
-      const groupedByCategory = _.groupBy(filteredExercises, "category");
-      const result = [];
-      let maxLength = 0;
-      for (const key of activeTracks) {
-        if (!groupedByCategory[key]) {
-          groupedByCategory[key] = [];
-        }
-        maxLength = Math.max(groupedByCategory[key].length, maxLength);
-      }
-      for (let i = 0; i < maxLength; i++) {
-        for (const key of activeTracks) {
-          const currentArray = groupedByCategory[key];
-          if (i < currentArray.length) {
-            const currentElement = currentArray[i];
-            result.push(currentElement);
+    set(
+      (state) => {
+        /////Getting active exercises/////
+        const activeTracks = state.selectedCategoryTracks;
+        const activeExercises = [];
+        for (const key of state.selectedExercisesByID) {
+          const currentActiveExercise = state.allExercises.filter((e) => e.id === key);
+          if (currentActiveExercise.length) {
+            activeExercises.push(...currentActiveExercise);
           }
         }
-      }
-      return { userTraining: result };
-    }),
+        /////Shuffle activeTracks/////
+        const newArrOfActiveExercises = [...activeExercises];
+        for (let i = newArrOfActiveExercises.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [newArrOfActiveExercises[i], newArrOfActiveExercises[j]] = [
+            newArrOfActiveExercises[j],
+            newArrOfActiveExercises[i],
+          ];
+        }
+        /////Sorting one by one/////
+        const filteredExercises = newArrOfActiveExercises.filter((e) => activeTracks.includes(e.category));
+        const groupedByCategory = _.groupBy(filteredExercises, "category");
+        const result = [];
+        let maxLength = 0;
+        for (const key of activeTracks) {
+          if (!groupedByCategory[key]) {
+            groupedByCategory[key] = [];
+          }
+          maxLength = Math.max(groupedByCategory[key].length, maxLength);
+        }
+        for (let i = 0; i < maxLength; i++) {
+          for (const key of activeTracks) {
+            const currentArray = groupedByCategory[key];
+            if (i < currentArray.length) {
+              const currentElement = currentArray[i];
+              result.push(currentElement);
+            }
+          }
+        }
+        return { userTraining: result };
+      },
+      false,
+      "generateUserTraining"
+    ),
+
+  doneExercises: [],
+  setSkippedExercises: (value, status) =>
+    set(
+      (state) => {
+        const newUserTraining = [...state.userTraining];
+        const [currentSkippedExercise] = [...state.userTraining].filter((e, index) => index === value);
+        const findNextExerciseFromCategory = state.userTraining.find(
+          ({ category, id }) => id !== currentSkippedExercise.id && category === currentSkippedExercise.category
+        );
+        if (findNextExerciseFromCategory?.id && !state.doneExercises.includes(currentSkippedExercise)) {
+          const result = newUserTraining.filter((e) => e.id !== findNextExerciseFromCategory.id);
+          const [removedExercisesFromTraining] = result.splice(value, 1, findNextExerciseFromCategory);
+
+          if (status === "skipped") {
+            removedExercisesFromTraining.status = "skipped";
+          } else {
+            removedExercisesFromTraining.status = "done";
+          }
+
+          return {
+            userTraining: result,
+            doneExercises: [...state.doneExercises, removedExercisesFromTraining],
+          };
+        } else return state;
+      },
+      false,
+      "setSkippedExercises"
+    ),
+
+  setDoneExercises: (value) =>
+    set(
+      (state) => {
+        const newUserTraining = [...state.userTraining];
+        const filteredByID = newUserTraining;
+      },
+      false,
+      "setDoneExercises"
+    ),
 });

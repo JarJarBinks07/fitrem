@@ -46,10 +46,9 @@ const Tracks: React.FC = () => {
     setIsOpen(true);
     setCurrentCategory(value);
   };
-  console.log(isOpen);
+  // console.log(isOpen);
   // const [replacedTracks, setReplacedTracks] = useState<string[]>(["Biceps", "Jumps", "Steps"]);
-  console.log(allTracks);
-  console.log(selectedCategoryTracks);
+
   ///////////Change order tracks///////////
   function handleReorder(event: CustomEvent<ItemReorderEventDetail>) {
     const newArrOfTracks = [...allTracks];
@@ -84,7 +83,7 @@ const Tracks: React.FC = () => {
               {allTracks.map((item) => (
                 <div key={item.id}>
                   <IonCheckbox
-                    style={{ position: "fixed", left: 0 }}
+                    style={{ position: "fixed", left: 0, padding: 20 }}
                     className="tracks__check_box"
                     checked={selectedCategoryTracks.includes(item.category)}
                     onIonChange={() => {
@@ -92,11 +91,10 @@ const Tracks: React.FC = () => {
                       generateUserTraining();
                     }}
                   />
-
                   <IonButton
                     className="content__btn"
                     onClick={() => handlerCategory(item.category)}
-                    style={{ position: "fixed", right: 0, zIndex: 5, margin: "15px 5px 0 0" }}
+                    style={{ position: "fixed", right: 0, zIndex: 5, padding: 15 }}
                   >
                     <IonIcon slot="end" icon={chevronForwardOutline}></IonIcon>
                   </IonButton>

@@ -27,7 +27,8 @@ interface IVideo {
 }
 
 const ImageContainer: React.FC = () => {
-  const { userTraining, generateUserTraining, selectedCategoryTracks } = useCombineStates();
+  const { userTraining, generateUserTraining, selectedCategoryTracks, doneExercises, setSkippedExercises } =
+    useCombineStates();
   const slicedUserTraining = [...userTraining].slice(0, selectedCategoryTracks.length);
 
   /////use platform if we want to disabled buttons in Swiper for device/////
@@ -36,6 +37,9 @@ const ImageContainer: React.FC = () => {
   //////ModalRender: value should be 0 when Swiper init/////
   const [swiperTrackIndex, setSwiperTrackIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+
+  console.log("******", doneExercises);
+  console.log(userTraining);
 
   /////Video player/////
   const [playStatus, setPlayStatus] = useState(false);
@@ -110,11 +114,18 @@ const ImageContainer: React.FC = () => {
             </IonButton>
           </IonCol>
           <IonCol>
-            <IonButton disabled={true} expand="full">
-              <div className="ion-text-uppercase">Done</div>
+            <IonButton disabled={false} expand="full" onClick={() => setSkippedExercises(swiperTrackIndex, "skipped")}>
+              <div className="ion-text-uppercase">Skip</div>
             </IonButton>
           </IonCol>
         </IonRow>
+        <IonButton
+          expand="full"
+          style={{ marginTop: 10 }}
+          onClick={() => setSkippedExercises(swiperTrackIndex, "done")}
+        >
+          Test
+        </IonButton>
       </IonGrid>
       {slicedUserTraining[swiperTrackIndex] ? (
         <ModalWindow

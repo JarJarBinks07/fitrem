@@ -41,8 +41,6 @@ interface IVideo {
 function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
   const { allExercises, selectedExercisesByID, setSelectedExercisesByID, generateUserTraining } = useCombineStates();
 
-  console.log(selectedExercisesByID);
-
   const [openNewWindow, setOpenNewWindow] = useState(false);
   const [exerciseID, setExerciseID] = useState<number | null>(null);
 
