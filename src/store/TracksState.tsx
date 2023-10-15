@@ -32,8 +32,7 @@ export type StateTrackWithExercise = {
   setSelectedCategoryTracks: (value: string) => void;
   setReorderedSelectedCategoryTracks: () => void;
   generateUserTraining: () => void;
-  setSkippedExercises: (value: number, status: string) => void;
-  setDoneExercises: (value: number) => void;
+  setDoneExercises: (value: number, status: string) => void;
 };
 
 export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) => ({
@@ -143,24 +142,22 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
     ),
 
   doneExercises: [],
-  setSkippedExercises: (value, status) =>
+  setDoneExercises: (value, status) =>
     set(
       (state) => {
         const newUserTraining = [...state.userTraining];
-        const [currentSkippedExercise] = [...state.userTraining].filter((e, index) => index === value);
+        const [currentDoneExercise] = [...state.userTraining].filter((e, index) => index === value);
         const findNextExerciseFromCategory = state.userTraining.find(
-          ({ category, id }) => id !== currentSkippedExercise.id && category === currentSkippedExercise.category
+          ({ category, id }) => id !== currentDoneExercise.id && category === currentDoneExercise.category
         );
-        if (findNextExerciseFromCategory?.id && !state.doneExercises.includes(currentSkippedExercise)) {
+        if (findNextExerciseFromCategory?.id && !state.doneExercises.includes(currentDoneExercise)) {
           const result = newUserTraining.filter((e) => e.id !== findNextExerciseFromCategory.id);
           const [removedExercisesFromTraining] = result.splice(value, 1, findNextExerciseFromCategory);
-
           if (status === "skipped") {
             removedExercisesFromTraining.status = "skipped";
           } else {
             removedExercisesFromTraining.status = "done";
           }
-
           return {
             userTraining: result,
             doneExercises: [...state.doneExercises, removedExercisesFromTraining],
@@ -169,15 +166,5 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
       },
       false,
       "setSkippedExercises"
-    ),
-
-  setDoneExercises: (value) =>
-    set(
-      (state) => {
-        const newUserTraining = [...state.userTraining];
-        const filteredByID = newUserTraining;
-      },
-      false,
-      "setDoneExercises"
     ),
 });

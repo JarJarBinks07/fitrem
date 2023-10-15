@@ -27,7 +27,7 @@ interface IVideo {
 }
 
 const ImageContainer: React.FC = () => {
-  const { userTraining, generateUserTraining, selectedCategoryTracks, doneExercises, setSkippedExercises } =
+  const { userTraining, generateUserTraining, selectedCategoryTracks, doneExercises, setDoneExercises } =
     useCombineStates();
   const slicedUserTraining = [...userTraining].slice(0, selectedCategoryTracks.length);
 
@@ -114,16 +114,12 @@ const ImageContainer: React.FC = () => {
             </IonButton>
           </IonCol>
           <IonCol>
-            <IonButton disabled={false} expand="full" onClick={() => setSkippedExercises(swiperTrackIndex, "skipped")}>
+            <IonButton disabled={false} expand="full" onClick={() => setDoneExercises(swiperTrackIndex, "skipped")}>
               <div className="ion-text-uppercase">Skip</div>
             </IonButton>
           </IonCol>
         </IonRow>
-        <IonButton
-          expand="full"
-          style={{ marginTop: 10 }}
-          onClick={() => setSkippedExercises(swiperTrackIndex, "done")}
-        >
+        <IonButton expand="full" style={{ marginTop: 10 }} onClick={() => setDoneExercises(swiperTrackIndex, "done")}>
           Test
         </IonButton>
       </IonGrid>
