@@ -27,8 +27,14 @@ interface IVideo {
 }
 
 const ImageContainer: React.FC = () => {
-  const { userTraining, generateUserTraining, selectedCategoryTracks, doneExercises, setDoneExercises } =
-    useCombineStates();
+  const {
+    userTraining,
+    generateUserTraining,
+    selectedCategoryTracks,
+    doneExercises,
+    setDoneExercises,
+    savedHistoryExercises,
+  } = useCombineStates();
   const slicedUserTraining = [...userTraining].slice(0, selectedCategoryTracks.length);
 
   /////use platform if we want to disabled buttons in Swiper for device/////
@@ -38,8 +44,9 @@ const ImageContainer: React.FC = () => {
   const [swiperTrackIndex, setSwiperTrackIndex] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
 
-  console.log("******", doneExercises);
-  console.log(userTraining);
+  console.log("doneExercises", doneExercises);
+  console.log("userTraining", userTraining);
+  console.log("savedHistoryExercises", savedHistoryExercises);
 
   /////Video player/////
   const [playStatus, setPlayStatus] = useState(false);
