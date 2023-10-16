@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { IonButton, IonCol, IonGrid, IonItem, IonRow, IonSpinner } from "@ionic/react";
+import { IonButton, IonCol, IonGrid, IonIcon, IonItem, IonRow, IonSpinner } from "@ionic/react";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import SwiperInterface from "swiper";
 import { Pagination, Navigation, EffectFade } from "swiper/modules";
@@ -15,6 +15,7 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
 import "./SwiperContainer.css";
+import { alertCircleOutline, caretBack, caretForward, ellipsisHorizontal, ellipsisVertical } from "ionicons/icons";
 
 interface IVideo {
   id: number;
@@ -27,6 +28,8 @@ interface IVideo {
 }
 
 const ImageContainer: React.FC = () => {
+  const swiper = useSwiper();
+
   const {
     userTraining,
     generateUserTraining,
@@ -63,10 +66,11 @@ const ImageContainer: React.FC = () => {
       generateUserTraining();
     }
   }, []);
+
   return (
-    <div className="swiper">
+    <div className="test">
       {slicedUserTraining.length ? (
-        <>
+        <div>
           {slicedUserTraining.map((item, index) =>
             swiperTrackIndex === index ? (
               <div key={item.id}>
@@ -77,35 +81,48 @@ const ImageContainer: React.FC = () => {
               </div>
             ) : null
           )}
-          <Swiper
-            modules={[Pagination, Navigation, EffectFade]}
-            slidesPerView={1}
-            loop={true}
-            pagination={{
-              clickable: true,
-              type: "fraction",
-            }}
-            simulateTouch={false}
-            touchRatio={0}
-            speed={800}
-            className="mySwiper"
-            // onInit={(swiper) => {
-            //   setSwiperTrackIndex(swiper.realIndex);
-            // }}
-            onRealIndexChange={(swiper) => {
-              setSwiperTrackIndex(swiper.realIndex);
-            }}
-          >
-            {slicedUserTraining.map((item, index) => (
-              <SwiperSlide key={item.id}>
-                <VideoPlayer play={swiperTrackIndex === index ? playStatus : false} path={item.video_path} />
-              </SwiperSlide>
-            ))}
-            <SwiperButtons />
+          <div className="swiper__container">
+            <IonButton
+              className="swiper__info_btn"
+              onClick={() => {
+                setIsOpen(true);
+                {
+                  playStatus ? changeStatus() : null;
+                }
+              }}
+            >
+              <IonIcon slot="icon-only" icon={alertCircleOutline} size="large"></IonIcon>
+            </IonButton>
+            <Swiper
+              allowSlideNext={true}
+              allowSlidePrev={true}
+              modules={[Pagination, Navigation, EffectFade]}
+              slidesPerView={1}
+              loop={true}
+              pagination={{
+                clickable: true,
+                type: "fraction",
+              }}
+              simulateTouch={false}
+              touchRatio={0}
+              speed={800}
+              onRealIndexChange={(swiper) => {
+                setSwiperTrackIndex(swiper.realIndex);
+              }}
+              className="swiper__content"
+            >
+              {slicedUserTraining.map((item, index) => (
+                <SwiperSlide key={item.id}>
+                  <VideoPlayer play={swiperTrackIndex === index ? playStatus : false} path={item.video_path} />
+                </SwiperSlide>
+              ))}
+              {/* {selectedCategoryTracks.length > 1 && } */}
+              <SwiperButtons />
 
-            {/* {platform === "web" ? <SwiperButtons /> : null} */}
-          </Swiper>
-        </>
+              {/* {platform === "web" ? <SwiperButtons /> : null} */}
+            </Swiper>
+          </div>
+        </div>
       ) : null}
 
       <IonGrid>
@@ -113,11 +130,6 @@ const ImageContainer: React.FC = () => {
           <IonCol>
             <IonButton expand="full" onClick={changeStatus}>
               <div className="ion-text-uppercase">{playMode}</div>
-            </IonButton>
-          </IonCol>
-          <IonCol>
-            <IonButton expand="full" onClick={() => setIsOpen(true)}>
-              <div className="ion-text-uppercase">Explain</div>
             </IonButton>
           </IonCol>
           <IonCol>

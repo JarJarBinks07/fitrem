@@ -2,15 +2,41 @@ import React from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { Duration } from "luxon";
 import "./TimerFace.css";
+import { ColorFormat } from "@faker-js/faker";
+
 interface IProps {
   timerInterval: number;
   timerKey: number;
   timerDuration: number;
   timerActive: boolean;
+  size: number;
+  strokeWidth: number;
+  mode: "rest" | "training";
+  colors: {
+    0: `#${string}`;
+  } & {
+    1: `#${string}`;
+  } & `#${string}`[];
+  colorsTime: {
+    0: number;
+  } & {
+    1: number;
+  } & number[];
   unsetTimer: () => void;
 }
 
-const TimerFace: React.FC<IProps> = ({ timerInterval, timerKey, timerDuration, timerActive, unsetTimer }) => {
+const TimerFace: React.FC<IProps> = ({
+  timerInterval,
+  timerKey,
+  timerDuration,
+  timerActive,
+  size,
+  strokeWidth,
+  mode,
+  colors,
+  colorsTime,
+  unsetTimer,
+}) => {
   //secondsInOneMinute=60
   const secondsInOneMinute = 1;
   const timeLeft = !!timerDuration ? (timerDuration - Date.now()) / 1000 : timerInterval * secondsInOneMinute;
@@ -18,12 +44,22 @@ const TimerFace: React.FC<IProps> = ({ timerInterval, timerKey, timerDuration, t
   const renderTime = (time: number, timerActive: boolean) => {
     const formattedTime = Duration.fromMillis(time * 1000).toFormat("mm:ss");
     return (
-      <div className="time-wrapper">
-        <div>{timerActive ? "NEXT BREAK IS IN" : "CLICK PLAY BUTTON"}</div>
-        <div className="timer-digits">
-          <div>{formattedTime}</div>
-        </div>
-      </div>
+      <>
+        {mode === "rest" ? (
+          <div className="time-wrapper">
+            <div>{timerActive ? "NEXT BREAK IS IN" : "CLICK PLAY BUTTON"}</div>
+            <div className="timer__digits_training">
+              <div>{formattedTime}</div>
+            </div>
+          </div>
+        ) : (
+          <div className="time-wrapper">
+            <div className="timer__digits_rest">
+              <div>{formattedTime}</div>
+            </div>
+          </div>
+        )}
+      </>
     );
   };
 
@@ -31,10 +67,10 @@ const TimerFace: React.FC<IProps> = ({ timerInterval, timerKey, timerDuration, t
     <CountdownCircleTimer
       isPlaying={timerActive}
       key={timerKey}
-      size={280}
-      strokeWidth={22}
-      colors={["#ffc409", "#F7B801", "#A30000", "#A30000"]}
-      colorsTime={[7, 5, 2, 0]}
+      size={size}
+      strokeWidth={strokeWidth}
+      colors={colors}
+      colorsTime={colorsTime}
       rotation="clockwise"
       duration={timerInterval * secondsInOneMinute}
       initialRemainingTime={timeLeft > 0 ? timeLeft : timerInterval * secondsInOneMinute}

@@ -6,8 +6,11 @@
   color: var(--ion-color-dark);
 }
 
-.timer-digits {
+.timer__digits_training {
   font-size: 45px;
+}
+.timer__digits_rest {
+  font-size: 24px;
 }
 
 .timer-digits__digit {

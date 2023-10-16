@@ -29,7 +29,7 @@ import { personCircle } from "ionicons/icons";
 import ProfileMenu from "../../components/Menu/ProfileMenu";
 
 const TimerPage: React.FC = () => {
-  const [status, setStatus] = useState(true);
+  const [status, setStatus] = useState(false);
   const {
     timerInterval,
     timerStatus,
@@ -79,13 +79,8 @@ const TimerPage: React.FC = () => {
         </IonHeader>
 
         <IonContent>
-          {!status ? (
+          {status ? (
             <IonGrid>
-              <IonRow>
-                <IonCol>
-                  <SwiperContainer />
-                </IonCol>
-              </IonRow>
               <IonRow>
                 <IonCol className="timer-content">
                   <TimerFace
@@ -94,6 +89,11 @@ const TimerPage: React.FC = () => {
                     timerDuration={timerPausedTime ? Date.now() + timerPausedTime : timerDuration}
                     timerActive={timerStatus === "running"}
                     unsetTimer={unsetTimer}
+                    size={280}
+                    strokeWidth={22}
+                    colors={["#ffc409", "#F7B801", "#A30000", "#A30000"]}
+                    colorsTime={[7, 5, 2, 0]}
+                    mode={"rest"}
                   />
                 </IonCol>
               </IonRow>

@@ -69,7 +69,7 @@ const Tracks: React.FC = () => {
           <IonToolbar color="warning">
             <IonButtons slot="primary">
               <IonMenuToggle>
-                <IonButton className="toggle__bar_btn">
+                <IonButton className="tracks__bar_btn">
                   <IonIcon slot="icon-only" icon={personCircle} color="dark"></IonIcon>
                 </IonButton>
               </IonMenuToggle>

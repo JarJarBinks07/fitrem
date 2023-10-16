@@ -1,21 +1,18 @@
-button {
+.swiper__btn {
+  position: absolute;
+  top: 40%;
+  z-index: 5;
   height: 8vh;
   width: 8vh;
   border-radius: 50px;
   background-color: #d7d8da;
   color: #f4f5f8;
 }
-.swiper__btn_left {
-  position: absolute;
-  top: 40%;
+.swiper__btn_prev {
   left: 3vw;
-  z-index: 1;
 }
-.swiper__btn_right {
-  position: absolute;
-  top: 40%;
+.swiper__btn_next {
   right: 3vw;
-  z-index: 5;
 }
 
 .swiper__icon_left {
