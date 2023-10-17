@@ -42,7 +42,13 @@ const TimerFace: React.FC<IProps> = ({
   const timeLeft = !!timerDuration ? (timerDuration - Date.now()) / 1000 : timerInterval * secondsInOneMinute;
 
   const renderTime = (time: number, timerActive: boolean) => {
-    const formattedTime = Duration.fromMillis(time * 1000).toFormat("mm:ss");
+    let formattedTime = null;
+    if (mode === "rest") {
+      formattedTime = Duration.fromMillis(time * 1000).toFormat("mm:ss");
+    } else {
+      formattedTime = Duration.fromMillis(time * 1000).toFormat("m:ss");
+    }
+
     return (
       <>
         {mode === "rest" ? (

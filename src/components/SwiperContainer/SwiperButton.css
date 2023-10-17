@@ -5,7 +5,7 @@
   height: 8vh;
   width: 8vh;
   border-radius: 50px;
-  background-color: #d7d8da;
+  background-color: transparent;
   color: #f4f5f8;
 }
 .swiper__btn_prev {
@@ -14,14 +14,13 @@
 .swiper__btn_next {
   right: 3vw;
 }
-
-.swiper__icon_left {
+.swiper__icon {
   height: 5vh;
   width: 5vh;
+}
+.swiper__icon_left {
   margin: 0 0 0 -1vh;
 }
 .swiper__icon_right {
-  height: 5vh;
-  width: 5vh;
   margin: 0 -1vh 0 0;
 }

@@ -1,56 +1,79 @@
-.track__exercises {
-  background-color: var(--ion-color-dark);
-  color: #ffffff;
+.swiper {
+  /* position: relative;
+  top: 0;
+  left: 0; */
+}
+
+.swiper__track_exercise {
+  background-color: #222428;
+  color: #f4f5f8;
   font-size: 24px;
   line-height: 120%;
   padding-left: 10px;
 }
-.track__category {
-  background-color: var(--ion-color-dark);
+.swiper__track_category {
+  background-color: #222428;
   color: #ffc409;
   font-weight: 600;
   font-size: 12px;
   line-height: 168%;
   padding-left: 10px;
 }
-
-ion-button {
-  --background: var(--ion-color-dark);
-  --background-activated: none;
-  --background-hover: #e09c9c;
-  --background-focused: #a588f4;
-  --color: #ffffff;
-  --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.4);
-}
-
-.swiper {
-}
-
-.swiper__container {
-  position: relative;
-}
-.swiper__content {
-  max-width: 586px;
-}
-.swiper__content .swiper-pagination-bullet {
-  width: 10px;
-  height: 10px;
-}
-.swiper__info_btn {
+.swiper__btn_settings {
+  color: #f4f5f8;
   position: absolute;
-  top: 10px;
   right: 10px;
-  z-index: 5;
-  color: var(--ion-color-dark);
 }
-.swiper__info_btn::part(native) {
+.swiper__btn_settings::part(native) {
   background-color: transparent;
   box-shadow: none;
 }
 
-/* .swiper__content .swiper-pagination-fraction {
-} */
-
-.swiper__slide {
-  margin-top: 50px;
+ion-button {
+  --background: #222428;
+  --background-activated: none;
+  --background-hover: #c9c9c9;
+  /* --background-focused: #a588f4; */
+  --color: #f4f5f8;
+  /* --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.4); */
 }
+
+.swiper__container {
+  position: relative;
+  max-width: 540px;
+  margin: 0 auto;
+}
+.swiper__content {
+  max-width: 540px;
+}
+/* .swiper__content .swiper-pagination-bullet {
+  width: 10px;
+  height: 10px;
+} */
+.swiper__btn_info {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 5;
+  color: #969896;
+}
+.swiper__btn_info::part(native) {
+  background-color: transparent;
+  box-shadow: none;
+}
+.swiper__icon_info {
+  font-size: 32px;
+}
+.swiper__timer {
+  position: absolute;
+  z-index: 5;
+  top: 1vh;
+  left: 1vh;
+}
+/* .swiper__btn_bar::part(native) {
+  background-color: #222428;
+  color: #f4f5f8;
+}
+.swiper__btn_bar::part(native):hover {
+  background-color: #ffc409;
+} */

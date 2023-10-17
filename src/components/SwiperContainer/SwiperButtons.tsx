@@ -15,7 +15,7 @@ const SwiperButtons: React.FC = () => {
           swiper.slidePrev();
         }}
       >
-        <IonIcon icon={caretBack} className="swiper__icon_left" />
+        <IonIcon icon={caretBack} className="swiper__icon swiper__icon_left" />
       </button>
       <button
         className=" swiper__btn swiper__btn_next"
@@ -23,7 +23,7 @@ const SwiperButtons: React.FC = () => {
           swiper.slideNext();
         }}
       >
-        <IonIcon icon={caretForward} size="large" className="swiper__icon_right" />
+        <IonIcon icon={caretForward} size="large" className="swiper__icon swiper__icon_right" />
       </button>
     </div>
   );
