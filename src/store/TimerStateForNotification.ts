@@ -5,12 +5,12 @@ export interface ITimerNotification {
   timerStatus: "idle" | "running" | "pause";
   timerKey: number;
   timerDuration: number;
-  timerPausedTime: number;
+  // timerPausedTime: number;
   setTimerInterval: (value: number) => void;
   setTimerStatus: (value: "idle" | "running" | "pause") => void;
   setTimerKey: () => void;
   setTimerDuration: (value: number) => void;
-  setTimerPausedTime: () => void;
+  setTimeAfterPause: () => void;
   unsetTimer: () => void;
 }
 
@@ -27,9 +27,9 @@ export const createTimerStateForNotification: MyStateCreator<ITimerNotification>
   timerDuration: 0,
   setTimerDuration: (value) => set(() => ({ timerDuration: Date.now() + value }), false, "setTimerDuration"),
 
-  timerPausedTime: 0,
-  setTimerPausedTime: () =>
-    set((state) => ({ timerPausedTime: state.timerDuration - Date.now() }), false, "setTimerPausedTime"),
+  // timerPausedTime: 0,
+  setTimeAfterPause: () =>
+    set((state) => ({ timerDuration: state.timerDuration - Date.now() }), false, "setTimeAfterPause"),
 
   unsetTimer: () =>
     set(

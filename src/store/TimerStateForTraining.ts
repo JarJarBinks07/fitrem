@@ -7,13 +7,13 @@ export interface ITimerTraining {
   timerStatusForTraining: "idle" | "running" | "pause";
   timerKeyForTraining: number;
   timerDurationForTraining: number;
-  timerPauseForTraining: number;
+  // timerPauseForTraining: number;
   setWorkIntervalForTraining: (value: number) => void;
   setRestIntervalForTraining: (value: number) => void;
   setTimerStatusForTraining: (value: "idle" | "running" | "pause") => void;
   setTimerKeyForTraining: () => void;
   setTimerDurationForTraining: (value: number) => void;
-  setTimerPauseForTraining: () => void;
+  setTimerAfterPauseForTraining: () => void;
   unsetTimerForTraining: () => void;
 }
 
@@ -39,12 +39,12 @@ export const createTimerStateForTraining: MyStateCreator<ITimerTraining> = (set)
   setTimerDurationForTraining: (value) =>
     set(() => ({ timerDurationForTraining: Date.now() + value }), false, "setTimerDurationForTraining"),
 
-  timerPauseForTraining: 0,
-  setTimerPauseForTraining: () =>
+  // timerPauseForTraining: 0,
+  setTimerAfterPauseForTraining: () =>
     set(
-      (state) => ({ timerPauseForTraining: state.timerDurationForTraining - Date.now() }),
+      (state) => ({ timerDurationForTraining: state.timerDurationForTraining - Date.now() }),
       false,
-      "setTimerPauseForTraining"
+      "setTimerAfterPauseForTraining"
     ),
 
   unsetTimerForTraining: () =>

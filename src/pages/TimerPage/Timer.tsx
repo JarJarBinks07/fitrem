@@ -29,34 +29,32 @@ import { personCircle } from "ionicons/icons";
 import ProfileMenu from "../../components/Menu/ProfileMenu";
 
 const TimerPage: React.FC = () => {
-  const [status, setStatus] = useState(false);
+  const [status, setStatus] = useState(true);
   const {
     timerInterval,
     timerStatus,
     timerKey,
     timerDuration,
-    timerPausedTime,
     setTimerStatus,
     setTimerDuration,
-    setTimerPausedTime,
+    setTimeAfterPause,
     unsetTimer,
   } = useCombineStates();
 
   const pauseButtonHandler = () => {
     setTimerStatus("pause");
-    setTimerPausedTime();
+    setTimeAfterPause();
     unsetTimerLocalNotifications();
   };
 
   const playButtonHandler = () => {
-    if (timerPausedTime) {
-      //get timerPausedTime in milliseconds
-      setTimerDuration(timerPausedTime);
-      setTimerLocalNotification(timerPausedTime);
+    if (timerDuration) {
+      setTimerDuration(timerDuration);
+      setTimerLocalNotification(timerDuration);
     } else {
-      //get timerInterval in seconds
-      setTimerDuration(timerInterval * 1000);
-      setTimerLocalNotification(timerInterval * 1000);
+      ////value must be in milliseconds/////
+      setTimerDuration(timerInterval * 60000);
+      setTimerLocalNotification(timerInterval * 60000);
     }
     setTimerStatus("running");
   };
@@ -77,7 +75,6 @@ const TimerPage: React.FC = () => {
             <IonTitle className="timer-page__title">Timer</IonTitle>
           </IonToolbar>
         </IonHeader>
-
         <IonContent>
           {status ? (
             <IonGrid>
@@ -86,7 +83,7 @@ const TimerPage: React.FC = () => {
                   <TimerFace
                     timerKey={timerKey}
                     timerInterval={timerInterval}
-                    timerDuration={timerPausedTime ? Date.now() + timerPausedTime : timerDuration}
+                    timerDuration={timerDuration}
                     timerActive={timerStatus === "running"}
                     unsetTimer={unsetTimer}
                     size={280}

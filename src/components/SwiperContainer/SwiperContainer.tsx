@@ -54,11 +54,11 @@ const ImageContainer: React.FC = () => {
   const {
     setTimerDurationForTraining,
     setTimerStatusForTraining,
-    setTimerPauseForTraining,
+    setTimerAfterPauseForTraining,
     timerDurationForTraining,
     workIntervalForTraining,
     timerKeyForTraining,
-    timerPauseForTraining,
+
     timerStatusForTraining,
     unsetTimerForTraining,
     userTraining,
@@ -103,16 +103,15 @@ const ImageContainer: React.FC = () => {
 
   const pauseButtonHandler = () => {
     setTimerStatusForTraining("pause");
-    setTimerPauseForTraining();
+    setTimerAfterPauseForTraining();
   };
 
   const playButtonHandler = () => {
-    if (timerPauseForTraining) {
-      //get timerPausedTime in milliseconds
-      setTimerDurationForTraining(timerPauseForTraining);
+    if (timerDurationForTraining) {
+      setTimerDurationForTraining(timerDurationForTraining);
     } else {
-      //get timerInterval in seconds
-      setTimerDurationForTraining(workIntervalForTraining);
+      /////value must be in milliseconds/////
+      setTimerDurationForTraining(workIntervalForTraining * 1000);
     }
     setTimerStatusForTraining("running");
   };
@@ -150,7 +149,7 @@ const ImageContainer: React.FC = () => {
               <TimerFace
                 timerKey={timerKeyForTraining}
                 timerInterval={workIntervalForTraining}
-                timerDuration={timerPauseForTraining ? timerPauseForTraining : timerDurationForTraining - Date.now()}
+                timerDuration={timerDurationForTraining}
                 timerActive={timerStatusForTraining === "running"}
                 unsetTimer={unsetTimerForTraining}
                 size={65}
