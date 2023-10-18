@@ -150,7 +150,7 @@ const ImageContainer: React.FC = () => {
               <TimerFace
                 timerKey={timerKeyForTraining}
                 timerInterval={workIntervalForTraining}
-                timerDuration={timerPauseForTraining ? Date.now() + timerPauseForTraining : timerDurationForTraining}
+                timerDuration={timerPauseForTraining ? timerPauseForTraining : timerDurationForTraining - Date.now()}
                 timerActive={timerStatusForTraining === "running"}
                 unsetTimer={unsetTimerForTraining}
                 size={65}

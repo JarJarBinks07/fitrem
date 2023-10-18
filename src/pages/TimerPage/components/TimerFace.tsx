@@ -39,7 +39,7 @@ const TimerFace: React.FC<IProps> = ({
 }) => {
   /////for different timers/////
   let fromMinuteToSeconds = mode === "training" ? 1 : 60;
-  const timeLeft = !!timerDuration ? (timerDuration - Date.now()) / 1000 : timerInterval * fromMinuteToSeconds;
+  const timeLeft = !!timerDuration ? timerDuration * fromMinuteToSeconds : timerInterval * fromMinuteToSeconds;
 
   const renderTime = (time: number, timerActive: boolean) => {
     let formattedTime = null;
