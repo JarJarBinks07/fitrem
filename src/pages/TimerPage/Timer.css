@@ -1,9 +1,12 @@
-.timer-content {
+.timer-page__title {
+  padding: 0 15px 0px 15px;
+}
+.timer-page__content {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-.timer__bar_btn::part(native) {
+.timer-page__profile_btn::part(native) {
   background-color: transparent;
   box-shadow: none;
 }

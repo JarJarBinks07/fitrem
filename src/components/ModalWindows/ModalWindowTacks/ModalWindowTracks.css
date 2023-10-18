@@ -2,3 +2,6 @@
   --size: 110px;
   --border-radius: 14px;
 }
+.tracks__modal_btn::part(native) {
+  color: #2d2c2c;
+}

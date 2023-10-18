@@ -10,9 +10,9 @@ import {
   IonItem,
   IonText,
 } from "@ionic/react";
-import VideoPlayerReact from "../PlayerReact/VideoPlayer";
+import VideoPlayerReact from "../../PlayerReact/VideoPlayer";
 
-import "./ModalWindow.css";
+import "./ModalWindowExercise.css";
 
 interface IProps {
   path: string;
@@ -28,7 +28,9 @@ function ModalWindow({ path, description, isOpen, setIsOpen }: IProps) {
         <IonToolbar>
           <IonTitle>Description</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={() => setIsOpen(false)}>Close</IonButton>
+            <IonButton className="modal__btn" onClick={() => setIsOpen(false)}>
+              Close
+            </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>

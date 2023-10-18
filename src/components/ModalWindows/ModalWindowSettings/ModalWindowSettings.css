@@ -1,0 +1,12 @@
+.modal-settings__btn::part(native) {
+  color: #2d2c2c;
+}
+.modal-settings__link {
+  margin: 0 0 0 0;
+}
+.modal-settings__watch_left {
+  margin: 0 15px 0 0;
+}
+.modal-settings__watch_right {
+  margin: 0 0 0 15px;
+}

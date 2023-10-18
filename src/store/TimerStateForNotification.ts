@@ -1,6 +1,6 @@
-import { MyStateCreator, useCombineStates } from "./useCombineStates";
+import { MyStateCreator } from "./useCombineStates";
 
-export interface ITimer {
+export interface ITimerNotification {
   timerInterval: number;
   timerStatus: "idle" | "running" | "pause";
   timerKey: number;
@@ -14,7 +14,7 @@ export interface ITimer {
   unsetTimer: () => void;
 }
 
-export const createTimerState: MyStateCreator<ITimer> = (set) => ({
+export const createTimerStateForNotification: MyStateCreator<ITimerNotification> = (set) => ({
   timerInterval: 25,
   setTimerInterval: (value) => set(() => ({ timerInterval: value }), false, "setTimerInterval"),
 

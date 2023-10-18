@@ -69,12 +69,12 @@ const TimerPage: React.FC = () => {
           <IonToolbar color="warning">
             <IonButtons slot="primary">
               <IonMenuToggle>
-                <IonButton className="timer__bar_btn">
+                <IonButton className="timer-page__profile_btn">
                   <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
                 </IonButton>
               </IonMenuToggle>
             </IonButtons>
-            <IonTitle>Timer</IonTitle>
+            <IonTitle className="timer-page__title">Timer</IonTitle>
           </IonToolbar>
         </IonHeader>
 
@@ -82,7 +82,7 @@ const TimerPage: React.FC = () => {
           {status ? (
             <IonGrid>
               <IonRow>
-                <IonCol className="timer-content">
+                <IonCol className="timer-page__content">
                   <TimerFace
                     timerKey={timerKey}
                     timerInterval={timerInterval}

@@ -37,9 +37,9 @@ const TimerFace: React.FC<IProps> = ({
   colorsTime,
   unsetTimer,
 }) => {
-  //secondsInOneMinute=60
-  const secondsInOneMinute = 1;
-  const timeLeft = !!timerDuration ? (timerDuration - Date.now()) / 1000 : timerInterval * secondsInOneMinute;
+  /////for different timers/////
+  let fromMinuteToSeconds = mode === "training" ? 1 : 60;
+  const timeLeft = !!timerDuration ? (timerDuration - Date.now()) / 1000 : timerInterval * fromMinuteToSeconds;
 
   const renderTime = (time: number, timerActive: boolean) => {
     let formattedTime = null;
@@ -78,8 +78,8 @@ const TimerFace: React.FC<IProps> = ({
       colors={colors}
       colorsTime={colorsTime}
       rotation="clockwise"
-      duration={timerInterval * secondsInOneMinute}
-      initialRemainingTime={timeLeft > 0 ? timeLeft : timerInterval * secondsInOneMinute}
+      duration={timerInterval * fromMinuteToSeconds}
+      initialRemainingTime={timeLeft > 0 ? timeLeft : timerInterval * fromMinuteToSeconds}
       onComplete={() => {
         unsetTimer();
       }}

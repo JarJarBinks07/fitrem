@@ -81,6 +81,15 @@ body {
     "Helvetica Neue", sans-serif;
   background-color: #f5f5f5;
 }
+
+ion-button {
+  /* --background: #ffc409; */
+  --background-activated: none;
+  /* --background-hover: #c9c9c9; */
+  /* --background-focused: #a588f4; 
+--color: #222428; 
+ --box-shadow: 0 2px 6px 0 rgb(0, 0, 0, 0.4); */
+}
 /* //////////////////////////////////// */
 
 .app__tab_bar {

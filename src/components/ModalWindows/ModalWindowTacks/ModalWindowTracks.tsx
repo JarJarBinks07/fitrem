@@ -17,10 +17,10 @@ import {
 } from "@ionic/react";
 
 import "./ModalWindowTracks.css";
-import { exercisesData } from "../../shared/tracks/tracks";
-import ModalWindow from "./ModalWindow";
-import { useCombineStates } from "../../store/useCombineStates";
-import CashedImage from "../CachedImage/CachedImage";
+import { exercisesData } from "../../../shared/tracks/tracks";
+import ModalWindow from "../ModalWindowExercise/ModalWindowExercise";
+import { useCombineStates } from "../../../store/useCombineStates";
+import CashedImage from "../../CachedImage/CachedImage";
 
 interface IProps {
   category: string;
@@ -59,7 +59,9 @@ function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
         <IonToolbar>
           <IonTitle>{category}</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={() => setIsOpen(false)}>Close</IonButton>
+            <IonButton className="tracks__modal_btn" onClick={() => setIsOpen(false)}>
+              Close
+            </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>

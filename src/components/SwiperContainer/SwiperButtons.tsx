@@ -1,12 +1,22 @@
 import { IonIcon } from "@ionic/react";
-import { caretBack, caretForward } from "ionicons/icons";
+import { caretBack, caretForward, chevronForward } from "ionicons/icons";
 import React from "react";
 import { useSwiper } from "swiper/react";
 
 import "./SwiperButton.css";
 
-const SwiperButtons: React.FC = () => {
+interface IProps {
+  nextSlide: boolean;
+  setNextSlide: (value: boolean) => void;
+}
+
+const SwiperButtons: React.FC<IProps> = ({ nextSlide, setNextSlide }) => {
   const swiper = useSwiper();
+  if (nextSlide) {
+    swiper.slideNext();
+    setNextSlide(false);
+  }
+
   return (
     <div>
       <button
@@ -23,7 +33,7 @@ const SwiperButtons: React.FC = () => {
           swiper.slideNext();
         }}
       >
-        <IonIcon icon={caretForward} size="large" className="swiper__icon swiper__icon_right" />
+        <IonIcon icon={chevronForward} size="large" className="swiper__icon swiper__icon_right" />
       </button>
     </div>
   );

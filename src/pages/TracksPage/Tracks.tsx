@@ -23,7 +23,7 @@ import {
 
 import { chevronForwardOutline, create, personCircle } from "ionicons/icons";
 import ProfileMenu from "../../components/Menu/ProfileMenu";
-import ModalWindowTracks from "../../components/ModalWindow/ModalWindowTracks";
+import ModalWindowTracks from "../../components/ModalWindows/ModalWindowTacks/ModalWindowTracks";
 import { useCombineStates } from "../../store/useCombineStates";
 
 import "./Tracks.css";
@@ -69,12 +69,12 @@ const Tracks: React.FC = () => {
           <IonToolbar color="warning">
             <IonButtons slot="primary">
               <IonMenuToggle>
-                <IonButton className="tracks__bar_btn">
-                  <IonIcon slot="icon-only" icon={personCircle} color="dark"></IonIcon>
+                <IonButton className="tracks-page__profile_btn">
+                  <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
                 </IonButton>
               </IonMenuToggle>
             </IonButtons>
-            <IonTitle>Tracks</IonTitle>
+            <IonTitle className="tracks-page__title">Tracks</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen={true}>
@@ -84,7 +84,7 @@ const Tracks: React.FC = () => {
                 <div key={item.id}>
                   <IonCheckbox
                     style={{ position: "fixed", left: 0, padding: 20 }}
-                    className="tracks__check_box"
+                    className="tracks-page__check_box"
                     checked={selectedCategoryTracks.includes(item.category)}
                     onIonChange={() => {
                       setSelectedCategoryTracks(item.category);
@@ -92,7 +92,7 @@ const Tracks: React.FC = () => {
                     }}
                   />
                   <IonButton
-                    className="content__btn"
+                    className="track-page__content__btn"
                     onClick={() => handlerCategory(item.category)}
                     style={{ position: "fixed", right: 0, zIndex: 5, padding: 15 }}
                   >
@@ -103,7 +103,7 @@ const Tracks: React.FC = () => {
                     <IonRow>
                       <IonCol size="2"></IonCol>
                       <IonCol>
-                        <IonItem lines="full" className="track__item">
+                        <IonItem lines="full" className="track-page__item">
                           <IonThumbnail>
                             <img src={item.img_path} alt="" />
                           </IonThumbnail>

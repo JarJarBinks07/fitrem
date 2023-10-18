@@ -37,8 +37,7 @@ type RangeValue =
     };
 
 const Settings: React.FC = () => {
-  const { unsetTimer } = useCombineStates();
-  const { timerInterval, setTimerInterval } = useCombineStates();
+  const { timerInterval, setTimerInterval, unsetTimer } = useCombineStates();
   const [initialValue, setInitialValue] = useState<RangeValue>(timerInterval);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -56,12 +55,12 @@ const Settings: React.FC = () => {
           <IonToolbar color="warning">
             <IonButtons slot="primary">
               <IonMenuToggle>
-                <IonButton className="settings__bar_btn">
+                <IonButton className="settings-page__profile_btn">
                   <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
                 </IonButton>
               </IonMenuToggle>
             </IonButtons>
-            <IonTitle>Settings</IonTitle>
+            <IonTitle className="settings-page__title">Settings</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent>
