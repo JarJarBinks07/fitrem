@@ -29,12 +29,19 @@ import { personCircle } from "ionicons/icons";
 import ProfileMenu from "../../components/Menu/ProfileMenu";
 
 const TimerPage: React.FC = () => {
+  // useEffect(() => {
+  //   if (timerDuration - Date.now() < 0) {
+  //     unsetTimerLocalNotifications();
+  //   }
+  // });
+
   const [status, setStatus] = useState(true);
   const {
     timerInterval,
     timerStatus,
     timerKey,
     timerDuration,
+    timeAfterPause,
     setTimerStatus,
     setTimerDuration,
     setTimeAfterPause,
@@ -49,8 +56,8 @@ const TimerPage: React.FC = () => {
 
   const playButtonHandler = () => {
     if (timerDuration) {
-      setTimerDuration(timerDuration);
-      setTimerLocalNotification(timerDuration);
+      setTimerDuration(timeAfterPause);
+      setTimerLocalNotification(timeAfterPause);
     } else {
       ////value must be in milliseconds/////
       setTimerDuration(timerInterval * 60000);
@@ -83,7 +90,7 @@ const TimerPage: React.FC = () => {
                   <TimerFace
                     timerKey={timerKey}
                     timerInterval={timerInterval}
-                    timerDuration={timerDuration}
+                    timerDuration={timeAfterPause ? timeAfterPause : timerDuration - Date.now()}
                     timerActive={timerStatus === "running"}
                     unsetTimer={unsetTimer}
                     size={280}
