@@ -1,0 +1,8 @@
+.list-done__row {
+  display: flex;
+}
+.list-done__col {
+  margin-top: 4.5vh;
+}
+.list-done__icon:part(native) {
+}

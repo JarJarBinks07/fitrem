@@ -27,6 +27,7 @@ import { CombineState } from "../../store/useCombineStates";
 import SwiperContainer from "../../components/SwiperContainer/SwiperContainer";
 import { personCircle } from "ionicons/icons";
 import ProfileMenu from "../../components/Menu/ProfileMenu";
+import ListDoneExercises from "../../components/ListDoneExercises/ListDoneExercises";
 
 const TimerPage: React.FC = () => {
   // useEffect(() => {
@@ -46,6 +47,8 @@ const TimerPage: React.FC = () => {
     setTimerDuration,
     setTimeAfterPause,
     unsetTimer,
+    doneExercises,
+    savedHistoryExercises,
   } = useCombineStates();
 
   const pauseButtonHandler = () => {
@@ -116,6 +119,11 @@ const TimerPage: React.FC = () => {
           ) : (
             <SwiperContainer />
           )}
+          {savedHistoryExercises.length
+            ? doneExercises.map((e) => (
+                <ListDoneExercises key={e.id} category={e.category} exercise={e.exercise} path={e.image_path} />
+              ))
+            : null}
         </IonContent>
         {/* <FooterButtons /> */}
       </IonPage>

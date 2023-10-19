@@ -42,6 +42,7 @@ function ModalWindowSettings({ isOpen, setIsOpen }: IProps) {
     setRestIntervalForTraining,
     setTimerInterval,
     unsetTimerForTraining,
+    unsetWhenDone,
   } = useCombineStates();
   const [initialValue, setInitialValue] = useState<RangeValue>(timerInterval);
   const [workoutValue, setWorkoutValue] = useState<RangeValue>(workIntervalForTraining);
@@ -51,6 +52,7 @@ function ModalWindowSettings({ isOpen, setIsOpen }: IProps) {
     setTimerInterval(initialValue as number);
     setWorkIntervalForTraining(workoutValue as number);
     setRestIntervalForTraining(restValue as number);
+    unsetWhenDone();
     setIsOpen(false);
     console.log("hello");
     // unsetTimerForTraining()

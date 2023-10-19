@@ -279,7 +279,7 @@ const ImageContainer: React.FC = () => {
                     setTimeout(() => {
                       setDoneExercises(swiperTrackIndex, "done");
                     }, 2000);
-                    setPlayMode("pause");
+                    setPlayMode("play");
                     setPlayStatus(false);
                     setTimerStatusForTraining("pause");
                     unsetWhenDone();
