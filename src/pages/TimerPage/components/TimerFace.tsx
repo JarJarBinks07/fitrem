@@ -8,13 +8,12 @@ import { useSwiper } from "swiper/react";
 import Swiper from "swiper";
 
 interface IProps {
-  timerInterval: number;
   timerKey: number;
+  timerInterval: number;
   timerDuration: number;
   timerActive: boolean;
   size: number;
   strokeWidth: number;
-  mode: "rest" | "training";
   colors: {
     0: `#${string}`;
   } & {
@@ -25,8 +24,9 @@ interface IProps {
   } & {
     1: number;
   } & number[];
-  unsetTimer: () => void;
+  mode: "preparation" | "training" | "rest";
   swiper: Swiper;
+  unsetTimer: () => void;
   changeStatus: () => void;
   setDisabledButtons: (value: boolean) => void;
 }

@@ -40,6 +40,7 @@ import {
 import TimerFace from "../../pages/TimerPage/components/TimerFace";
 import TimerPlayButton from "../../pages/TimerPage/components/TimerPlayButton";
 import ModalWindowSettings from "../ModalWindows/ModalWindowSettings/ModalWindowSettings";
+import TimersForTraining from "./components/TimersForTraining";
 
 interface IVideo {
   id: number;
@@ -162,33 +163,39 @@ const ImageContainer: React.FC = () => {
               <IonIcon className="swiper__icon_info" slot="icon-only" icon={informationCircleOutline}></IonIcon>
             </IonButton>
             <div className="swiper__timer">
+              <TimersForTraining
+                selectedTimer={"training"}
+                swiper={swiperRef.current as ISwiper}
+                changeStatus={changeStatus}
+                setDisabledButtons={setDisabledButtons}
+              />
               {
-                <TimerFace
-                  timerKey={timerKeyForTraining}
-                  timerInterval={countDownForTraining || workIntervalForTraining || restIntervalForTraining || 0}
-                  timerDuration={
-                    timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()
-                  }
-                  timerActive={timerStatusForTraining === "running"}
-                  unsetTimer={unsetTimerForTraining}
-                  size={65}
-                  strokeWidth={4}
-                  colors={
-                    countDownForTraining
-                      ? ["#ffc409", "#ffc409"]
-                      : workIntervalForTraining
-                      ? ["#eb445a", "#eb445a"]
-                      : restIntervalForTraining
-                      ? ["#2fc22d", "#2dc275"]
-                      : ["#ffc409", "#ffc409"]
-                  }
-                  colorsTime={[15, 10]}
-                  mode={"training"}
-                  swiper={swiperRef.current as ISwiper}
-                  // swiper={swiperInstance}
-                  changeStatus={changeStatus}
-                  setDisabledButtons={setDisabledButtons}
-                />
+                // <TimerFace
+                //   timerKey={timerKeyForTraining}
+                //   timerInterval={countDownForTraining || workIntervalForTraining || restIntervalForTraining || 0}
+                //   timerDuration={
+                //     timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()
+                //   }
+                //   timerActive={timerStatusForTraining === "running"}
+                //   unsetTimer={unsetTimerForTraining}
+                //   size={65}
+                //   strokeWidth={4}
+                //   colors={
+                //     countDownForTraining
+                //       ? ["#ffc409", "#ffc409"]
+                //       : workIntervalForTraining
+                //       ? ["#eb445a", "#eb445a"]
+                //       : restIntervalForTraining
+                //       ? ["#2fc22d", "#2dc275"]
+                //       : ["#ffc409", "#ffc409"]
+                //   }
+                //   colorsTime={[15, 10]}
+                //   mode={"training"}
+                //   swiper={swiperRef.current as ISwiper}
+                //   // swiper={swiperInstance}
+                //   changeStatus={changeStatus}
+                //   setDisabledButtons={setDisabledButtons}
+                // />
               }
             </div>
 
