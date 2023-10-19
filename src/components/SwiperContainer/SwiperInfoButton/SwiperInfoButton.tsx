@@ -1,6 +1,6 @@
-import { IonButton } from "@ionic/react";
+import { IonButton, IonIcon } from "@ionic/react";
+import { informationCircleOutline } from "ionicons/icons";
 import React from "react";
-import "../SwiperContainer.css";
 
 interface IProps {
   playStatus: boolean;
@@ -18,7 +18,9 @@ const SwiperInfoButton: React.FC<IProps> = ({ playStatus, changeStatus, setIsOpe
           playStatus ? changeStatus() : null;
         }
       }}
-    ></IonButton>
+    >
+      <IonIcon className="swiper__icon_info" slot="icon-only" icon={informationCircleOutline}></IonIcon>
+    </IonButton>
   );
 };
 

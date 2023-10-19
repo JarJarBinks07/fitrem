@@ -44,6 +44,7 @@ import TimersForTraining from "./components/TimersForTraining/TimersForTraining"
 import SwiperUserButtons from "./components/SwiperUserButtons/SwiperUserButtons";
 import SwiperTitle from "./components/SwiperTitle/SwiperTitle";
 import SwiperInfoButton from "./SwiperInfoButton/SwiperInfoButton";
+import SwiperNavigationButtons from "./components/SwiperNavigatonButtons/SwiperNavigationButtons";
 
 interface IVideo {
   id: number;
@@ -160,6 +161,7 @@ const ImageContainer: React.FC = () => {
                   <VideoPlayer play={swiperTrackIndex === index ? playStatus : false} path={item.video_path} />
                 </SwiperSlide>
               ))}
+              <SwiperNavigationButtons swiper={swiperRef.current as ISwiper} />
             </Swiper>
           </div>
         </div>

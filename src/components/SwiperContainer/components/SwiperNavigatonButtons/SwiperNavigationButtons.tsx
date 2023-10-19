@@ -9,7 +9,7 @@ interface IProps {
   swiper: ISwiper;
 }
 
-const SwiperButtons: React.FC<IProps> = ({ swiper }) => {
+const SwiperNavigationButtons: React.FC<IProps> = ({ swiper }) => {
   return (
     <div>
       <button
@@ -32,4 +32,4 @@ const SwiperButtons: React.FC<IProps> = ({ swiper }) => {
   );
 };
 
-export default SwiperButtons;
+export default SwiperNavigationButtons;
