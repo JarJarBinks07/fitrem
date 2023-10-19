@@ -3,7 +3,7 @@ import { IonButton, IonCol, IonGrid, IonIcon, IonItem, IonRow, IonSpinner } from
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import { Pagination, Navigation, EffectFade } from "swiper/modules";
 import { Capacitor } from "@capacitor/core";
-import SwiperButtons from "./SwiperButtons";
+import SwiperButtons from "./components/SwiperNavigatonButtons/SwiperNavigationButtons";
 import ModalWindow from "../ModalWindows/ModalWindowExercise/ModalWindowExercise";
 import VideoPlayer from "../PlayerReact/VideoPlayer";
 import { useCombineStates } from "../../store/useCombineStates";
@@ -40,7 +40,10 @@ import {
 import TimerFace from "../../pages/TimerPage/components/TimerFace";
 import TimerPlayButton from "../../pages/TimerPage/components/TimerPlayButton";
 import ModalWindowSettings from "../ModalWindows/ModalWindowSettings/ModalWindowSettings";
-import TimersForTraining from "./components/TimersForTraining";
+import TimersForTraining from "./components/TimersForTraining/TimersForTraining";
+import SwiperUserButtons from "./components/SwiperUserButtons/SwiperUserButtons";
+import SwiperTitle from "./components/SwiperTitle/SwiperTitle";
+import SwiperInfoButton from "./SwiperInfoButton/SwiperInfoButton";
 
 interface IVideo {
   id: number;
@@ -57,33 +60,31 @@ const ImageContainer: React.FC = () => {
     setTimerDurationForTraining,
     setTimerStatusForTraining,
     setTimeAfterPauseForTraining,
-    timerDurationForTraining,
     workIntervalForTraining,
-    timerKeyForTraining,
     timeAfterPauseForTraining,
     timerStatusForTraining,
-    unsetTimerForTraining,
     userTraining,
     generateUserTraining,
     selectedCategoryTracks,
     doneExercises,
     setDoneExercises,
     savedHistoryExercises,
-    countDownForTraining,
-    restIntervalForTraining,
-    savedRestIntervalForTraining,
     unsetWhenDone,
-    setSelectedExercisesByID,
   } = useCombineStates();
 
-  /////ref for call next slide/////
-  const swiperRef = useRef<ISwiper>();
+  /////If one field checkbox and one track chosen we use useEffect (at least one must be chosen always). Init level/////
+  useEffect(() => {
+    if (!userTraining.length) {
+      generateUserTraining();
+    }
+  }, []);
 
   const slicedUserTraining = [...userTraining].slice(0, selectedCategoryTracks.length);
-  const [nextSlide, setNextSlide] = useState(false);
+
+  /////ref for activation next slide/////
+  const swiperRef = useRef<ISwiper>();
 
   /////Initial state/////
-  const [workoutButton, setWorkoutButton] = useState(true);
   const [disabledButtons, setDisabledButtons] = useState(false);
 
   /////Use platform if we want to disabled buttons in Swiper for device/////
@@ -102,36 +103,11 @@ const ImageContainer: React.FC = () => {
 
   /////Video player/////
   const [playStatus, setPlayStatus] = useState(false);
-  const [playMode, setPlayMode] = useState("play");
-
+  const [playMode, setPlayMode] = useState<"play" | "pause">("play");
   const changeStatus = () => {
     setPlayStatus((prev) => !prev);
     setPlayMode((prev) => (prev === "play" ? "pause" : "play"));
   };
-
-  const pauseButtonHandler = () => {
-    setTimerStatusForTraining("pause");
-    setTimeAfterPauseForTraining();
-    changeStatus();
-  };
-
-  const playButtonHandler = () => {
-    if (timeAfterPauseForTraining) {
-      setTimerDurationForTraining(timeAfterPauseForTraining);
-    } else {
-      /////value must be in milliseconds/////
-      setTimerDurationForTraining(workIntervalForTraining * 1000);
-    }
-    setTimerStatusForTraining("running");
-    changeStatus();
-  };
-
-  /////If one field checkbox and one track chosen we use useEffect (at least one must be chosen always). Init level/////
-  useEffect(() => {
-    if (!userTraining.length) {
-      generateUserTraining();
-    }
-  }, []);
 
   return (
     <div className="swiper">
@@ -142,64 +118,25 @@ const ImageContainer: React.FC = () => {
         <div>
           {slicedUserTraining.map((item, index) =>
             swiperTrackIndex === index ? (
-              <div key={item.id}>
-                <p className="swiper__track_exercise">{item.category}</p>
-                <div className="ion-text-uppercase">
-                  <p className="swiper__track_category">Track: {item.exercise}</p>
-                </div>
-              </div>
+              <SwiperTitle id={item.id} category={item.category} exercise={item.exercise} />
             ) : null
           )}
           <div className="swiper__container">
-            <IonButton
-              className="swiper__btn_info"
-              onClick={() => {
-                setIsOpenModalExercise(true);
-                {
-                  playStatus ? changeStatus() : null;
-                }
-              }}
-            >
-              <IonIcon className="swiper__icon_info" slot="icon-only" icon={informationCircleOutline}></IonIcon>
-            </IonButton>
-            <div className="swiper__timer">
-              <TimersForTraining
-                selectedTimer={"training"}
-                swiper={swiperRef.current as ISwiper}
-                changeStatus={changeStatus}
-                setDisabledButtons={setDisabledButtons}
-              />
-              {
-                // <TimerFace
-                //   timerKey={timerKeyForTraining}
-                //   timerInterval={countDownForTraining || workIntervalForTraining || restIntervalForTraining || 0}
-                //   timerDuration={
-                //     timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()
-                //   }
-                //   timerActive={timerStatusForTraining === "running"}
-                //   unsetTimer={unsetTimerForTraining}
-                //   size={65}
-                //   strokeWidth={4}
-                //   colors={
-                //     countDownForTraining
-                //       ? ["#ffc409", "#ffc409"]
-                //       : workIntervalForTraining
-                //       ? ["#eb445a", "#eb445a"]
-                //       : restIntervalForTraining
-                //       ? ["#2fc22d", "#2dc275"]
-                //       : ["#ffc409", "#ffc409"]
-                //   }
-                //   colorsTime={[15, 10]}
-                //   mode={"training"}
-                //   swiper={swiperRef.current as ISwiper}
-                //   // swiper={swiperInstance}
-                //   changeStatus={changeStatus}
-                //   setDisabledButtons={setDisabledButtons}
-                // />
-              }
-            </div>
+            <SwiperInfoButton
+              playStatus={playStatus}
+              changeStatus={changeStatus}
+              setIsOpenModalExercise={setIsOpenModalExercise}
+            />
+
+            <TimersForTraining
+              selectedTimer={"training"}
+              swiper={swiperRef.current as ISwiper}
+              changeStatus={changeStatus}
+              setDisabledButtons={setDisabledButtons}
+            />
 
             <Swiper
+              className="swiper__content"
               modules={[Pagination, Navigation, EffectFade]}
               slidesPerView={1}
               loop={true}
@@ -214,112 +151,31 @@ const ImageContainer: React.FC = () => {
               onSwiper={(swiper) => {
                 swiperRef.current = swiper;
               }}
-              // onSwiper={(swiper) => setSwiperInstance(swiper)}
               onRealIndexChange={(swiper) => {
                 setSwiperTrackIndex(swiper.realIndex);
               }}
-              className="swiper__content"
             >
-              {
-                // selectedCategoryTracks.length && setSelectedExercisesByID.length ?
-                // (
-                slicedUserTraining.map((item, index) => (
-                  <SwiperSlide key={item.id}>
-                    <VideoPlayer play={swiperTrackIndex === index ? playStatus : false} path={item.video_path} />
-                  </SwiperSlide>
-                ))
-                // ) : (
-                //   <VideoPlayer play={false} path={"/assets/icons/test.mp4"} />
-                // )
-              }
-              {/* {selectedCategoryTracks.length > 1 && } */}
-              {swiperButtons ? <SwiperButtons swiper={swiperRef.current as ISwiper} /> : null}
-
-              {/* {platform === "web" ? <SwiperButtons /> : null} */}
+              {slicedUserTraining.map((item, index) => (
+                <SwiperSlide key={item.id}>
+                  <VideoPlayer play={swiperTrackIndex === index ? playStatus : false} path={item.video_path} />
+                </SwiperSlide>
+              ))}
             </Swiper>
           </div>
         </div>
       ) : null}
-
-      <IonGrid className="swiper__grid_container">
-        <IonRow className="swiper__grid_row">
-          {workoutButton ? (
-            <IonCol>
-              <IonButton
-                className="swiper__bar_btn"
-                expand="block"
-                onClick={() => {
-                  setWorkoutButton(false);
-                  setSwiperButtons(false);
-                  setDisabledButtons(true);
-                  setTimerStatusForTraining("running");
-                }}
-              >
-                <div className="ion-text-uppercase">Start Workout</div>
-              </IonButton>
-            </IonCol>
-          ) : (
-            <>
-              <IonCol>
-                <IonButton
-                  disabled={disabledButtons}
-                  className="swiper__bar_btn"
-                  expand="block"
-                  onClick={timerStatusForTraining === "running" ? pauseButtonHandler : playButtonHandler}
-                >
-                  <IonIcon
-                    className="swiper__bar_icon"
-                    slot="end"
-                    icon={playStatus ? pauseCircleOutline : playCircleOutline}
-                    // icon={playStatus ? pauseOutline : playSharp}
-                  ></IonIcon>
-                  <div className="ion-text-uppercase">{playMode}</div>
-                </IonButton>
-              </IonCol>
-              <IonCol>
-                <IonButton
-                  disabled={disabledButtons}
-                  className="swiper__bar_btn  swiper__bar_btn_done"
-                  expand="block"
-                  onClick={() => {
-                    swiperRef.current?.slideNext();
-
-                    setDoneExercises(swiperTrackIndex, "done");
-
-                    setPlayMode("play");
-                    setPlayStatus(false);
-                    setTimerStatusForTraining("pause");
-                    unsetWhenDone();
-                  }}
-                >
-                  <IonIcon className="swiper__bar_icon" slot="end" icon={checkmarkCircleOutline}></IonIcon>
-                  {/* <IonIcon className="swiper__bar_icon" slot="end" icon={checkmarkOutline}></IonIcon> */}
-
-                  <div className="ion-text-uppercase">Done</div>
-                </IonButton>
-              </IonCol>
-            </>
-          )}
-          <IonCol>
-            <IonButton
-              disabled={disabledButtons}
-              className="swiper__bar_btn"
-              expand="block"
-              onClick={() => {
-                unsetWhenDone();
-                setDoneExercises(swiperTrackIndex, "skipped");
-              }}
-            >
-              {/* <IonIcon className="swiper__bar_icon" slot="end" icon={playForwardCircleOutline}></IonIcon> */}
-              {/* <IonIcon className="swiper__bar_icon" slot="end" icon={playForward}></IonIcon> */}
-              <IonIcon className="swiper__bar_icon" slot="end" icon={reloadCircleOutline}></IonIcon>
-
-              <div className="ion-text-uppercase">Skip</div>
-            </IonButton>
-          </IonCol>
-        </IonRow>
-      </IonGrid>
-
+      <SwiperUserButtons
+        swiper={swiperRef.current as ISwiper}
+        swiperTrackIndex={swiperTrackIndex}
+        playStatus={playStatus}
+        playMode={playMode}
+        disabledButtons={disabledButtons}
+        changeStatus={changeStatus}
+        setSwiperButtons={setSwiperButtons}
+        setDisabledButtons={setDisabledButtons}
+        setPlayMode={setPlayMode}
+        setPlayStatus={setPlayStatus}
+      />
       {slicedUserTraining[swiperTrackIndex] ? (
         <ModalWindow
           isOpen={isOpenModalExercise}

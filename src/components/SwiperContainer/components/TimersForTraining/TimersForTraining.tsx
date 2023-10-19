@@ -1,7 +1,7 @@
 import React from "react";
 import ISwiper from "swiper";
-import TimerFace from "../../../pages/TimerPage/components/TimerFace";
-import { useCombineStates } from "../../../store/useCombineStates";
+import TimerFace from "../../../../pages/TimerPage/components/TimerFace";
+import { useCombineStates } from "../../../../store/useCombineStates";
 
 import "./TimersForTraining.css";
 
@@ -25,7 +25,7 @@ const TimersForTraining: React.FC<IProps> = ({ selectedTimer, swiper, changeStat
   } = useCombineStates();
 
   return (
-    <>
+    <div className="swiper__timer">
       {selectedTimer === "preparation" && (
         <TimerFace
           timerKey={timerKeyForTraining}
@@ -77,7 +77,7 @@ const TimersForTraining: React.FC<IProps> = ({ selectedTimer, swiper, changeStat
           setDisabledButtons={setDisabledButtons}
         />
       )}
-    </>
+    </div>
   );
 };
 

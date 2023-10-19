@@ -2,9 +2,8 @@ import { IonIcon } from "@ionic/react";
 import { caretBack, caretForward, chevronForward } from "ionicons/icons";
 import React from "react";
 import ISwiper from "swiper";
-// import { useSwiper } from "swiper/react";
 
-import "./SwiperButton.css";
+import "./SwiperNavigationButtons.css";
 
 interface IProps {
   swiper: ISwiper;
