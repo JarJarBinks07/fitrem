@@ -120,7 +120,7 @@ const TimerPage: React.FC = () => {
             <SwiperContainer />
           )}
           {savedHistoryExercises.length
-            ? doneExercises.map((e) => (
+            ? savedHistoryExercises.map((e) => (
                 <ListDoneExercises key={e.id} category={e.category} exercise={e.exercise} path={e.image_path} />
               ))
             : null}

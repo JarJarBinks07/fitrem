@@ -276,9 +276,9 @@ const ImageContainer: React.FC = () => {
                   expand="block"
                   onClick={() => {
                     swiperRef.current?.slideNext();
-                    setTimeout(() => {
-                      setDoneExercises(swiperTrackIndex, "done");
-                    }, 2000);
+
+                    setDoneExercises(swiperTrackIndex, "done");
+
                     setPlayMode("play");
                     setPlayStatus(false);
                     setTimerStatusForTraining("pause");
