@@ -1,22 +1,16 @@
 import { IonIcon } from "@ionic/react";
 import { caretBack, caretForward, chevronForward } from "ionicons/icons";
 import React from "react";
-import { useSwiper } from "swiper/react";
+import ISwiper from "swiper";
+// import { useSwiper } from "swiper/react";
 
 import "./SwiperButton.css";
 
 interface IProps {
-  nextSlide: boolean;
-  setNextSlide: (value: boolean) => void;
+  swiper: ISwiper;
 }
 
-const SwiperButtons: React.FC<IProps> = ({ nextSlide, setNextSlide }) => {
-  const swiper = useSwiper();
-  if (nextSlide) {
-    swiper.slideNext();
-    setNextSlide(false);
-  }
-
+const SwiperButtons: React.FC<IProps> = ({ swiper }) => {
   return (
     <div>
       <button

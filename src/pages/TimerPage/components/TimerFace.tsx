@@ -3,6 +3,9 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { Duration } from "luxon";
 import "./TimerFace.css";
 import { ColorFormat } from "@faker-js/faker";
+import { useCombineStates } from "../../../store/useCombineStates";
+import { useSwiper } from "swiper/react";
+import Swiper from "swiper";
 
 interface IProps {
   timerInterval: number;
@@ -23,9 +26,13 @@ interface IProps {
     1: number;
   } & number[];
   unsetTimer: () => void;
+  swiper: Swiper;
+  changeStatus: () => void;
+  setDisabledButtons: (value: boolean) => void;
 }
 
 const TimerFace: React.FC<IProps> = ({
+  swiper,
   timerInterval,
   timerKey,
   timerDuration,
@@ -36,7 +43,17 @@ const TimerFace: React.FC<IProps> = ({
   colors,
   colorsTime,
   unsetTimer,
+
+  changeStatus,
+  setDisabledButtons,
 }) => {
+  const onCompleteSession = () => {
+    unsetTimer();
+    setDisabledButtons(false);
+    changeStatus();
+    swiper.slideNext();
+  };
+  // const { setCountDownFroTraining } = useCombineStates();
   /////for different timers/////
   let fromMinuteToSeconds = mode === "training" ? 1 : 60;
   const timeLeft = !!timerDuration ? timerDuration / 1000 : timerInterval * fromMinuteToSeconds;
@@ -81,7 +98,10 @@ const TimerFace: React.FC<IProps> = ({
       duration={timerInterval * fromMinuteToSeconds}
       initialRemainingTime={timeLeft > 0 ? timeLeft : timerInterval * fromMinuteToSeconds}
       onComplete={() => {
-        unsetTimer();
+        onCompleteSession();
+        // setNextSlide(true);
+        // changeStatus();
+        // setCountDownFroTraining();
       }}
     >
       {({ remainingTime }) => renderTime(remainingTime, timerActive)}

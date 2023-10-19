@@ -35,7 +35,7 @@ const TimerPage: React.FC = () => {
   //   }
   // });
 
-  const [status, setStatus] = useState(true);
+  const [status, setStatus] = useState(false);
   const {
     timerInterval,
     timerStatus,

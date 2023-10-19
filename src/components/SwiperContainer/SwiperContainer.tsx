@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { IonButton, IonCol, IonGrid, IonIcon, IonItem, IonRow, IonSpinner } from "@ionic/react";
-import { Swiper, SwiperSlide } from "swiper/react";
+import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import { Pagination, Navigation, EffectFade } from "swiper/modules";
 import { Capacitor } from "@capacitor/core";
 import SwiperButtons from "./SwiperButtons";
 import ModalWindow from "../ModalWindows/ModalWindowExercise/ModalWindowExercise";
 import VideoPlayer from "../PlayerReact/VideoPlayer";
 import { useCombineStates } from "../../store/useCombineStates";
+import ISwiper from "swiper";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -67,19 +68,30 @@ const ImageContainer: React.FC = () => {
     doneExercises,
     setDoneExercises,
     savedHistoryExercises,
+    countDownForTraining,
+    restIntervalForTraining,
+    savedRestIntervalForTraining,
   } = useCombineStates();
 
-  const slicedUserTraining = [...userTraining].slice(0, selectedCategoryTracks.length);
+  /////ref for call next slide/////
+  const swiperRef = useRef<ISwiper>();
 
+  const slicedUserTraining = [...userTraining].slice(0, selectedCategoryTracks.length);
   const [nextSlide, setNextSlide] = useState(false);
 
-  /////use platform if we want to disabled buttons in Swiper for device/////
+  /////Initial state/////
+  const [workoutButton, setWorkoutButton] = useState(true);
+  const [disabledButtons, setDisabledButtons] = useState(false);
+
+  /////Use platform if we want to disabled buttons in Swiper for device/////
   const platform = Capacitor.getPlatform();
 
   //////ModalRender: value should be 0 when Swiper init/////
+
   const [swiperTrackIndex, setSwiperTrackIndex] = useState(0);
   const [isOpenModalExercise, setIsOpenModalExercise] = useState(false);
   const [isOpenModalSettings, setIsOpenModalSettings] = useState(false);
+  const [swiperButtons, setSwiperButtons] = useState(true);
 
   console.log("doneExercises", doneExercises);
   console.log("userTraining", userTraining);
@@ -94,16 +106,10 @@ const ImageContainer: React.FC = () => {
     setPlayMode((prev) => (prev === "play" ? "pause" : "play"));
   };
 
-  /////If one field checkbox and one track chosen we use useEffect (at least one must be chosen always). Init level/////
-  useEffect(() => {
-    if (!userTraining.length) {
-      generateUserTraining();
-    }
-  }, []);
-
   const pauseButtonHandler = () => {
     setTimerStatusForTraining("pause");
     setTimeAfterPauseForTraining();
+    changeStatus();
   };
 
   const playButtonHandler = () => {
@@ -114,7 +120,15 @@ const ImageContainer: React.FC = () => {
       setTimerDurationForTraining(workIntervalForTraining * 1000);
     }
     setTimerStatusForTraining("running");
+    changeStatus();
   };
+
+  /////If one field checkbox and one track chosen we use useEffect (at least one must be chosen always). Init level/////
+  useEffect(() => {
+    if (!userTraining.length) {
+      generateUserTraining();
+    }
+  }, []);
 
   return (
     <div className="swiper">
@@ -146,20 +160,34 @@ const ImageContainer: React.FC = () => {
               <IonIcon className="swiper__icon_info" slot="icon-only" icon={informationCircleOutline}></IonIcon>
             </IonButton>
             <div className="swiper__timer">
-              <TimerFace
-                timerKey={timerKeyForTraining}
-                timerInterval={workIntervalForTraining}
-                timerDuration={
-                  timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()
-                }
-                timerActive={timerStatusForTraining === "running"}
-                unsetTimer={unsetTimerForTraining}
-                size={65}
-                strokeWidth={4}
-                colors={["#2fc22d", "#2dc275"]}
-                colorsTime={[15, 10]}
-                mode={"training"}
-              />
+              {
+                <TimerFace
+                  timerKey={timerKeyForTraining}
+                  timerInterval={countDownForTraining || workIntervalForTraining || restIntervalForTraining || 0}
+                  timerDuration={
+                    timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()
+                  }
+                  timerActive={timerStatusForTraining === "running"}
+                  unsetTimer={unsetTimerForTraining}
+                  size={65}
+                  strokeWidth={4}
+                  colors={
+                    countDownForTraining
+                      ? ["#ffc409", "#ffc409"]
+                      : workIntervalForTraining
+                      ? ["#eb445a", "#eb445a"]
+                      : restIntervalForTraining
+                      ? ["#2fc22d", "#2dc275"]
+                      : ["#ffc409", "#ffc409"]
+                  }
+                  colorsTime={[15, 10]}
+                  mode={"training"}
+                  swiper={swiperRef.current as ISwiper}
+                  // swiper={swiperInstance}
+                  changeStatus={changeStatus}
+                  setDisabledButtons={setDisabledButtons}
+                />
+              }
             </div>
 
             <Swiper
@@ -168,13 +196,18 @@ const ImageContainer: React.FC = () => {
               modules={[Pagination, Navigation, EffectFade]}
               slidesPerView={1}
               loop={true}
+              // navigation={true}
               pagination={{
                 clickable: true,
                 type: "fraction",
               }}
               simulateTouch={false}
               touchRatio={0}
-              speed={800}
+              speed={1500}
+              onSwiper={(swiper) => {
+                swiperRef.current = swiper;
+              }}
+              // onSwiper={(swiper) => setSwiperInstance(swiper)}
               onRealIndexChange={(swiper) => {
                 setSwiperTrackIndex(swiper.realIndex);
               }}
@@ -186,7 +219,7 @@ const ImageContainer: React.FC = () => {
                 </SwiperSlide>
               ))}
               {/* {selectedCategoryTracks.length > 1 && } */}
-              <SwiperButtons nextSlide={nextSlide} setNextSlide={setNextSlide} />
+              {swiperButtons ? <SwiperButtons swiper={swiperRef.current as ISwiper} /> : null}
 
               {/* {platform === "web" ? <SwiperButtons /> : null} */}
             </Swiper>
@@ -196,31 +229,64 @@ const ImageContainer: React.FC = () => {
 
       <IonGrid className="swiper__grid_container">
         <IonRow className="swiper__grid_row">
-          <IonCol>
-            <IonButton className="swiper__bar_btn" expand="block" onClick={changeStatus}>
-              <IonIcon
-                className="swiper__bar_icon"
-                slot="end"
-                icon={playStatus ? pauseCircleOutline : playCircleOutline}
-                // icon={playStatus ? pauseOutline : playSharp}
-              ></IonIcon>
-              <div className="ion-text-uppercase">{playMode}</div>
-            </IonButton>
-          </IonCol>
-          <IonCol>
-            <IonButton
-              className="swiper__bar_btn  swiper__bar_btn_done"
-              expand="block"
-              onClick={() => setNextSlide(true)}
-            >
-              <IonIcon className="swiper__bar_icon" slot="end" icon={checkmarkCircleOutline}></IonIcon>
-              {/* <IonIcon className="swiper__bar_icon" slot="end" icon={checkmarkOutline}></IonIcon> */}
+          {workoutButton ? (
+            <IonCol>
+              <IonButton
+                className="swiper__bar_btn"
+                expand="block"
+                onClick={() => {
+                  setWorkoutButton(false);
+                  setSwiperButtons(false);
+                  setDisabledButtons(true);
+                  setTimerStatusForTraining("running");
+                }}
+              >
+                <div className="ion-text-uppercase">Start Workout</div>
+              </IonButton>
+            </IonCol>
+          ) : (
+            <>
+              <IonCol>
+                <IonButton
+                  disabled={disabledButtons}
+                  className="swiper__bar_btn"
+                  expand="block"
+                  onClick={timerStatusForTraining === "running" ? pauseButtonHandler : playButtonHandler}
+                >
+                  <IonIcon
+                    className="swiper__bar_icon"
+                    slot="end"
+                    icon={playStatus ? pauseCircleOutline : playCircleOutline}
+                    // icon={playStatus ? pauseOutline : playSharp}
+                  ></IonIcon>
+                  <div className="ion-text-uppercase">{playMode}</div>
+                </IonButton>
+              </IonCol>
+              <IonCol>
+                <IonButton
+                  disabled={disabledButtons}
+                  className="swiper__bar_btn  swiper__bar_btn_done"
+                  expand="block"
+                  onClick={() => {
+                    swiperRef.current?.slideNext();
+                    setTimeout(() => {
+                      setDoneExercises(swiperTrackIndex, "done");
+                    }, 2000);
+                    setPlayMode("pause");
+                    setPlayStatus(false);
+                  }}
+                >
+                  <IonIcon className="swiper__bar_icon" slot="end" icon={checkmarkCircleOutline}></IonIcon>
+                  {/* <IonIcon className="swiper__bar_icon" slot="end" icon={checkmarkOutline}></IonIcon> */}
 
-              <div className="ion-text-uppercase">Done</div>
-            </IonButton>
-          </IonCol>
+                  <div className="ion-text-uppercase">Done</div>
+                </IonButton>
+              </IonCol>
+            </>
+          )}
           <IonCol>
             <IonButton
+              disabled={disabledButtons}
               className="swiper__bar_btn"
               expand="block"
               onClick={() => setDoneExercises(swiperTrackIndex, "skipped")}
@@ -233,20 +299,8 @@ const ImageContainer: React.FC = () => {
             </IonButton>
           </IonCol>
         </IonRow>
-
-        <IonButton
-          className="swiper__bar_btn"
-          expand="full"
-          style={{ marginTop: 10 }}
-          onClick={() => setDoneExercises(swiperTrackIndex, "done")}
-        >
-          Test
-        </IonButton>
-        <TimerPlayButton
-          timerHandler={timerStatusForTraining === "running" ? pauseButtonHandler : playButtonHandler}
-          timerStatus={timerStatusForTraining}
-        />
       </IonGrid>
+
       {slicedUserTraining[swiperTrackIndex] ? (
         <ModalWindow
           isOpen={isOpenModalExercise}
