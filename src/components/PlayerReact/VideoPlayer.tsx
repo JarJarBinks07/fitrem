@@ -29,7 +29,8 @@ const VideoPlayerReact: React.FC<IProps> = ({ play, path }) => {
       controls={false}
       loop={true}
       // url={checkVideoDestination ? [{ src: video }] : video}
-      url={video}
+      // url={video}
+      url={[{ src: path }]}
 
       //   className="react-player"
     />

@@ -45,7 +45,7 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
   allExercises: [],
   setAllExercises: (value) => set(() => ({ allExercises: value }), false, "setAllExercises"),
 
-  selectedExercisesByID: [1],
+  selectedExercisesByID: [],
   setSelectedExercisesByID: (value) =>
     set(
       (state) => {
@@ -65,7 +65,7 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
       "setSelectedExercisesByID"
     ),
 
-  selectedCategoryTracks: ["Biceps"],
+  selectedCategoryTracks: [],
   setSelectedCategoryTracks: (value: string) =>
     set(
       (state) => {

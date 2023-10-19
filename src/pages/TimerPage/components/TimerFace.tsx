@@ -43,15 +43,22 @@ const TimerFace: React.FC<IProps> = ({
   colors,
   colorsTime,
   unsetTimer,
-
   changeStatus,
   setDisabledButtons,
 }) => {
+  const { countDownForTraining, workIntervalForTraining, restIntervalForTraining, isWorkoutActive, unsetWhenDone } =
+    useCombineStates();
+
   const onCompleteSession = () => {
     unsetTimer();
-    setDisabledButtons(false);
+    unsetWhenDone();
+    setDisabledButtons((prev) => !prev);
     changeStatus();
-    swiper.slideNext();
+    if (countDownForTraining) {
+      return;
+    } else if (isWorkoutActive) {
+      swiper.slideNext();
+    }
   };
   // const { setCountDownFroTraining } = useCombineStates();
   /////for different timers/////

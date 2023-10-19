@@ -86,6 +86,7 @@ function ModalWindowSettings({ isOpen, setIsOpen }: IProps) {
               aria-label="Range with ionChange"
               min={5}
               max={60}
+              step={5}
               value={initialValue}
               onIonChange={(e) => setInitialValue(e.detail.value)}
             >
@@ -108,6 +109,7 @@ function ModalWindowSettings({ isOpen, setIsOpen }: IProps) {
               aria-label="Range with ionChange"
               min={5}
               max={60}
+              step={5}
               value={workoutValue}
               onIonChange={(e) => setWorkoutValue(e.detail.value)}
             >
@@ -130,6 +132,7 @@ function ModalWindowSettings({ isOpen, setIsOpen }: IProps) {
               aria-label="Range with ionChange"
               min={5}
               max={60}
+              step={5}
               value={restValue}
               onIonChange={(e) => setRestValue(e.detail.value)}
             >

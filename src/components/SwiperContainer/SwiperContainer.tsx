@@ -71,6 +71,8 @@ const ImageContainer: React.FC = () => {
     countDownForTraining,
     restIntervalForTraining,
     savedRestIntervalForTraining,
+    unsetWhenDone,
+    setSelectedExercisesByID,
   } = useCombineStates();
 
   /////ref for call next slide/////
@@ -191,8 +193,6 @@ const ImageContainer: React.FC = () => {
             </div>
 
             <Swiper
-              allowSlideNext={true}
-              allowSlidePrev={true}
               modules={[Pagination, Navigation, EffectFade]}
               slidesPerView={1}
               loop={true}
@@ -213,11 +213,18 @@ const ImageContainer: React.FC = () => {
               }}
               className="swiper__content"
             >
-              {slicedUserTraining.map((item, index) => (
-                <SwiperSlide key={item.id}>
-                  <VideoPlayer play={swiperTrackIndex === index ? playStatus : false} path={item.video_path} />
-                </SwiperSlide>
-              ))}
+              {
+                // selectedCategoryTracks.length && setSelectedExercisesByID.length ?
+                // (
+                slicedUserTraining.map((item, index) => (
+                  <SwiperSlide key={item.id}>
+                    <VideoPlayer play={swiperTrackIndex === index ? playStatus : false} path={item.video_path} />
+                  </SwiperSlide>
+                ))
+                // ) : (
+                //   <VideoPlayer play={false} path={"/assets/icons/test.mp4"} />
+                // )
+              }
               {/* {selectedCategoryTracks.length > 1 && } */}
               {swiperButtons ? <SwiperButtons swiper={swiperRef.current as ISwiper} /> : null}
 
@@ -274,6 +281,8 @@ const ImageContainer: React.FC = () => {
                     }, 2000);
                     setPlayMode("pause");
                     setPlayStatus(false);
+                    setTimerStatusForTraining("pause");
+                    unsetWhenDone();
                   }}
                 >
                   <IonIcon className="swiper__bar_icon" slot="end" icon={checkmarkCircleOutline}></IonIcon>
@@ -289,7 +298,10 @@ const ImageContainer: React.FC = () => {
               disabled={disabledButtons}
               className="swiper__bar_btn"
               expand="block"
-              onClick={() => setDoneExercises(swiperTrackIndex, "skipped")}
+              onClick={() => {
+                unsetWhenDone();
+                setDoneExercises(swiperTrackIndex, "skipped");
+              }}
             >
               {/* <IonIcon className="swiper__bar_icon" slot="end" icon={playForwardCircleOutline}></IonIcon> */}
               {/* <IonIcon className="swiper__bar_icon" slot="end" icon={playForward}></IonIcon> */}

@@ -1,3 +1,9 @@
+export const testImage = [
+  {
+    image_path: "/assets/icons/test.mp4",
+  },
+];
+
 export const tracksData = [
   {
     id: 0,

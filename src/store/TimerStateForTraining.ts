@@ -1,6 +1,7 @@
 import { MyStateCreator, useCombineStates } from "./useCombineStates";
 
 export interface ITimerTraining {
+  isWorkoutActive: boolean;
   countDownForTraining: number;
   workIntervalForTraining: number;
   savedWorkIntervalForTraining: number;
@@ -18,6 +19,7 @@ export interface ITimerTraining {
   setTimerDurationForTraining: (value: number) => void;
   setTimeAfterPauseForTraining: () => void;
   unsetTimerForTraining: () => void;
+  unsetWhenDone: () => void;
 }
 
 export const createTimerStateForTraining: MyStateCreator<ITimerTraining> = (set) => ({
@@ -60,36 +62,33 @@ export const createTimerStateForTraining: MyStateCreator<ITimerTraining> = (set)
       false,
       "setTimerAfterPauseForTraining"
     ),
-
+  isWorkoutActive: true,
   unsetTimerForTraining: () =>
     set(
       (state) => {
         if (state.countDownForTraining !== 0) {
           return {
             countDownForTraining: 0,
-            timerKeyForTraining: Date.now(),
-            // timerStatusForTraining: "idle",
-            timerDurationForTraining: 0,
-            timeAfterPauseForTraining: 0,
           };
         } else if (state.workIntervalForTraining !== 0) {
           return {
             workIntervalForTraining: 0,
-            timerKeyForTraining: Date.now(),
-            // timerStatusForTraining: "idle",
-            timerDurationForTraining: 0,
-            timeAfterPauseForTraining: 0,
+            isWorkoutActive: false,
           };
         } else if (state.countDownForTraining === 0 && state.workIntervalForTraining === 0) {
           return {
             workIntervalForTraining: state.savedWorkIntervalForTraining,
-            timerKeyForTraining: Date.now(),
-            timerDurationForTraining: 0,
-            timeAfterPauseForTraining: 0,
+            isWorkoutActive: true,
           };
         } else return state;
       },
       false,
       "unsetTimerForTraining"
+    ),
+  unsetWhenDone: () =>
+    set(
+      () => ({ timerDurationForTraining: 0, timeAfterPauseForTraining: 0, timerKeyForTraining: Date.now() }),
+      false,
+      "unsetWhenDone"
     ),
 });
