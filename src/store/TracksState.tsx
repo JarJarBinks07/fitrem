@@ -1,5 +1,10 @@
+import { preloadedImage } from "../shared/tracks/tracks";
 import { MyStateCreator } from "./useCombineStates";
 import _ from "lodash";
+
+export interface IPreloadedImage {
+  image_path: string;
+}
 
 export interface ITrack {
   id: number;
@@ -22,6 +27,7 @@ export interface IExercise {
 export type StateTrackWithExercise = {
   allTracks: ITrack[];
   allExercises: IExercise[];
+  preloadedImage: IPreloadedImage;
   selectedExercisesByID: number[];
   selectedCategoryTracks: string[];
   userTraining: IExercise[];
@@ -30,6 +36,7 @@ export type StateTrackWithExercise = {
   setAllTracks: (value: ITrack[]) => void;
   setOrderTracks: (value: ITrack[]) => void;
   setAllExercises: (value: IExercise[]) => void;
+  setPreloadedImage: (value: IPreloadedImage) => void;
   setSelectedExercisesByID: (value: number) => void;
   setSelectedCategoryTracks: (value: string) => void;
   setReorderedSelectedCategoryTracks: () => void;
@@ -45,13 +52,16 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
   allExercises: [],
   setAllExercises: (value) => set(() => ({ allExercises: value }), false, "setAllExercises"),
 
+  preloadedImage: {} as IPreloadedImage,
+  setPreloadedImage: (value) => set(() => ({ preloadedImage: value }), false, "setPreloadedImage"),
+
   selectedExercisesByID: [],
   setSelectedExercisesByID: (value) =>
     set(
       (state) => {
         let newExercisesID = [...state.selectedExercisesByID];
         if (state.selectedExercisesByID.includes(value)) {
-          if (state.selectedExercisesByID.length > 1) {
+          if (state.selectedExercisesByID.length) {
             newExercisesID = state.selectedExercisesByID.filter((e) => e != value);
           } else {
             return state;
@@ -71,7 +81,7 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
       (state) => {
         let newCategories = [...state.selectedCategoryTracks];
         if (state.selectedCategoryTracks.includes(value)) {
-          if (state.selectedCategoryTracks.length > 1) {
+          if (state.selectedCategoryTracks.length) {
             newCategories = state.selectedCategoryTracks.filter((e) => e !== value);
           } else {
             return state;
@@ -151,24 +161,31 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
         let newDoneExercises = [...state.doneExercises];
         let historyData = [];
 
-        /////Add exercise from done/////
+        ////////////////////Step #1////////////////////
+
+        /////Add exercise from doneExercises to userTraining/////
         const groupedByDoneCategory = _.groupBy(newDoneExercises, "category");
-        const groupByUserTrainingCategory = _.groupBy(newDoneExercises, "category");
-        for (const key in groupByUserTrainingCategory) {
+        const groupedByUserTrainingCategory = _.groupBy(newUserTraining, "category");
+        for (const key in groupedByUserTrainingCategory) {
           if (!groupedByDoneCategory[key]) {
             groupedByDoneCategory[key] = [];
-          } else if (groupByUserTrainingCategory[key].length <= groupedByDoneCategory[key].length) {
-            const [oneExerciseFromDoneByCategory] = groupedByDoneCategory[key].splice(0, 1);
-            newUserTraining.push(oneExerciseFromDoneByCategory);
-            const newFilteredDoneExercises = newDoneExercises.filter((e) => e.id !== oneExerciseFromDoneByCategory.id);
-            newDoneExercises = [...newFilteredDoneExercises];
+          } else if (groupedByUserTrainingCategory[key].length >= groupedByDoneCategory[key].length) {
+            const [firstExerciseFromDoneByCategory] = groupedByDoneCategory[key].splice(0, 1);
+            newUserTraining.push(firstExerciseFromDoneByCategory);
+            newDoneExercises = newDoneExercises.filter((e) => e.id !== firstExerciseFromDoneByCategory.id);
           }
         }
-        /////////////////////////////////////////////////////////////////////////////////////////
+        ////////////////////Step #2////////////////////
+
+        /////Find next exercise from current category/////
+
         const [currentDoneExercise] = [...newUserTraining].filter((e, index) => index === value);
         const findNextExerciseFromCategory = newUserTraining.find(
           ({ category, id }) => id !== currentDoneExercise.id && category === currentDoneExercise.category
         );
+
+        /////Remove done/skipped exercise from userTraining and add to doneExercises /////
+
         if (findNextExerciseFromCategory?.id && !newDoneExercises.includes(currentDoneExercise)) {
           const result = newUserTraining.filter((e) => e.id !== findNextExerciseFromCategory.id);
           const [removedExerciseFromTraining] = result.splice(value, 1, findNextExerciseFromCategory);

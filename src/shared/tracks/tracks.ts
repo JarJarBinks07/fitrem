@@ -1,8 +1,6 @@
-export const testImage = [
-  {
-    image_path: "/assets/icons/test.mp4",
-  },
-];
+export const preloadedImage = {
+  image_path: "/assets/tracks/test_2.mp4",
+};
 
 export const tracksData = [
   {

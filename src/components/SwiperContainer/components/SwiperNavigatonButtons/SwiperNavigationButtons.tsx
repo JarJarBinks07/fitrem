@@ -1,5 +1,5 @@
 import { IonIcon } from "@ionic/react";
-import { caretBack, caretForward, chevronForward } from "ionicons/icons";
+import { caretBack, caretForward, chevronBack, chevronForward } from "ionicons/icons";
 import React from "react";
 import ISwiper from "swiper";
 
@@ -18,7 +18,7 @@ const SwiperNavigationButtons: React.FC<IProps> = ({ swiper }) => {
           swiper.slidePrev();
         }}
       >
-        <IonIcon icon={caretBack} className="swiper__icon swiper__icon_left" />
+        <IonIcon icon={chevronBack} className="swiper__icon swiper__icon_left" />
       </button>
       <button
         className=" swiper__btn swiper__btn_next"
