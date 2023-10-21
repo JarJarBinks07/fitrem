@@ -47,8 +47,7 @@ const TimerPage: React.FC = () => {
     setTimerDuration,
     setTimeAfterPause,
     unsetTimer,
-    doneExercises,
-    savedHistoryExercises,
+    savedHistoryDoneExercises,
   } = useCombineStates();
 
   const pauseButtonHandler = () => {
@@ -119,8 +118,8 @@ const TimerPage: React.FC = () => {
           ) : (
             <SwiperContainer />
           )}
-          {savedHistoryExercises.length
-            ? savedHistoryExercises.map((e) => (
+          {savedHistoryDoneExercises.length
+            ? savedHistoryDoneExercises.map((e) => (
                 <ListDoneExercises key={e.id} category={e.category} exercise={e.exercise} path={e.image_path} />
               ))
             : null}

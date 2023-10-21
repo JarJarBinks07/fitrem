@@ -1,4 +1,3 @@
-import { preloadedImage } from "../shared/tracks/tracks";
 import { MyStateCreator } from "./useCombineStates";
 import _ from "lodash";
 
@@ -31,8 +30,8 @@ export type StateTrackWithExercise = {
   selectedExercisesByID: number[];
   selectedCategoryTracks: string[];
   userTraining: IExercise[];
-  doneExercises: IExercise[];
-  savedHistoryExercises: IExercise[];
+  passedExercises: IExercise[];
+  savedHistoryDoneExercises: IExercise[];
   setAllTracks: (value: ITrack[]) => void;
   setOrderTracks: (value: ITrack[]) => void;
   setAllExercises: (value: IExercise[]) => void;
@@ -41,7 +40,7 @@ export type StateTrackWithExercise = {
   setSelectedCategoryTracks: (value: string) => void;
   setReorderedSelectedCategoryTracks: () => void;
   generateUserTraining: () => void;
-  setDoneExercises: (value: number, status: string) => void;
+  setPassedExercises: (value: number, status: string) => void;
 };
 
 export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) => ({
@@ -148,18 +147,18 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
           }
         }
 
-        return { userTraining: result, doneExercises: [] };
+        return { userTraining: result, passedExercises: [] };
       },
       false,
       "generateUserTraining"
     ),
-  savedHistoryExercises: [],
-  doneExercises: [],
-  setDoneExercises: (value, status) =>
+  savedHistoryDoneExercises: [],
+  passedExercises: [],
+  setPassedExercises: (value, status) =>
     set(
       (state) => {
         const newUserTraining = [...state.userTraining];
-        let newDoneExercises = [...state.doneExercises];
+        let newDoneExercises = [...state.passedExercises];
         let historyData = [];
 
         ////////////////////Step #1////////////////////
@@ -199,8 +198,8 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
           }
           return {
             userTraining: result,
-            savedHistoryExercises: [...state.savedHistoryExercises, ...historyData],
-            doneExercises: [...newDoneExercises, removedExerciseFromTraining],
+            savedHistoryDoneExercises: [...state.savedHistoryDoneExercises, ...historyData],
+            passedExercises: [...newDoneExercises, removedExerciseFromTraining],
           };
         } else return state;
       },

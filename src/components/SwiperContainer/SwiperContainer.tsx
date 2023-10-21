@@ -34,27 +34,23 @@ interface IVideo {
 }
 
 const ImageContainer: React.FC = () => {
-  const {
-    userTraining,
-    generateUserTraining,
-    selectedCategoryTracks,
-    doneExercises,
-    savedHistoryExercises,
-    preloadedImage,
-  } = useCombineStates();
-
-  ///// use for disabling navigation arrows/////
-  const groupedByDoneCategory = _.groupBy([...userTraining], "category");
-  const isActiveNavigationButtons = Object.keys(groupedByDoneCategory).length > 1;
+  const { userTraining, generateUserTraining, passedExercises, savedHistoryDoneExercises, preloadedImage } =
+    useCombineStates();
 
   /////If one field checkbox and one track chosen we use useEffect (at least one must be chosen always). Init level/////
-  useEffect(() => {
-    if (!userTraining.length) {
-      generateUserTraining();
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (!userTraining.length) {
+  //     generateUserTraining();
+  //   }
+  // }, []);
 
-  const slicedUserTraining = [...userTraining].slice(0, selectedCategoryTracks.length);
+  ///// use for disabling navigation /////
+  const groupedByDoneCategory = _.groupBy([...userTraining], "category");
+
+  const isActiveNavigationButtons = Object.keys(groupedByDoneCategory).length > 1;
+
+  /////use for displaying slides/////
+  const slicedUserTraining = [...userTraining].slice(0, Object.keys(groupedByDoneCategory).length);
 
   /////ref for activation next slide/////
   const swiperRef = useRef<ISwiper>();
@@ -71,9 +67,9 @@ const ImageContainer: React.FC = () => {
   const [isOpenModalExercise, setIsOpenModalExercise] = useState(false);
   const [isOpenModalSettings, setIsOpenModalSettings] = useState(false);
 
-  console.log("doneExercises", doneExercises);
+  console.log("doneExercises", passedExercises);
   console.log("userTraining", userTraining);
-  console.log("savedHistoryExercises", savedHistoryExercises);
+  console.log("savedHistoryDoneExercises", savedHistoryDoneExercises);
 
   /////Video player/////
   const [playStatus, setPlayStatus] = useState(false);
@@ -120,7 +116,7 @@ const ImageContainer: React.FC = () => {
                 loop={true}
                 // navigation={true}
                 pagination={{
-                  clickable: true,
+                  clickable: false,
                   type: "fraction",
                 }}
                 simulateTouch={false}

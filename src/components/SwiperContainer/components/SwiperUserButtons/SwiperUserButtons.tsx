@@ -34,11 +34,11 @@ const SwiperUserButtons: React.FC<IProps> = ({
     timeAfterPauseForTraining,
     workIntervalForTraining,
     userTraining,
-    doneExercises,
+    passedExercises,
     setTimerStatusForTraining,
     setTimeAfterPauseForTraining,
     setTimerDurationForTraining,
-    setDoneExercises,
+    setPassedExercises,
     unsetWhenDone,
   } = useCombineStates();
 
@@ -48,15 +48,12 @@ const SwiperUserButtons: React.FC<IProps> = ({
   /////Buttons are disabled if track and exercise not chosen/////
   const disabledFromTraining = !Boolean(userTraining.length);
 
-  /////Skip button is disabled if active exercises in category only 1/////
+  /////Skip button is disabled/////
   const [isActiveSkipButton, setIsActiveSkipButton] = useState(false);
   function setActiveSkippedButton() {
     const currentCategory = userTraining[swiperTrackIndex]?.category;
-    console.log(currentCategory);
     const filteredUserTraining = userTraining.filter((e) => e.category === currentCategory);
-    console.log(filteredUserTraining);
-    const filteredDoneExercises = doneExercises.filter((e) => e.category === currentCategory);
-    console.log(filteredDoneExercises);
+    const filteredDoneExercises = passedExercises.filter((e) => e.category === currentCategory);
     if (filteredUserTraining?.length === 1 && filteredDoneExercises?.length === 0) {
       setIsActiveSkipButton(true);
     } else setIsActiveSkipButton(false);
@@ -64,7 +61,7 @@ const SwiperUserButtons: React.FC<IProps> = ({
 
   useEffect(() => {
     setActiveSkippedButton();
-  }, [swiperTrackIndex, userTraining?.length, doneExercises?.length]);
+  }, [swiperTrackIndex, userTraining?.length, passedExercises?.length]);
 
   ////////////////////////////////////////////
 
@@ -113,7 +110,7 @@ const SwiperUserButtons: React.FC<IProps> = ({
                   expand="block"
                   onClick={() => {
                     unsetWhenDone();
-                    setDoneExercises(swiperTrackIndex, "skipped");
+                    setPassedExercises(swiperTrackIndex, "skipped");
                   }}
                 >
                   {/* <IonIcon className="swiper__bar_icon" slot="end" icon={playForwardCircleOutline}></IonIcon> */}
@@ -149,7 +146,7 @@ const SwiperUserButtons: React.FC<IProps> = ({
                   expand="block"
                   onClick={() => {
                     swiper.slideNext();
-                    setDoneExercises(swiperTrackIndex, "done");
+                    setPassedExercises(swiperTrackIndex, "done");
                     setPlayMode("play");
                     setPlayStatus(false);
                     setTimerStatusForTraining("pause");
