@@ -49,31 +49,22 @@ const SwiperUserButtons: React.FC<IProps> = ({
   const disabledFromTraining = !Boolean(userTraining.length);
 
   /////Skip button is disabled if active exercises in category only 1/////
-  // const [isActiveSkipButton, setIsActiveSkipButton] = useState(false);
-  // function setActiveSkippedButton() {
-  //   let isActiveButton = false;
-  //   if (userTraining.length) {
-  //     const getCurrentCategory = userTraining[swiperTrackIndex].category;
-  //     const groupedByCategoryFromTraining = _.groupBy([...userTraining], "category");
-  //     const groupedByDoneFromTraining = _.groupBy([...doneExercises], "category");
-  //     if (groupedByDoneFromTraining[getCurrentCategory]?.length) {
-  //       console.log("DONE");
-  //       const result =
-  //         groupedByCategoryFromTraining[getCurrentCategory].length >= 1 &&
-  //         groupedByDoneFromTraining[getCurrentCategory].length < 2;
-  //       isActiveButton = !result;
-  //       setIsActiveSkipButton(isActiveButton);
-  //       return;
-  //     }
-  //     const result = groupedByCategoryFromTraining[getCurrentCategory].length > 1;
-  //     isActiveButton = !result;
-  //   }
-  //   setIsActiveSkipButton(isActiveButton);
-  // }
+  const [isActiveSkipButton, setIsActiveSkipButton] = useState(false);
+  function setActiveSkippedButton() {
+    const currentCategory = userTraining[swiperTrackIndex]?.category;
+    console.log(currentCategory);
+    const filteredUserTraining = userTraining.filter((e) => e.category === currentCategory);
+    console.log(filteredUserTraining);
+    const filteredDoneExercises = doneExercises.filter((e) => e.category === currentCategory);
+    console.log(filteredDoneExercises);
+    if (filteredUserTraining?.length === 1 && filteredDoneExercises?.length === 0) {
+      setIsActiveSkipButton(true);
+    } else setIsActiveSkipButton(false);
+  }
 
-  // useEffect(() => {
-  //   setActiveSkippedButton();
-  // }, [userTraining?.length]);
+  useEffect(() => {
+    setActiveSkippedButton();
+  }, [swiperTrackIndex, userTraining?.length, doneExercises?.length]);
 
   ////////////////////////////////////////////
 
@@ -117,10 +108,7 @@ const SwiperUserButtons: React.FC<IProps> = ({
 
               <IonCol>
                 <IonButton
-                  disabled={
-                    disabledFromTraining
-                    //  || isActiveSkipButton
-                  }
+                  disabled={disabledFromTraining || isActiveSkipButton}
                   className="swiper__bar_btn"
                   expand="block"
                   onClick={() => {

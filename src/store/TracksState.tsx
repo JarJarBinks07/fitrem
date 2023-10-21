@@ -110,7 +110,7 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
     set(
       (state) => {
         /////Getting active exercises/////
-        const activeTracks = state.selectedCategoryTracks;
+        const activeTracks = [...state.selectedCategoryTracks];
         const activeExercises = [];
         for (const key of state.selectedExercisesByID) {
           const currentActiveExercise = state.allExercises.filter((e) => e.id === key);
@@ -130,7 +130,7 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
         /////Sorting one by one/////
         const filteredExercises = newArrOfActiveExercises.filter((e) => activeTracks.includes(e.category));
         const groupedByCategory = _.groupBy(filteredExercises, "category");
-        const result = [];
+        const result = [] as IExercise[];
         let maxLength = 0;
         for (const key of activeTracks) {
           if (!groupedByCategory[key]) {
@@ -147,7 +147,8 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
             }
           }
         }
-        return { userTraining: result };
+
+        return { userTraining: result, doneExercises: [] };
       },
       false,
       "generateUserTraining"
@@ -169,7 +170,7 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
         for (const key in groupedByUserTrainingCategory) {
           if (!groupedByDoneCategory[key]) {
             groupedByDoneCategory[key] = [];
-          } else if (groupedByUserTrainingCategory[key].length >= groupedByDoneCategory[key].length) {
+          } else if (groupedByUserTrainingCategory[key].length <= groupedByDoneCategory[key].length) {
             const [firstExerciseFromDoneByCategory] = groupedByDoneCategory[key].splice(0, 1);
             newUserTraining.push(firstExerciseFromDoneByCategory);
             newDoneExercises = newDoneExercises.filter((e) => e.id !== firstExerciseFromDoneByCategory.id);
