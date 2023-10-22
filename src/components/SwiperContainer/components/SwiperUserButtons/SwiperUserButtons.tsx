@@ -10,10 +10,8 @@ interface IProps {
   swiperTrackIndex: number;
   playStatus: boolean;
   playMode: "play" | "pause";
-  disabledButtons: boolean;
   changeStatus: () => void;
   setPlayMode: (value: "play" | "pause") => void;
-  setDisabledButtons: React.Dispatch<React.SetStateAction<boolean>>;
   setPlayStatus: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -22,9 +20,7 @@ const SwiperUserButtons: React.FC<IProps> = ({
   swiperTrackIndex,
   playStatus,
   playMode,
-  disabledButtons,
   changeStatus,
-  setDisabledButtons,
   setPlayMode,
   setPlayStatus,
 }) => {
@@ -40,6 +36,7 @@ const SwiperUserButtons: React.FC<IProps> = ({
     setTimerDurationForTraining,
     setPassedExercises,
     unsetWhenDone,
+    setDisabledNavButtonsWhenTrainingStarts,
   } = useCombineStates();
 
   /////Initial state/////
@@ -94,8 +91,7 @@ const SwiperUserButtons: React.FC<IProps> = ({
                   disabled={disabledFromTraining}
                   onClick={() => {
                     setWorkoutButton(false);
-                    // setSwiperButtons(false);
-                    setDisabledButtons(true);
+                    setDisabledNavButtonsWhenTrainingStarts();
                     setTimerStatusForTraining("running");
                   }}
                 >
@@ -125,7 +121,6 @@ const SwiperUserButtons: React.FC<IProps> = ({
             <>
               <IonCol>
                 <IonButton
-                  disabled={disabledButtons}
                   className="swiper__bar_btn"
                   expand="block"
                   onClick={timerStatusForTraining === "running" ? pauseButtonHandler : playButtonHandler}
@@ -141,7 +136,6 @@ const SwiperUserButtons: React.FC<IProps> = ({
               </IonCol>
               <IonCol>
                 <IonButton
-                  disabled={disabledButtons}
                   className="swiper__bar_btn  swiper__bar_btn_done"
                   expand="block"
                   onClick={() => {

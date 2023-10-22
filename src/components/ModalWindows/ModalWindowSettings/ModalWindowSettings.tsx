@@ -80,7 +80,9 @@ function ModalWindowSettings({ isOpen, setIsOpen }: IProps) {
         <IonCard>
           <IonCardContent>
             <IonItem lines="none">
-              <IonLabel class="ion-text-wrap">I want to workout every {initialValue.toString()} minutes</IonLabel>
+              <IonLabel class="ion-text-wrap">
+                I want to workout every <b>{initialValue.toString()}</b> minutes
+              </IonLabel>
             </IonItem>
             {/* IonRange doesn't work as separate JSX component*/}
             <IonRange
@@ -93,16 +95,11 @@ function ModalWindowSettings({ isOpen, setIsOpen }: IProps) {
               onIonChange={(e) => setInitialValue(e.detail.value)}
             >
               <IonIcon className="modal-settings__watch_left" slot="start" icon={stopwatchOutline}></IonIcon>
-              <IonIcon
-                className="modal-settings__watch_right"
-                slot="end"
-                icon={stopwatchOutline}
-                size="large"
-              ></IonIcon>
+              <IonIcon className="modal-settings__watch_right" slot="end" icon={stopwatchOutline} size="large"></IonIcon>
             </IonRange>
             <IonItem lines="none">
               <IonLabel class="ion-text-wrap">
-                ...by performing each exercises for {workoutValue.toString()} seconds
+                ...by performing each exercises for <b>{workoutValue.toString()}</b> seconds
               </IonLabel>
             </IonItem>
             {/* IonRange doesn't work as separate JSX component*/}
@@ -116,17 +113,12 @@ function ModalWindowSettings({ isOpen, setIsOpen }: IProps) {
               onIonChange={(e) => setWorkoutValue(e.detail.value)}
             >
               <IonIcon className="modal-settings__watch_left" slot="start" icon={stopwatchOutline}></IonIcon>
-              <IonIcon
-                className="modal-settings__watch_right"
-                slot="end"
-                icon={stopwatchOutline}
-                size="large"
-              ></IonIcon>
+              <IonIcon className="modal-settings__watch_right" slot="end" icon={stopwatchOutline} size="large"></IonIcon>
               {/* IonRange doesn't work as separate JSX component*/}
             </IonRange>
             <IonItem lines="none">
               <IonLabel class="ion-text-wrap">
-                ...and taking a {restValue.toString()} seconds break between each exercises
+                ...and taking a <b>{restValue.toString()}</b> seconds break between each exercises
               </IonLabel>
             </IonItem>
             <IonRange
@@ -139,12 +131,7 @@ function ModalWindowSettings({ isOpen, setIsOpen }: IProps) {
               onIonChange={(e) => setRestValue(e.detail.value)}
             >
               <IonIcon className="modal-settings__watch_left" slot="start" icon={stopwatchOutline}></IonIcon>
-              <IonIcon
-                className="modal-settings__watch_right"
-                slot="end"
-                icon={stopwatchOutline}
-                size="large"
-              ></IonIcon>
+              <IonIcon className="modal-settings__watch_right" slot="end" icon={stopwatchOutline} size="large"></IonIcon>
             </IonRange>
           </IonCardContent>
         </IonCard>

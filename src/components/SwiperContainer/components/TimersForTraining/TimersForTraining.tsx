@@ -9,10 +9,9 @@ interface IProps {
   selectedTimer: "preparation" | "training" | "rest";
   swiper: ISwiper;
   changeStatus: () => void;
-  setDisabledButtons: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const TimersForTraining: React.FC<IProps> = ({ selectedTimer, swiper, changeStatus, setDisabledButtons }) => {
+const TimersForTraining: React.FC<IProps> = ({ selectedTimer, swiper, changeStatus }) => {
   const {
     timerKeyForTraining,
     countDownForTraining,
@@ -40,7 +39,6 @@ const TimersForTraining: React.FC<IProps> = ({ selectedTimer, swiper, changeStat
           mode={"training"}
           swiper={swiper}
           changeStatus={changeStatus}
-          setDisabledButtons={setDisabledButtons}
         />
       )}
       {selectedTimer === "training" && (
@@ -57,7 +55,6 @@ const TimersForTraining: React.FC<IProps> = ({ selectedTimer, swiper, changeStat
           mode={"training"}
           swiper={swiper}
           changeStatus={changeStatus}
-          setDisabledButtons={setDisabledButtons}
         />
       )}
       {selectedTimer === "rest" && (
@@ -74,7 +71,6 @@ const TimersForTraining: React.FC<IProps> = ({ selectedTimer, swiper, changeStat
           swiper={swiper}
           changeStatus={changeStatus}
           unsetTimer={unsetTimerForTraining}
-          setDisabledButtons={setDisabledButtons}
         />
       )}
     </div>

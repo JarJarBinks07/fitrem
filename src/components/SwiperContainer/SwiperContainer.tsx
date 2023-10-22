@@ -35,7 +35,7 @@ interface IVideo {
 }
 
 const ImageContainer: React.FC = () => {
-  const { userTraining, generateUserTraining, passedExercises, savedHistoryDoneExercises, preloadedImage } =
+  const { userTraining, passedExercises, savedHistoryDoneExercises, preloadedImage, disabledNavButtonsWhenTrainingStarts } =
     useCombineStates();
 
   /////If one field checkbox and one track chosen we use useEffect (at least one must be chosen always). Init level/////
@@ -55,9 +55,6 @@ const ImageContainer: React.FC = () => {
 
   /////ref for activation next slide/////
   const swiperRef = useRef<ISwiper>();
-
-  /////Initial state/////
-  const [disabledButtons, setDisabledButtons] = useState(false);
 
   /////Use platform if we want to disabled buttons in Swiper for device/////
   const platform = Capacitor.getPlatform();
@@ -107,7 +104,6 @@ const ImageContainer: React.FC = () => {
                 selectedTimer={"training"}
                 swiper={swiperRef.current as ISwiper}
                 changeStatus={changeStatus}
-                setDisabledButtons={setDisabledButtons}
               />
 
               <Swiper
@@ -137,7 +133,9 @@ const ImageContainer: React.FC = () => {
                     </SwiperSlide>
                   </div>
                 ))}
-                {isActiveNavigationButtons ? <SwiperNavigationButtons swiper={swiperRef.current as ISwiper} /> : null}
+                {isActiveNavigationButtons || disabledNavButtonsWhenTrainingStarts ? (
+                  <SwiperNavigationButtons swiper={swiperRef.current as ISwiper} />
+                ) : null}
               </Swiper>
             </div>
           </div>
@@ -156,9 +154,7 @@ const ImageContainer: React.FC = () => {
         swiperTrackIndex={swiperTrackIndex}
         playStatus={playStatus}
         playMode={playMode}
-        disabledButtons={disabledButtons}
         changeStatus={changeStatus}
-        setDisabledButtons={setDisabledButtons}
         setPlayMode={setPlayMode}
         setPlayStatus={setPlayStatus}
       />
