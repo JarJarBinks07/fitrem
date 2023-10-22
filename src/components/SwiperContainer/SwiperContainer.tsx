@@ -94,11 +94,6 @@ const ImageContainer: React.FC = () => {
               playStatus
                 ? (changeStatus(), setTimerStatusForTraining("pause"), setIsOpenModalSettings(true))
                 : setIsOpenModalSettings(true);
-              // if (playStatus ? changeStatus() : null;) {
-              //   setTimerStatusForTraining("pause");
-              //   changeStatus();
-              // }
-              // setIsOpenModalSettings(true);
             }}
           >
             <IonIcon slot="icon-only" icon={optionsOutline}></IonIcon>
