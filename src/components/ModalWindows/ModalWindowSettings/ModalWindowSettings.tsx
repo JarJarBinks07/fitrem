@@ -54,8 +54,6 @@ function ModalWindowSettings({ isOpen, setIsOpen }: IProps) {
     setRestIntervalForTraining(restValue as number);
     unsetWhenDone();
     setIsOpen(false);
-    console.log("hello");
-    // unsetTimerForTraining()
   };
 
   return (

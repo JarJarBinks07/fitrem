@@ -31,12 +31,15 @@ const SwiperUserButtons: React.FC<IProps> = ({
     workIntervalForTraining,
     userTraining,
     passedExercises,
+    disabledMainButtonsExceptTraining,
     setTimerStatusForTraining,
     setTimeAfterPauseForTraining,
     setTimerDurationForTraining,
     setPassedExercises,
     unsetWhenDone,
     setDisabledNavButtonsWhenTrainingStarts,
+    setDisabledMainButtonsExceptTraining,
+    setTimerMode,
   } = useCombineStates();
 
   /////Initial state/////
@@ -75,7 +78,7 @@ const SwiperUserButtons: React.FC<IProps> = ({
       /////value must be in milliseconds/////
       setTimerDurationForTraining(workIntervalForTraining * 1000);
     }
-    setTimerStatusForTraining("running");
+    setTimerStatusForTraining("start");
     changeStatus();
   };
   return (
@@ -92,7 +95,9 @@ const SwiperUserButtons: React.FC<IProps> = ({
                   onClick={() => {
                     setWorkoutButton(false);
                     setDisabledNavButtonsWhenTrainingStarts();
-                    setTimerStatusForTraining("running");
+                    setDisabledMainButtonsExceptTraining();
+                    setTimerStatusForTraining("start");
+                    setTimerMode("preparation");
                   }}
                 >
                   <div className="ion-text-uppercase">Start Workout</div>
@@ -122,8 +127,9 @@ const SwiperUserButtons: React.FC<IProps> = ({
               <IonCol>
                 <IonButton
                   className="swiper__bar_btn"
+                  disabled={disabledMainButtonsExceptTraining}
                   expand="block"
-                  onClick={timerStatusForTraining === "running" ? pauseButtonHandler : playButtonHandler}
+                  onClick={timerStatusForTraining === "start" ? pauseButtonHandler : playButtonHandler}
                 >
                   <IonIcon
                     className="swiper__bar_icon"
@@ -137,6 +143,7 @@ const SwiperUserButtons: React.FC<IProps> = ({
               <IonCol>
                 <IonButton
                   className="swiper__bar_btn  swiper__bar_btn_done"
+                  disabled={disabledMainButtonsExceptTraining}
                   expand="block"
                   onClick={() => {
                     swiper.slideNext();

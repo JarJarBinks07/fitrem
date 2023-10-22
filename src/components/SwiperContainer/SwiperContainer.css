@@ -32,7 +32,8 @@
 
 .swiper__container {
   position: relative;
-  max-width: 540px;
+  max-width: 450px;
+  height: 47vh;
   margin: 0 auto;
 }
 .swiper__content {
@@ -45,7 +46,7 @@
   object-fit: cover;
 }
 .swiper__preload {
-  height: 46vh;
+  height: 47vh;
   max-width: 540px;
   margin: 0 auto;
   overflow: hidden;
@@ -85,7 +86,7 @@
   margin: 0 0 0 1vh;
 }
 .swiper__bar_btn {
-  margin: 10px 2px 10px 2px;
+  margin: 5px 2px 5px 2px;
   box-shadow: 2px 4px 2px #2d2c2c;
   height: 5vh;
   font-weight: 600;

@@ -9,10 +9,10 @@
   color: #f4f5f8;
 }
 .swiper__btn_prev {
-  left: 3vw;
+  left: 1vh;
 }
 .swiper__btn_next {
-  right: 3vw;
+  right: 1vh;
 }
 .swiper__icon {
   height: 5vh;

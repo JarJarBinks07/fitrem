@@ -6,68 +6,75 @@ import { useCombineStates } from "../../../../store/useCombineStates";
 import "./TimersForTraining.css";
 
 interface IProps {
-  selectedTimer: "preparation" | "training" | "rest";
   swiper: ISwiper;
   changeStatus: () => void;
 }
 
-const TimersForTraining: React.FC<IProps> = ({ selectedTimer, swiper, changeStatus }) => {
+const TimersForTraining: React.FC<IProps> = ({ swiper, changeStatus }) => {
   const {
     timerKeyForTraining,
-    countDownForTraining,
+    preparationTime,
     workIntervalForTraining,
     restIntervalForTraining,
     timeAfterPauseForTraining,
     timerDurationForTraining,
     timerStatusForTraining,
+    timerMode,
     unsetTimerForTraining,
+    setTimerMode,
   } = useCombineStates();
 
   return (
     <div className="swiper__timer">
-      {selectedTimer === "preparation" && (
+      {timerMode === "preparation" && (
         <TimerFace
           timerKey={timerKeyForTraining}
-          timerInterval={countDownForTraining}
+          timerInterval={preparationTime}
           timerDuration={timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()}
-          timerActive={timerStatusForTraining === "running"}
+          timerActive={timerStatusForTraining === "start"}
+          timerMode={timerMode}
+          setTimerMode={setTimerMode}
           unsetTimer={unsetTimerForTraining}
           size={65}
           strokeWidth={4}
           colors={["#ffc409", "#ffc409"]}
           colorsTime={[15, 10]}
-          mode={"training"}
+          timerFor={"working"}
           swiper={swiper}
           changeStatus={changeStatus}
         />
       )}
-      {selectedTimer === "training" && (
+      {timerMode === "training" && (
         <TimerFace
           timerKey={timerKeyForTraining}
           timerInterval={workIntervalForTraining}
           timerDuration={timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()}
-          timerActive={timerStatusForTraining === "running"}
+          timerActive={timerStatusForTraining === "start"}
+          timerMode={timerMode}
+          setTimerMode={setTimerMode}
           unsetTimer={unsetTimerForTraining}
           size={65}
           strokeWidth={4}
           colors={["#eb445a", "#eb445a"]}
           colorsTime={[15, 10]}
-          mode={"training"}
+          timerFor={"working"}
           swiper={swiper}
           changeStatus={changeStatus}
         />
       )}
-      {selectedTimer === "rest" && (
+      {timerMode === "rest" && (
         <TimerFace
           timerKey={timerKeyForTraining}
           timerInterval={restIntervalForTraining}
           timerDuration={timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()}
-          timerActive={timerStatusForTraining === "running"}
+          timerActive={timerStatusForTraining === "start"}
+          timerMode={timerMode}
+          setTimerMode={setTimerMode}
           size={65}
           strokeWidth={4}
           colors={["#2fc22d", "#2dc275"]}
           colorsTime={[15, 10]}
-          mode={"training"}
+          timerFor={"working"}
           swiper={swiper}
           changeStatus={changeStatus}
           unsetTimer={unsetTimerForTraining}

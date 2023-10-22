@@ -2,9 +2,6 @@ import React from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { Duration } from "luxon";
 import "./TimerFace.css";
-import { ColorFormat } from "@faker-js/faker";
-import { useCombineStates } from "../../../store/useCombineStates";
-import { useSwiper } from "swiper/react";
 import Swiper from "swiper";
 
 interface IProps {
@@ -12,6 +9,7 @@ interface IProps {
   timerInterval: number;
   timerDuration: number;
   timerActive: boolean;
+  timerMode: "preparation" | "training" | "rest";
   size: number;
   strokeWidth: number;
   colors: {
@@ -24,11 +22,11 @@ interface IProps {
   } & {
     1: number;
   } & number[];
-  mode: "preparation" | "training" | "rest";
   swiper: Swiper;
+  timerFor: "working" | "notification";
   unsetTimer: () => void;
   changeStatus: () => void;
-  setDisabledButtons: (value: boolean) => void;
+  setTimerMode: (value: "preparation" | "training" | "rest") => void;
 }
 
 const TimerFace: React.FC<IProps> = ({
@@ -39,33 +37,33 @@ const TimerFace: React.FC<IProps> = ({
   timerActive,
   size,
   strokeWidth,
-  mode,
+  timerMode,
+  timerFor,
   colors,
   colorsTime,
   unsetTimer,
   changeStatus,
+  setTimerMode,
 }) => {
-  const { countDownForTraining, workIntervalForTraining, restIntervalForTraining, isWorkoutActive, unsetWhenDone } =
-    useCombineStates();
-
   const onCompleteSession = () => {
-    unsetTimer();
-    unsetWhenDone();
-    changeStatus();
-    if (countDownForTraining) {
-      return;
-    } else if (isWorkoutActive) {
+    if (timerMode === "preparation") {
+      setTimerMode("training");
+    } else if (timerMode === "training") {
+      setTimerMode("rest");
       swiper.slideNext();
+    } else {
+      setTimerMode("training");
     }
+    changeStatus();
+    unsetTimer();
   };
-  // const { setCountDownFroTraining } = useCombineStates();
   /////for different timers/////
-  let fromMinuteToSeconds = mode === "training" ? 1 : 60;
+  let fromMinuteToSeconds = timerFor === "working" ? 1 : 60;
   const timeLeft = !!timerDuration ? timerDuration / 1000 : timerInterval * fromMinuteToSeconds;
 
   const renderTime = (time: number, timerActive: boolean) => {
     let formattedTime = null;
-    if (mode === "rest") {
+    if (timerFor === "notification") {
       formattedTime = Duration.fromMillis(time * 1000).toFormat("mm:ss");
     } else {
       formattedTime = Duration.fromMillis(time * 1000).toFormat("m:ss");
@@ -73,7 +71,7 @@ const TimerFace: React.FC<IProps> = ({
 
     return (
       <>
-        {mode === "rest" ? (
+        {timerFor === "notification" ? (
           <div className="time-wrapper">
             <div>{timerActive ? "NEXT BREAK IS IN" : "CLICK PLAY BUTTON"}</div>
             <div className="timer__digits_training">
@@ -104,9 +102,6 @@ const TimerFace: React.FC<IProps> = ({
       initialRemainingTime={timeLeft > 0 ? timeLeft : timerInterval * fromMinuteToSeconds}
       onComplete={() => {
         onCompleteSession();
-        // setNextSlide(true);
-        // changeStatus();
-        // setCountDownFroTraining();
       }}
     >
       {({ remainingTime }) => renderTime(remainingTime, timerActive)}

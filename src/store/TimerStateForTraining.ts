@@ -1,52 +1,45 @@
 import { MyStateCreator, useCombineStates } from "./useCombineStates";
 
 export interface ITimerTraining {
-  isWorkoutActive: boolean;
-  countDownForTraining: number;
+  preparationTime: number;
   workIntervalForTraining: number;
-  savedWorkIntervalForTraining: number;
   restIntervalForTraining: number;
-  savedRestIntervalForTraining: number;
-  timerStatusForTraining: "idle" | "running" | "pause";
+  timerStatusForTraining: "start" | "pause";
+  timerMode: "preparation" | "training" | "rest";
   timerKeyForTraining: number;
   timerDurationForTraining: number;
   timeAfterPauseForTraining: number;
-  setCountDownFroTraining: () => void;
+  disabledNavButtonsWhenTrainingStarts: boolean;
+  disabledMainButtonsExceptTraining: boolean;
   setWorkIntervalForTraining: (value: number) => void;
   setRestIntervalForTraining: (value: number) => void;
-  setTimerStatusForTraining: (value: "idle" | "running" | "pause") => void;
+  setTimerStatusForTraining: (value: "start" | "pause") => void;
+  setTimerMode: (value: "preparation" | "training" | "rest") => void;
   setTimerKeyForTraining: () => void;
   setTimerDurationForTraining: (value: number) => void;
   setTimeAfterPauseForTraining: () => void;
   unsetTimerForTraining: () => void;
   unsetWhenDone: () => void;
+  setDisabledNavButtonsWhenTrainingStarts: () => void;
+  setDisabledMainButtonsExceptTraining: () => void;
 }
 
 export const createTimerStateForTraining: MyStateCreator<ITimerTraining> = (set) => ({
-  countDownForTraining: 10,
-  setCountDownFroTraining: () => set(() => ({ countDownForTraining: 0 ? 10 : 0 }), false, "setCountDownFroTraining"),
+  preparationTime: 10,
 
   workIntervalForTraining: 45,
-  savedWorkIntervalForTraining: 45,
   setWorkIntervalForTraining: (value) =>
-    set(
-      () => ({ workIntervalForTraining: value, savedWorkIntervalForTraining: value }),
-      false,
-      "setWorkIntervalForTraining"
-    ),
+    set(() => ({ workIntervalForTraining: value }), false, "setWorkIntervalForTraining"),
 
   restIntervalForTraining: 30,
-  savedRestIntervalForTraining: 30,
   setRestIntervalForTraining: (value) =>
-    set(
-      () => ({ restIntervalForTraining: value, savedRestIntervalForTraining: value }),
-      false,
-      "setRestIntervalForTraining"
-    ),
+    set(() => ({ restIntervalForTraining: value }), false, "setRestIntervalForTraining"),
 
-  timerStatusForTraining: "idle",
-  setTimerStatusForTraining: (value) =>
-    set(() => ({ timerStatusForTraining: value }), false, "setTimerStatusForTraining"),
+  timerStatusForTraining: "pause",
+  setTimerStatusForTraining: (value) => set(() => ({ timerStatusForTraining: value }), false, "setTimerStatusForTraining"),
+
+  timerMode: "training",
+  setTimerMode: (value) => set(() => ({ timerMode: value }), false, "setTimerMode"),
 
   timerKeyForTraining: Date.now(),
   setTimerKeyForTraining: () => set(() => ({ timerKeyForTraining: Date.now() }), false, "setTimerKeyForTraining"),
@@ -62,26 +55,32 @@ export const createTimerStateForTraining: MyStateCreator<ITimerTraining> = (set)
       false,
       "setTimerAfterPauseForTraining"
     ),
-  isWorkoutActive: true,
+
+  disabledNavButtonsWhenTrainingStarts: true,
+  setDisabledNavButtonsWhenTrainingStarts: () =>
+    set(
+      (state) => ({ disabledNavButtonsWhenTrainingStarts: !state.disabledNavButtonsWhenTrainingStarts }),
+      false,
+      "setDisabledNavButtonsWhenTrainingStarts"
+    ),
+  disabledMainButtonsExceptTraining: false,
+  setDisabledMainButtonsExceptTraining: () =>
+    set(
+      (state) => ({ disabledMainButtonsExceptTraining: !state.disabledMainButtonsExceptTraining }),
+      false,
+      "setDisabledMainButtonsExceptTraining"
+    ),
   unsetTimerForTraining: () =>
     set(
-      (state) => {
-        if (state.countDownForTraining !== 0) {
-          return {
-            countDownForTraining: 0,
-          };
-        } else if (state.workIntervalForTraining !== 0) {
-          return {
-            workIntervalForTraining: 0,
-            isWorkoutActive: false,
-          };
-        } else if (state.countDownForTraining === 0 && state.workIntervalForTraining === 0) {
-          return {
-            workIntervalForTraining: state.savedWorkIntervalForTraining,
-            isWorkoutActive: true,
-          };
-        } else return state;
-      },
+      (state) => ({
+        timerDurationForTraining: 0,
+        timeAfterPauseForTraining: 0,
+        timerKeyForTraining: Date.now(),
+        // timerStatusForTraining: state.timerStatusForTraining === "start" ? "pause" : "start",
+        // timerMode: state.timerMode === "rest" ? "training" : "rest",
+        disabledMainButtonsExceptTraining: state.disabledMainButtonsExceptTraining === true ? false : true,
+      }),
+
       false,
       "unsetTimerForTraining"
     ),

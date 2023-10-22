@@ -35,8 +35,15 @@ interface IVideo {
 }
 
 const ImageContainer: React.FC = () => {
-  const { userTraining, passedExercises, savedHistoryDoneExercises, preloadedImage, disabledNavButtonsWhenTrainingStarts } =
-    useCombineStates();
+  const {
+    userTraining,
+    passedExercises,
+    savedHistoryDoneExercises,
+    preloadedImage,
+    disabledNavButtonsWhenTrainingStarts,
+    timerStatusForTraining,
+    setTimerStatusForTraining,
+  } = useCombineStates();
 
   /////If one field checkbox and one track chosen we use useEffect (at least one must be chosen always). Init level/////
   // useEffect(() => {
@@ -68,7 +75,7 @@ const ImageContainer: React.FC = () => {
   console.log("doneExercises", passedExercises);
   console.log("userTraining", userTraining);
   console.log("savedHistoryDoneExercises", savedHistoryDoneExercises);
-  console.log(preloadedImage);
+  console.log(disabledNavButtonsWhenTrainingStarts);
 
   /////Video player/////
   const [playStatus, setPlayStatus] = useState(false);
@@ -77,12 +84,23 @@ const ImageContainer: React.FC = () => {
     setPlayStatus((prev) => !prev);
     setPlayMode((prev) => (prev === "play" ? "pause" : "play"));
   };
-
   return (
     <div className="swiper">
       {slicedUserTraining.length ? (
         <>
-          <IonButton className="swiper__btn_settings" onClick={() => setIsOpenModalSettings(true)}>
+          <IonButton
+            className="swiper__btn_settings"
+            onClick={() => {
+              playStatus
+                ? (changeStatus(), setTimerStatusForTraining("pause"), setIsOpenModalSettings(true))
+                : setIsOpenModalSettings(true);
+              // if (playStatus ? changeStatus() : null;) {
+              //   setTimerStatusForTraining("pause");
+              //   changeStatus();
+              // }
+              // setIsOpenModalSettings(true);
+            }}
+          >
             <IonIcon slot="icon-only" icon={optionsOutline}></IonIcon>
           </IonButton>
 
@@ -100,11 +118,7 @@ const ImageContainer: React.FC = () => {
                 changeStatus={changeStatus}
                 setIsOpenModalExercise={setIsOpenModalExercise}
               />
-              <TimersForTraining
-                selectedTimer={"training"}
-                swiper={swiperRef.current as ISwiper}
-                changeStatus={changeStatus}
-              />
+              <TimersForTraining swiper={swiperRef.current as ISwiper} changeStatus={changeStatus} />
 
               <Swiper
                 className="swiper__content"
@@ -127,13 +141,13 @@ const ImageContainer: React.FC = () => {
                 }}
               >
                 {slicedUserTraining.map((item, index) => (
-                  <div className="swiper__slide">
-                    <SwiperSlide key={item.id}>
-                      <VideoPlayer play={swiperTrackIndex === index ? playStatus : false} path={item.video_path} />
-                    </SwiperSlide>
-                  </div>
+                  // <div className="swiper__slide">
+                  <SwiperSlide key={item.id}>
+                    <VideoPlayer play={swiperTrackIndex === index ? playStatus : false} path={item.video_path} />
+                  </SwiperSlide>
+                  // </div>
                 ))}
-                {isActiveNavigationButtons || disabledNavButtonsWhenTrainingStarts ? (
+                {isActiveNavigationButtons && disabledNavButtonsWhenTrainingStarts ? (
                   <SwiperNavigationButtons swiper={swiperRef.current as ISwiper} />
                 ) : null}
               </Swiper>
