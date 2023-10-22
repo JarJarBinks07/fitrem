@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { IonButton, IonIcon, IonItem, IonRow, IonSpinner } from "@ionic/react";
+import { IonButton, IonCol, IonGrid, IonIcon, IonImg, IonItem, IonRow, IonSpinner } from "@ionic/react";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import { Pagination, Navigation, EffectFade } from "swiper/modules";
 import { Capacitor } from "@capacitor/core";
@@ -70,6 +70,7 @@ const ImageContainer: React.FC = () => {
   console.log("doneExercises", passedExercises);
   console.log("userTraining", userTraining);
   console.log("savedHistoryDoneExercises", savedHistoryDoneExercises);
+  console.log(preloadedImage);
 
   /////Video player/////
   const [playStatus, setPlayStatus] = useState(false);
@@ -101,7 +102,6 @@ const ImageContainer: React.FC = () => {
                 changeStatus={changeStatus}
                 setIsOpenModalExercise={setIsOpenModalExercise}
               />
-
               <TimersForTraining
                 selectedTimer={"training"}
                 swiper={swiperRef.current as ISwiper}
@@ -130,9 +130,11 @@ const ImageContainer: React.FC = () => {
                 }}
               >
                 {slicedUserTraining.map((item, index) => (
-                  <SwiperSlide key={item.id}>
-                    <VideoPlayer play={swiperTrackIndex === index ? playStatus : false} path={item.video_path} />
-                  </SwiperSlide>
+                  <div className="swiper__slide">
+                    <SwiperSlide key={item.id}>
+                      <VideoPlayer play={swiperTrackIndex === index ? playStatus : false} path={item.video_path} />
+                    </SwiperSlide>
+                  </div>
                 ))}
                 {isActiveNavigationButtons ? <SwiperNavigationButtons swiper={swiperRef.current as ISwiper} /> : null}
               </Swiper>
@@ -140,8 +142,10 @@ const ImageContainer: React.FC = () => {
           </div>
         </>
       ) : (
-        <div className="swiper__container">
-          <VideoPlayer play={false} path={preloadedImage.image_path} />
+        <div className="swiper__content">
+          <div className="swiper__slide">
+            <VideoPlayer play={false} path={preloadedImage.image_path} />
+          </div>
         </div>
       )}
 
