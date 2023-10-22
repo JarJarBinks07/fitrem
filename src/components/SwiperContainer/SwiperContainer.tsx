@@ -22,6 +22,7 @@ import SwiperUserButtons from "./components/SwiperUserButtons/SwiperUserButtons"
 import SwiperTitle from "./components/SwiperTitle/SwiperTitle";
 import SwiperInfoButton from "./SwiperInfoButton/SwiperInfoButton";
 import SwiperNavigationButtons from "./components/SwiperNavigatonButtons/SwiperNavigationButtons";
+import CachedImage from "../CachedImage/CachedImage";
 
 interface IVideo {
   id: number;
@@ -142,8 +143,9 @@ const ImageContainer: React.FC = () => {
           </div>
         </>
       ) : (
-        <div className="swiper__content">
-          <div className="swiper__slide">
+        <div className="swiper__preload">
+          <div className="swiper__preload_video">
+            {/* <IonImg src="/assets/tracks/bicep/Bicep_01.jpg" alt="" /> */}
             <VideoPlayer play={false} path={preloadedImage.image_path} />
           </div>
         </div>
