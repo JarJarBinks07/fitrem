@@ -32,7 +32,6 @@ export type StateTrackWithExercise = {
   userTraining: IExercise[];
   passedExercises: IExercise[];
   savedHistoryDoneExercises: IExercise[];
-
   setAllTracks: (value: ITrack[]) => void;
   setOrderTracks: (value: ITrack[]) => void;
   setAllExercises: (value: IExercise[]) => void;
@@ -41,7 +40,7 @@ export type StateTrackWithExercise = {
   setSelectedCategoryTracks: (value: string) => void;
   setReorderedSelectedCategoryTracks: () => void;
   generateUserTraining: () => void;
-  setPassedExercises: (value: number, status: string) => void;
+  setPassedExercises: (value: number, status: "done" | "skipped") => void;
 };
 
 export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) => ({

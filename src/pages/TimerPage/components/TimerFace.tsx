@@ -23,10 +23,12 @@ interface IProps {
     1: number;
   } & number[];
   swiper: Swiper;
+  swiperTrackIndex: number;
   timerFor: "working" | "notification";
   unsetTimer: () => void;
   changeStatus: () => void;
   setTimerMode: (value: "preparation" | "training" | "rest") => void;
+  setPassedExercises: (value: number, status: "done" | "skipped") => void;
 }
 
 const TimerFace: React.FC<IProps> = ({
@@ -41,14 +43,17 @@ const TimerFace: React.FC<IProps> = ({
   timerFor,
   colors,
   colorsTime,
+  swiperTrackIndex,
   unsetTimer,
   changeStatus,
   setTimerMode,
+  setPassedExercises,
 }) => {
   const onCompleteSession = () => {
     if (timerMode === "preparation") {
       setTimerMode("training");
     } else if (timerMode === "training") {
+      setPassedExercises(swiperTrackIndex, "done");
       setTimerMode("rest");
       swiper.slideNext();
     } else {

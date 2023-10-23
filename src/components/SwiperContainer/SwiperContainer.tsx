@@ -113,7 +113,11 @@ const ImageContainer: React.FC = () => {
                 changeStatus={changeStatus}
                 setIsOpenModalExercise={setIsOpenModalExercise}
               />
-              <TimersForTraining swiper={swiperRef.current as ISwiper} changeStatus={changeStatus} />
+              <TimersForTraining
+                swiper={swiperRef.current as ISwiper}
+                changeStatus={changeStatus}
+                swiperTrackIndex={swiperTrackIndex}
+              />
 
               <Swiper
                 className="swiper__content"

@@ -7,10 +7,11 @@ import "./TimersForTraining.css";
 
 interface IProps {
   swiper: ISwiper;
+  swiperTrackIndex: number;
   changeStatus: () => void;
 }
 
-const TimersForTraining: React.FC<IProps> = ({ swiper, changeStatus }) => {
+const TimersForTraining: React.FC<IProps> = ({ swiper, swiperTrackIndex, changeStatus }) => {
   const {
     timerKeyForTraining,
     preparationTime,
@@ -21,6 +22,7 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, changeStatus }) => {
     timerStatusForTraining,
     timerMode,
     unsetTimerForTraining,
+    setPassedExercises,
     setTimerMode,
   } = useCombineStates();
 
@@ -41,7 +43,9 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, changeStatus }) => {
           colorsTime={[15, 10]}
           timerFor={"working"}
           swiper={swiper}
+          swiperTrackIndex={swiperTrackIndex}
           changeStatus={changeStatus}
+          setPassedExercises={setPassedExercises}
         />
       )}
       {timerMode === "training" && (
@@ -59,7 +63,9 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, changeStatus }) => {
           colorsTime={[15, 10]}
           timerFor={"working"}
           swiper={swiper}
+          swiperTrackIndex={swiperTrackIndex}
           changeStatus={changeStatus}
+          setPassedExercises={setPassedExercises}
         />
       )}
       {timerMode === "rest" && (
@@ -76,8 +82,10 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, changeStatus }) => {
           colorsTime={[15, 10]}
           timerFor={"working"}
           swiper={swiper}
+          swiperTrackIndex={swiperTrackIndex}
           changeStatus={changeStatus}
           unsetTimer={unsetTimerForTraining}
+          setPassedExercises={setPassedExercises}
         />
       )}
     </div>

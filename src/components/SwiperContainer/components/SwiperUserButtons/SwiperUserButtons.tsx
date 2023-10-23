@@ -150,7 +150,9 @@ const SwiperUserButtons: React.FC<IProps> = ({
                     setPassedExercises(swiperTrackIndex, "done");
                     setPlayMode("play");
                     setPlayStatus(false);
-                    setTimerStatusForTraining("pause");
+                    setTimerStatusForTraining("start");
+                    setDisabledMainButtonsExceptTraining();
+                    setTimerMode("rest");
                     unsetWhenDone();
                   }}
                 >
