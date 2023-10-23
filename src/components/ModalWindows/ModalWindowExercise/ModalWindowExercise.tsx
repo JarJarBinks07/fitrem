@@ -18,17 +18,40 @@ interface IProps {
   path: string;
   description: string;
   isOpen: boolean;
+  timerFor: "working" | "notification";
+  disabledMainButtonsExceptTraining?: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setTimerStatusForTraining: (value: "start" | "pause") => void;
 }
 
-function ModalWindow({ path, description, isOpen, setIsOpen }: IProps) {
+function ModalWindowExercise({
+  path,
+  description,
+  isOpen,
+  timerFor,
+  disabledMainButtonsExceptTraining,
+  setTimerStatusForTraining,
+  setIsOpen,
+}: IProps) {
   return (
     <IonModal isOpen={isOpen}>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Description</IonTitle>
           <IonButtons slot="end">
-            <IonButton className="modal__btn" onClick={() => setIsOpen(false)}>
+            <IonButton
+              className="modal__btn"
+              onClick={() => {
+                if (timerFor === "working") {
+                  if (disabledMainButtonsExceptTraining) {
+                    console.log(disabledMainButtonsExceptTraining);
+
+                    setTimerStatusForTraining("start");
+                  }
+                }
+                setIsOpen(false);
+              }}
+            >
               Close
             </IonButton>
           </IonButtons>
@@ -46,4 +69,4 @@ function ModalWindow({ path, description, isOpen, setIsOpen }: IProps) {
   );
 }
 
-export default ModalWindow;
+export default ModalWindowExercise;

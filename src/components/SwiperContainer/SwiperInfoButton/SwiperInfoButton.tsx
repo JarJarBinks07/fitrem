@@ -6,14 +6,21 @@ interface IProps {
   playStatus: boolean;
   changeStatus: () => void;
   setIsOpenModalExercise: React.Dispatch<React.SetStateAction<boolean>>;
+  setTimerStatusForTraining: (value: "start" | "pause") => void;
 }
 
-const SwiperInfoButton: React.FC<IProps> = ({ playStatus, changeStatus, setIsOpenModalExercise }) => {
+const SwiperInfoButton: React.FC<IProps> = ({
+  playStatus,
+  changeStatus,
+  setIsOpenModalExercise,
+  setTimerStatusForTraining,
+}) => {
   return (
     <IonButton
       className="swiper__btn_info"
       onClick={() => {
         setIsOpenModalExercise(true);
+        setTimerStatusForTraining("pause");
         {
           playStatus ? changeStatus() : null;
         }

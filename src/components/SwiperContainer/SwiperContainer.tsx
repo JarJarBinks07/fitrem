@@ -3,7 +3,7 @@ import { IonButton, IonCol, IonGrid, IonIcon, IonImg, IonItem, IonRow, IonSpinne
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import { Pagination, Navigation, EffectFade } from "swiper/modules";
 import { Capacitor } from "@capacitor/core";
-import ModalWindow from "../ModalWindows/ModalWindowExercise/ModalWindowExercise";
+import ModalWindowExercise from "../ModalWindows/ModalWindowExercise/ModalWindowExercise";
 import VideoPlayer from "../PlayerReact/VideoPlayer";
 import { useCombineStates } from "../../store/useCombineStates";
 import ISwiper from "swiper";
@@ -41,6 +41,7 @@ const ImageContainer: React.FC = () => {
     savedHistoryDoneExercises,
     preloadedImage,
     disabledNavButtonsWhenTrainingStarts,
+    disabledMainButtonsExceptTraining,
     timerStatusForTraining,
     setTimerStatusForTraining,
   } = useCombineStates();
@@ -112,6 +113,7 @@ const ImageContainer: React.FC = () => {
                 playStatus={playStatus}
                 changeStatus={changeStatus}
                 setIsOpenModalExercise={setIsOpenModalExercise}
+                setTimerStatusForTraining={setTimerStatusForTraining}
               />
               <TimersForTraining
                 swiper={swiperRef.current as ISwiper}
@@ -172,11 +174,14 @@ const ImageContainer: React.FC = () => {
         setPlayStatus={setPlayStatus}
       />
       {slicedUserTraining[swiperTrackIndex] ? (
-        <ModalWindow
+        <ModalWindowExercise
+          timerFor={"working"}
           isOpen={isOpenModalExercise}
           setIsOpen={setIsOpenModalExercise}
           path={slicedUserTraining[swiperTrackIndex].video_path}
           description={slicedUserTraining[swiperTrackIndex].description}
+          disabledMainButtonsExceptTraining={disabledMainButtonsExceptTraining}
+          setTimerStatusForTraining={setTimerStatusForTraining}
         />
       ) : null}
       <ModalWindowSettings isOpen={isOpenModalSettings} setIsOpen={setIsOpenModalSettings} />

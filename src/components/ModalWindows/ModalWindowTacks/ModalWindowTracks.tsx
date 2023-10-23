@@ -18,7 +18,7 @@ import {
 
 import "./ModalWindowTracks.css";
 import { exercisesData } from "../../../shared/tracks/tracks";
-import ModalWindow from "../ModalWindowExercise/ModalWindowExercise";
+import ModalWindowExercise from "../ModalWindowExercise/ModalWindowExercise";
 import { useCombineStates } from "../../../store/useCombineStates";
 import CashedImage from "../../CachedImage/CachedImage";
 
@@ -99,7 +99,7 @@ function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
           ))}
         </IonGrid>
       </IonContent>
-      <ModalWindow
+      <ModalWindowExercise
         isOpen={openNewWindow}
         setIsOpen={setOpenNewWindow}
         description={currentExercise?.description}
