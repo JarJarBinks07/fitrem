@@ -4,14 +4,14 @@ import React from "react";
 
 interface IProps {
   playStatus: boolean;
-  changeStatus: () => void;
+  setChangedModeWithStatus: () => void;
   setIsOpenModalExercise: React.Dispatch<React.SetStateAction<boolean>>;
   setTimerStatusForTraining: (value: "start" | "pause") => void;
 }
 
 const SwiperInfoButton: React.FC<IProps> = ({
   playStatus,
-  changeStatus,
+  setChangedModeWithStatus,
   setIsOpenModalExercise,
   setTimerStatusForTraining,
 }) => {
@@ -22,7 +22,7 @@ const SwiperInfoButton: React.FC<IProps> = ({
         setIsOpenModalExercise(true);
         setTimerStatusForTraining("pause");
         {
-          playStatus ? changeStatus() : null;
+          playStatus ? setChangedModeWithStatus() : null;
         }
       }}
     >

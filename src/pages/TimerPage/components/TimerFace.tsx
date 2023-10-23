@@ -27,7 +27,7 @@ interface IProps {
   swiperTrackIndex: number;
   timerFor: "working" | "notification";
   unsetTimer: () => void;
-  changeStatus: () => void;
+  setChangedModeWithStatus: () => void;
   setTimerMode: (value: "preparation" | "training" | "rest") => void;
   setPassedExercises: (value: number, status: "done" | "skipped") => void;
 }
@@ -46,7 +46,7 @@ const TimerFace: React.FC<IProps> = ({
   colorsTime,
   swiperTrackIndex,
   unsetTimer,
-  changeStatus,
+  setChangedModeWithStatus,
   setTimerMode,
   setPassedExercises,
 }) => {
@@ -60,12 +60,18 @@ const TimerFace: React.FC<IProps> = ({
     } else {
       setTimerMode("training");
     }
-    changeStatus();
+    setChangedModeWithStatus();
     unsetTimer();
   };
+
+  //////////
+
   /////for different timers/////
   let fromMinuteToSeconds = timerFor === "working" ? 1 : 60;
-  const timeLeft = !!timerDuration ? timerDuration / 1000 : timerInterval * fromMinuteToSeconds;
+  const timeLeft = timerDuration > 0 ? timerDuration / 1000 : timerInterval * fromMinuteToSeconds;
+
+  console.log("Time from Timer Face: ", timerDuration);
+  console.log("timeLeft: ", timeLeft);
 
   const renderTime = (time: number, timerActive: boolean) => {
     let formattedTime = null;

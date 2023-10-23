@@ -1,6 +1,9 @@
 import { MyStateCreator, useCombineStates } from "./useCombineStates";
 
 export interface ITimerTraining {
+  startWorkout: boolean;
+  playStatus: boolean;
+  playMode: "play" | "pause";
   preparationTime: number;
   workIntervalForTraining: number;
   restIntervalForTraining: number;
@@ -11,6 +14,10 @@ export interface ITimerTraining {
   timeAfterPauseForTraining: number;
   disabledNavButtonsWhenTrainingStarts: boolean;
   disabledMainButtonsExceptTraining: boolean;
+  setStartWorkout: () => void;
+  setPlayStatus: () => void;
+  setPlayMode: (value: "play" | "pause") => void;
+  setChangedModeWithStatus: () => void;
   setWorkIntervalForTraining: (value: number) => void;
   setRestIntervalForTraining: (value: number) => void;
   setTimerStatusForTraining: (value: "start" | "pause") => void;
@@ -20,11 +27,28 @@ export interface ITimerTraining {
   setTimeAfterPauseForTraining: () => void;
   unsetTimerForTraining: () => void;
   unsetWhenDone: () => void;
+  unsetForPersist: () => void;
   setDisabledNavButtonsWhenTrainingStarts: () => void;
   setDisabledMainButtonsExceptTraining: () => void;
 }
 
 export const createTimerStateForTraining: MyStateCreator<ITimerTraining> = (set) => ({
+  startWorkout: false,
+  setStartWorkout: () => set((state) => ({ startWorkout: !state.startWorkout }), false, "setWorkout"),
+
+  playStatus: false,
+  setPlayStatus: () => set((state) => ({ playStatus: !state.playStatus }), false, "setPlayStatus"),
+
+  playMode: "play",
+  setPlayMode: (value) => set(() => ({ playMode: value }), false, "setPlayMode"),
+
+  setChangedModeWithStatus: () =>
+    set(
+      (state) => ({ playStatus: !state.playStatus, playMode: state.playMode === "play" ? "pause" : "play" }),
+      false,
+      "setChangedModeWithStatus"
+    ),
+
   preparationTime: 10,
 
   workIntervalForTraining: 45,
@@ -89,5 +113,18 @@ export const createTimerStateForTraining: MyStateCreator<ITimerTraining> = (set)
       () => ({ timerDurationForTraining: 0, timeAfterPauseForTraining: 0, timerKeyForTraining: Date.now() }),
       false,
       "unsetWhenDone"
+    ),
+
+  unsetForPersist: () =>
+    set(
+      (state) => {
+        if (state.timerMode === "rest" || state.timerMode === "preparation") {
+          return { playStatus: false, playMode: "play", timerStatusForTraining: "start" };
+        } else {
+          return { playStatus: false, playMode: "play", timerStatusForTraining: "pause" };
+        }
+      },
+      false,
+      "unsetForPersist"
     ),
 });

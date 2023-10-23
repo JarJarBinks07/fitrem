@@ -21,7 +21,7 @@ interface IProps {
   timerFor?: "working" | "notification";
   disabledMainButtonsExceptTraining?: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setTimerStatusForTraining?: (value: "pause" | "start") => void;
+  setTimerStatusForTraining?: any;
 }
 
 function ModalWindowExercise({

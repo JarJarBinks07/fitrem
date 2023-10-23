@@ -8,24 +8,14 @@ import _ from "lodash";
 interface IProps {
   swiper: ISwiper;
   swiperTrackIndex: number;
-  playStatus: boolean;
-  playMode: "play" | "pause";
-  changeStatus: () => void;
-  setPlayMode: (value: "play" | "pause") => void;
-  setPlayStatus: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const SwiperUserButtons: React.FC<IProps> = ({
-  swiper,
-  swiperTrackIndex,
-  playStatus,
-  playMode,
-  changeStatus,
-  setPlayMode,
-  setPlayStatus,
-}) => {
+const SwiperUserButtons: React.FC<IProps> = ({ swiper, swiperTrackIndex }) => {
   /////useCombineState/////
   const {
+    playMode,
+    playStatus,
+    startWorkout,
     timerStatusForTraining,
     timeAfterPauseForTraining,
     workIntervalForTraining,
@@ -40,10 +30,18 @@ const SwiperUserButtons: React.FC<IProps> = ({
     setDisabledNavButtonsWhenTrainingStarts,
     setDisabledMainButtonsExceptTraining,
     setTimerMode,
+    setStartWorkout,
+    setPlayMode,
+    setPlayStatus,
+    setChangedModeWithStatus,
   } = useCombineStates();
 
-  /////Initial state/////
-  const [workoutButton, setWorkoutButton] = useState(true);
+  /////useEffect uses to exclude problem with play/pause mode for persist/////
+
+  const [status, setStatus] = useState(false);
+  useEffect(() => {
+    setStatus(playStatus);
+  });
 
   /////Buttons are disabled if track and exercise not chosen/////
   const disabledFromTraining = !Boolean(userTraining.length);
@@ -68,7 +66,7 @@ const SwiperUserButtons: React.FC<IProps> = ({
   const pauseButtonHandler = () => {
     setTimerStatusForTraining("pause");
     setTimeAfterPauseForTraining();
-    changeStatus();
+    setChangedModeWithStatus();
   };
 
   const playButtonHandler = () => {
@@ -79,13 +77,14 @@ const SwiperUserButtons: React.FC<IProps> = ({
       setTimerDurationForTraining(workIntervalForTraining * 1000);
     }
     setTimerStatusForTraining("start");
-    changeStatus();
+    setChangedModeWithStatus();
   };
+
   return (
     <div>
       <IonGrid className="swiper__grid_container">
         <IonRow className="swiper__grid_row">
-          {workoutButton ? (
+          {!startWorkout ? (
             <>
               <IonCol>
                 <IonButton
@@ -93,7 +92,7 @@ const SwiperUserButtons: React.FC<IProps> = ({
                   expand="block"
                   disabled={disabledFromTraining}
                   onClick={() => {
-                    setWorkoutButton(false);
+                    setStartWorkout();
                     setDisabledNavButtonsWhenTrainingStarts();
                     setDisabledMainButtonsExceptTraining();
                     setTimerStatusForTraining("start");
@@ -134,7 +133,7 @@ const SwiperUserButtons: React.FC<IProps> = ({
                   <IonIcon
                     className="swiper__bar_icon"
                     slot="end"
-                    icon={playStatus ? pauseCircleOutline : playCircleOutline}
+                    icon={status ? pauseCircleOutline : playCircleOutline}
                     // icon={playStatus ? pauseOutline : playSharp}
                   ></IonIcon>
                   <div className="ion-text-uppercase">{playMode}</div>
@@ -149,7 +148,7 @@ const SwiperUserButtons: React.FC<IProps> = ({
                     swiper.slideNext();
                     setPassedExercises(swiperTrackIndex, "done");
                     setPlayMode("play");
-                    setPlayStatus(false);
+                    setPlayStatus();
                     setTimerStatusForTraining("start");
                     setDisabledMainButtonsExceptTraining();
                     setTimerMode("rest");
