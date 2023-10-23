@@ -18,10 +18,10 @@ interface IProps {
   path: string;
   description: string;
   isOpen: boolean;
-  timerFor: "working" | "notification";
+  timerFor?: "working" | "notification";
   disabledMainButtonsExceptTraining?: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setTimerStatusForTraining: (value: "start" | "pause") => void;
+  setTimerStatusForTraining?: (value: "pause" | "start") => void;
 }
 
 function ModalWindowExercise({
@@ -44,8 +44,6 @@ function ModalWindowExercise({
               onClick={() => {
                 if (timerFor === "working") {
                   if (disabledMainButtonsExceptTraining) {
-                    console.log(disabledMainButtonsExceptTraining);
-
                     setTimerStatusForTraining("start");
                   }
                 }

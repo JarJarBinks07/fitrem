@@ -68,7 +68,7 @@ function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
       <IonContent className="ion-padding">
         <IonGrid>
           {filteredData?.map((item) => (
-            <IonRow key={item.id}>
+            <IonRow style={{ margin: "5px" }} key={item.id}>
               <IonCol size="10">
                 <IonItem className="track__item" onClick={() => handlerExercise(item.id)}>
                   <IonGrid>

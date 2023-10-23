@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { Duration } from "luxon";
 import "./TimerFace.css";
 import Swiper from "swiper";
+import { useCombineStates } from "../../../store/useCombineStates";
 
 interface IProps {
   timerKey: number;
@@ -53,7 +54,7 @@ const TimerFace: React.FC<IProps> = ({
     if (timerMode === "preparation") {
       setTimerMode("training");
     } else if (timerMode === "training") {
-      // setPassedExercises(swiperTrackIndex, "done");
+      setPassedExercises(swiperTrackIndex, "done");
       setTimerMode("rest");
       swiper.slideNext();
     } else {
