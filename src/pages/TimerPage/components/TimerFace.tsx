@@ -53,7 +53,7 @@ const TimerFace: React.FC<IProps> = ({
     if (timerMode === "preparation") {
       setTimerMode("training");
     } else if (timerMode === "training") {
-      setPassedExercises(swiperTrackIndex, "done");
+      // setPassedExercises(swiperTrackIndex, "done");
       setTimerMode("rest");
       swiper.slideNext();
     } else {

@@ -99,7 +99,6 @@ const TimerPage: React.FC = () => {
                     strokeWidth={22}
                     colors={["#ffc409", "#F7B801", "#A30000", "#A30000"]}
                     colorsTime={[7, 5, 2, 0]}
-                    mode={"rest"}
                   />
                 </IonCol>
               </IonRow>
