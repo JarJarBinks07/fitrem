@@ -74,20 +74,30 @@ const ImageContainer: React.FC = () => {
   }, []);
 
   const setupListener = async () => {
-    App.addListener("appStateChange", ({ isActive }) => {
-      if (!isActive) {
-        console.log("CLOSEEEEEEE");
-        setPlayStatus(false);
-        setTimerStatusForTraining("pause");
+    // App.addListener("appStateChange", ({ isActive }) => {
+    //   if (!isActive) {
+    //     console.log("CLOSEEEEEEE");
+    //     setPlayStatus(false);
+    //     setTimerStatusForTraining("pause");
+    //   } else {
+    // if (!playStatus) {
+    // console.log("OPENNNNN");
+    // setPlayStatus(false);
+    // setTimerStatusForTraining("start");
+    // if (timerMode !== "training") {
+    // setTimerStatusForTraining("start");
+    // }
+    // }
+    //   }
+    // });
+
+    App.addListener("backButton", ({ canGoBack }) => {
+      if (canGoBack) {
+        console.log("Hello");
+        window.history.back();
       } else {
-        // if (!playStatus) {
-        console.log("OPENNNNN");
-        setPlayStatus(false);
-        // setTimerStatusForTraining("start");
-        // if (timerMode !== "training") {
-        // setTimerStatusForTraining("start");
-        // }
-        // }
+        console.log("Hello");
+        App.exitApp();
       }
     });
 
