@@ -55,56 +55,54 @@ const ImageContainer: React.FC = () => {
     unsetForPersist,
   } = useCombineStates();
 
+  // const [test, setTest] = useState(false);
+
   /////Use when App reloads unexpectedly/////
 
+  // useEffect(() => {
+  //   unsetForPersist();
+  // }, []);
+
+  const [test, setTest] = useState(true);
+
   useEffect(() => {
-    unsetForPersist();
+    // setTest(playStatus);
   }, []);
 
-  /////Use when App goes to background and comes back to foreground/////
-  function appListener() {
+  useEffect(() => {
+    setupListener();
+  }, []);
+
+  const setupListener = async () => {
     App.addListener("appStateChange", ({ isActive }) => {
       if (!isActive) {
-        console.log("CLOSEEE");
-        if (playStatus) {
-          console.log("When close playStatus true: ", playStatus);
-          setPlayStatus(false);
-          setTimerStatusForTraining("pause");
-        } else {
-          setTimerStatusForTraining("pause");
-        }
-        console.log("When close playStatus false: ", playStatus);
+        console.log("CLOSEEEEEEE");
+        setPlayStatus(false);
+        setTimerStatusForTraining("pause");
       } else {
-        if (!playStatus) {
-          console.log("OPENNNNN");
-          console.log("When open playStatus: ", playStatus);
-          console.log("Timer Status:", timerMode);
-
-          // if (timerMode != "training") {
-          setTimerStatusForTraining("start");
-          // }
-        }
+        // if (!playStatus) {
+        console.log("OPENNNNN");
+        setPlayStatus(false);
+        // setTimerStatusForTraining("start");
+        // if (timerMode !== "training") {
+        // setTimerStatusForTraining("start");
+        // }
+        // }
       }
     });
-  }
-  // App.addListener("appStateChange", ({ isActive }) => {
-  //   if (!isActive) {
-  //     if (playStatus) {
-  //       setPlayStatus(false);
-  //       setTimerStatusForTraining("pause");
-  //     } else {
-  //       setTimerStatusForTraining("pause");
-  //     }
-  //     console.log("CLOSEEE");
-  //   } else {
-  //     if (!playStatus) {
-  //       if (timerMode !== "training") {
-  //         setTimerStatusForTraining("start");
-  //       }
-  //     }
-  //     console.log("OPENNNNN");
-  //   }
-  // });
+
+    // App.addListener('backButton', (data) => {
+    //   console.log('back button click:', JSON.stringify(data));
+    //   if (data.canGoBack) {
+    //     window.history.back();
+    //   } else {
+    //     // Можливо, відображення сповіщення перед закриттям додатку?
+    //     App.exitApp();
+    //   }
+    // });
+  };
+
+  /////Use when App goes to background and comes back to foreground/////
 
   /////If one field checkbox and one track chosen we use useEffect (at least one must be chosen always). Init level/////
   // useEffect(() => {
@@ -202,7 +200,7 @@ const ImageContainer: React.FC = () => {
                 {slicedUserTraining.map((item, index) => (
                   // <div className="swiper__slide">
                   <SwiperSlide key={item.id}>
-                    <VideoPlayer play={swiperTrackIndex === index ? playStatus : false} path={item.video_path} />
+                    <VideoPlayer play={playStatus && test ? true : false} path={item.video_path} />
                   </SwiperSlide>
                   // </div>
                 ))}

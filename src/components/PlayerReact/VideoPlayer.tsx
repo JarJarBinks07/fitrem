@@ -16,7 +16,7 @@ const VideoPlayerReact: React.FC<IProps> = ({ play, path }) => {
 
   // const checkVideoDestination = video.split("/").includes("https");
   // console.log(checkVideoDestination);
-  // console.log(video);
+  console.log("VideoPlayer", play);
 
   return (
     <ReactPlayer
@@ -24,7 +24,8 @@ const VideoPlayerReact: React.FC<IProps> = ({ play, path }) => {
       width={"100%"}
       height={"100%"}
       light={false}
-      playing={loading || play}
+      // playing={loading || play}
+      playing={play}
       playsinline={true}
       controls={false}
       loop={true}
