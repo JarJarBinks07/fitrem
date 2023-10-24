@@ -14,8 +14,6 @@ const VideoPlayerReact: React.FC<IProps> = ({ play, path }) => {
 
   const video = useCachedResource(path, "video");
 
-  // const checkVideoDestination = video.split("/").includes("https");
-  // console.log(checkVideoDestination);
   console.log("VideoPlayer", play);
 
   return (
@@ -24,8 +22,8 @@ const VideoPlayerReact: React.FC<IProps> = ({ play, path }) => {
       width={"100%"}
       height={"100%"}
       light={false}
-      // playing={loading || play}
-      playing={play}
+      playing={loading || play}
+      // playing={play}
       playsinline={true}
       controls={false}
       loop={true}

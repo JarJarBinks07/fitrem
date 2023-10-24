@@ -61,7 +61,6 @@ const TimerFace: React.FC<IProps> = ({
       setPassedExercises(swiperTrackIndex, "done");
       setTimerMode("rest");
       setPlayStatus(false);
-      swiper.slideNext();
     } else {
       setTimerDurationForTraining(workIntervalForTraining * 1000);
       setTimerMode("training");
@@ -120,6 +119,9 @@ const TimerFace: React.FC<IProps> = ({
       initialRemainingTime={timeLeft > 0 ? timeLeft : timerInterval * fromMinuteToSeconds}
       onComplete={() => {
         onCompleteSession();
+        if (timerMode === "training") {
+          swiper.slideNext();
+        }
       }}
     >
       {({ remainingTime }) => renderTime(remainingTime, timerActive)}

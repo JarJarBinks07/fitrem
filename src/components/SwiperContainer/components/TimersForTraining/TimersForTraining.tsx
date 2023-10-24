@@ -7,11 +7,10 @@ import "./TimersForTraining.css";
 
 interface IProps {
   swiper: ISwiper;
-  swiperTrackIndex: number;
   setPlayStatus: (value: boolean) => void;
 }
 
-const TimersForTraining: React.FC<IProps> = ({ swiper, swiperTrackIndex, setPlayStatus }) => {
+const TimersForTraining: React.FC<IProps> = ({ swiper, setPlayStatus }) => {
   const {
     timerKeyForTraining,
     preparationTime,
@@ -21,6 +20,7 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, swiperTrackIndex, setPlay
     timerDurationForTraining,
     timerStatusForTraining,
     timerMode,
+    swiperTrackIndex,
     unsetTimerForTraining,
     setPassedExercises,
     setTimerMode,

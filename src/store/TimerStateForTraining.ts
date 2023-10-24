@@ -1,6 +1,8 @@
 import { MyStateCreator, useCombineStates } from "./useCombineStates";
+import ISwiper from "swiper";
 
 export interface ITimerTraining {
+  swiperTrackIndex: number;
   startWorkout: boolean;
   playStatus: boolean;
   preparationTime: number;
@@ -13,6 +15,7 @@ export interface ITimerTraining {
   timeAfterPauseForTraining: number;
   disabledNavButtonsWhenTrainingStarts: boolean;
   disabledMainButtonsExceptTraining: boolean;
+  setSwiperTrackIndex: (value: number) => void;
   setStartWorkout: () => void;
   setPlayStatus: (value: boolean) => void;
   setWorkIntervalForTraining: (value: number) => void;
@@ -30,6 +33,9 @@ export interface ITimerTraining {
 }
 
 export const createTimerStateForTraining: MyStateCreator<ITimerTraining> = (set) => ({
+  swiperTrackIndex: 0,
+  setSwiperTrackIndex: (value) => set(() => ({ swiperTrackIndex: value }), false, "setSwiperTrackIndex"),
+
   startWorkout: false,
   setStartWorkout: () => set((state) => ({ startWorkout: !state.startWorkout }), false, "setWorkout"),
 

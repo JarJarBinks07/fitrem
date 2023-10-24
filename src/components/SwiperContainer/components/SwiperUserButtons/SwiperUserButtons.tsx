@@ -7,14 +7,13 @@ import _ from "lodash";
 
 interface IProps {
   swiper: ISwiper;
-  swiperTrackIndex: number;
 }
 
-const SwiperUserButtons: React.FC<IProps> = ({ swiper, swiperTrackIndex }) => {
+const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
   /////useCombineState/////
   const {
     preparationTime,
-    // playMode,
+    swiperTrackIndex,
     playStatus,
     startWorkout,
     timerStatusForTraining,

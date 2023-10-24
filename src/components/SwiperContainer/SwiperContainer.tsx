@@ -41,7 +41,7 @@ const ImageContainer: React.FC = () => {
     timeAfterPauseForTraining,
     timerStatusForTraining,
     timerMode,
-    // playMode,
+    swiperTrackIndex,
     playStatus,
     userTraining,
     passedExercises,
@@ -49,9 +49,9 @@ const ImageContainer: React.FC = () => {
     preloadedImage,
     disabledNavButtonsWhenTrainingStarts,
     disabledMainButtonsExceptTraining,
+    setSwiperTrackIndex,
     setTimerStatusForTraining,
     setPlayStatus,
-    // setChangedModeWithStatus,
     unsetForPersist,
   } = useCombineStates();
 
@@ -63,53 +63,24 @@ const ImageContainer: React.FC = () => {
   //   unsetForPersist();
   // }, []);
 
-  const [test, setTest] = useState(true);
-
-  useEffect(() => {
-    // setTest(playStatus);
-  }, []);
-
   useEffect(() => {
     setupListener();
   }, []);
 
   const setupListener = async () => {
-    // App.addListener("appStateChange", ({ isActive }) => {
-    //   if (!isActive) {
-    //     console.log("CLOSEEEEEEE");
-    //     setPlayStatus(false);
-    //     setTimerStatusForTraining("pause");
-    //   } else {
-    // if (!playStatus) {
-    // console.log("OPENNNNN");
-    // setPlayStatus(false);
-    // setTimerStatusForTraining("start");
-    // if (timerMode !== "training") {
-    // setTimerStatusForTraining("start");
-    // }
-    // }
-    //   }
-    // });
-
-    App.addListener("backButton", ({ canGoBack }) => {
-      if (canGoBack) {
-        console.log("Hello");
-        window.history.back();
+    App.addListener("appStateChange", ({ isActive }) => {
+      if (!isActive) {
+        console.log("CLOSEEEEEEE");
+        setPlayStatus(false);
+        setTimerStatusForTraining("pause");
       } else {
-        console.log("Hello");
-        App.exitApp();
+        console.log("OPENNNNN");
+        if (timerMode !== "training") {
+          console.log("OPENNNNN WORKSSS");
+          setTimerStatusForTraining("start");
+        }
       }
     });
-
-    // App.addListener('backButton', (data) => {
-    //   console.log('back button click:', JSON.stringify(data));
-    //   if (data.canGoBack) {
-    //     window.history.back();
-    //   } else {
-    //     // Можливо, відображення сповіщення перед закриттям додатку?
-    //     App.exitApp();
-    //   }
-    // });
   };
 
   /////Use when App goes to background and comes back to foreground/////
@@ -137,7 +108,6 @@ const ImageContainer: React.FC = () => {
 
   //////ModalRender: value should be 0 when Swiper init/////
 
-  const [swiperTrackIndex, setSwiperTrackIndex] = useState(0);
   const [isOpenModalExercise, setIsOpenModalExercise] = useState(false);
   const [isOpenModalSettings, setIsOpenModalSettings] = useState(false);
 
@@ -146,10 +116,11 @@ const ImageContainer: React.FC = () => {
   console.log("savedHistoryDoneExercises: ", savedHistoryDoneExercises);
   console.log("disabledNavButtonsWhenTrainingStarts: ", disabledNavButtonsWhenTrainingStarts);
   console.log("PlayStatus: ", playStatus);
-  // console.log("PlayMode: ", playMode);
   console.log("timerStatusForTraining:", timerStatusForTraining);
   console.log("timerDurationForTraining: ", timerDurationForTraining);
   console.log("timeAfterPauseForTraining: ", timeAfterPauseForTraining);
+  console.log("timeAfterPauseForTraining: ", timeAfterPauseForTraining);
+  console.log("timerMode: ", timerMode);
 
   return (
     <div className="swiper">
@@ -181,11 +152,7 @@ const ImageContainer: React.FC = () => {
                 setIsOpenModalExercise={setIsOpenModalExercise}
                 setTimerStatusForTraining={setTimerStatusForTraining}
               />
-              <TimersForTraining
-                swiper={swiperRef.current as ISwiper}
-                setPlayStatus={setPlayStatus}
-                swiperTrackIndex={swiperTrackIndex}
-              />
+              <TimersForTraining swiper={swiperRef.current as ISwiper} setPlayStatus={setPlayStatus} />
 
               <Swiper
                 className="swiper__content"
@@ -199,7 +166,7 @@ const ImageContainer: React.FC = () => {
                 }}
                 simulateTouch={false}
                 touchRatio={0}
-                speed={1000}
+                speed={1500}
                 onSwiper={(swiper) => {
                   swiperRef.current = swiper;
                 }}
@@ -210,7 +177,7 @@ const ImageContainer: React.FC = () => {
                 {slicedUserTraining.map((item, index) => (
                   // <div className="swiper__slide">
                   <SwiperSlide key={item.id}>
-                    <VideoPlayer play={playStatus && test ? true : false} path={item.video_path} />
+                    <VideoPlayer play={playStatus} path={item.video_path} />
                   </SwiperSlide>
                   // </div>
                 ))}
@@ -230,7 +197,7 @@ const ImageContainer: React.FC = () => {
         </div>
       )}
 
-      <SwiperUserButtons swiper={swiperRef.current as ISwiper} swiperTrackIndex={swiperTrackIndex} />
+      <SwiperUserButtons swiper={swiperRef.current as ISwiper} />
       {slicedUserTraining[swiperTrackIndex] ? (
         <ModalWindowExercise
           timerFor={"working"}
