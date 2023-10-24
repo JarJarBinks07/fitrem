@@ -27,7 +27,7 @@ interface IProps {
   swiperTrackIndex: number;
   timerFor: "working" | "notification";
   unsetTimer: () => void;
-  setChangedModeWithStatus: () => void;
+  setPlayStatus: (value: boolean) => void;
   setTimerMode: (value: "preparation" | "training" | "rest") => void;
   setPassedExercises: (value: number, status: "done" | "skipped") => void;
 }
@@ -46,21 +46,27 @@ const TimerFace: React.FC<IProps> = ({
   colorsTime,
   swiperTrackIndex,
   unsetTimer,
-  setChangedModeWithStatus,
+  setPlayStatus,
   setTimerMode,
   setPassedExercises,
 }) => {
+  const { setTimerDurationForTraining, workIntervalForTraining, restIntervalForTraining } = useCombineStates();
   const onCompleteSession = () => {
     if (timerMode === "preparation") {
+      setTimerDurationForTraining(workIntervalForTraining * 1000);
       setTimerMode("training");
+      setPlayStatus(true);
     } else if (timerMode === "training") {
+      setTimerDurationForTraining(restIntervalForTraining * 1000);
       setPassedExercises(swiperTrackIndex, "done");
       setTimerMode("rest");
+      setPlayStatus(false);
       swiper.slideNext();
     } else {
+      setTimerDurationForTraining(workIntervalForTraining * 1000);
       setTimerMode("training");
+      setPlayStatus(true);
     }
-    setChangedModeWithStatus();
     unsetTimer();
   };
 

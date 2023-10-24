@@ -13,7 +13,8 @@ interface IProps {
 const SwiperUserButtons: React.FC<IProps> = ({ swiper, swiperTrackIndex }) => {
   /////useCombineState/////
   const {
-    playMode,
+    preparationTime,
+    // playMode,
     playStatus,
     startWorkout,
     timerStatusForTraining,
@@ -31,9 +32,9 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, swiperTrackIndex }) => {
     setDisabledMainButtonsExceptTraining,
     setTimerMode,
     setStartWorkout,
-    setPlayMode,
+    // setPlayMode,
     setPlayStatus,
-    setChangedModeWithStatus,
+    // setChangedModeWithStatus,
   } = useCombineStates();
 
   /////useEffect uses to exclude problem with play/pause mode for persist/////
@@ -66,7 +67,7 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, swiperTrackIndex }) => {
   const pauseButtonHandler = () => {
     setTimerStatusForTraining("pause");
     setTimeAfterPauseForTraining();
-    setChangedModeWithStatus();
+    setPlayStatus(false);
   };
 
   const playButtonHandler = () => {
@@ -77,7 +78,7 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, swiperTrackIndex }) => {
       setTimerDurationForTraining(workIntervalForTraining * 1000);
     }
     setTimerStatusForTraining("start");
-    setChangedModeWithStatus();
+    setPlayStatus(true);
   };
 
   return (
@@ -97,6 +98,7 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, swiperTrackIndex }) => {
                     setDisabledMainButtonsExceptTraining();
                     setTimerStatusForTraining("start");
                     setTimerMode("preparation");
+                    setTimerDurationForTraining(preparationTime * 1000);
                   }}
                 >
                   <div className="ion-text-uppercase">Start Workout</div>
@@ -136,7 +138,7 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, swiperTrackIndex }) => {
                     icon={status ? pauseCircleOutline : playCircleOutline}
                     // icon={playStatus ? pauseOutline : playSharp}
                   ></IonIcon>
-                  <div className="ion-text-uppercase">{playMode}</div>
+                  <div className="ion-text-uppercase">{playStatus ? "pause" : "play"}</div>
                 </IonButton>
               </IonCol>
               <IonCol>
@@ -147,8 +149,8 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, swiperTrackIndex }) => {
                   onClick={() => {
                     swiper.slideNext();
                     setPassedExercises(swiperTrackIndex, "done");
-                    setPlayMode("play");
-                    setPlayStatus();
+                    // setPlayMode("play");
+                    setPlayStatus(false);
                     setTimerStatusForTraining("start");
                     setDisabledMainButtonsExceptTraining();
                     setTimerMode("rest");

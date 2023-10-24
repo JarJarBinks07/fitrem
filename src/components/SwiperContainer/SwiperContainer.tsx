@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { App } from "@capacitor/app";
 import { IonButton, IonCol, IonGrid, IonIcon, IonImg, IonItem, IonRow, IonSpinner } from "@ionic/react";
 import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
 import { Pagination, Navigation, EffectFade } from "swiper/modules";
@@ -39,7 +40,8 @@ const ImageContainer: React.FC = () => {
     timerDurationForTraining,
     timeAfterPauseForTraining,
     timerStatusForTraining,
-    playMode,
+    timerMode,
+    // playMode,
     playStatus,
     userTraining,
     passedExercises,
@@ -48,13 +50,61 @@ const ImageContainer: React.FC = () => {
     disabledNavButtonsWhenTrainingStarts,
     disabledMainButtonsExceptTraining,
     setTimerStatusForTraining,
-    setChangedModeWithStatus,
+    setPlayStatus,
+    // setChangedModeWithStatus,
     unsetForPersist,
   } = useCombineStates();
+
+  /////Use when App reloads unexpectedly/////
 
   useEffect(() => {
     unsetForPersist();
   }, []);
+
+  /////Use when App goes to background and comes back to foreground/////
+  function appListener() {
+    App.addListener("appStateChange", ({ isActive }) => {
+      if (!isActive) {
+        console.log("CLOSEEE");
+        if (playStatus) {
+          console.log("When close playStatus true: ", playStatus);
+          setPlayStatus(false);
+          setTimerStatusForTraining("pause");
+        } else {
+          setTimerStatusForTraining("pause");
+        }
+        console.log("When close playStatus false: ", playStatus);
+      } else {
+        if (!playStatus) {
+          console.log("OPENNNNN");
+          console.log("When open playStatus: ", playStatus);
+          console.log("Timer Status:", timerMode);
+
+          // if (timerMode != "training") {
+          setTimerStatusForTraining("start");
+          // }
+        }
+      }
+    });
+  }
+  // App.addListener("appStateChange", ({ isActive }) => {
+  //   if (!isActive) {
+  //     if (playStatus) {
+  //       setPlayStatus(false);
+  //       setTimerStatusForTraining("pause");
+  //     } else {
+  //       setTimerStatusForTraining("pause");
+  //     }
+  //     console.log("CLOSEEE");
+  //   } else {
+  //     if (!playStatus) {
+  //       if (timerMode !== "training") {
+  //         setTimerStatusForTraining("start");
+  //       }
+  //     }
+  //     console.log("OPENNNNN");
+  //   }
+  // });
 
   /////If one field checkbox and one track chosen we use useEffect (at least one must be chosen always). Init level/////
   // useEffect(() => {
@@ -88,7 +138,7 @@ const ImageContainer: React.FC = () => {
   console.log("savedHistoryDoneExercises: ", savedHistoryDoneExercises);
   console.log("disabledNavButtonsWhenTrainingStarts: ", disabledNavButtonsWhenTrainingStarts);
   console.log("PlayStatus: ", playStatus);
-  console.log("PlayMode: ", playMode);
+  // console.log("PlayMode: ", playMode);
   console.log("timerStatusForTraining:", timerStatusForTraining);
   console.log("timerDurationForTraining: ", timerDurationForTraining);
   console.log("timeAfterPauseForTraining: ", timeAfterPauseForTraining);
@@ -100,7 +150,9 @@ const ImageContainer: React.FC = () => {
           <IonButton
             className="swiper__btn_settings"
             onClick={() => {
-              playStatus ? (setChangedModeWithStatus(), setIsOpenModalSettings(true)) : setIsOpenModalSettings(true);
+              playStatus
+                ? (setPlayStatus(false), setIsOpenModalSettings(true), setTimerStatusForTraining("pause"))
+                : setIsOpenModalSettings(true);
             }}
           >
             <IonIcon slot="icon-only" icon={optionsOutline}></IonIcon>
@@ -117,13 +169,13 @@ const ImageContainer: React.FC = () => {
             <div className="swiper__container">
               <SwiperInfoButton
                 playStatus={playStatus}
-                setChangedModeWithStatus={setChangedModeWithStatus}
+                setPlayStatus={setPlayStatus}
                 setIsOpenModalExercise={setIsOpenModalExercise}
                 setTimerStatusForTraining={setTimerStatusForTraining}
               />
               <TimersForTraining
                 swiper={swiperRef.current as ISwiper}
-                setChangedModeWithStatus={setChangedModeWithStatus}
+                setPlayStatus={setPlayStatus}
                 swiperTrackIndex={swiperTrackIndex}
               />
 
