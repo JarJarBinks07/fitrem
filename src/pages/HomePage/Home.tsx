@@ -17,8 +17,8 @@ import {
 } from "@ionic/react";
 import { createConnection, DataSource } from "typeorm";
 import { SQLiteDBConnection } from "@capacitor-community/sqlite";
-import { useSQLiteDB } from "../../hooks/useSQLiteDB";
-import { useConfirmationAlert } from "../../hooks/useConfirmationAlert";
+import { useSQLiteDB } from "../../shared/hooks/useSQLiteDB";
+import { useConfirmationAlert } from "../../shared/hooks/useConfirmationAlert";
 import { SQLItem } from "../../types/types";
 import MainMenu from "../../components/Menu/ProfileMenu";
 import FooterButtons from "../../components/Footer/FooterButtons";
@@ -235,11 +235,7 @@ const Home: React.FC = () => {
             />
           </IonItem>
           <IonItem>
-            <IonInput
-              type="text"
-              value={inputName}
-              onIonInput={(e) => setInputName(e.target.value as string)}
-            ></IonInput>
+            <IonInput type="text" value={inputName} onIonInput={(e) => setInputName(e.target.value as string)}></IonInput>
             <IonButton slot="end" onClick={addItem} disabled={inputName.trim() === ""}>
               ADD
             </IonButton>

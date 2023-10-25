@@ -36,41 +36,15 @@ import Settings from "./pages/SettingsPage/Settings";
 import TimerPage from "./pages/TimerPage/Timer";
 import Home from "./pages/HomePage/Home";
 import { useCombineStates } from "./store/useCombineStates";
-import { home, timer, settings, optionsOutline } from "ionicons/icons";
+import { timer, settings, optionsOutline } from "ionicons/icons";
 import Tracks from "./pages/TracksPage/Tracks";
-import { useEffect } from "react";
-import { IExercise, IPreloadedImage, ITrack } from "./store/TracksState";
-import { exercisesData, tracksData, preloadedImage } from "./shared/tracks/tracks";
-import { saveTrackResources } from "./settings/capacitor.storage";
+import { useGetData } from "./shared/hooks/useGetData";
 
 setupIonicReact();
 
 const App: React.FC = () => {
-  const { setAllExercises, setAllTracks, setPreloadedImage } = useCombineStates();
-
-  const getData = async () => {
-    const responseWithTracks: ITrack[] = tracksData;
-    const responseWithExercises: IExercise[] = exercisesData;
-    const responseWithPreloadedImage: IPreloadedImage = preloadedImage;
-    await new Promise((res) => {
-      const imageName = responseWithPreloadedImage.image_path.split("/").pop() as string;
-      res(saveTrackResources(responseWithPreloadedImage.image_path, imageName));
-    });
-    await Promise.all(
-      responseWithExercises.map(async (e) => {
-        const imageName = e.image_path.split("/").pop() as string;
-        const videoName = e.video_path.split("/").pop() as string;
-        await Promise.all([saveTrackResources(e.image_path, imageName), saveTrackResources(e.video_path, videoName)]);
-      })
-    );
-    setAllTracks(responseWithTracks);
-    setAllExercises(responseWithExercises);
-    setPreloadedImage(responseWithPreloadedImage);
-  };
-
-  useEffect(() => {
-    getData();
-  }, []);
+  ////get data from DB and write to FS and Zustand Storage/////
+  useGetData();
 
   const { rehydrated } = useCombineStates();
   return (

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { App } from "@capacitor/app";
 import { IonButton, IonCol, IonGrid, IonIcon, IonImg, IonItem, IonRow, IonSpinner } from "@ionic/react";
-import { Swiper, SwiperSlide, useSwiper } from "swiper/react";
+import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation, EffectFade } from "swiper/modules";
 import { Capacitor } from "@capacitor/core";
 import ModalWindowExercise from "../ModalWindows/ModalWindowExercise/ModalWindowExercise";
@@ -23,7 +23,6 @@ import SwiperUserButtons from "./components/SwiperUserButtons/SwiperUserButtons"
 import SwiperTitle from "./components/SwiperTitle/SwiperTitle";
 import SwiperInfoButton from "./SwiperInfoButton/SwiperInfoButton";
 import SwiperNavigationButtons from "./components/SwiperNavigatonButtons/SwiperNavigationButtons";
-import CachedImage from "../CachedImage/CachedImage";
 
 interface IVideo {
   id: number;
@@ -43,16 +42,17 @@ const ImageContainer: React.FC = () => {
     timerMode,
     swiperTrackIndex,
     playStatus,
+    playerId,
     userTraining,
     passedExercises,
     savedHistoryDoneExercises,
     preloadedImage,
     disabledNavButtonsWhenTrainingStarts,
-    disabledMainButtonsExceptTraining,
+    disabledPlayDoneButtons,
     setSwiperTrackIndex,
     setTimerStatusForTraining,
     setPlayStatus,
-    unsetForPersist,
+    setPlayerId,
   } = useCombineStates();
 
   // const [test, setTest] = useState(false);
@@ -63,6 +63,8 @@ const ImageContainer: React.FC = () => {
   //   unsetForPersist();
   // }, []);
 
+  /////use for background and foreground modes/////
+
   useEffect(() => {
     setupListener();
   }, []);
@@ -70,13 +72,14 @@ const ImageContainer: React.FC = () => {
   const setupListener = async () => {
     App.addListener("appStateChange", ({ isActive }) => {
       if (!isActive) {
-        console.log("CLOSEEEEEEE");
+        console.log("CLOSEEEE", timerMode);
         setPlayStatus(false);
+        setPlayerId();
         setTimerStatusForTraining("pause");
       } else {
-        console.log("OPENNNNN");
+        const timerMode = useCombineStates.getState().timerMode;
+        console.log("OPENNNNN", timerMode);
         if (timerMode !== "training") {
-          console.log("OPENNNNN WORKSSS");
           setTimerStatusForTraining("start");
         }
       }
@@ -177,7 +180,7 @@ const ImageContainer: React.FC = () => {
                 {slicedUserTraining.map((item, index) => (
                   // <div className="swiper__slide">
                   <SwiperSlide key={item.id}>
-                    <VideoPlayer play={playStatus} path={item.video_path} />
+                    <VideoPlayer id={playerId} play={playStatus} path={item.video_path} />
                   </SwiperSlide>
                   // </div>
                 ))}
@@ -191,8 +194,8 @@ const ImageContainer: React.FC = () => {
       ) : (
         <div className="swiper__preload">
           <div className="swiper__preload_video">
-            {/* <IonImg src="/assets/tracks/bicep/Bicep_01.jpg" alt="" /> */}
-            <VideoPlayer play={false} path={preloadedImage.image_path} />
+            <IonImg src={preloadedImage} alt="" />
+            {/* <VideoPlayer play={false} path={preloadedImage.image_path} /> */}
           </div>
         </div>
       )}
@@ -200,12 +203,12 @@ const ImageContainer: React.FC = () => {
       <SwiperUserButtons swiper={swiperRef.current as ISwiper} />
       {slicedUserTraining[swiperTrackIndex] ? (
         <ModalWindowExercise
-          timerFor={"working"}
+          timerMode={timerMode}
           isOpen={isOpenModalExercise}
           setIsOpen={setIsOpenModalExercise}
           path={slicedUserTraining[swiperTrackIndex].video_path}
           description={slicedUserTraining[swiperTrackIndex].description}
-          disabledMainButtonsExceptTraining={disabledMainButtonsExceptTraining}
+          disabledPlayDoneButtons={disabledPlayDoneButtons}
           setTimerStatusForTraining={setTimerStatusForTraining}
         />
       ) : null}

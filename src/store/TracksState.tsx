@@ -1,10 +1,6 @@
 import { MyStateCreator } from "./useCombineStates";
 import _ from "lodash";
 
-export interface IPreloadedImage {
-  image_path: string;
-}
-
 export interface ITrack {
   id: number;
   category: string;
@@ -24,9 +20,9 @@ export interface IExercise {
 }
 
 export type StateTrackWithExercise = {
+  preloadedImage: string;
   allTracks: ITrack[];
   allExercises: IExercise[];
-  preloadedImage: IPreloadedImage;
   selectedExercisesByID: number[];
   selectedCategoryTracks: string[];
   userTraining: IExercise[];
@@ -35,7 +31,6 @@ export type StateTrackWithExercise = {
   setAllTracks: (value: ITrack[]) => void;
   setOrderTracks: (value: ITrack[]) => void;
   setAllExercises: (value: IExercise[]) => void;
-  setPreloadedImage: (value: IPreloadedImage) => void;
   setSelectedExercisesByID: (value: number) => void;
   setSelectedCategoryTracks: (value: string) => void;
   setReorderedSelectedCategoryTracks: () => void;
@@ -44,15 +39,14 @@ export type StateTrackWithExercise = {
 };
 
 export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) => ({
+  preloadedImage: "/assets/tracks/test.jpg",
+
   allTracks: [],
   setAllTracks: (value) => set({ allTracks: value }, false, "setAllTracks"),
   setOrderTracks: (value) => set(() => ({ allTracks: value }), false, "setOrderTracks"),
 
   allExercises: [],
   setAllExercises: (value) => set(() => ({ allExercises: value }), false, "setAllExercises"),
-
-  preloadedImage: {} as IPreloadedImage,
-  setPreloadedImage: (value) => set(() => ({ preloadedImage: value }), false, "setPreloadedImage"),
 
   selectedExercisesByID: [],
   setSelectedExercisesByID: (value) =>

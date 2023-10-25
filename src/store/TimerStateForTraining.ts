@@ -5,6 +5,7 @@ export interface ITimerTraining {
   swiperTrackIndex: number;
   startWorkout: boolean;
   playStatus: boolean;
+  playerId: number;
   preparationTime: number;
   workIntervalForTraining: number;
   restIntervalForTraining: number;
@@ -14,10 +15,11 @@ export interface ITimerTraining {
   timerDurationForTraining: number;
   timeAfterPauseForTraining: number;
   disabledNavButtonsWhenTrainingStarts: boolean;
-  disabledMainButtonsExceptTraining: boolean;
+  disabledPlayDoneButtons: boolean;
   setSwiperTrackIndex: (value: number) => void;
   setStartWorkout: () => void;
   setPlayStatus: (value: boolean) => void;
+  setPlayerId: () => void;
   setWorkIntervalForTraining: (value: number) => void;
   setRestIntervalForTraining: (value: number) => void;
   setTimerStatusForTraining: (value: "start" | "pause") => void;
@@ -29,7 +31,7 @@ export interface ITimerTraining {
   unsetWhenDone: () => void;
   unsetForPersist: () => void;
   setDisabledNavButtonsWhenTrainingStarts: () => void;
-  setDisabledMainButtonsExceptTraining: () => void;
+  setDisabledPlayDoneButtons: () => void;
 }
 
 export const createTimerStateForTraining: MyStateCreator<ITimerTraining> = (set) => ({
@@ -41,6 +43,9 @@ export const createTimerStateForTraining: MyStateCreator<ITimerTraining> = (set)
 
   playStatus: false,
   setPlayStatus: (value) => set(() => ({ playStatus: value }), false, "setPlayStatus"),
+
+  playerId: Date.now(),
+  setPlayerId: () => set(() => ({ playerId: Date.now() }), false, "setPlayerId"),
 
   preparationTime: 10,
 
@@ -80,10 +85,10 @@ export const createTimerStateForTraining: MyStateCreator<ITimerTraining> = (set)
       false,
       "setDisabledNavButtonsWhenTrainingStarts"
     ),
-  disabledMainButtonsExceptTraining: false,
-  setDisabledMainButtonsExceptTraining: () =>
+  disabledPlayDoneButtons: false,
+  setDisabledPlayDoneButtons: () =>
     set(
-      (state) => ({ disabledMainButtonsExceptTraining: !state.disabledMainButtonsExceptTraining }),
+      (state) => ({ disabledPlayDoneButtons: !state.disabledPlayDoneButtons }),
       false,
       "setDisabledMainButtonsExceptTraining"
     ),
@@ -92,7 +97,7 @@ export const createTimerStateForTraining: MyStateCreator<ITimerTraining> = (set)
       (state) => ({
         timeAfterPauseForTraining: 0,
         timerKeyForTraining: Date.now(),
-        disabledMainButtonsExceptTraining: state.disabledMainButtonsExceptTraining === true ? false : true,
+        disabledPlayDoneButtons: state.disabledPlayDoneButtons === true ? false : true,
       }),
 
       false,

@@ -1,15 +1,5 @@
 import React from "react";
-import {
-  IonButtons,
-  IonButton,
-  IonModal,
-  IonHeader,
-  IonContent,
-  IonToolbar,
-  IonTitle,
-  IonItem,
-  IonText,
-} from "@ionic/react";
+import { IonButtons, IonButton, IonModal, IonHeader, IonContent, IonToolbar, IonTitle, IonItem } from "@ionic/react";
 import VideoPlayerReact from "../../PlayerReact/VideoPlayer";
 
 import "./ModalWindowExercise.css";
@@ -18,18 +8,18 @@ interface IProps {
   path: string;
   description: string;
   isOpen: boolean;
-  timerFor?: "working" | "notification";
-  disabledMainButtonsExceptTraining?: boolean;
+  timerMode: "preparation" | "training" | "rest";
+  disabledPlayDoneButtons?: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setTimerStatusForTraining?: any;
+  setTimerStatusForTraining?: (value: "start" | "pause") => void;
 }
 
 function ModalWindowExercise({
   path,
   description,
   isOpen,
-  timerFor,
-  disabledMainButtonsExceptTraining,
+  timerMode,
+  disabledPlayDoneButtons,
   setTimerStatusForTraining,
   setIsOpen,
 }: IProps) {
@@ -42,10 +32,8 @@ function ModalWindowExercise({
             <IonButton
               className="modal__btn"
               onClick={() => {
-                if (timerFor === "working") {
-                  if (disabledMainButtonsExceptTraining) {
-                    setTimerStatusForTraining("start");
-                  }
+                if (timerMode !== "training") {
+                  setTimerStatusForTraining && setTimerStatusForTraining("start");
                 }
                 setIsOpen(false);
               }}

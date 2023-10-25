@@ -10,7 +10,6 @@ interface IProps {
 }
 
 const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
-  /////useCombineState/////
   const {
     preparationTime,
     swiperTrackIndex,
@@ -21,19 +20,17 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
     workIntervalForTraining,
     userTraining,
     passedExercises,
-    disabledMainButtonsExceptTraining,
+    disabledPlayDoneButtons: disabledPlayDoneButtons,
     setTimerStatusForTraining,
     setTimeAfterPauseForTraining,
     setTimerDurationForTraining,
     setPassedExercises,
     unsetWhenDone,
     setDisabledNavButtonsWhenTrainingStarts,
-    setDisabledMainButtonsExceptTraining,
+    setDisabledPlayDoneButtons,
     setTimerMode,
     setStartWorkout,
-    // setPlayMode,
     setPlayStatus,
-    // setChangedModeWithStatus,
   } = useCombineStates();
 
   /////useEffect uses to exclude problem with play/pause mode for persist/////
@@ -94,7 +91,7 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
                   onClick={() => {
                     setStartWorkout();
                     setDisabledNavButtonsWhenTrainingStarts();
-                    setDisabledMainButtonsExceptTraining();
+                    setDisabledPlayDoneButtons();
                     setTimerStatusForTraining("start");
                     setTimerMode("preparation");
                     setTimerDurationForTraining(preparationTime * 1000);
@@ -114,8 +111,6 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
                     setPassedExercises(swiperTrackIndex, "skipped");
                   }}
                 >
-                  {/* <IonIcon className="swiper__bar_icon" slot="end" icon={playForwardCircleOutline}></IonIcon> */}
-                  {/* <IonIcon className="swiper__bar_icon" slot="end" icon={playForward}></IonIcon> */}
                   <IonIcon className="swiper__bar_icon" slot="end" icon={reloadCircleOutline}></IonIcon>
 
                   <div className="ion-text-uppercase">Skip</div>
@@ -127,7 +122,7 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
               <IonCol>
                 <IonButton
                   className="swiper__bar_btn"
-                  disabled={disabledMainButtonsExceptTraining}
+                  disabled={disabledPlayDoneButtons}
                   expand="block"
                   onClick={timerStatusForTraining === "start" ? pauseButtonHandler : playButtonHandler}
                 >
@@ -143,21 +138,19 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
               <IonCol>
                 <IonButton
                   className="swiper__bar_btn  swiper__bar_btn_done"
-                  disabled={disabledMainButtonsExceptTraining}
+                  disabled={disabledPlayDoneButtons}
                   expand="block"
                   onClick={() => {
                     swiper.slideNext();
-                    setPassedExercises(swiperTrackIndex, "done");
-                    // setPlayMode("play");
                     setPlayStatus(false);
-                    setTimerStatusForTraining("start");
-                    setDisabledMainButtonsExceptTraining();
-                    setTimerMode("rest");
                     unsetWhenDone();
+                    setTimerMode("rest");
+                    setDisabledPlayDoneButtons();
+                    setTimerStatusForTraining("start");
+                    setPassedExercises(swiperTrackIndex, "done");
                   }}
                 >
                   <IonIcon className="swiper__bar_icon" slot="end" icon={checkmarkCircleOutline}></IonIcon>
-                  {/* <IonIcon className="swiper__bar_icon" slot="end" icon={checkmarkOutline}></IonIcon> */}
 
                   <div className="ion-text-uppercase">Done</div>
                 </IonButton>

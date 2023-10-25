@@ -1,15 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { Duration } from "luxon";
 import "./TimerFace.css";
-import Swiper from "swiper";
-import { useCombineStates } from "../../../store/useCombineStates";
+import ISwiper from "swiper";
 
 interface IProps {
+  swiper: ISwiper;
   timerKey: number;
   timerInterval: number;
   timerDuration: number;
   timerActive: boolean;
+  timerFor: "exercise" | "notification";
   timerMode: "preparation" | "training" | "rest";
   size: number;
   strokeWidth: number;
@@ -23,13 +24,9 @@ interface IProps {
   } & {
     1: number;
   } & number[];
-  swiper: Swiper;
-  swiperTrackIndex: number;
-  timerFor: "working" | "notification";
+
   unsetTimer: () => void;
-  setPlayStatus: (value: boolean) => void;
-  setTimerMode: (value: "preparation" | "training" | "rest") => void;
-  setPassedExercises: (value: number, status: "done" | "skipped") => void;
+  onCompleteSession: () => void;
 }
 
 const TimerFace: React.FC<IProps> = ({
@@ -44,35 +41,16 @@ const TimerFace: React.FC<IProps> = ({
   timerFor,
   colors,
   colorsTime,
-  swiperTrackIndex,
   unsetTimer,
-  setPlayStatus,
-  setTimerMode,
-  setPassedExercises,
+  onCompleteSession,
 }) => {
-  const { setTimerDurationForTraining, workIntervalForTraining, restIntervalForTraining } = useCombineStates();
-  const onCompleteSession = () => {
-    if (timerMode === "preparation") {
-      setTimerDurationForTraining(workIntervalForTraining * 1000);
-      setTimerMode("training");
-      setPlayStatus(true);
-    } else if (timerMode === "training") {
-      setTimerDurationForTraining(restIntervalForTraining * 1000);
-      setPassedExercises(swiperTrackIndex, "done");
-      setTimerMode("rest");
-      setPlayStatus(false);
-    } else {
-      setTimerDurationForTraining(workIntervalForTraining * 1000);
-      setTimerMode("training");
-      setPlayStatus(true);
-    }
+  const onComplete = () => {
+    onCompleteSession();
     unsetTimer();
   };
 
-  //////////
-
   /////for different timers/////
-  let fromMinuteToSeconds = timerFor === "working" ? 1 : 60;
+  let fromMinuteToSeconds = timerFor === "exercise" ? 1 : 60;
   const timeLeft = timerDuration > 0 ? timerDuration / 1000 : timerInterval * fromMinuteToSeconds;
 
   console.log("Time from Timer Face: ", timerDuration);
@@ -118,7 +96,7 @@ const TimerFace: React.FC<IProps> = ({
       duration={timerInterval * fromMinuteToSeconds}
       initialRemainingTime={timeLeft > 0 ? timeLeft : timerInterval * fromMinuteToSeconds}
       onComplete={() => {
-        onCompleteSession();
+        onComplete();
         if (timerMode === "training") {
           swiper.slideNext();
         }

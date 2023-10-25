@@ -21,9 +21,7 @@ const SwiperInfoButton: React.FC<IProps> = ({
       onClick={() => {
         setIsOpenModalExercise(true);
         setTimerStatusForTraining("pause");
-        {
-          playStatus ? setPlayStatus(false) : null;
-        }
+        playStatus ? setPlayStatus(false) : null;
       }}
     >
       <IonIcon className="swiper__icon_info" slot="icon-only" icon={informationCircleOutline}></IonIcon>
