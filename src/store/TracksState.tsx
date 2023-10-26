@@ -171,6 +171,9 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
         }
         ////////////////////Step #2////////////////////
 
+        ///////////////TEST//////////////////
+
+        ///////////////TEST//////////////////
         /////Find next exercise from current category/////
 
         const [currentDoneExercise] = [...newUserTraining].filter((e, index) => index === value);

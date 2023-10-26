@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import { App } from "@capacitor/app";
-import { IonButton, IonCol, IonGrid, IonIcon, IonImg, IonItem, IonRow, IonSpinner } from "@ionic/react";
+import { IonButton, IonCol, IonGrid, IonIcon, IonImg, IonItem, IonRow, IonSpinner, IonTitle } from "@ionic/react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Navigation, EffectFade } from "swiper/modules";
 import { Capacitor } from "@capacitor/core";
@@ -47,6 +47,7 @@ const ImageContainer: React.FC = () => {
     userTraining,
     passedExercises,
     savedHistoryDoneExercises,
+    savedHistorySkippedExercises,
     preloadedImage,
     disabledNavigationButtons,
     timerNotificationInterval,
@@ -130,10 +131,10 @@ const ImageContainer: React.FC = () => {
     unsetWhenDone();
     setOnFocus(setIsOpenModalSettings);
   };
-
-  console.log("doneExercises: ", passedExercises);
   console.log("userTraining: ", userTraining);
+  console.log("passedExercises: ", passedExercises);
   console.log("savedHistoryDoneExercises: ", savedHistoryDoneExercises);
+  console.log("savedHistorySkippedExercises: ", savedHistorySkippedExercises);
   console.log("disabledNavigationButtons: ", disabledNavigationButtons);
   console.log("PlayStatus: ", playStatus);
   console.log("timerTrainingStatus:", timerTrainingStatus);
@@ -165,6 +166,7 @@ const ImageContainer: React.FC = () => {
             <div className="swiper__container">
               <SwiperInfoButton setOnBlur={setOnBlur} setIsOpen={setIsOpenModalExercise} />
               <TimersForTraining swiper={swiperRef.current as ISwiper} setPlayStatus={setPlayStatus} />
+              {timerMode === "rest" ? <div className="swiper__notification_rest">REST</div> : null}
 
               <Swiper
                 className="swiper__content"

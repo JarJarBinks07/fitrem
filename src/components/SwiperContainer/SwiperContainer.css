@@ -1,3 +1,15 @@
+@keyframes blink_rest {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 .swiper {
   display: flex;
   /* min-height: 100%; */
@@ -70,6 +82,17 @@
 .swiper__btn_info::part(native) {
   background-color: transparent;
   box-shadow: none;
+}
+
+.swiper__notification_rest {
+  position: absolute;
+  top: 3vh;
+  left: 43%;
+  z-index: 5;
+  animation: blink_rest 5s infinite;
+}
+.swiper__notification_work.hide {
+  opacity: 0;
 }
 .swiper__icon_info {
   font-size: 32px;
