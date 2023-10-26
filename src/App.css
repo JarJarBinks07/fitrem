@@ -108,6 +108,7 @@ ion-button {
 }
 .app__btn::part(native) {
   background-color: transparent;
+  box-shadow: none;
 }
 .spinner {
   height: 100%;
