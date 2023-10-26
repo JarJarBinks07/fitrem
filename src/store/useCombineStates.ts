@@ -41,7 +41,7 @@ export const useCombineStates = create<CombineState>()(
             if (error) {
               console.log("an error happened during hydration", error);
             } else {
-              useCombineStates.setState({ rehydrated: true, timerStatus: "idle" });
+              useCombineStates.setState({ rehydrated: true, timerNotificationStatus: "idle" });
               console.log("hydration finished", state);
             }
           };

@@ -37,7 +37,11 @@ type RangeValue =
     };
 
 const Settings: React.FC = () => {
-  const { timerInterval, setTimerInterval, unsetTimer } = useCombineStates();
+  const {
+    timerNotificationInterval: timerInterval,
+    setTimerNotificationInterval: setTimerInterval,
+    unsetNotificationTimer: unsetTimer,
+  } = useCombineStates();
   const [initialValue, setInitialValue] = useState<RangeValue>(timerInterval);
   const [isOpen, setIsOpen] = useState(false);
 

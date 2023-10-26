@@ -1,7 +1,7 @@
 import { useCombineStates } from "../../store/useCombineStates";
 
 export function useWatcher() {
-  const { timerMode, playStatus, setTimerStatusForTraining, setPlayStatus } = useCombineStates();
+  const { timerMode, playStatus, setTimerTrainingStatus: setTimerStatusForTraining, setPlayStatus } = useCombineStates();
 
   const setOnBlur = (setModal?: (value: boolean) => void) => {
     setModal && setModal(true);

@@ -1,6 +1,7 @@
 import { Redirect, Route } from "react-router-dom";
 import {
   IonApp,
+  IonButton,
   IonIcon,
   IonLabel,
   IonRouterOutlet,
@@ -39,12 +40,14 @@ import { useCombineStates } from "./store/useCombineStates";
 import { timer, settings, optionsOutline } from "ionicons/icons";
 import Tracks from "./pages/TracksPage/Tracks";
 import { useGetData } from "./shared/hooks/useGetData";
+import { useWatcher } from "./shared/hooks/useWatcher";
 
 setupIonicReact();
 
 const App: React.FC = () => {
   ////get data from DB and write to FS and Zustand Storage/////
   useGetData();
+  const { setOnBlur, setOnFocus } = useWatcher();
 
   const { rehydrated } = useCombineStates();
   return (
@@ -71,22 +74,28 @@ const App: React.FC = () => {
             </IonRouterOutlet>
             <IonTabBar className="app__tab_bar" slot="bottom" color="warning">
               <IonTabButton className="app__tab_button" tab="timer" href="/timer">
-                <IonIcon className="app__icon" icon={timer} />
-                <IonLabel className="app__label" color="light">
-                  Timer
-                </IonLabel>
+                <IonButton className="app__btn" onClick={() => setOnFocus()}>
+                  <IonIcon className="app__icon" icon={timer} />
+                  <IonLabel className="app__label" color="light">
+                    Timer
+                  </IonLabel>
+                </IonButton>
               </IonTabButton>
               <IonTabButton className="app__tab_button" tab="tracks" href="/tracks">
-                <IonIcon className="app__icon" icon={optionsOutline} />
-                <IonLabel className="app__label" color="light">
-                  Tracks
-                </IonLabel>
+                <IonButton className="app__btn" onClick={() => setOnBlur()}>
+                  <IonIcon className="app__icon" icon={optionsOutline} />
+                  <IonLabel className="app__label" color="light">
+                    Tracks
+                  </IonLabel>
+                </IonButton>
               </IonTabButton>
               <IonTabButton className="app__tab_button" tab="settings" href="/settings">
-                <IonIcon className="app__icon" icon={settings} />
-                <IonLabel className="app__label" color="light">
-                  Settings
-                </IonLabel>
+                <IonButton className="app__btn" onClick={() => setOnBlur()}>
+                  <IonIcon className="app__icon" icon={settings} />
+                  <IonLabel className="app__label" color="light">
+                    Settings
+                  </IonLabel>
+                </IonButton>
               </IonTabButton>
             </IonTabBar>
           </IonTabs>

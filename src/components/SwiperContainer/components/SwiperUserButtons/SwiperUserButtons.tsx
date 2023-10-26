@@ -15,18 +15,18 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
     swiperTrackIndex,
     playStatus,
     startWorkout,
-    timerStatusForTraining,
-    timeAfterPauseForTraining,
-    workIntervalForTraining,
+    timerTrainingStatus,
+    timeTrainingAfterPause,
+    timerTrainingInterval,
     userTraining,
     passedExercises,
-    disabledPlayDoneButtons: disabledPlayDoneButtons,
-    setTimerStatusForTraining,
-    setTimeAfterPauseForTraining,
-    setTimerDurationForTraining,
+    disabledPlayDoneButtons,
+    setTimerTrainingStatus,
+    setTimeTrainingAfterPause,
+    setTimeTrainingDuration,
     setPassedExercises,
     unsetWhenDone,
-    setDisabledNavButtonsWhenTrainingStarts,
+    setDisabledNavigationButtons,
     setDisabledPlayDoneButtons,
     setTimerMode,
     setStartWorkout,
@@ -61,19 +61,19 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
   ////////////////////////////////////////////
 
   const pauseButtonHandler = () => {
-    setTimerStatusForTraining("pause");
-    setTimeAfterPauseForTraining();
+    setTimerTrainingStatus("pause");
+    setTimeTrainingAfterPause();
     setPlayStatus(false);
   };
 
   const playButtonHandler = () => {
-    if (timeAfterPauseForTraining) {
-      setTimerDurationForTraining(timeAfterPauseForTraining);
+    if (timeTrainingAfterPause) {
+      setTimeTrainingDuration(timeTrainingAfterPause);
     } else {
       /////value must be in milliseconds/////
-      setTimerDurationForTraining(workIntervalForTraining * 1000);
+      setTimeTrainingDuration(timerTrainingInterval * 1000);
     }
-    setTimerStatusForTraining("start");
+    setTimerTrainingStatus("start");
     setPlayStatus(true);
   };
 
@@ -90,11 +90,11 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
                   disabled={disabledFromTraining}
                   onClick={() => {
                     setStartWorkout();
-                    setDisabledNavButtonsWhenTrainingStarts();
+                    setDisabledNavigationButtons();
                     setDisabledPlayDoneButtons();
-                    setTimerStatusForTraining("start");
+                    setTimerTrainingStatus("start");
                     setTimerMode("preparation");
-                    setTimerDurationForTraining(preparationTime * 1000);
+                    setTimeTrainingDuration(preparationTime * 1000);
                   }}
                 >
                   <div className="ion-text-uppercase">Start Workout</div>
@@ -124,7 +124,7 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
                   className="swiper__bar_btn"
                   disabled={disabledPlayDoneButtons}
                   expand="block"
-                  onClick={timerStatusForTraining === "start" ? pauseButtonHandler : playButtonHandler}
+                  onClick={timerTrainingStatus === "start" ? pauseButtonHandler : playButtonHandler}
                 >
                   <IonIcon
                     className="swiper__bar_icon"
@@ -146,7 +146,7 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
                     unsetWhenDone();
                     setTimerMode("rest");
                     setDisabledPlayDoneButtons();
-                    setTimerStatusForTraining("start");
+                    setTimerTrainingStatus("start");
                     setPassedExercises(swiperTrackIndex, "done");
                   }}
                 >

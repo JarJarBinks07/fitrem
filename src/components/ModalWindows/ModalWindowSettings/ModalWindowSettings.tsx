@@ -30,17 +30,18 @@ import { stopwatchOutline } from "ionicons/icons";
 interface IProps {
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setOnFocus: (setOpen: (value: boolean) => void) => void;
 }
 type RangeValue = number | { lower: number; upper: number };
 
-function ModalWindowSettings({ isOpen, setIsOpen }: IProps) {
+function ModalWindowSettings({ isOpen, setIsOpen, setOnFocus }: IProps) {
   const {
-    timerInterval,
-    workIntervalForTraining,
-    restIntervalForTraining,
-    setWorkIntervalForTraining,
-    setRestIntervalForTraining,
-    setTimerInterval,
+    timerNotificationInterval: timerInterval,
+    timerTrainingInterval: workIntervalForTraining,
+    timerRestInterval: restIntervalForTraining,
+    setTimerTrainingInterval: setWorkIntervalForTraining,
+    setTimerRestInterval: setRestIntervalForTraining,
+    setTimerNotificationInterval: setTimerInterval,
     unsetWhenDone,
   } = useCombineStates();
   const [initialValue, setInitialValue] = useState<RangeValue>(timerInterval);
@@ -52,7 +53,7 @@ function ModalWindowSettings({ isOpen, setIsOpen }: IProps) {
     setWorkIntervalForTraining(workoutValue as number);
     setRestIntervalForTraining(restValue as number);
     unsetWhenDone();
-    setIsOpen(false);
+    setOnFocus(setIsOpen);
   };
 
   return (

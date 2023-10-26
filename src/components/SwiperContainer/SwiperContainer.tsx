@@ -37,9 +37,9 @@ interface IVideo {
 
 const ImageContainer: React.FC = () => {
   const {
-    timerDurationForTraining,
-    timeAfterPauseForTraining,
-    timerStatusForTraining,
+    timeTrainingDuration,
+    timeTrainingAfterPause,
+    timerTrainingStatus,
     timerMode,
     swiperTrackIndex,
     playStatus,
@@ -48,16 +48,19 @@ const ImageContainer: React.FC = () => {
     passedExercises,
     savedHistoryDoneExercises,
     preloadedImage,
-    disabledNavButtonsWhenTrainingStarts,
+    disabledNavigationButtons,
     disabledPlayDoneButtons,
     setSwiperTrackIndex,
-    setTimerStatusForTraining,
+    setTimerTrainingStatus,
     setPlayStatus,
     setPlayerId,
+    setTimerNotificationInterval,
+    setTimerTrainingInterval,
+    setTimerRestInterval,
+    unsetWhenDone,
   } = useCombineStates();
 
   const { setOnBlur, setOnFocus } = useWatcher();
-  // const [test, setTest] = useState(false);
 
   /////Use when App reloads unexpectedly/////
 
@@ -77,12 +80,12 @@ const ImageContainer: React.FC = () => {
         console.log("CLOSEEEE", timerMode);
         setPlayStatus(false);
         setPlayerId();
-        setTimerStatusForTraining("pause");
+        setTimerTrainingStatus("pause");
       } else {
         const timerMode = useCombineStates.getState().timerMode;
         console.log("OPENNNNN", timerMode);
         if (timerMode !== "training") {
-          setTimerStatusForTraining("start");
+          setTimerTrainingStatus("start");
         }
       }
     });
@@ -108,7 +111,7 @@ const ImageContainer: React.FC = () => {
   /////ref for activation next slide/////
   const swiperRef = useRef<ISwiper>();
 
-  /////Use platform if we want to disabled buttons in Swiper for device/////
+  /////use platform if we want to disabled buttons in Swiper for device/////
   const platform = Capacitor.getPlatform();
 
   //////ModalRender: value should be 0 when Swiper init/////
@@ -116,15 +119,22 @@ const ImageContainer: React.FC = () => {
   const [isOpenModalExercise, setIsOpenModalExercise] = useState(false);
   const [isOpenModalSettings, setIsOpenModalSettings] = useState(false);
 
+  const onSaveSettings = () => {
+    setTimerNotificationInterval(initialValue as number);
+    setTimerTrainingInterval(workoutValue as number);
+    setTimerRestInterval(restValue as number);
+    unsetWhenDone();
+    setOnFocus(setIsOpen);
+  };
+
   console.log("doneExercises: ", passedExercises);
   console.log("userTraining: ", userTraining);
   console.log("savedHistoryDoneExercises: ", savedHistoryDoneExercises);
-  console.log("disabledNavButtonsWhenTrainingStarts: ", disabledNavButtonsWhenTrainingStarts);
+  console.log("disabledNavigationButtons: ", disabledNavigationButtons);
   console.log("PlayStatus: ", playStatus);
-  console.log("timerStatusForTraining:", timerStatusForTraining);
-  console.log("timerDurationForTraining: ", timerDurationForTraining);
-  console.log("timeAfterPauseForTraining: ", timeAfterPauseForTraining);
-  console.log("timeAfterPauseForTraining: ", timeAfterPauseForTraining);
+  console.log("timerTrainingStatus:", timerTrainingStatus);
+  console.log("timeTrainingDuration: ", timeTrainingDuration);
+  console.log("timeTrainingAfterPause: ", timeTrainingAfterPause);
   console.log("timerMode: ", timerMode);
 
   return (
@@ -135,9 +145,6 @@ const ImageContainer: React.FC = () => {
             className="swiper__btn_settings"
             onClick={() => {
               setOnBlur(setIsOpenModalSettings);
-              // playStatus
-              //   ? (setPlayStatus(false), setIsOpenModalSettings(true), setTimerStatusForTraining("pause"))
-              //   : setIsOpenModalSettings(true);
             }}
           >
             <IonIcon slot="icon-only" icon={optionsOutline}></IonIcon>
@@ -182,7 +189,7 @@ const ImageContainer: React.FC = () => {
                   </SwiperSlide>
                   // </div>
                 ))}
-                {isActiveNavigationButtons && disabledNavButtonsWhenTrainingStarts ? (
+                {isActiveNavigationButtons && disabledNavigationButtons ? (
                   <SwiperNavigationButtons swiper={swiperRef.current as ISwiper} />
                 ) : null}
               </Swiper>
@@ -208,7 +215,7 @@ const ImageContainer: React.FC = () => {
           description={slicedUserTraining[swiperTrackIndex].description}
         />
       ) : null}
-      <ModalWindowSettings isOpen={isOpenModalSettings} setIsOpen={setIsOpenModalSettings} />
+      <ModalWindowSettings isOpen={isOpenModalSettings} setIsOpen={setIsOpenModalSettings} setOnFocus={setOnFocus} />
     </div>
   );
 };

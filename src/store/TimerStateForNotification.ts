@@ -1,39 +1,49 @@
 import { MyStateCreator } from "./useCombineStates";
 
 export interface ITimerNotification {
-  timerInterval: number;
-  timerStatus: "idle" | "running" | "pause";
-  timerKey: number;
-  timerDuration: number;
-  timeAfterPause: number;
-  setTimerInterval: (value: number) => void;
-  setTimerStatus: (value: "idle" | "running" | "pause") => void;
-  setTimerKey: () => void;
-  setTimerDuration: (value: number) => void;
-  setTimeAfterPause: () => void;
-  unsetTimer: () => void;
+  timerNotificationInterval: number;
+  timerNotificationStatus: "idle" | "running" | "pause";
+  timerNotificationKey: number;
+  timeNotificationDuration: number;
+  timeNotificationAfterPause: number;
+  setTimerNotificationInterval: (value: number) => void;
+  setTimerNotificationStatus: (value: "idle" | "running" | "pause") => void;
+  setTimerNotificationKey: () => void;
+  setTimeNotificationDuration: (value: number) => void;
+  setTimeNotificationAfterPause: () => void;
+  unsetNotificationTimer: () => void;
 }
 
 export const createTimerStateForNotification: MyStateCreator<ITimerNotification> = (set) => ({
-  timerInterval: 25,
-  setTimerInterval: (value) => set(() => ({ timerInterval: value }), false, "setTimerInterval"),
+  timerNotificationInterval: 25,
+  setTimerNotificationInterval: (value) => set(() => ({ timerNotificationInterval: value }), false, "setTimerInterval"),
 
-  timerStatus: "idle",
-  setTimerStatus: (value) => set(() => ({ timerStatus: value }), false, "setTimerStatus"),
+  timerNotificationStatus: "idle",
+  setTimerNotificationStatus: (value) => set(() => ({ timerNotificationStatus: value }), false, "setTimerStatus"),
 
-  timerKey: Date.now(),
-  setTimerKey: () => set(() => ({ timerKey: Date.now() }), false, "setTimerKey"),
+  timerNotificationKey: Date.now(),
+  setTimerNotificationKey: () => set(() => ({ timerNotificationKey: Date.now() }), false, "setTimerKey"),
 
-  timerDuration: 0,
-  setTimerDuration: (value) => set(() => ({ timerDuration: Date.now() + value }), false, "setTimerDuration"),
+  timeNotificationDuration: 0,
+  setTimeNotificationDuration: (value) =>
+    set(() => ({ timeNotificationDuration: Date.now() + value }), false, "setTimerDuration"),
 
-  timeAfterPause: 0,
-  setTimeAfterPause: () =>
-    set((state) => ({ timeAfterPause: state.timerDuration - Date.now() }), false, "setTimeAfterPause"),
-
-  unsetTimer: () =>
+  timeNotificationAfterPause: 0,
+  setTimeNotificationAfterPause: () =>
     set(
-      () => ({ timerKey: Date.now(), timerStatus: "idle", timerDuration: 0, timerPausedTime: 0 }),
+      (state) => ({ timeNotificationAfterPause: state.timeNotificationDuration - Date.now() }),
+      false,
+      "setTimeAfterPause"
+    ),
+
+  unsetNotificationTimer: () =>
+    set(
+      () => ({
+        timerNotificationKey: Date.now(),
+        timerNotificationStatus: "idle",
+        timeNotificationDuration: 0,
+        timerPausedTime: 0,
+      }),
       false,
       "unsetTimer"
     ),

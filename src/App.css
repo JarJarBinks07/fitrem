@@ -106,6 +106,9 @@ ion-button {
 .app__tab_button.tab-selected .app__label {
   color: var(--ion-color-dark);
 }
+.app__btn::part(native) {
+  background-color: transparent;
+}
 .spinner {
   height: 100%;
   margin: 0 auto;

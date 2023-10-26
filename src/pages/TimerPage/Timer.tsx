@@ -39,15 +39,15 @@ const TimerPage: React.FC = () => {
 
   const [status, setStatus] = useState(false);
   const {
-    timerInterval,
-    timerStatus,
-    timerKey,
-    timerDuration,
-    timeAfterPause,
-    setTimerStatus,
-    setTimerDuration,
-    setTimeAfterPause,
-    unsetTimer,
+    timerNotificationInterval: timerInterval,
+    timerNotificationStatus: timerStatus,
+    timerNotificationKey: timerKey,
+    timeNotificationDuration: timerDuration,
+    timeNotificationAfterPause: timeAfterPause,
+    setTimerNotificationStatus: setTimerStatus,
+    setTimeNotificationDuration: setTimerDuration,
+    setTimeNotificationAfterPause: setTimeAfterPause,
+    unsetNotificationTimer: unsetTimer,
     savedHistoryDoneExercises,
   } = useCombineStates();
 

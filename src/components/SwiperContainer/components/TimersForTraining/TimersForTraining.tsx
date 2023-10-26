@@ -12,23 +12,23 @@ interface IProps {
 
 const TimersForTraining: React.FC<IProps> = ({ swiper, setPlayStatus }) => {
   const {
-    timerKeyForTraining,
+    timerTrainingKey: timerKeyForTraining,
     preparationTime,
-    workIntervalForTraining,
-    restIntervalForTraining,
-    timeAfterPauseForTraining,
-    timerDurationForTraining,
-    timerStatusForTraining,
+    timerTrainingInterval: workIntervalForTraining,
+    timerRestInterval: restIntervalForTraining,
+    timeTrainingAfterPause: timeAfterPauseForTraining,
+    timeTrainingDuration: timerDurationForTraining,
+    timerTrainingStatus: timerStatusForTraining,
     timerMode,
     swiperTrackIndex,
-    unsetTimerForTraining,
+    unsetTrainingTimer,
     setPassedExercises,
     setTimerMode,
-    setTimerDurationForTraining,
+    setTimeTrainingDuration,
   } = useCombineStates();
 
   const setSettings = (interval: number, mode: "preparation" | "training" | "rest", status: boolean) => {
-    setTimerDurationForTraining(interval * 1000);
+    setTimeTrainingDuration(interval * 1000);
     setTimerMode(mode);
     setPlayStatus(status);
   };
@@ -53,7 +53,7 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, setPlayStatus }) => {
           timerDuration={timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()}
           timerActive={timerStatusForTraining === "start"}
           timerMode={timerMode}
-          unsetTimer={unsetTimerForTraining}
+          unsetTimer={unsetTrainingTimer}
           size={65}
           strokeWidth={4}
           colors={["#ffc409", "#ffc409"]}
@@ -70,7 +70,7 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, setPlayStatus }) => {
           timerDuration={timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()}
           timerActive={timerStatusForTraining === "start"}
           timerMode={timerMode}
-          unsetTimer={unsetTimerForTraining}
+          unsetTimer={unsetTrainingTimer}
           size={65}
           strokeWidth={4}
           colors={["#eb445a", "#eb445a"]}
@@ -93,7 +93,7 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, setPlayStatus }) => {
           colorsTime={[15, 10]}
           timerFor={"exercise"}
           swiper={swiper}
-          unsetTimer={unsetTimerForTraining}
+          unsetTimer={unsetTrainingTimer}
           onCompleteSession={onCompleteSession}
         />
       )}
