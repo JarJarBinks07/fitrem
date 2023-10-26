@@ -10,7 +10,7 @@ interface IProps {
 }
 
 const VideoPlayerReact: React.FC<IProps> = ({ play, path, id }) => {
-  /////////////Fix problem with android launching///////////////
+  /////Fix problem with android launching/////
   const [loading, setLoading] = useState(true);
 
   const video = useCachedResource(path, "video");
@@ -24,13 +24,11 @@ const VideoPlayerReact: React.FC<IProps> = ({ play, path, id }) => {
         height={"100%"}
         light={false}
         playing={loading || play}
-        // playing={play}
         playsinline={true}
         controls={false}
         loop={true}
         url={video}
         // url={[{ src: path }]}
-
         //   className="react-player"
       />
       <span>{id}</span>

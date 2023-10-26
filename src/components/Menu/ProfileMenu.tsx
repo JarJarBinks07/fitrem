@@ -31,8 +31,11 @@ import {
 import "./ProfileMenu.css";
 import Chart from "../Chart/Chart";
 import ProfileChart from "../Chart/ProfileChart";
+import { useWatcher } from "../../shared/hooks/useWatcher";
 
 const ProfileMenu: React.FC = () => {
+  const { setOnFocus } = useWatcher();
+
   const profileArr = [
     { icon: home, label: "Timer", router: "/timer" },
     { icon: person, label: "Profile", router: "/profile" },
@@ -46,7 +49,7 @@ const ProfileMenu: React.FC = () => {
         <IonToolbar color="dark">
           <IonButtons slot="start">
             <IonMenuToggle>
-              <IonButton className="profile__bar_btn">
+              <IonButton className="profile__bar_btn" onClick={() => setOnFocus()}>
                 <IonIcon slot="icon-only" icon={closeCircleOutline} color="warning" />
               </IonButton>
             </IonMenuToggle>

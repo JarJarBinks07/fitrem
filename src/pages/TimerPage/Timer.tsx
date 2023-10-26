@@ -28,6 +28,7 @@ import SwiperContainer from "../../components/SwiperContainer/SwiperContainer";
 import { personCircle } from "ionicons/icons";
 import ProfileMenu from "../../components/Menu/ProfileMenu";
 import ListDoneExercises from "../../components/ListDoneExercises/ListDoneExercises";
+import { useWatcher } from "../../shared/hooks/useWatcher";
 
 const TimerPage: React.FC = () => {
   // useEffect(() => {
@@ -49,6 +50,8 @@ const TimerPage: React.FC = () => {
     unsetTimer,
     savedHistoryDoneExercises,
   } = useCombineStates();
+
+  const { setOnBlur } = useWatcher();
 
   const pauseButtonHandler = () => {
     setTimerStatus("pause");
@@ -76,7 +79,7 @@ const TimerPage: React.FC = () => {
           <IonToolbar color="warning">
             <IonButtons slot="primary">
               <IonMenuToggle>
-                <IonButton className="timer-page__profile_btn">
+                <IonButton className="timer-page__profile_btn" onClick={() => setOnBlur()}>
                   <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
                 </IonButton>
               </IonMenuToggle>

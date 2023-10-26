@@ -23,6 +23,7 @@ import SwiperUserButtons from "./components/SwiperUserButtons/SwiperUserButtons"
 import SwiperTitle from "./components/SwiperTitle/SwiperTitle";
 import SwiperInfoButton from "./SwiperInfoButton/SwiperInfoButton";
 import SwiperNavigationButtons from "./components/SwiperNavigatonButtons/SwiperNavigationButtons";
+import { useWatcher } from "../../shared/hooks/useWatcher";
 
 interface IVideo {
   id: number;
@@ -55,6 +56,7 @@ const ImageContainer: React.FC = () => {
     setPlayerId,
   } = useCombineStates();
 
+  const { setOnBlur, setOnFocus } = useWatcher();
   // const [test, setTest] = useState(false);
 
   /////Use when App reloads unexpectedly/////
@@ -132,9 +134,10 @@ const ImageContainer: React.FC = () => {
           <IonButton
             className="swiper__btn_settings"
             onClick={() => {
-              playStatus
-                ? (setPlayStatus(false), setIsOpenModalSettings(true), setTimerStatusForTraining("pause"))
-                : setIsOpenModalSettings(true);
+              setOnBlur(setIsOpenModalSettings);
+              // playStatus
+              //   ? (setPlayStatus(false), setIsOpenModalSettings(true), setTimerStatusForTraining("pause"))
+              //   : setIsOpenModalSettings(true);
             }}
           >
             <IonIcon slot="icon-only" icon={optionsOutline}></IonIcon>
@@ -149,12 +152,7 @@ const ImageContainer: React.FC = () => {
               ) : null
             )}
             <div className="swiper__container">
-              <SwiperInfoButton
-                playStatus={playStatus}
-                setPlayStatus={setPlayStatus}
-                setIsOpenModalExercise={setIsOpenModalExercise}
-                setTimerStatusForTraining={setTimerStatusForTraining}
-              />
+              <SwiperInfoButton setOnBlur={setOnBlur} setIsOpenModalExercise={setIsOpenModalExercise} />
               <TimersForTraining swiper={swiperRef.current as ISwiper} setPlayStatus={setPlayStatus} />
 
               <Swiper
@@ -203,13 +201,11 @@ const ImageContainer: React.FC = () => {
       <SwiperUserButtons swiper={swiperRef.current as ISwiper} />
       {slicedUserTraining[swiperTrackIndex] ? (
         <ModalWindowExercise
-          timerMode={timerMode}
           isOpen={isOpenModalExercise}
+          setOnFocus={setOnFocus}
           setIsOpen={setIsOpenModalExercise}
           path={slicedUserTraining[swiperTrackIndex].video_path}
           description={slicedUserTraining[swiperTrackIndex].description}
-          disabledPlayDoneButtons={disabledPlayDoneButtons}
-          setTimerStatusForTraining={setTimerStatusForTraining}
         />
       ) : null}
       <ModalWindowSettings isOpen={isOpenModalSettings} setIsOpen={setIsOpenModalSettings} />

@@ -8,21 +8,11 @@ interface IProps {
   path: string;
   description: string;
   isOpen: boolean;
-  timerMode: "preparation" | "training" | "rest";
-  disabledPlayDoneButtons?: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setTimerStatusForTraining?: (value: "start" | "pause") => void;
+  setOnFocus: (setOpen: (value: boolean) => void) => void;
 }
 
-function ModalWindowExercise({
-  path,
-  description,
-  isOpen,
-  timerMode,
-  disabledPlayDoneButtons,
-  setTimerStatusForTraining,
-  setIsOpen,
-}: IProps) {
+function ModalWindowExercise({ path, description, isOpen, setIsOpen, setOnFocus }: IProps) {
   return (
     <IonModal isOpen={isOpen}>
       <IonHeader>
@@ -32,10 +22,7 @@ function ModalWindowExercise({
             <IonButton
               className="modal__btn"
               onClick={() => {
-                if (timerMode !== "training") {
-                  setTimerStatusForTraining && setTimerStatusForTraining("start");
-                }
-                setIsOpen(false);
+                setOnFocus(setIsOpen);
               }}
             >
               Close
