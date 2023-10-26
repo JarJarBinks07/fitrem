@@ -1,5 +1,4 @@
-import { MyStateCreator, useCombineStates } from "./useCombineStates";
-import ISwiper from "swiper";
+import { MyStateCreator } from "./useCombineStates";
 
 export interface ITimerTraining {
   swiperTrackIndex: number;

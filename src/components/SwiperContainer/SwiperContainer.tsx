@@ -49,7 +49,9 @@ const ImageContainer: React.FC = () => {
     savedHistoryDoneExercises,
     preloadedImage,
     disabledNavigationButtons,
-    disabledPlayDoneButtons,
+    timerNotificationInterval,
+    timerTrainingInterval,
+    timerRestInterval,
     setSwiperTrackIndex,
     setTimerTrainingStatus,
     setPlayStatus,
@@ -114,17 +116,19 @@ const ImageContainer: React.FC = () => {
   /////use platform if we want to disabled buttons in Swiper for device/////
   const platform = Capacitor.getPlatform();
 
-  //////ModalRender: value should be 0 when Swiper init/////
+  /////ModalRender: value should be 0 when Swiper init/////
 
   const [isOpenModalExercise, setIsOpenModalExercise] = useState(false);
   const [isOpenModalSettings, setIsOpenModalSettings] = useState(false);
 
-  const onSaveSettings = () => {
-    setTimerNotificationInterval(initialValue as number);
-    setTimerTrainingInterval(workoutValue as number);
-    setTimerRestInterval(restValue as number);
+  /////use for applying changes in Modal Settings////
+
+  const onSaveSettingsHandler = (notificationValue: number, trainingValue: number, restValue: number) => {
+    setTimerNotificationInterval(notificationValue);
+    setTimerTrainingInterval(trainingValue);
+    setTimerRestInterval(restValue);
     unsetWhenDone();
-    setOnFocus(setIsOpen);
+    setOnFocus(setIsOpenModalSettings);
   };
 
   console.log("doneExercises: ", passedExercises);
@@ -159,7 +163,7 @@ const ImageContainer: React.FC = () => {
               ) : null
             )}
             <div className="swiper__container">
-              <SwiperInfoButton setOnBlur={setOnBlur} setIsOpenModalExercise={setIsOpenModalExercise} />
+              <SwiperInfoButton setOnBlur={setOnBlur} setIsOpen={setIsOpenModalExercise} />
               <TimersForTraining swiper={swiperRef.current as ISwiper} setPlayStatus={setPlayStatus} />
 
               <Swiper
@@ -215,7 +219,13 @@ const ImageContainer: React.FC = () => {
           description={slicedUserTraining[swiperTrackIndex].description}
         />
       ) : null}
-      <ModalWindowSettings isOpen={isOpenModalSettings} setIsOpen={setIsOpenModalSettings} setOnFocus={setOnFocus} />
+      <ModalWindowSettings
+        isOpen={isOpenModalSettings}
+        timerNotificationInterval={timerNotificationInterval}
+        timerTrainingInterval={timerTrainingInterval}
+        timerRestInterval={timerRestInterval}
+        onSaveHandler={onSaveSettingsHandler}
+      />
     </div>
   );
 };
