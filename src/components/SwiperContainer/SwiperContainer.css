@@ -86,7 +86,7 @@
 
 .swiper__notification_rest {
   position: absolute;
-  top: 3vh;
+  top: 2vh;
   left: 43%;
   z-index: 5;
   animation: blink_rest 5s infinite;

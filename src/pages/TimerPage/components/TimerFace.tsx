@@ -37,7 +37,6 @@ const TimerFace: React.FC<IProps> = ({
   timerActive,
   size,
   strokeWidth,
-  timerMode,
   timerFor,
   colors,
   colorsTime,
@@ -97,9 +96,6 @@ const TimerFace: React.FC<IProps> = ({
       initialRemainingTime={timeLeft > 0 ? timeLeft : timerInterval * fromMinuteToSeconds}
       onComplete={() => {
         onComplete();
-        if (timerMode === "training") {
-          swiper.slideNext();
-        }
       }}
     >
       {({ remainingTime }) => renderTime(remainingTime, timerActive)}

@@ -193,12 +193,14 @@ export const createTracksState: MyStateCreator<StateTrackWithExercise> = (set) =
           } else {
             removedExerciseFromTraining.status = status as "skipped";
           }
+
           return {
             userTraining: result,
             savedHistoryDoneExercises: [...state.savedHistoryDoneExercises, ...historyData],
             passedExercises: [...newDoneExercises, removedExerciseFromTraining],
           };
         } else return state;
+        // return state;
       },
       false,
       "setDoneExercises"

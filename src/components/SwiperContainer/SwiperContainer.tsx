@@ -47,7 +47,6 @@ const ImageContainer: React.FC = () => {
     userTraining,
     passedExercises,
     savedHistoryDoneExercises,
-    savedHistorySkippedExercises,
     preloadedImage,
     disabledNavigationButtons,
     timerNotificationInterval,
@@ -110,9 +109,16 @@ const ImageContainer: React.FC = () => {
 
   /////use for displaying slides/////
   const slicedUserTraining = [...userTraining].slice(0, Object.keys(groupedByDoneCategory).length);
+  // const slicedUserTraining = [...userTraining];
 
   /////ref for activation next slide/////
   const swiperRef = useRef<ISwiper>();
+
+  // useEffect(() => {
+  //   if (timerMode === "rest") {
+  //     swiperRef?.current?.slideNext();
+  //   }
+  // }, [timerMode]);
 
   /////use platform if we want to disabled buttons in Swiper for device/////
   const platform = Capacitor.getPlatform();
@@ -134,7 +140,7 @@ const ImageContainer: React.FC = () => {
   console.log("userTraining: ", userTraining);
   console.log("passedExercises: ", passedExercises);
   console.log("savedHistoryDoneExercises: ", savedHistoryDoneExercises);
-  console.log("savedHistorySkippedExercises: ", savedHistorySkippedExercises);
+  // console.log("savedHistorySkippedExercises: ", savedHistorySkippedExercises);
   console.log("disabledNavigationButtons: ", disabledNavigationButtons);
   console.log("PlayStatus: ", playStatus);
   console.log("timerTrainingStatus:", timerTrainingStatus);
@@ -169,6 +175,7 @@ const ImageContainer: React.FC = () => {
               {timerMode === "rest" ? <div className="swiper__notification_rest">REST</div> : null}
 
               <Swiper
+                longSwipes={true}
                 className="swiper__content"
                 modules={[Pagination, Navigation, EffectFade]}
                 slidesPerView={1}
@@ -180,7 +187,7 @@ const ImageContainer: React.FC = () => {
                 }}
                 simulateTouch={false}
                 touchRatio={0}
-                speed={1500}
+                speed={1000}
                 onSwiper={(swiper) => {
                   swiperRef.current = swiper;
                 }}
