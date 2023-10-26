@@ -37,9 +37,9 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, setPlayStatus }) => {
     if (timerMode === "preparation") {
       setSettings(workIntervalForTraining, "training", true);
     } else if (timerMode === "training") {
-      setTimeout(() => {
-        setPassedExercises(swiperTrackIndex, "done");
-      }, 800);
+      // setTimeout(() => {
+      setPassedExercises(swiperTrackIndex, "done");
+      // }, 800);
       swiper.slideNext();
       setSettings(restIntervalForTraining, "rest", false);
     } else {

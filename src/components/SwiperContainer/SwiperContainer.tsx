@@ -9,6 +9,7 @@ import VideoPlayer from "../PlayerReact/VideoPlayer";
 import { useCombineStates } from "../../store/useCombineStates";
 import ISwiper from "swiper";
 import _ from "lodash";
+import { NativeAudio } from "@capacitor-community/native-audio";
 
 import "swiper/css";
 import "swiper/css/pagination";
@@ -62,8 +63,29 @@ const ImageContainer: React.FC = () => {
     unsetWhenDone,
   } = useCombineStates();
 
+  ////use for stopping and resuming timer and video////
   const { setOnBlur, setOnFocus } = useWatcher();
+  ////
 
+  useEffect(() => {
+    preloadAudio();
+    setupListener();
+  }, []);
+
+  const preloadAudio = async () => {
+    NativeAudio.preload({
+      assetId: "countdown",
+      assetPath: "countdown.mp3",
+      audioChannelNum: 1,
+      isUrl: false,
+    });
+  };
+
+  const playAudio = async () => {
+    await NativeAudio.play({
+      assetId: "countdown",
+    });
+  };
   /////Use when App reloads unexpectedly/////
 
   // useEffect(() => {
@@ -71,10 +93,6 @@ const ImageContainer: React.FC = () => {
   // }, []);
 
   /////use for background and foreground modes/////
-
-  useEffect(() => {
-    setupListener();
-  }, []);
 
   const setupListener = async () => {
     App.addListener("appStateChange", ({ isActive }) => {
@@ -156,6 +174,7 @@ const ImageContainer: React.FC = () => {
             className="swiper__btn_settings"
             onClick={() => {
               setOnBlur(setIsOpenModalSettings);
+              playAudio();
             }}
           >
             <IonIcon slot="icon-only" icon={optionsOutline}></IonIcon>

@@ -13,6 +13,7 @@
     "postinstall": "./sqljs.sh"
   },
   "dependencies": {
+    "@capacitor-community/native-audio": "^5.0.1",
     "@capacitor-community/sqlite": "^5.2.3",
     "@capacitor/android": "5.3.0",
     "@capacitor/app": "5.0.6",
