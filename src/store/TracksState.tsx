@@ -21,7 +21,6 @@ export interface IExercise {
 }
 
 export type TrackState = {
-  counterDoneExercises: number;
   preloadedImage: string;
   allTracks: ITrack[];
   allExercises: IExercise[];
@@ -29,6 +28,8 @@ export type TrackState = {
   selectedCategoryTracks: string[];
   userTraining: IExercise[];
   passedExercises: IExercise[];
+  counterDoneExercises: number;
+  doneExercisesDuringSession: IExercise[];
   savedInHistoryDoneExercises: IExercise[];
   setAllTracks: (value: ITrack[]) => void;
   setOrderTracks: (value: ITrack[]) => void;
@@ -37,9 +38,7 @@ export type TrackState = {
   setSelectedCategoryTracks: (value: string) => void;
   setReorderedSelectedCategoryTracks: () => void;
   generateUserTraining: () => void;
-  setPassedExercises: (value: number, status: "done" | "skipped") => void;
-  setFilteredTrainingExercise: () => void;
-  //////////////////////////////
+  setExercisesAfterTraining: () => void;
   setSkippedExercise: (value: number) => void;
   setDoneExercise: (value: number) => void;
   setCounter: () => void;
@@ -125,13 +124,7 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
         /////Shuffle activeTracks/////
         const newArrOfActiveExercises = [...activeExercises];
         const shuffledArray = _.shuffle(newArrOfActiveExercises);
-        // for (let i = newArrOfActiveExercises.length - 1; i > 0; i--) {
-        //   const j = Math.floor(Math.random() * (i + 1));
-        //   [newArrOfActiveExercises[i], newArrOfActiveExercises[j]] = [
-        //     newArrOfActiveExercises[j],
-        //     newArrOfActiveExercises[i],
-        //   ];
-        // }
+
         /////Sorting one by one/////
         const filteredExercises = shuffledArray.filter((e) => activeTracks.includes(e.category));
         const groupedByCategory = _.groupBy(filteredExercises, "category");
@@ -158,141 +151,32 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
       false,
       "generateUserTraining"
     ),
-  savedInHistoryDoneExercises: [],
+
+  doneExercisesDuringSession: [],
   passedExercises: [],
-  setFilteredTrainingExercise: () =>
+  savedInHistoryDoneExercises: [],
+
+  setExercisesAfterTraining: () =>
     set(
       (state) => {
         const newUserTraining = [...state.userTraining];
         const newPassedExercises = [...state.passedExercises];
-        //Step#1 comparison userTraining with passedExercises for returning values
-        // console.log("state.passedExercises ORIGIN:", state.passedExercises);
+
+        //Step#2 comparison userTraining with passedExercises for returning values
+        // console.log("state.userTraining:", state.userTraining);
+        // console.log("state.passedExercises:", state.passedExercises);
+
         const { _userTraining, _passedExercises } = checkAllCategories(newUserTraining, newPassedExercises);
-        /////TEST/////
-
-        // const filteredExercises = newPassedExercises.filter((e) => !_userTraining.find((j) => e.id === j.id));
-        // console.log("FILTERED", filteredExercises);
-
-        /////TEST//////
-        // console.log("state.passedExercises after GROUP:", state.passedExercises);
-        // const filteredUserTraining = _.differenceBy(state.passedExercises, _userTraining, "id");
-        console.log("_userTraining:", _userTraining);
-        console.log("_passedExercises:", _passedExercises);
-        // const uniqueExercises = _passedExercises.reduce((accumulator: IExercise[], obj) => {
-        //   if (!accumulator.find((item) => item.id === obj.id)) {
-        //     accumulator.push(obj);
-        //   }
-        //   return accumulator;
-        // }, []);
-
         const filteredUserTraining = _.differenceBy(_passedExercises, _userTraining, "id");
 
-        // console.log("uniqueExercises:", uniqueExercises);
-
-        // const filteredExercises = [...uniqueExercises].filter((e) => {
-        //   return !_userTraining.some((j) => j.id === e.id);
-        // });
-        console.log("filteredExercises:", filteredUserTraining);
-
-        // console.log("filteredExercises:", filteredExercises);
-        console.log("_userTraining AFTER:", _userTraining);
-        console.log("_passedExercises AFTER:", _passedExercises);
-        // console.log("uniqueExercises AFTER:", uniqueExercises);
-
-        // console.log("UNIQUE", uniqueExercises);
-        // const filteredUserTraining = _.differenceBy(uniqueExercises, _userTraining, "id");
-        // const filteredUserTraining = uniqueExercises.filter((e) => !_userTraining.find((j) => e.id === j.id));
-
-        // console.log("FILTERED", filteredExercises);
-        // console.log("state.passedExercises after FILTRATION:", state.passedExercises);
-        // console.log("filteredUserTraining after FILTRATION:", filteredUserTraining);
-
-        // return { passedExercises: filteredUserTraining };
-
-        return state;
-      },
-      false,
-      "setFilteredTrainingExercise"
-    ),
-  setPassedExercises: (value, status) =>
-    set(
-      (state) => {
-        let newUserTraining = [...state.userTraining];
-        const newPassedExercises = [...state.passedExercises];
-        // let historyData = [];
-
-        ////////////////////Step #1////////////////////
-
-        /////Add exercise from doneExercises to userTraining/////
-        // const groupedByDoneCategory = _.groupBy(newDoneExercises, "category");
-        // const groupedByUserTrainingCategory = _.groupBy(newUserTraining, "category");
-        // for (const key in groupedByUserTrainingCategory) {
-        //   if (!groupedByDoneCategory[key]) {
-        //     groupedByDoneCategory[key] = [];
-        //   } else if (groupedByUserTrainingCategory[key].length <= groupedByDoneCategory[key].length) {
-        //     const [firstExerciseFromDoneByCategory] = groupedByDoneCategory[key].splice(0, 1);
-        //     newUserTraining.push(firstExerciseFromDoneByCategory);
-        //     newDoneExercises = newDoneExercises.filter((e) => e.id !== firstExerciseFromDoneByCategory.id);
-        //   }
-        // }
-        ////////////////////Step #2////////////////////
-
-        ///////////////TEST//////////////////
-
-        //write current exercise to passedExercise with status "done" or remove exercise with status "skipped"
-        //srtage#2
-        const currentExercise = newUserTraining[value];
-        if (!currentExercise) return state;
-        if (status === "done") {
-          const setUpdatedStatus = { ...currentExercise, status: status, date: Date.now() };
-          return {
-            passedExercises: [...state.passedExercises, currentExercise],
-            savedInHistoryDoneExercises: [...state.savedInHistoryDoneExercises, setUpdatedStatus],
-          };
-        } else {
-          const findNextExerciseFromCategory = newUserTraining.find(
-            ({ category, id }) => id !== currentExercise.id && category === currentExercise.category
-          );
-          console.log("FINDDDDDD", findNextExerciseFromCategory);
-          if (!findNextExerciseFromCategory) return state;
-          newUserTraining = newUserTraining.filter((e) => e.id !== findNextExerciseFromCategory.id);
-          newUserTraining.splice(value, 1, findNextExerciseFromCategory);
-          newPassedExercises.push(currentExercise);
-          console.log("WORKSSSSS");
-          return { userTraining: newUserTraining, passedExercises: newPassedExercises };
-        }
-
-        ///////////////TEST//////////////////
-        /////Find next exercise from current category/////
-
-        // const currentExercise = newUserTraining.find((e, index) => index === value);
-        // const findNextExerciseFromCategory = newUserTraining.find(
-        //   ({ category, id }) => id !== currentExercise?.id && category === currentExercise?.category
-        // );
-
-        /////Remove done/skipped exercise from userTraining and add to doneExercises /////
-
-        // if (findNextExerciseFromCategory?.id) {
-        //   const result = newUserTraining.filter((e) => e.id !== findNextExerciseFromCategory.id);
-        //   const [removedExerciseFromTraining] = result.splice(value, 1, findNextExerciseFromCategory);
-        //   if (status === "done") {
-        //     removedExerciseFromTraining.status = status;
-        //     removedExerciseFromTraining.date = Date.now();
-        //     historyData.push(removedExerciseFromTraining);
-        //   } else {
-        //     removedExerciseFromTraining.status = status as "skipped";
-        //   }
-
-        //   return {
-        //     userTraining: result,
-        //     savedHistoryDoneExercises: [...state.savedHistoryDoneExercises, ...historyData],
-        //     passedExercises: [...newDoneExercises, removedExerciseFromTraining],
-        //   };
-        // } else return state;
+        // console.log("_userTraining:", _userTraining);
+        // console.log("_passedExercises:", _passedExercises);
+        // console.log("filteredUserTraining:", filteredUserTraining);
+        return { userTraining: _userTraining, passedExercises: filteredUserTraining };
         // return state;
       },
       false,
-      "setDoneExercises"
+      "setFilteredTrainingExercise"
     ),
 
   setSkippedExercise: (value) =>
@@ -302,23 +186,10 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
 
         let newUserTraining = [...state.userTraining];
         let newPassedExercises = [...state.passedExercises];
+
         //Step#2 comparison userTraining with passedExercises for returning values
 
         let { _userTraining, _passedExercises } = checkCurrentCategory(newUserTraining, newPassedExercises, value);
-
-        // const currentCategory = _userTraining[value].category;
-        // const _groupedByPassedCategory = _.groupBy(_passedExercises, "category");
-        // const _groupedByUserTrainingCategory = _.groupBy(_userTraining, "category");
-        // for (const key in _groupedByUserTrainingCategory) {
-        //   if (!_groupedByPassedCategory[key]) {
-        //     _groupedByPassedCategory[key] = [];
-        //   }
-        // }
-        // if (_groupedByUserTrainingCategory[currentCategory]?.length <= _groupedByPassedCategory[currentCategory]?.length) {
-        //   const [firstExerciseFromPassedByCategory] = _groupedByPassedCategory[currentCategory].splice(0, 1);
-        //   _userTraining.push(firstExerciseFromPassedByCategory);
-        //   _passedExercises = _passedExercises.filter((e) => e.id !== firstExerciseFromPassedByCategory.id);
-        // }
 
         //Step#3 find next exercise for replacing
 
@@ -344,6 +215,7 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
         if (!_currentExercise) return state;
         const setUpdatedStatus = { ..._currentExercise, status: "done" as "done", date: Date.now() };
         return {
+          doneExercisesDuringSession: [...state.doneExercisesDuringSession, _currentExercise],
           passedExercises: [...state.passedExercises, _currentExercise],
           savedInHistoryDoneExercises: [...state.savedInHistoryDoneExercises, setUpdatedStatus],
           counterDoneExercises: ++state.counterDoneExercises,

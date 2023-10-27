@@ -47,12 +47,13 @@ const ImageContainer: React.FC = () => {
     playerId,
     userTraining,
     passedExercises,
-    savedInHistoryDoneExercises: savedHistoryDoneExercises,
+    savedInHistoryDoneExercises,
     preloadedImage,
     disabledNavigationButtons,
     timerNotificationInterval,
     timerTrainingInterval,
     timerRestInterval,
+    doneExercisesDuringSession,
     setSwiperTrackIndex,
     setTimerTrainingStatus,
     setPlayStatus,
@@ -61,7 +62,7 @@ const ImageContainer: React.FC = () => {
     setTimerTrainingInterval,
     setTimerRestInterval,
     unsetWhenDone,
-    setFilteredTrainingExercise,
+    setExercisesAfterTraining,
   } = useCombineStates();
 
   ////use for stopping and resuming timer and video////
@@ -71,8 +72,16 @@ const ImageContainer: React.FC = () => {
   useEffect(() => {
     preloadAudio();
     setupListener();
-    // setFilteredTrainingExercise();
   }, []);
+
+  useEffect(() => {
+    if (timerMode === "rest") {
+      swiperRef?.current?.slideNext();
+    }
+    if (timerMode === "training") {
+      playAudio();
+    }
+  }, [timerMode]);
 
   const preloadAudio = async () => {
     NativeAudio.preload({
@@ -159,7 +168,8 @@ const ImageContainer: React.FC = () => {
   };
   console.log("userTraining: ", userTraining);
   console.log("passedExercises: ", passedExercises);
-  console.log("savedHistoryDoneExercises: ", savedHistoryDoneExercises);
+  console.log("doneExercisesDuringSession: ", doneExercisesDuringSession);
+  console.log("savedInHistoryDoneExercises: ", savedInHistoryDoneExercises);
   // console.log("savedHistorySkippedExercises: ", savedHistorySkippedExercises);
   console.log("disabledNavigationButtons: ", disabledNavigationButtons);
   console.log("PlayStatus: ", playStatus);
@@ -176,7 +186,7 @@ const ImageContainer: React.FC = () => {
             className="swiper__btn_settings"
             onClick={() => {
               setOnBlur(setIsOpenModalSettings);
-              playAudio();
+              // playAudio();
             }}
           >
             <IonIcon slot="icon-only" icon={optionsOutline}></IonIcon>
@@ -208,7 +218,7 @@ const ImageContainer: React.FC = () => {
                 }}
                 simulateTouch={false}
                 touchRatio={0}
-                speed={1000}
+                speed={2000}
                 onSwiper={(swiper) => {
                   swiperRef.current = swiper;
                 }}
@@ -240,7 +250,7 @@ const ImageContainer: React.FC = () => {
       )}
 
       <SwiperUserButtons swiper={swiperRef.current as ISwiper} />
-      <IonButton expand="full" onClick={setFilteredTrainingExercise}>
+      <IonButton expand="full" onClick={setExercisesAfterTraining}>
         TEST
       </IonButton>
       {slicedUserTraining[swiperTrackIndex] ? (
