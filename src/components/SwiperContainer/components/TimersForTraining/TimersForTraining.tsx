@@ -25,6 +25,7 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, setPlayStatus }) => {
     setPassedExercises,
     setTimerMode,
     setTimeTrainingDuration,
+    setDoneExercise,
   } = useCombineStates();
 
   const setSettings = (interval: number, mode: "preparation" | "training" | "rest", status: boolean) => {
@@ -37,9 +38,7 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, setPlayStatus }) => {
     if (timerMode === "preparation") {
       setSettings(workIntervalForTraining, "training", true);
     } else if (timerMode === "training") {
-      // setTimeout(() => {
-      setPassedExercises(swiperTrackIndex, "done");
-      // }, 800);
+      setDoneExercise(swiperTrackIndex);
       swiper.slideNext();
       setSettings(restIntervalForTraining, "rest", false);
     } else {

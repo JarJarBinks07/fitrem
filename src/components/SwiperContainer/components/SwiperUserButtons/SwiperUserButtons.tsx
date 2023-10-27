@@ -31,6 +31,8 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
     setTimerMode,
     setStartWorkout,
     setPlayStatus,
+    setSkippedExercise,
+    setDoneExercise,
   } = useCombineStates();
 
   /////useEffect uses to exclude problem with play/pause mode for persist/////
@@ -108,7 +110,8 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
                   expand="block"
                   onClick={() => {
                     unsetWhenDone();
-                    setPassedExercises(swiperTrackIndex, "skipped");
+                    setSkippedExercise(swiperTrackIndex);
+                    // setPassedExercises(swiperTrackIndex, "skipped");
                   }}
                 >
                   <IonIcon className="swiper__bar_icon" slot="end" icon={reloadCircleOutline}></IonIcon>
@@ -147,7 +150,9 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
                     setTimerMode("rest");
                     setDisabledPlayDoneButtons();
                     setTimerTrainingStatus("start");
-                    setPassedExercises(swiperTrackIndex, "done");
+                    setDoneExercise(swiperTrackIndex);
+
+                    // setPassedExercises(swiperTrackIndex, "done");
                   }}
                 >
                   <IonIcon className="swiper__bar_icon" slot="end" icon={checkmarkCircleOutline}></IonIcon>

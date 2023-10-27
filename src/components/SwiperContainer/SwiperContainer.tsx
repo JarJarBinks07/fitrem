@@ -47,7 +47,7 @@ const ImageContainer: React.FC = () => {
     playerId,
     userTraining,
     passedExercises,
-    savedHistoryDoneExercises,
+    savedInHistoryDoneExercises: savedHistoryDoneExercises,
     preloadedImage,
     disabledNavigationButtons,
     timerNotificationInterval,
@@ -61,6 +61,7 @@ const ImageContainer: React.FC = () => {
     setTimerTrainingInterval,
     setTimerRestInterval,
     unsetWhenDone,
+    setFilteredTrainingExercise,
   } = useCombineStates();
 
   ////use for stopping and resuming timer and video////
@@ -70,6 +71,7 @@ const ImageContainer: React.FC = () => {
   useEffect(() => {
     preloadAudio();
     setupListener();
+    // setFilteredTrainingExercise();
   }, []);
 
   const preloadAudio = async () => {
@@ -238,6 +240,9 @@ const ImageContainer: React.FC = () => {
       )}
 
       <SwiperUserButtons swiper={swiperRef.current as ISwiper} />
+      <IonButton expand="full" onClick={setFilteredTrainingExercise}>
+        TEST
+      </IonButton>
       {slicedUserTraining[swiperTrackIndex] ? (
         <ModalWindowExercise
           isOpen={isOpenModalExercise}

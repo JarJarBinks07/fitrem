@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import _ from "lodash";
 import "./Timer.css";
 import {
   IonButtons,
@@ -37,7 +38,7 @@ const TimerPage: React.FC = () => {
   //   }
   // });
 
-  const [status, setStatus] = useState(false);
+  // const [status, setStatus] = useState(false);
   const {
     timerNotificationInterval: timerInterval,
     timerNotificationStatus: timerStatus,
@@ -48,10 +49,14 @@ const TimerPage: React.FC = () => {
     setTimeNotificationDuration: setTimerDuration,
     setTimeNotificationAfterPause: setTimeAfterPause,
     unsetNotificationTimer: unsetTimer,
-    savedHistoryDoneExercises,
+    savedInHistoryDoneExercises: savedHistoryDoneExercises,
+    counterDoneExercises,
+    userTraining,
   } = useCombineStates();
 
   const { setOnBlur } = useWatcher();
+
+  const counterActiveTracks = Object.keys(_.groupBy([...userTraining], "category")).length;
 
   const pauseButtonHandler = () => {
     setTimerStatus("pause");
@@ -88,7 +93,8 @@ const TimerPage: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          {status ? (
+          {false ? (
+            // counterActiveTracks === counterDoneExercises
             <IonGrid>
               <IonRow>
                 <IonCol className="timer-page__content">
@@ -121,9 +127,9 @@ const TimerPage: React.FC = () => {
             <SwiperContainer />
           )}
           {savedHistoryDoneExercises.length
-            ? savedHistoryDoneExercises.map((e) => (
-                <ListDoneExercises key={e.id} category={e.category} exercise={e.exercise} path={e.image_path} />
-              ))
+            ? savedHistoryDoneExercises
+                .slice(0, counterActiveTracks)
+                .map((e) => <ListDoneExercises key={e.id} category={e.category} exercise={e.exercise} path={e.image_path} />)
             : null}
         </IonContent>
         {/* <FooterButtons /> */}

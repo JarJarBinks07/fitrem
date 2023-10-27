@@ -1,12 +1,12 @@
 import { StateCreator, create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
-import { createTimerStateForNotification, ITimerNotification } from "./TimerStateForNotification";
-import { createTimerStateForTraining, ITimerTraining } from "./TimerStateForTraining";
+import { createNotificationState, INotification } from "./NotificationState";
+import { createTrainingState, ITraining } from "./TrainingState";
 import { CustomSqliteStorage } from "./CustomSqliteStorage";
 import { IRoot, createRootState } from "./RootState";
-import { StateTrackWithExercise, createTracksState } from "./TracksState";
+import { TrackState, createTracksState } from "./TracksState";
 
-export type CombineState = IRoot & ITimerNotification & ITimerTraining & StateTrackWithExercise;
+export type CombineState = IRoot & INotification & ITraining & TrackState;
 
 export type MyStateCreator<T> = StateCreator<
   CombineState,
@@ -24,8 +24,8 @@ export const useCombineStates = create<CombineState>()(
     persist(
       (...a) => ({
         ...createRootState(...a),
-        ...createTimerStateForNotification(...a),
-        ...createTimerStateForTraining(...a),
+        ...createNotificationState(...a),
+        ...createTrainingState(...a),
         ...createTracksState(...a),
       }),
       {
