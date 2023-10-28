@@ -247,27 +247,32 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
   setSkippedExercise: (value) =>
     set(
       (state) => {
-        //Step#1 variables
+        const _userTraining = [...state.userTraining];
+        const _activeTracks = [...state.selectedCategoryTracks];
+        const _currentCategory = _userTraining[value].category;
+        const _groupedByTrainingCategory = _.groupBy(_userTraining, "category");
 
-        let newUserTraining = [...state.userTraining];
-        let newPassedExercises = [...state.passedExercises];
-
-        //Step#2 comparison userTraining with passedExercises for returning values
-
-        let { _userTraining, _passedExercises } = checkCurrentCategory(newUserTraining, newPassedExercises, value);
-
-        //Step#3 find next exercise for replacing
-
-        const _currentExercise = _userTraining[value];
-        if (!_currentExercise) return state;
-        const findNextExerciseFromCategory = _userTraining.find(
-          ({ category, id }) => id !== _currentExercise.id && category === _currentExercise.category
-        );
-        if (!findNextExerciseFromCategory) return state;
-        _userTraining = _userTraining.filter((e) => e.id !== findNextExerciseFromCategory.id);
-        _userTraining.splice(value, 1, findNextExerciseFromCategory);
-        _passedExercises.push(_currentExercise);
-        return { userTraining: _userTraining, passedExercises: _passedExercises };
+        if (_userTraining.length === Object.keys(_groupedByTrainingCategory).length) return state;
+        const [replacedCurrentExercise] = _groupedByTrainingCategory[_currentCategory].splice(0, 1);
+        _groupedByTrainingCategory[_currentCategory].push(replacedCurrentExercise);
+        const result = [] as IExercise[];
+        let maxLength = 0;
+        for (const key of _activeTracks) {
+          if (!_groupedByTrainingCategory[key]) {
+            _groupedByTrainingCategory[key] = [];
+          }
+          maxLength = Math.max(_groupedByTrainingCategory[key].length, maxLength);
+        }
+        for (let i = 0; i < maxLength; i++) {
+          for (const key of _activeTracks) {
+            const currentArray = _groupedByTrainingCategory[key];
+            if (i < currentArray.length) {
+              const currentElement = currentArray[i];
+              result.push(currentElement);
+            }
+          }
+        }
+        return { userTraining: result };
       },
       false,
       "setSkippedExercise"
