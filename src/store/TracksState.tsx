@@ -1,4 +1,3 @@
-import { checkCurrentCategory, checkAllCategories } from "../shared/utils/checkCategory";
 import { MyStateCreator } from "./useCombineStates";
 import _ from "lodash";
 
@@ -62,17 +61,17 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
   setSelectedExercisesByID: (value) =>
     set(
       (state) => {
-        let newExercisesID = [...state.selectedExercisesByID];
+        let _exercisesID = [...state.selectedExercisesByID];
         if (state.selectedExercisesByID.includes(value)) {
           if (state.selectedExercisesByID.length) {
-            newExercisesID = state.selectedExercisesByID.filter((e) => e != value);
+            _exercisesID = state.selectedExercisesByID.filter((e) => e != value);
           } else {
             return state;
           }
         } else {
-          newExercisesID.push(value);
+          _exercisesID.push(value);
         }
-        return { selectedExercisesByID: newExercisesID };
+        return { selectedExercisesByID: _exercisesID };
       },
       false,
       "setSelectedExercisesByID"
@@ -82,17 +81,17 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
   setSelectedCategoryTracks: (value: string) =>
     set(
       (state) => {
-        let newCategories = [...state.selectedCategoryTracks];
+        let _categories = [...state.selectedCategoryTracks];
         if (state.selectedCategoryTracks.includes(value)) {
           if (state.selectedCategoryTracks.length) {
-            newCategories = state.selectedCategoryTracks.filter((e) => e !== value);
+            _categories = state.selectedCategoryTracks.filter((e) => e !== value);
           } else {
             return state;
           }
         } else {
-          newCategories.push(value);
+          _categories.push(value);
         }
-        return { ...state, selectedCategoryTracks: newCategories };
+        return { ...state, selectedCategoryTracks: _categories };
       },
       false,
       "setSelectedCategoryTracks"
@@ -113,31 +112,31 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
     set(
       (state) => {
         /////Getting active exercises/////
-        const activeTracks = [...state.selectedCategoryTracks];
-        const activeExercises = [];
+        const _activeTracks = [...state.selectedCategoryTracks];
+        const _activeExercises = [];
         for (const key of state.selectedExercisesByID) {
           const currentActiveExercise = state.allExercises.filter((e) => e.id === key);
           if (currentActiveExercise.length) {
-            activeExercises.push(...currentActiveExercise);
+            _activeExercises.push(...currentActiveExercise);
           }
         }
-        /////Shuffle activeTracks/////
-        const newArrOfActiveExercises = [...activeExercises];
+        /////Shuffle _activeTracks/////
+        const newArrOfActiveExercises = [..._activeExercises];
         const shuffledArray = _.shuffle(newArrOfActiveExercises);
 
         /////Sorting one by one/////
-        const filteredExercises = shuffledArray.filter((e) => activeTracks.includes(e.category));
+        const filteredExercises = shuffledArray.filter((e) => _activeTracks.includes(e.category));
         const groupedByCategory = _.groupBy(filteredExercises, "category");
         const result = [] as IExercise[];
         let maxLength = 0;
-        for (const key of activeTracks) {
+        for (const key of _activeTracks) {
           if (!groupedByCategory[key]) {
             groupedByCategory[key] = [];
           }
           maxLength = Math.max(groupedByCategory[key].length, maxLength);
         }
         for (let i = 0; i < maxLength; i++) {
-          for (const key of activeTracks) {
+          for (const key of _activeTracks) {
             const currentArray = groupedByCategory[key];
             if (i < currentArray.length) {
               const currentElement = currentArray[i];
@@ -159,86 +158,35 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
   setExercisesAfterTraining: () =>
     set(
       (state) => {
-        const newUserTraining = [...state.userTraining];
-        let newPassedExercises = [...state.passedExercises];
-        const _groupedByTrainingCategory = _.groupBy(newUserTraining, "category");
-        const _groupedByPassedCategory = _.groupBy(newPassedExercises, "category");
-        const activeTracks = [...state.selectedCategoryTracks];
+        const _userTraining = [...state.userTraining];
+        let _passedExercises = [...state.passedExercises];
+        const _groupedByPassedCategory = _.groupBy(_passedExercises, "category");
+        const _activeTracks = [...state.selectedCategoryTracks];
 
-        //Step#2 comparison userTraining with passedExercises for returning values
-        // console.log("state.userTraining:", state.userTraining);
-        // console.log("state.passedExercises:", state.passedExercises);
-        /////////TEST////////////
-        // const groupedByUserTrainingCategory = _.groupBy(newUserTraining, "category");
-        // const groupedByPassedCategory = _.groupBy(newPassedExercises, "category");
-        // for (const key in groupedByUserTrainingCategory) {
-        //   if (!groupedByPassedCategory[key]) {
-        //     groupedByPassedCategory[key] = [];
-        //   }
-        //   if (groupedByUserTrainingCategory[key]?.length === groupedByPassedCategory[key]?.length) {
-        //   const filteredUserTraining = _.differenceBy(newPassedExercises, newUserTraining, "id");
-        //   return { userTraining: newUserTraining, passedExercises: filteredUserTraining };
-        //   }
-        // }
+        //check if user selected only one exercise from active track
+        if (_userTraining.length === _passedExercises.length) return { passedExercises: [] };
 
-        /////////TEST/////////
-        // let filteredUserTraining =[]
-        // if (state.userTraining?.length === state.passedExercises?.length) {
-        //   return { passedExercises: [] };
-        // }
+        //check if unique exercise exists in userTraining
+        const filteredUserExercises = _.differenceBy(_userTraining, _passedExercises, "id");
+        if (filteredUserExercises.length) return { userTraining: filteredUserExercises };
 
-        // if (state.userTraining?.length > state.passedExercises?.length) {
-        //   const { _userTraining, _passedExercises } = checkAllCategories(newUserTraining, newPassedExercises);
-        //   return { userTraining: _userTraining, passedExercises: _passedExercises };
-        // }
-
-        // const { _userTraining, _passedExercises } = checkAllCategories(newUserTraining, newPassedExercises);
-        // const filteredPassedExercises = _.differenceBy(newPassedExercises, newUserTraining, "id");
-
-        if (newUserTraining.length === newPassedExercises.length) return { passedExercises: [] };
-        console.log("AFTER CHECKINGGGGG");
-        const filteredUserExercises = _.differenceBy(newUserTraining, newPassedExercises, "id");
-        console.log("newUserTraining", newUserTraining);
-        console.log("passedExercises BEFORE", newPassedExercises);
-        console.log("filteredUserExercises BEFORE", filteredUserExercises);
-        // if (!filteredUserExercises.length) {
-        for (const key of activeTracks) {
-          if (!_groupedByPassedCategory[key]) {
-            _groupedByPassedCategory[key] = [];
-            console.log("00000000000", key);
-          } else {
-            const [firstFromPassedCategory] = _groupedByPassedCategory[key].splice(0, 1);
-            filteredUserExercises.push(firstFromPassedCategory);
-            newPassedExercises = newPassedExercises.filter((e) => e.id !== firstFromPassedCategory.id);
+        //check that user used all of valid exercise and then populate from passedExercises
+        if (!filteredUserExercises.length) {
+          for (const key of _activeTracks) {
+            if (!_groupedByPassedCategory[key]) {
+              _groupedByPassedCategory[key] = [];
+            } else {
+              const [firstFromPassedCategory] = _groupedByPassedCategory[key].splice(0, 1);
+              filteredUserExercises.push(firstFromPassedCategory);
+              _passedExercises = _passedExercises.filter((e) => e.id !== firstFromPassedCategory.id);
+            }
           }
+          return {
+            userTraining: filteredUserExercises,
+            passedExercises: _passedExercises,
+          };
         }
-        console.log("passedExercises AFTER", newPassedExercises);
-        console.log("filteredUserExercises AFTER", filteredUserExercises);
-        // }
-        //   return {
-        //     userTraining: filteredUserExercises,
-        //     passedExercises: newPassedExercises,
-        //   };
-        // }
-        // console.log(filteredUserExercises);
-        // for (const key in _groupedByTrainingCategory)
-        // if (!filteredPassedExercises.length && _groupedByTrainingCategory[key].length===1) return state
-        // if ()
-
-        // {
-        //   const _groupedByPassedCategory = _.groupBy(_passedExercises, "category");
-        //   const _groupedByTrainingCategory = _.groupBy(_userTraining, "category");
-        // }
-        // return { passedExercises: [] };
-
-        // const { _userTraining, _passedExercises } = checkAllCategories(newUserTraining, filteredPassedExercises);
-        // return { passedExercises: filteredPassedExercises };
-
-        // console.log("_userTraining:", _userTraining);
-        // console.log("_passedExercises:", _passedExercises);
-        // console.log("filteredUserTraining:", filteredUserTraining);
-        // return { userTraining: _userTraining, passedExercises: _passedExercises };
-        // return state;
+        return state;
       },
       false,
       "setFilteredTrainingExercise"
@@ -252,7 +200,10 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
         const _currentCategory = _userTraining[value].category;
         const _groupedByTrainingCategory = _.groupBy(_userTraining, "category");
 
+        //check if user selected only one exercise from active track
         if (_userTraining.length === Object.keys(_groupedByTrainingCategory).length) return state;
+
+        //if user selected more than one exercise from track
         const [replacedCurrentExercise] = _groupedByTrainingCategory[_currentCategory].splice(0, 1);
         _groupedByTrainingCategory[_currentCategory].push(replacedCurrentExercise);
         const result = [] as IExercise[];
