@@ -160,19 +160,84 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
     set(
       (state) => {
         const newUserTraining = [...state.userTraining];
-        const newPassedExercises = [...state.passedExercises];
+        let newPassedExercises = [...state.passedExercises];
+        const _groupedByTrainingCategory = _.groupBy(newUserTraining, "category");
+        const _groupedByPassedCategory = _.groupBy(newPassedExercises, "category");
+        const activeTracks = [...state.selectedCategoryTracks];
 
         //Step#2 comparison userTraining with passedExercises for returning values
         // console.log("state.userTraining:", state.userTraining);
         // console.log("state.passedExercises:", state.passedExercises);
+        /////////TEST////////////
+        // const groupedByUserTrainingCategory = _.groupBy(newUserTraining, "category");
+        // const groupedByPassedCategory = _.groupBy(newPassedExercises, "category");
+        // for (const key in groupedByUserTrainingCategory) {
+        //   if (!groupedByPassedCategory[key]) {
+        //     groupedByPassedCategory[key] = [];
+        //   }
+        //   if (groupedByUserTrainingCategory[key]?.length === groupedByPassedCategory[key]?.length) {
+        //   const filteredUserTraining = _.differenceBy(newPassedExercises, newUserTraining, "id");
+        //   return { userTraining: newUserTraining, passedExercises: filteredUserTraining };
+        //   }
+        // }
 
-        const { _userTraining, _passedExercises } = checkAllCategories(newUserTraining, newPassedExercises);
-        const filteredUserTraining = _.differenceBy(_passedExercises, _userTraining, "id");
+        /////////TEST/////////
+        // let filteredUserTraining =[]
+        // if (state.userTraining?.length === state.passedExercises?.length) {
+        //   return { passedExercises: [] };
+        // }
+
+        // if (state.userTraining?.length > state.passedExercises?.length) {
+        //   const { _userTraining, _passedExercises } = checkAllCategories(newUserTraining, newPassedExercises);
+        //   return { userTraining: _userTraining, passedExercises: _passedExercises };
+        // }
+
+        // const { _userTraining, _passedExercises } = checkAllCategories(newUserTraining, newPassedExercises);
+        // const filteredPassedExercises = _.differenceBy(newPassedExercises, newUserTraining, "id");
+
+        if (newUserTraining.length === newPassedExercises.length) return { passedExercises: [] };
+        console.log("AFTER CHECKINGGGGG");
+        const filteredUserExercises = _.differenceBy(newUserTraining, newPassedExercises, "id");
+        console.log("newUserTraining", newUserTraining);
+        console.log("passedExercises BEFORE", newPassedExercises);
+        console.log("filteredUserExercises BEFORE", filteredUserExercises);
+        // if (!filteredUserExercises.length) {
+        for (const key of activeTracks) {
+          if (!_groupedByPassedCategory[key]) {
+            _groupedByPassedCategory[key] = [];
+            console.log("00000000000", key);
+          } else {
+            const [firstFromPassedCategory] = _groupedByPassedCategory[key].splice(0, 1);
+            filteredUserExercises.push(firstFromPassedCategory);
+            newPassedExercises = newPassedExercises.filter((e) => e.id !== firstFromPassedCategory.id);
+          }
+        }
+        console.log("passedExercises AFTER", newPassedExercises);
+        console.log("filteredUserExercises AFTER", filteredUserExercises);
+        // }
+        //   return {
+        //     userTraining: filteredUserExercises,
+        //     passedExercises: newPassedExercises,
+        //   };
+        // }
+        // console.log(filteredUserExercises);
+        // for (const key in _groupedByTrainingCategory)
+        // if (!filteredPassedExercises.length && _groupedByTrainingCategory[key].length===1) return state
+        // if ()
+
+        // {
+        //   const _groupedByPassedCategory = _.groupBy(_passedExercises, "category");
+        //   const _groupedByTrainingCategory = _.groupBy(_userTraining, "category");
+        // }
+        // return { passedExercises: [] };
+
+        // const { _userTraining, _passedExercises } = checkAllCategories(newUserTraining, filteredPassedExercises);
+        // return { passedExercises: filteredPassedExercises };
 
         // console.log("_userTraining:", _userTraining);
         // console.log("_passedExercises:", _passedExercises);
         // console.log("filteredUserTraining:", filteredUserTraining);
-        return { userTraining: _userTraining, passedExercises: filteredUserTraining };
+        // return { userTraining: _userTraining, passedExercises: _passedExercises };
         // return state;
       },
       false,

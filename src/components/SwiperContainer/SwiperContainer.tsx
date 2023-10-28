@@ -168,15 +168,15 @@ const ImageContainer: React.FC = () => {
   };
   console.log("userTraining: ", userTraining);
   console.log("passedExercises: ", passedExercises);
-  console.log("doneExercisesDuringSession: ", doneExercisesDuringSession);
-  console.log("savedInHistoryDoneExercises: ", savedInHistoryDoneExercises);
-  // console.log("savedHistorySkippedExercises: ", savedHistorySkippedExercises);
-  console.log("disabledNavigationButtons: ", disabledNavigationButtons);
-  console.log("PlayStatus: ", playStatus);
-  console.log("timerTrainingStatus:", timerTrainingStatus);
-  console.log("timeTrainingDuration: ", timeTrainingDuration);
-  console.log("timeTrainingAfterPause: ", timeTrainingAfterPause);
-  console.log("timerMode: ", timerMode);
+  // console.log("doneExercisesDuringSession: ", doneExercisesDuringSession);
+  // console.log("savedInHistoryDoneExercises: ", savedInHistoryDoneExercises);
+  // // console.log("savedHistorySkippedExercises: ", savedHistorySkippedExercises);
+  // console.log("disabledNavigationButtons: ", disabledNavigationButtons);
+  // console.log("PlayStatus: ", playStatus);
+  // console.log("timerTrainingStatus:", timerTrainingStatus);
+  // console.log("timeTrainingDuration: ", timeTrainingDuration);
+  // console.log("timeTrainingAfterPause: ", timeTrainingAfterPause);
+  // console.log("timerMode: ", timerMode);
 
   return (
     <div className="swiper">
