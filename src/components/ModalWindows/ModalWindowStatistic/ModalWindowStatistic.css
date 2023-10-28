@@ -1,0 +1,15 @@
+.modal-statistic__grid {
+  padding: 20px;
+}
+
+.modal-statistic__col {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 0 10px 0;
+}
+.statistic__label {
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+}

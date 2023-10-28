@@ -65,9 +65,8 @@ const ImageContainer: React.FC = () => {
     setExercisesAfterTraining,
   } = useCombineStates();
 
-  ////use for stopping and resuming timer and video////
+  ////use for stopping and resuming timer and video when user switches in App////
   const { setOnBlur, setOnFocus } = useWatcher();
-  ////
 
   useEffect(() => {
     preloadAudio();
@@ -168,8 +167,8 @@ const ImageContainer: React.FC = () => {
   };
   console.log("userTraining: ", userTraining);
   console.log("passedExercises: ", passedExercises);
-  // console.log("doneExercisesDuringSession: ", doneExercisesDuringSession);
-  // console.log("savedInHistoryDoneExercises: ", savedInHistoryDoneExercises);
+  console.log("doneExercisesDuringSession: ", doneExercisesDuringSession);
+  console.log("savedInHistoryDoneExercises: ", savedInHistoryDoneExercises);
   // // console.log("savedHistorySkippedExercises: ", savedHistorySkippedExercises);
   // console.log("disabledNavigationButtons: ", disabledNavigationButtons);
   // console.log("PlayStatus: ", playStatus);

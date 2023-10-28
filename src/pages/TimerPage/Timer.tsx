@@ -30,15 +30,9 @@ import { personCircle } from "ionicons/icons";
 import ProfileMenu from "../../components/Menu/ProfileMenu";
 import ListDoneExercises from "../../components/ListDoneExercises/ListDoneExercises";
 import { useWatcher } from "../../shared/hooks/useWatcher";
+import ModalWindowsStatistic from "../../components/ModalWindows/ModalWindowStatistic/ModalWindowStatistic";
 
 const TimerPage: React.FC = () => {
-  // useEffect(() => {
-  //   if (timerDuration - Date.now() < 0) {
-  //     unsetTimerLocalNotifications();
-  //   }
-  // });
-
-  // const [status, setStatus] = useState(false);
   const {
     timerNotificationInterval: timerInterval,
     timerNotificationStatus: timerStatus,
@@ -52,9 +46,13 @@ const TimerPage: React.FC = () => {
     savedInHistoryDoneExercises: savedHistoryDoneExercises,
     counterDoneExercises,
     userTraining,
+    doneExercisesDuringSession,
   } = useCombineStates();
 
+  ////use for stopping and resuming timer and video when user switches in App////
   const { setOnBlur } = useWatcher();
+
+  const [isOpenModalStatistic, setIsOpenModalStatistic] = useState(false);
 
   const counterActiveTracks = Object.keys(_.groupBy([...userTraining], "category")).length;
 
@@ -126,14 +124,21 @@ const TimerPage: React.FC = () => {
           ) : (
             <SwiperContainer />
           )}
-          {savedHistoryDoneExercises.length
-            ? savedHistoryDoneExercises
-                .slice(0, counterActiveTracks)
-                .map((e) => <ListDoneExercises key={e.id} category={e.category} exercise={e.exercise} path={e.image_path} />)
+          {doneExercisesDuringSession.length
+            ? doneExercisesDuringSession.map((e) => (
+                <ListDoneExercises key={e.id} category={e.category} exercise={e.exercise} path={e.image_path} />
+              ))
             : null}
         </IonContent>
-        {/* <FooterButtons /> */}
+        <IonButton expand="full" onClick={() => setIsOpenModalStatistic(true)}>
+          Modal
+        </IonButton>
       </IonPage>
+      <ModalWindowsStatistic
+        isOpen={isOpenModalStatistic}
+        setIsOpen={setIsOpenModalStatistic}
+        doneExercisesDuringSession={doneExercisesDuringSession}
+      />
     </>
   );
 };

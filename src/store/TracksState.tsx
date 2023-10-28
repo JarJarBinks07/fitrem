@@ -155,43 +155,6 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
   passedExercises: [],
   savedInHistoryDoneExercises: [],
 
-  setExercisesAfterTraining: () =>
-    set(
-      (state) => {
-        const _userTraining = [...state.userTraining];
-        let _passedExercises = [...state.passedExercises];
-        const _groupedByPassedCategory = _.groupBy(_passedExercises, "category");
-        const _activeTracks = [...state.selectedCategoryTracks];
-
-        //check if user selected only one exercise from active track
-        if (_userTraining.length === _passedExercises.length) return { passedExercises: [] };
-
-        //check if unique exercise exists in userTraining
-        const filteredUserExercises = _.differenceBy(_userTraining, _passedExercises, "id");
-        if (filteredUserExercises.length) return { userTraining: filteredUserExercises };
-
-        //check that user used all of valid exercise and then populate from passedExercises
-        if (!filteredUserExercises.length) {
-          for (const key of _activeTracks) {
-            if (!_groupedByPassedCategory[key]) {
-              _groupedByPassedCategory[key] = [];
-            } else {
-              const [firstFromPassedCategory] = _groupedByPassedCategory[key].splice(0, 1);
-              filteredUserExercises.push(firstFromPassedCategory);
-              _passedExercises = _passedExercises.filter((e) => e.id !== firstFromPassedCategory.id);
-            }
-          }
-          return {
-            userTraining: filteredUserExercises,
-            passedExercises: _passedExercises,
-          };
-        }
-        return state;
-      },
-      false,
-      "setFilteredTrainingExercise"
-    ),
-
   setSkippedExercise: (value) =>
     set(
       (state) => {
@@ -228,6 +191,7 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
       false,
       "setSkippedExercise"
     ),
+
   setDoneExercise: (value) =>
     set(
       (state) => {
@@ -244,5 +208,43 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
       },
       false,
       "setDoneExercise"
+    ),
+
+  setExercisesAfterTraining: () =>
+    set(
+      (state) => {
+        const _userTraining = [...state.userTraining];
+        let _passedExercises = [...state.passedExercises];
+        const _groupedByPassedCategory = _.groupBy(_passedExercises, "category");
+        const _activeTracks = [...state.selectedCategoryTracks];
+
+        //check if user selected only one exercise from active track
+        if (_userTraining.length === _passedExercises.length) return { passedExercises: [], doneExercisesDuringSession: [] };
+
+        //check if unique exercise exists in userTraining
+        const filteredUserExercises = _.differenceBy(_userTraining, _passedExercises, "id");
+        if (filteredUserExercises.length) return { userTraining: filteredUserExercises, doneExercisesDuringSession: [] };
+
+        //check that user used all of valid exercise and then populate from passedExercises
+        if (!filteredUserExercises.length) {
+          for (const key of _activeTracks) {
+            if (!_groupedByPassedCategory[key]) {
+              _groupedByPassedCategory[key] = [];
+            } else {
+              const [firstFromPassedCategory] = _groupedByPassedCategory[key].splice(0, 1);
+              filteredUserExercises.push(firstFromPassedCategory);
+              _passedExercises = _passedExercises.filter((e) => e.id !== firstFromPassedCategory.id);
+            }
+          }
+          return {
+            userTraining: filteredUserExercises,
+            passedExercises: _passedExercises,
+            doneExercisesDuringSession: [],
+          };
+        }
+        return state;
+      },
+      false,
+      "setFilteredTrainingExercise"
     ),
 });
