@@ -24,6 +24,8 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
 import "./SwiperContainer.css";
+import SwiperAlert from "./components/SwiperAlert/SwiperAlert";
+import ModalWindowsStatistic from "../ModalWindows/ModalWindowStatistic/ModalWindowStatistic";
 
 interface IVideo {
   id: number;
@@ -61,13 +63,14 @@ const ImageContainer: React.FC = () => {
     setTimerNotificationInterval,
     setTimerTrainingInterval,
     setTimerRestInterval,
-    unsetWhenDone,
     setExercisesAfterTraining,
+    setNotificationStatus,
+    unsetWhenDone,
   } = useCombineStates();
 
   useEffect(() => {
-    preloadAudio();
     setupListener();
+    preloadAudio();
   }, []);
 
   useEffect(() => {
@@ -77,11 +80,10 @@ const ImageContainer: React.FC = () => {
     if (timerMode === "training") {
       setTimeout(() => {
         setDisabled(true);
-      }, 500);
+      });
       setTimeout(() => {
         setDisabled(false);
       }, 3000);
-      playAudio();
     }
   }, [timerMode]);
 
@@ -148,7 +150,8 @@ const ImageContainer: React.FC = () => {
 
   const [isOpenModalExercise, setIsOpenModalExercise] = useState(false);
   const [isOpenModalSettings, setIsOpenModalSettings] = useState(false);
-
+  const [isModalStatistic, setIsModalStatistic] = useState(false);
+  const [isOpenSwiperAlert, setIsOpenSwiperAlert] = useState(false);
   // use for applying changes in Modal Settings
   const onSaveSettingsHandler = (notificationValue: number, trainingValue: number, restValue: number) => {
     setTimerNotificationInterval(notificationValue);
@@ -195,7 +198,12 @@ const ImageContainer: React.FC = () => {
             )}
             <div className="swiper__container">
               <SwiperInfoButton setOnBlur={setOnBlur} setIsOpen={setIsOpenModalExercise} />
-              <TimersForTraining swiper={swiperRef.current as ISwiper} setPlayStatus={setPlayStatus} />
+              <TimersForTraining
+                swiper={swiperRef.current as ISwiper}
+                playAudio={playAudio}
+                setPlayStatus={setPlayStatus}
+                setIsOpenSwiperAlert={setIsOpenSwiperAlert}
+              />
               {timerMode === "training" && disabledGo ? <div className="swiper__message">GO</div> : null}
               {timerMode === "rest" ? <div className="swiper__message">REST</div> : null}
 
@@ -249,17 +257,6 @@ const ImageContainer: React.FC = () => {
       <IonButton expand="full" onClick={setExercisesAfterTraining}>
         TEST
       </IonButton>
-      <IonButton
-        expand="full"
-        onClick={() => {
-          // console.log(swiperRef.current?.activeIndex);
-          swiperRef.current?.slideTo(0, 1000);
-          // setTest(0);
-        }}
-        style={{ margin: "5px" }}
-      >
-        Swiper to {swiperRef.current?.realIndex}
-      </IonButton>
       {slicedUserTraining[swiperTrackIndex] ? (
         <ModalWindowExercise
           isOpen={isOpenModalExercise}
@@ -276,6 +273,13 @@ const ImageContainer: React.FC = () => {
         timerRestInterval={timerRestInterval}
         onSaveHandler={onSaveSettingsHandler}
       />
+      <ModalWindowsStatistic
+        isOpen={isModalStatistic}
+        setIsOpen={setIsModalStatistic}
+        doneExercisesDuringSession={doneExercisesDuringSession}
+        setNotificationStatus={setNotificationStatus}
+      />
+      <SwiperAlert isOpen={isOpenSwiperAlert} setIsOpen={setIsOpenSwiperAlert} setIsModalStatistic={setIsModalStatistic} />
     </div>
   );
 };

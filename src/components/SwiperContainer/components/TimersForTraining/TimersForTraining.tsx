@@ -8,10 +8,12 @@ import _ from "lodash";
 
 interface IProps {
   swiper: ISwiper;
+  playAudio: () => Promise<void>;
   setPlayStatus: (value: boolean) => void;
+  setIsOpenSwiperAlert: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const TimersForTraining: React.FC<IProps> = ({ swiper, setPlayStatus }) => {
+const TimersForTraining: React.FC<IProps> = ({ swiper, playAudio, setPlayStatus, setIsOpenSwiperAlert }) => {
   const {
     timerTrainingKey: timerKeyForTraining,
     preparationTime,
@@ -37,8 +39,9 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, setPlayStatus }) => {
     setPlayStatus(status);
   };
 
-  const onCompleteSession = () => {
+  const onCompleteSession = async () => {
     if (timerMode === "preparation") {
+      await playAudio();
       setSettings(workIntervalForTraining, "training", true);
       return;
     }
@@ -46,6 +49,7 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, setPlayStatus }) => {
       if (swiperTrackIndex === counterActiveTracks - 1) {
         setTimerTrainingStatus("pause");
         setSettings(workIntervalForTraining, "training", false);
+        setIsOpenSwiperAlert(true);
         setDoneExercise(swiperTrackIndex);
         return;
       }
@@ -53,6 +57,7 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, setPlayStatus }) => {
       setSettings(restIntervalForTraining, "rest", false);
       return;
     }
+    await playAudio();
     setSettings(workIntervalForTraining, "training", true);
   };
 

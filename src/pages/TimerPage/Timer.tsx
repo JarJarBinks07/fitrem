@@ -34,44 +34,38 @@ import ModalWindowsStatistic from "../../components/ModalWindows/ModalWindowStat
 
 const TimerPage: React.FC = () => {
   const {
-    timerNotificationInterval: timerInterval,
-    timerNotificationStatus: timerStatus,
-    timerNotificationKey: timerKey,
-    timeNotificationDuration: timerDuration,
-    timeNotificationAfterPause: timeAfterPause,
-    setTimerNotificationStatus: setTimerStatus,
-    setTimeNotificationDuration: setTimerDuration,
-    setTimeNotificationAfterPause: setTimeAfterPause,
-    unsetNotificationTimer: unsetTimer,
-    savedInHistoryDoneExercises: savedHistoryDoneExercises,
-    counterDoneExercises,
-    userTraining,
+    notificationStatus,
+    timerNotificationInterval,
+    timerNotificationStatus,
+    timerNotificationKey,
+    timeNotificationDuration,
+    timeNotificationAfterPause,
     doneExercisesDuringSession,
-    isModalStatistic,
-    setIsModalStatistic,
+    setTimerNotificationStatus,
+    setTimeNotificationDuration,
+    setTimeNotificationAfterPause,
+    unsetNotificationTimer,
   } = useCombineStates();
 
   // use for stopping and resuming timer and video when user switches in App
   const { setOnBlur } = useWatcher();
 
-  const counterActiveTracks = Object.keys(_.groupBy([...userTraining], "category")).length;
-
   const pauseButtonHandler = () => {
-    setTimerStatus("pause");
-    setTimeAfterPause();
+    setTimerNotificationStatus("pause");
+    setTimeNotificationAfterPause();
     unsetTimerLocalNotifications();
   };
 
   const playButtonHandler = () => {
-    if (timerDuration) {
-      setTimerDuration(timeAfterPause);
-      setTimerLocalNotification(timeAfterPause);
+    if (timeNotificationDuration) {
+      setTimeNotificationDuration(timeNotificationAfterPause);
+      setTimerLocalNotification(timeNotificationAfterPause);
     } else {
       //value must be in milliseconds
-      setTimerDuration(timerInterval * 60000);
-      setTimerLocalNotification(timerInterval * 60000);
+      setTimeNotificationDuration(timerNotificationInterval * 60000);
+      setTimerLocalNotification(timerNotificationInterval * 60000);
     }
-    setTimerStatus("running");
+    setTimerNotificationStatus("running");
   };
 
   return (
@@ -91,17 +85,19 @@ const TimerPage: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          {false ? (
+          {notificationStatus ? (
             // counterActiveTracks === counterDoneExercises
             <IonGrid>
               <IonRow>
                 <IonCol className="timer-page__content">
                   <TimerFace
-                    timerKey={timerKey}
-                    timerInterval={timerInterval}
-                    timerDuration={timeAfterPause ? timeAfterPause : timerDuration - Date.now()}
-                    timerActive={timerStatus === "running"}
-                    unsetTimer={unsetTimer}
+                    timerKey={timerNotificationKey}
+                    timerInterval={timerNotificationInterval}
+                    timerDuration={
+                      timeNotificationAfterPause ? timeNotificationAfterPause : timeNotificationDuration - Date.now()
+                    }
+                    timerActive={timerNotificationStatus === "running"}
+                    unsetTimer={unsetNotificationTimer}
                     size={280}
                     strokeWidth={22}
                     colors={["#ffc409", "#F7B801", "#A30000", "#A30000"]}
@@ -112,12 +108,12 @@ const TimerPage: React.FC = () => {
               <IonRow className="ion-text-center">
                 <IonCol>
                   <TimerPlayButton
-                    timerHandler={timerStatus === "running" ? pauseButtonHandler : playButtonHandler}
-                    timerStatus={timerStatus}
+                    timerHandler={timerNotificationStatus === "running" ? pauseButtonHandler : playButtonHandler}
+                    timerStatus={timerNotificationStatus}
                   />
                 </IonCol>
                 <IonCol>
-                  <TimerResetButton unsetTimer={unsetTimer} timerStatus={timerStatus} />
+                  <TimerResetButton unsetTimer={unsetNotificationTimer} timerStatus={timerNotificationStatus} />
                 </IonCol>
               </IonRow>
             </IonGrid>
@@ -130,16 +126,7 @@ const TimerPage: React.FC = () => {
               ))
             : null}
         </IonContent>
-        <IonButton expand="full" onClick={setIsModalStatistic}>
-          Modal
-        </IonButton>
       </IonPage>
-
-      <ModalWindowsStatistic
-        isOpen={isModalStatistic}
-        setIsOpen={setIsModalStatistic}
-        doneExercisesDuringSession={doneExercisesDuringSession}
-      />
     </>
   );
 };
