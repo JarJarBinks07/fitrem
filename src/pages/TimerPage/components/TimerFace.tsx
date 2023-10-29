@@ -3,6 +3,7 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { Duration } from "luxon";
 import "./TimerFace.css";
 import ISwiper from "swiper";
+import _ from "lodash";
 
 interface IProps {
   swiper: ISwiper;

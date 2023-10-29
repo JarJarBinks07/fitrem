@@ -28,6 +28,7 @@ export type TrackState = {
   userTraining: IExercise[];
   passedExercises: IExercise[];
   counterDoneExercises: number;
+  isModalStatistic: boolean;
   doneExercisesDuringSession: IExercise[];
   savedInHistoryDoneExercises: IExercise[];
   setAllTracks: (value: ITrack[]) => void;
@@ -41,9 +42,12 @@ export type TrackState = {
   setSkippedExercise: (value: number) => void;
   setDoneExercise: (value: number) => void;
   setCounter: () => void;
+  setIsModalStatistic: () => void;
 };
 
 export const createTracksState: MyStateCreator<TrackState> = (set) => ({
+  isModalStatistic: false,
+  setIsModalStatistic: () => set((state) => ({ isModalStatistic: !state.isModalStatistic }), false, "setIsModalStatistic"),
   counterDoneExercises: 0,
   setCounter: () =>
     set((state) => ({ counterDoneExercises: 0, startWorkout: false, timerMode: "training" }), false, "setCounter"),

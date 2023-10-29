@@ -84,10 +84,11 @@
   box-shadow: none;
 }
 
-.swiper__notification_rest {
+.swiper__message {
   position: absolute;
-  top: 2vh;
-  left: 43%;
+  top: 5%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   z-index: 5;
   animation: blink_rest 5s infinite;
 }

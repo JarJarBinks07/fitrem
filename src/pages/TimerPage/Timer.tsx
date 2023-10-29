@@ -47,12 +47,12 @@ const TimerPage: React.FC = () => {
     counterDoneExercises,
     userTraining,
     doneExercisesDuringSession,
+    isModalStatistic,
+    setIsModalStatistic,
   } = useCombineStates();
 
-  ////use for stopping and resuming timer and video when user switches in App////
+  // use for stopping and resuming timer and video when user switches in App
   const { setOnBlur } = useWatcher();
-
-  const [isOpenModalStatistic, setIsOpenModalStatistic] = useState(false);
 
   const counterActiveTracks = Object.keys(_.groupBy([...userTraining], "category")).length;
 
@@ -67,7 +67,7 @@ const TimerPage: React.FC = () => {
       setTimerDuration(timeAfterPause);
       setTimerLocalNotification(timeAfterPause);
     } else {
-      ////value must be in milliseconds/////
+      //value must be in milliseconds
       setTimerDuration(timerInterval * 60000);
       setTimerLocalNotification(timerInterval * 60000);
     }
@@ -130,13 +130,14 @@ const TimerPage: React.FC = () => {
               ))
             : null}
         </IonContent>
-        <IonButton expand="full" onClick={() => setIsOpenModalStatistic(true)}>
+        <IonButton expand="full" onClick={setIsModalStatistic}>
           Modal
         </IonButton>
       </IonPage>
+
       <ModalWindowsStatistic
-        isOpen={isOpenModalStatistic}
-        setIsOpen={setIsOpenModalStatistic}
+        isOpen={isModalStatistic}
+        setIsOpen={setIsModalStatistic}
         doneExercisesDuringSession={doneExercisesDuringSession}
       />
     </>

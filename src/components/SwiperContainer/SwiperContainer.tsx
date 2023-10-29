@@ -1,23 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
-import { App } from "@capacitor/app";
-import { IonButton, IonCol, IonGrid, IonIcon, IonImg, IonItem, IonRow, IonSpinner, IonTitle } from "@ionic/react";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination, Navigation, EffectFade } from "swiper/modules";
 import { Capacitor } from "@capacitor/core";
-import ModalWindowExercise from "../ModalWindows/ModalWindowExercise/ModalWindowExercise";
+import { App } from "@capacitor/app";
+import { IonButton, IonIcon, IonImg } from "@ionic/react";
+import { optionsOutline } from "ionicons/icons";
+import { Swiper, SwiperSlide } from "swiper/react";
+import ISwiper from "swiper";
+import { Pagination, Navigation, EffectFade } from "swiper/modules";
 import VideoPlayer from "../PlayerReact/VideoPlayer";
 import { useCombineStates } from "../../store/useCombineStates";
-import ISwiper from "swiper";
-import _ from "lodash";
 import { NativeAudio } from "@capacitor-community/native-audio";
-
-import "swiper/css";
-import "swiper/css/pagination";
-import "swiper/css/navigation";
-import "swiper/css/effect-fade";
-import "./SwiperContainer.css";
-import { optionsOutline } from "ionicons/icons";
-
+import ModalWindowExercise from "../ModalWindows/ModalWindowExercise/ModalWindowExercise";
 import ModalWindowSettings from "../ModalWindows/ModalWindowSettings/ModalWindowSettings";
 import TimersForTraining from "./components/TimersForTraining/TimersForTraining";
 import SwiperUserButtons from "./components/SwiperUserButtons/SwiperUserButtons";
@@ -25,6 +17,13 @@ import SwiperTitle from "./components/SwiperTitle/SwiperTitle";
 import SwiperInfoButton from "./components/SwiperInfoButton/SwiperInfoButton";
 import SwiperNavigationButtons from "./components/SwiperNavigatonButtons/SwiperNavigationButtons";
 import { useWatcher } from "../../shared/hooks/useWatcher";
+import _ from "lodash";
+
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "swiper/css/effect-fade";
+import "./SwiperContainer.css";
 
 interface IVideo {
   id: number;
@@ -38,6 +37,7 @@ interface IVideo {
 
 const ImageContainer: React.FC = () => {
   const {
+    counterDoneExercises,
     timeTrainingDuration,
     timeTrainingAfterPause,
     timerTrainingStatus,
@@ -65,9 +65,6 @@ const ImageContainer: React.FC = () => {
     setExercisesAfterTraining,
   } = useCombineStates();
 
-  ////use for stopping and resuming timer and video when user switches in App////
-  const { setOnBlur, setOnFocus } = useWatcher();
-
   useEffect(() => {
     preloadAudio();
     setupListener();
@@ -78,10 +75,29 @@ const ImageContainer: React.FC = () => {
       swiperRef?.current?.slideNext();
     }
     if (timerMode === "training") {
+      setTimeout(() => {
+        setDisabled(true);
+      }, 500);
+      setTimeout(() => {
+        setDisabled(false);
+      }, 3000);
       playAudio();
     }
   }, [timerMode]);
 
+  //  Use when App reloads unexpectedly
+
+  // useEffect(() => {
+  //   unsetForPersist();
+  // }, []);
+
+  // use for disabling Go message
+  const [disabledGo, setDisabled] = useState(false);
+
+  // use for stopping and resuming timer and video when user switches in App
+  const { setOnBlur, setOnFocus } = useWatcher();
+
+  // use for audio message
   const preloadAudio = async () => {
     NativeAudio.preload({
       assetId: "countdown",
@@ -96,14 +112,8 @@ const ImageContainer: React.FC = () => {
       assetId: "countdown",
     });
   };
-  /////Use when App reloads unexpectedly/////
 
-  // useEffect(() => {
-  //   unsetForPersist();
-  // }, []);
-
-  /////use for background and foreground modes/////
-
+  // use when App goes to background and comes back to foreground
   const setupListener = async () => {
     App.addListener("appStateChange", ({ isActive }) => {
       if (!isActive) {
@@ -121,42 +131,25 @@ const ImageContainer: React.FC = () => {
     });
   };
 
-  /////Use when App goes to background and comes back to foreground/////
-
-  /////If one field checkbox and one track chosen we use useEffect (at least one must be chosen always). Init level/////
-  // useEffect(() => {
-  //   if (!userTraining.length) {
-  //     generateUserTraining();
-  //   }
-  // }, []);
-
-  ///// use for disabling navigation /////
+  // use for disabling navigation
   const groupedByDoneCategory = _.groupBy([...userTraining], "category");
   const activeCategoryLength = Object.keys(groupedByDoneCategory).length;
 
-  /////use for displaying slides/////
+  // use for displaying slides
   const slicedUserTraining = [...userTraining].slice(0, Object.keys(groupedByDoneCategory).length);
-  // const slicedUserTraining = [...userTraining];
 
-  /////ref for activation next slide/////
+  // ref for activation next slide
   const swiperRef = useRef<ISwiper>();
 
-  // useEffect(() => {
-  //   if (timerMode === "rest") {
-  //     swiperRef?.current?.slideNext();
-  //   }
-  // }, [timerMode]);
-
-  /////use platform if we want to disabled buttons in Swiper for device/////
+  // use platform if we want to disabled buttons in Swiper for device
   const platform = Capacitor.getPlatform();
 
-  /////ModalRender: value should be 0 when Swiper init/////
+  // ModalRender: value should be 0 when Swiper init
 
   const [isOpenModalExercise, setIsOpenModalExercise] = useState(false);
   const [isOpenModalSettings, setIsOpenModalSettings] = useState(false);
 
-  /////use for applying changes in Modal Settings////
-
+  // use for applying changes in Modal Settings
   const onSaveSettingsHandler = (notificationValue: number, trainingValue: number, restValue: number) => {
     setTimerNotificationInterval(notificationValue);
     setTimerTrainingInterval(trainingValue);
@@ -164,6 +157,8 @@ const ImageContainer: React.FC = () => {
     unsetWhenDone();
     setOnFocus(setIsOpenModalSettings);
   };
+
+  console.log("counterDoneExercises", counterDoneExercises);
   console.log("userTraining: ", userTraining);
   console.log("passedExercises: ", passedExercises);
   console.log("doneExercisesDuringSession: ", doneExercisesDuringSession);
@@ -175,6 +170,7 @@ const ImageContainer: React.FC = () => {
   // console.log("timeTrainingDuration: ", timeTrainingDuration);
   // console.log("timeTrainingAfterPause: ", timeTrainingAfterPause);
   // console.log("timerMode: ", timerMode);
+
   return (
     <div className="swiper">
       {slicedUserTraining.length ? (
@@ -200,7 +196,8 @@ const ImageContainer: React.FC = () => {
             <div className="swiper__container">
               <SwiperInfoButton setOnBlur={setOnBlur} setIsOpen={setIsOpenModalExercise} />
               <TimersForTraining swiper={swiperRef.current as ISwiper} setPlayStatus={setPlayStatus} />
-              {timerMode === "rest" ? <div className="swiper__notification_rest">REST</div> : null}
+              {timerMode === "training" && disabledGo ? <div className="swiper__message">GO</div> : null}
+              {timerMode === "rest" ? <div className="swiper__message">REST</div> : null}
 
               <Swiper
                 className="swiper__content"
@@ -213,7 +210,7 @@ const ImageContainer: React.FC = () => {
                 }}
                 simulateTouch={false}
                 touchRatio={0}
-                speed={1500}
+                speed={1200}
                 onSwiper={(swiper) => {
                   swiperRef.current = swiper;
                 }}

@@ -4,6 +4,7 @@ import TimerFace from "../../../../pages/TimerPage/components/TimerFace";
 import { useCombineStates } from "../../../../store/useCombineStates";
 
 import "./TimersForTraining.css";
+import _ from "lodash";
 
 interface IProps {
   swiper: ISwiper;
@@ -21,13 +22,15 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, setPlayStatus }) => {
     timerTrainingStatus: timerStatusForTraining,
     timerMode,
     swiperTrackIndex,
+    userTraining,
     unsetTrainingTimer,
-    setPassedExercises,
     setTimerMode,
     setTimeTrainingDuration,
     setDoneExercise,
+    setTimerTrainingStatus,
   } = useCombineStates();
 
+  const counterActiveTracks = Object.keys(_.groupBy(userTraining, "category")).length;
   const setSettings = (interval: number, mode: "preparation" | "training" | "rest", status: boolean) => {
     setTimeTrainingDuration(interval * 1000);
     setTimerMode(mode);
@@ -37,12 +40,20 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, setPlayStatus }) => {
   const onCompleteSession = () => {
     if (timerMode === "preparation") {
       setSettings(workIntervalForTraining, "training", true);
-    } else if (timerMode === "training") {
+      return;
+    }
+    if (timerMode === "training") {
+      if (swiperTrackIndex === counterActiveTracks - 1) {
+        setTimerTrainingStatus("pause");
+        setSettings(workIntervalForTraining, "training", false);
+        setDoneExercise(swiperTrackIndex);
+        return;
+      }
       setDoneExercise(swiperTrackIndex);
       setSettings(restIntervalForTraining, "rest", false);
-    } else {
-      setSettings(workIntervalForTraining, "training", true);
+      return;
     }
+    setSettings(workIntervalForTraining, "training", true);
   };
 
   return (

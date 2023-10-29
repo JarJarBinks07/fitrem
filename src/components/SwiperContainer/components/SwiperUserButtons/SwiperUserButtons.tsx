@@ -34,17 +34,19 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
     setDoneExercise,
   } = useCombineStates();
 
-  /////useEffect uses to exclude problem with play/pause mode for persist/////
+  const counterActiveTracks = Object.keys(_.groupBy(userTraining, "category")).length;
+
+  // useEffect uses to exclude problem with play/pause mode for persist
 
   const [status, setStatus] = useState(false);
   useEffect(() => {
     setStatus(playStatus);
   });
 
-  /////Buttons are disabled if track and exercise not chosen/////
+  // Buttons are disabled if track and exercise not chosen
   const disabledFromTraining = !Boolean(userTraining.length);
 
-  /////Skip button is disabled/////
+  // Skip button is disabled
   const [isActiveSkipButton, setIsActiveSkipButton] = useState(false);
   function setActiveSkippedButton() {
     const currentCategory = userTraining[swiperTrackIndex]?.category;
@@ -71,7 +73,7 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
     if (timeTrainingAfterPause) {
       setTimeTrainingDuration(timeTrainingAfterPause);
     } else {
-      /////value must be in milliseconds/////
+      // value must be in milliseconds
       setTimeTrainingDuration(timerTrainingInterval * 1000);
     }
     setTimerTrainingStatus("start");
@@ -90,7 +92,7 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
                   expand="block"
                   disabled={disabledFromTraining}
                   onClick={() => {
-                    swiper.slideTo(0, 1000);
+                    // swiper.slideTo(0, 1000);
                     setStartWorkout();
                     setDisabledNavigationButtons();
                     setDisabledPlayDoneButtons();
@@ -144,7 +146,9 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
                   disabled={disabledPlayDoneButtons}
                   expand="block"
                   onClick={() => {
-                    swiper.slideNext();
+                    if (counterActiveTracks > 1) {
+                      swiper.slideNext();
+                    }
                     setPlayStatus(false);
                     unsetWhenDone();
                     setTimerMode("rest");
