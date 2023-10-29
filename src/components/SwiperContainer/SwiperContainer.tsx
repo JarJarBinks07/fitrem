@@ -22,7 +22,7 @@ import ModalWindowSettings from "../ModalWindows/ModalWindowSettings/ModalWindow
 import TimersForTraining from "./components/TimersForTraining/TimersForTraining";
 import SwiperUserButtons from "./components/SwiperUserButtons/SwiperUserButtons";
 import SwiperTitle from "./components/SwiperTitle/SwiperTitle";
-import SwiperInfoButton from "./SwiperInfoButton/SwiperInfoButton";
+import SwiperInfoButton from "./components/SwiperInfoButton/SwiperInfoButton";
 import SwiperNavigationButtons from "./components/SwiperNavigatonButtons/SwiperNavigationButtons";
 import { useWatcher } from "../../shared/hooks/useWatcher";
 
@@ -132,8 +132,7 @@ const ImageContainer: React.FC = () => {
 
   ///// use for disabling navigation /////
   const groupedByDoneCategory = _.groupBy([...userTraining], "category");
-
-  const isActiveNavigationButtons = Object.keys(groupedByDoneCategory).length > 1;
+  const activeCategoryLength = Object.keys(groupedByDoneCategory).length;
 
   /////use for displaying slides/////
   const slicedUserTraining = [...userTraining].slice(0, Object.keys(groupedByDoneCategory).length);
@@ -176,7 +175,6 @@ const ImageContainer: React.FC = () => {
   // console.log("timeTrainingDuration: ", timeTrainingDuration);
   // console.log("timeTrainingAfterPause: ", timeTrainingAfterPause);
   // console.log("timerMode: ", timerMode);
-
   return (
     <div className="swiper">
       {slicedUserTraining.length ? (
@@ -205,11 +203,9 @@ const ImageContainer: React.FC = () => {
               {timerMode === "rest" ? <div className="swiper__notification_rest">REST</div> : null}
 
               <Swiper
-                longSwipes={true}
                 className="swiper__content"
                 modules={[Pagination, Navigation, EffectFade]}
-                slidesPerView={1}
-                loop={true}
+                loop={false}
                 // navigation={true}
                 pagination={{
                   clickable: false,
@@ -217,7 +213,7 @@ const ImageContainer: React.FC = () => {
                 }}
                 simulateTouch={false}
                 touchRatio={0}
-                speed={2000}
+                speed={1500}
                 onSwiper={(swiper) => {
                   swiperRef.current = swiper;
                 }}
@@ -232,8 +228,12 @@ const ImageContainer: React.FC = () => {
                   </SwiperSlide>
                   // </div>
                 ))}
-                {isActiveNavigationButtons && disabledNavigationButtons ? (
-                  <SwiperNavigationButtons swiper={swiperRef.current as ISwiper} />
+                {activeCategoryLength > 1 && disabledNavigationButtons ? (
+                  <SwiperNavigationButtons
+                    swiper={swiperRef.current as ISwiper}
+                    swiperTrackIndex={swiperTrackIndex}
+                    activeCategoryLength={activeCategoryLength}
+                  />
                 ) : null}
               </Swiper>
             </div>
@@ -251,6 +251,17 @@ const ImageContainer: React.FC = () => {
       <SwiperUserButtons swiper={swiperRef.current as ISwiper} />
       <IonButton expand="full" onClick={setExercisesAfterTraining}>
         TEST
+      </IonButton>
+      <IonButton
+        expand="full"
+        onClick={() => {
+          // console.log(swiperRef.current?.activeIndex);
+          swiperRef.current?.slideTo(0, 1000);
+          // setTest(0);
+        }}
+        style={{ margin: "5px" }}
+      >
+        Swiper to {swiperRef.current?.realIndex}
       </IonButton>
       {slicedUserTraining[swiperTrackIndex] ? (
         <ModalWindowExercise

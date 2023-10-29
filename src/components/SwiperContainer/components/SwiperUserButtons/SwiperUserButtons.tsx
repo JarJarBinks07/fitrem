@@ -24,7 +24,6 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
     setTimerTrainingStatus,
     setTimeTrainingAfterPause,
     setTimeTrainingDuration,
-    setPassedExercises,
     unsetWhenDone,
     setDisabledNavigationButtons,
     setDisabledPlayDoneButtons,
@@ -91,6 +90,7 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper }) => {
                   expand="block"
                   disabled={disabledFromTraining}
                   onClick={() => {
+                    swiper.slideTo(0, 1000);
                     setStartWorkout();
                     setDisabledNavigationButtons();
                     setDisabledPlayDoneButtons();
