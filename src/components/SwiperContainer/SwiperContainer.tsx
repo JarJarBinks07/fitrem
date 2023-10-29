@@ -60,6 +60,7 @@ const ImageContainer: React.FC = () => {
     setTimerTrainingStatus,
     setPlayStatus,
     setPlayerId,
+    setStartWorkout,
     setTimerNotificationInterval,
     setTimerTrainingInterval,
     setTimerRestInterval,
@@ -159,6 +160,13 @@ const ImageContainer: React.FC = () => {
     setTimerRestInterval(restValue);
     unsetWhenDone();
     setOnFocus(setIsOpenModalSettings);
+  };
+  // use when training was passed
+  const onCompleteAfterTraining = () => {
+    setNotificationStatus(true);
+    setIsModalStatistic(false);
+    setExercisesAfterTraining();
+    setStartWorkout(false);
   };
 
   console.log("counterDoneExercises", counterDoneExercises);
@@ -275,9 +283,8 @@ const ImageContainer: React.FC = () => {
       />
       <ModalWindowsStatistic
         isOpen={isModalStatistic}
-        setIsOpen={setIsModalStatistic}
         doneExercisesDuringSession={doneExercisesDuringSession}
-        setNotificationStatus={setNotificationStatus}
+        onComplete={onCompleteAfterTraining}
       />
       <SwiperAlert isOpen={isOpenSwiperAlert} setIsOpen={setIsOpenSwiperAlert} setIsModalStatistic={setIsModalStatistic} />
     </div>

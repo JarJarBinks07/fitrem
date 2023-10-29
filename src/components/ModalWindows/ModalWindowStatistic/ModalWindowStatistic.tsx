@@ -25,25 +25,17 @@ import { checkmarkCircleOutline } from "ionicons/icons";
 interface IProps {
   isOpen: boolean;
   doneExercisesDuringSession: IExercise[];
-  setNotificationStatus: (value: boolean) => void;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onComplete: () => void;
 }
 
-function ModalWindowsStatistic({ isOpen, doneExercisesDuringSession, setIsOpen, setNotificationStatus }: IProps) {
+function ModalWindowsStatistic({ isOpen, doneExercisesDuringSession, onComplete }: IProps) {
   return (
     <IonModal className="modal-statistic" isOpen={isOpen}>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Statistic</IonTitle>
           <IonButtons slot="end">
-            <IonButton
-              onClick={() => {
-                setNotificationStatus(true);
-                setIsOpen(false);
-              }}
-            >
-              Done
-            </IonButton>
+            <IonButton onClick={onComplete}>Done</IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
