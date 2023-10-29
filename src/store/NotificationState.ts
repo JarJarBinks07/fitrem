@@ -1,13 +1,13 @@
 import { MyStateCreator } from "./useCombineStates";
 
 export interface INotification {
-  notificationStatus: boolean;
+  isNotification: boolean;
   timerNotificationInterval: number;
   timerNotificationStatus: "idle" | "running" | "pause";
   timerNotificationKey: number;
   timeNotificationDuration: number;
   timeNotificationAfterPause: number;
-  setNotificationStatus: (value: boolean) => void;
+  setIsNotification: (value: boolean) => void;
   setTimerNotificationInterval: (value: number) => void;
   setTimerNotificationStatus: (value: "idle" | "running" | "pause") => void;
   setTimerNotificationKey: () => void;
@@ -17,8 +17,8 @@ export interface INotification {
 }
 
 export const createNotificationState: MyStateCreator<INotification> = (set) => ({
-  notificationStatus: false,
-  setNotificationStatus: (value) => set(() => ({ notificationStatus: value }), false, "setNotificationStatus"),
+  isNotification: false,
+  setIsNotification: (value) => set(() => ({ isNotification: value }), false, "setNotificationStatus"),
 
   timerNotificationInterval: 25,
   setTimerNotificationInterval: (value) => set(() => ({ timerNotificationInterval: value }), false, "setTimerInterval"),

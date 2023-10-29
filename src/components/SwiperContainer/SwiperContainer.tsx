@@ -65,7 +65,8 @@ const ImageContainer: React.FC = () => {
     setTimerTrainingInterval,
     setTimerRestInterval,
     setExercisesAfterTraining,
-    setNotificationStatus,
+    setIsNotification,
+    setDisabledNavigationButtons,
     unsetWhenDone,
   } = useCombineStates();
 
@@ -78,14 +79,14 @@ const ImageContainer: React.FC = () => {
     if (timerMode === "rest") {
       swiperRef?.current?.slideNext();
     }
-    if (timerMode === "training") {
-      setTimeout(() => {
-        setDisabled(true);
-      });
-      setTimeout(() => {
-        setDisabled(false);
-      }, 3000);
-    }
+    // if (timerMode === "training") {
+    //   setTimeout(() => {
+    //     setDisabledGO(true);
+    //   });
+    //   setTimeout(() => {
+    //     setDisabledGO(false);
+    //   }, 3000);
+    // }
   }, [timerMode]);
 
   //  Use when App reloads unexpectedly
@@ -95,7 +96,7 @@ const ImageContainer: React.FC = () => {
   // }, []);
 
   // use for disabling Go message
-  const [disabledGo, setDisabled] = useState(false);
+  const [disabledGO, setDisabledGO] = useState(false);
 
   // use for stopping and resuming timer and video when user switches in App
   const { setOnBlur, setOnFocus } = useWatcher();
@@ -163,10 +164,12 @@ const ImageContainer: React.FC = () => {
   };
   // use when training was passed
   const onCompleteAfterTraining = () => {
-    setNotificationStatus(true);
+    setIsNotification(true);
     setIsModalStatistic(false);
     setExercisesAfterTraining();
+    swiperRef.current?.slideTo(0, 1000);
     setStartWorkout(false);
+    setDisabledNavigationButtons(true);
   };
 
   console.log("counterDoneExercises", counterDoneExercises);
@@ -210,9 +213,10 @@ const ImageContainer: React.FC = () => {
                 swiper={swiperRef.current as ISwiper}
                 playAudio={playAudio}
                 setPlayStatus={setPlayStatus}
+                setDisabledGO={setDisabledGO}
                 setIsOpenSwiperAlert={setIsOpenSwiperAlert}
               />
-              {timerMode === "training" && disabledGo ? <div className="swiper__message">GO</div> : null}
+              {timerMode === "training" && disabledGO ? <div className="swiper__message">GO</div> : null}
               {timerMode === "rest" ? <div className="swiper__message">REST</div> : null}
 
               <Swiper
@@ -261,8 +265,14 @@ const ImageContainer: React.FC = () => {
         </div>
       )}
 
-      <SwiperUserButtons swiper={swiperRef.current as ISwiper} />
-      <IonButton expand="full" onClick={setExercisesAfterTraining}>
+      <SwiperUserButtons swiper={swiperRef.current as ISwiper} setIsOpenSwiperAlert={setIsOpenSwiperAlert} />
+      <IonButton
+        expand="full"
+        onClick={() => {
+          setExercisesAfterTraining();
+          swiperRef.current?.slideTo(0, 1000);
+        }}
+      >
         TEST
       </IonButton>
       {slicedUserTraining[swiperTrackIndex] ? (

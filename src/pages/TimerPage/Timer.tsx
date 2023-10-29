@@ -34,7 +34,7 @@ import ModalWindowsStatistic from "../../components/ModalWindows/ModalWindowStat
 
 const TimerPage: React.FC = () => {
   const {
-    notificationStatus,
+    isNotification,
     timerNotificationInterval,
     timerNotificationStatus,
     timerNotificationKey,
@@ -44,6 +44,7 @@ const TimerPage: React.FC = () => {
     setTimerNotificationStatus,
     setTimeNotificationDuration,
     setTimeNotificationAfterPause,
+    setIsNotification,
     unsetNotificationTimer,
   } = useCombineStates();
 
@@ -85,7 +86,7 @@ const TimerPage: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          {notificationStatus ? (
+          {isNotification ? (
             // counterActiveTracks === counterDoneExercises
             <IonGrid>
               <IonRow>
@@ -113,7 +114,13 @@ const TimerPage: React.FC = () => {
                   />
                 </IonCol>
                 <IonCol>
-                  <TimerResetButton unsetTimer={unsetNotificationTimer} timerStatus={timerNotificationStatus} />
+                  <TimerResetButton
+                    unsetTimer={() => {
+                      setIsNotification(false);
+                      unsetNotificationTimer();
+                    }}
+                    timerStatus={timerNotificationStatus}
+                  />
                 </IonCol>
               </IonRow>
             </IonGrid>

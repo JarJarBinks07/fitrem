@@ -42,7 +42,7 @@ function ModalWindowsStatistic({ isOpen, doneExercisesDuringSession, onComplete 
       <IonContent>
         <IonGrid className="modal-statistic__grid">
           {doneExercisesDuringSession.map((e) => (
-            <IonRow className="modal-statistic__row">
+            <IonRow key={e.id} className="modal-statistic__row">
               <IonCol className="modal-statistic__col">
                 <CachedImage path={e.image_path}></CachedImage>
               </IonCol>

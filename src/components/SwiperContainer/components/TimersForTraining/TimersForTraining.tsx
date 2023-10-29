@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ISwiper from "swiper";
 import TimerFace from "../../../../pages/TimerPage/components/TimerFace";
 import { useCombineStates } from "../../../../store/useCombineStates";
@@ -11,9 +11,10 @@ interface IProps {
   playAudio: () => Promise<void>;
   setPlayStatus: (value: boolean) => void;
   setIsOpenSwiperAlert: React.Dispatch<React.SetStateAction<boolean>>;
+  setDisabledGO: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const TimersForTraining: React.FC<IProps> = ({ swiper, playAudio, setPlayStatus, setIsOpenSwiperAlert }) => {
+const TimersForTraining: React.FC<IProps> = ({ swiper, playAudio, setPlayStatus, setIsOpenSwiperAlert, setDisabledGO }) => {
   const {
     timerTrainingKey: timerKeyForTraining,
     preparationTime,
@@ -25,11 +26,12 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, playAudio, setPlayStatus,
     timerMode,
     swiperTrackIndex,
     userTraining,
-    unsetTrainingTimer,
     setTimerMode,
     setTimeTrainingDuration,
     setDoneExercise,
     setTimerTrainingStatus,
+    unsetTrainingTimer,
+    unsetWhenDone,
   } = useCombineStates();
 
   const counterActiveTracks = Object.keys(_.groupBy(userTraining, "category")).length;
@@ -39,10 +41,21 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, playAudio, setPlayStatus,
     setPlayStatus(status);
   };
 
-  const onCompleteSession = async () => {
+  const setGo = () => {
+    setTimeout(() => {
+      setDisabledGO(true);
+    });
+    setTimeout(() => {
+      setDisabledGO(false);
+    }, 3000);
+  };
+
+  const onCompleteSession = () => {
     if (timerMode === "preparation") {
-      await playAudio();
+      playAudio();
+      setGo();
       setSettings(workIntervalForTraining, "training", true);
+      unsetTrainingTimer();
       return;
     }
     if (timerMode === "training") {
@@ -51,14 +64,18 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, playAudio, setPlayStatus,
         setSettings(workIntervalForTraining, "training", false);
         setIsOpenSwiperAlert(true);
         setDoneExercise(swiperTrackIndex);
+        unsetWhenDone();
         return;
       }
       setDoneExercise(swiperTrackIndex);
       setSettings(restIntervalForTraining, "rest", false);
+      unsetTrainingTimer();
       return;
     }
-    await playAudio();
+    playAudio();
+    setGo();
     setSettings(workIntervalForTraining, "training", true);
+    unsetTrainingTimer();
   };
 
   return (
@@ -70,7 +87,7 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, playAudio, setPlayStatus,
           timerDuration={timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()}
           timerActive={timerStatusForTraining === "start"}
           timerMode={timerMode}
-          unsetTimer={unsetTrainingTimer}
+          // unsetTimer={unsetTrainingTimer}
           size={65}
           strokeWidth={4}
           colors={["#ffc409", "#ffc409"]}
@@ -87,7 +104,7 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, playAudio, setPlayStatus,
           timerDuration={timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()}
           timerActive={timerStatusForTraining === "start"}
           timerMode={timerMode}
-          unsetTimer={unsetTrainingTimer}
+          // unsetTimer={unsetTrainingTimer}
           size={65}
           strokeWidth={4}
           colors={["#eb445a", "#eb445a"]}
@@ -110,7 +127,7 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, playAudio, setPlayStatus,
           colorsTime={[15, 10]}
           timerFor={"exercise"}
           swiper={swiper}
-          unsetTimer={unsetTrainingTimer}
+          // unsetTimer={unsetTrainingTimer}
           onCompleteSession={onCompleteSession}
         />
       )}

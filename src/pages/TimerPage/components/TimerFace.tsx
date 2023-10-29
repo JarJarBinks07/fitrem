@@ -26,7 +26,7 @@ interface IProps {
     1: number;
   } & number[];
 
-  unsetTimer: () => void;
+  // unsetTimer: () => void;
   onCompleteSession: () => void;
 }
 
@@ -41,13 +41,13 @@ const TimerFace: React.FC<IProps> = ({
   timerFor,
   colors,
   colorsTime,
-  unsetTimer,
+  // unsetTimer,
   onCompleteSession,
 }) => {
-  const onComplete = () => {
-    onCompleteSession();
-    unsetTimer();
-  };
+  // const onComplete = () => {
+  //   unsetTimer();
+  //   onCompleteSession();
+  // };
 
   /////for different timers/////
   let fromMinuteToSeconds = timerFor === "exercise" ? 1 : 60;
@@ -95,9 +95,7 @@ const TimerFace: React.FC<IProps> = ({
       rotation="clockwise"
       duration={timerInterval * fromMinuteToSeconds}
       initialRemainingTime={timeLeft > 0 ? timeLeft : timerInterval * fromMinuteToSeconds}
-      onComplete={() => {
-        onComplete();
-      }}
+      onComplete={onCompleteSession}
     >
       {({ remainingTime }) => renderTime(remainingTime, timerActive)}
     </CountdownCircleTimer>

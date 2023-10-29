@@ -29,7 +29,7 @@ export interface ITraining {
   unsetTrainingTimer: () => void;
   unsetWhenDone: () => void;
   unsetForPersist: () => void;
-  setDisabledNavigationButtons: () => void;
+  setDisabledNavigationButtons: (value: boolean) => void;
   setDisabledPlayDoneButtons: () => void;
 }
 
@@ -76,12 +76,8 @@ export const createTrainingState: MyStateCreator<ITraining> = (set) => ({
     ),
 
   disabledNavigationButtons: true,
-  setDisabledNavigationButtons: () =>
-    set(
-      (state) => ({ disabledNavigationButtons: !state.disabledNavigationButtons }),
-      false,
-      "setDisabledNavButtonsWhenTrainingStarts"
-    ),
+  setDisabledNavigationButtons: (value) =>
+    set((state) => ({ disabledNavigationButtons: value }), false, "setDisabledNavButtonsWhenTrainingStarts"),
   disabledPlayDoneButtons: false,
   setDisabledPlayDoneButtons: () =>
     set(
@@ -98,7 +94,7 @@ export const createTrainingState: MyStateCreator<ITraining> = (set) => ({
       }),
 
       false,
-      "unsetTimerForTraining"
+      "unsetTrainingTimer"
     ),
   unsetWhenDone: () =>
     set(
