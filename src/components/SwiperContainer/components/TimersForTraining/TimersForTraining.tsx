@@ -24,18 +24,16 @@ const TimersForTraining: React.FC<IProps> = ({
   setSettings,
 }) => {
   const {
-    timerTrainingKey: timerKeyForTraining,
+    timerTrainingKey,
     preparationTime,
-    timerTrainingInterval: workIntervalForTraining,
-    timerRestInterval: restIntervalForTraining,
-    timeTrainingAfterPause: timeAfterPauseForTraining,
-    timeTrainingDuration: timerDurationForTraining,
-    timerTrainingStatus: timerStatusForTraining,
+    timerTrainingInterval,
+    timerRestInterval,
+    timeTrainingAfterPause,
+    timeTrainingDuration,
+    timerTrainingStatus,
     timerMode,
     swiperTrackIndex,
     userTraining,
-    setTimerMode,
-    setTimeTrainingDuration,
     setDoneExercise,
     setTimerTrainingStatus,
     unsetTrainingTimer,
@@ -57,27 +55,27 @@ const TimersForTraining: React.FC<IProps> = ({
     if (timerMode === "preparation") {
       playAudio();
       setGo();
-      setSettings(workIntervalForTraining, "training", true);
+      setSettings(timerTrainingInterval, "training", true);
       unsetTrainingTimer();
       return;
     }
     if (timerMode === "training") {
       if (swiperTrackIndex === counterActiveTracks - 1) {
         setTimerTrainingStatus("pause");
-        setSettings(workIntervalForTraining, "training", false);
+        setSettings(timerTrainingInterval, "training", false);
         setIsOpenSwiperAlert(true);
         setDoneExercise(swiperTrackIndex);
         unsetWhenDone();
         return;
       }
       setDoneExercise(swiperTrackIndex);
-      setSettings(restIntervalForTraining, "rest", false);
+      setSettings(timerRestInterval, "rest", false);
       unsetTrainingTimer();
       return;
     }
     playAudio();
     setGo();
-    setSettings(workIntervalForTraining, "training", true);
+    setSettings(timerTrainingInterval, "training", true);
     unsetTrainingTimer();
   };
 
@@ -90,10 +88,10 @@ const TimersForTraining: React.FC<IProps> = ({
           colors={["#ffc409", "#ffc409"]}
           colorsTime={[15, 10]}
           timerFor={"exercise"}
-          timerKey={timerKeyForTraining}
+          timerKey={timerTrainingKey}
           timerInterval={preparationTime}
-          timerDuration={timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()}
-          timerActive={timerStatusForTraining === "start"}
+          timerDuration={timeTrainingAfterPause ? timeTrainingAfterPause : timeTrainingDuration - Date.now()}
+          timerActive={timerTrainingStatus === "start"}
           onComplete={onCompleteSession}
         />
       )}
@@ -104,10 +102,10 @@ const TimersForTraining: React.FC<IProps> = ({
           colors={["#eb445a", "#eb445a"]}
           colorsTime={[15, 10]}
           timerFor={"exercise"}
-          timerKey={timerKeyForTraining}
-          timerInterval={workIntervalForTraining}
-          timerDuration={timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()}
-          timerActive={timerStatusForTraining === "start"}
+          timerKey={timerTrainingKey}
+          timerInterval={timerTrainingInterval}
+          timerDuration={timeTrainingAfterPause ? timeTrainingAfterPause : timeTrainingDuration - Date.now()}
+          timerActive={timerTrainingStatus === "start"}
           onComplete={onCompleteSession}
         />
       )}
@@ -118,10 +116,10 @@ const TimersForTraining: React.FC<IProps> = ({
           colors={["#2fc22d", "#2dc275"]}
           colorsTime={[15, 10]}
           timerFor={"exercise"}
-          timerKey={timerKeyForTraining}
-          timerInterval={restIntervalForTraining}
-          timerDuration={timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()}
-          timerActive={timerStatusForTraining === "start"}
+          timerKey={timerTrainingKey}
+          timerInterval={timerRestInterval}
+          timerDuration={timeTrainingAfterPause ? timeTrainingAfterPause : timeTrainingDuration - Date.now()}
+          timerActive={timerTrainingStatus === "start"}
           onComplete={onCompleteSession}
         />
       )}

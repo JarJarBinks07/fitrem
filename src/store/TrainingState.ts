@@ -78,9 +78,11 @@ export const createTrainingState: MyStateCreator<ITraining> = (set) => ({
   disabledNavigationButtons: true,
   setDisabledNavigationButtons: (value) =>
     set((state) => ({ disabledNavigationButtons: value }), false, "setDisabledNavigationButtons"),
+
   disabledPlayDoneButtons: false,
   setDisabledPlayDoneButtons: () =>
     set((state) => ({ disabledPlayDoneButtons: !state.disabledPlayDoneButtons }), false, "setDisabledPlayDoneButtons"),
+
   unsetTrainingTimer: () =>
     set(
       (state) => ({
@@ -92,6 +94,7 @@ export const createTrainingState: MyStateCreator<ITraining> = (set) => ({
       false,
       "unsetTrainingTimer"
     ),
+
   unsetWhenDone: () =>
     set(
       () => ({ timeTrainingDuration: 0, timeTrainingAfterPause: 0, timerTrainingKey: Date.now() }),
@@ -101,19 +104,13 @@ export const createTrainingState: MyStateCreator<ITraining> = (set) => ({
 
   unsetForPersist: () =>
     set(
-      (state) => {
-        if (state.timerMode === "rest" || state.timerMode === "preparation") {
-          return {
-            playStatus: false,
-            timerTrainingStatus: "start",
-          };
-        } else {
-          return {
-            playStatus: false,
-            timerTrainingStatus: "pause",
-          };
-        }
-      },
+      (state) => ({
+        timerTrainingKey: Date.now(),
+        timeTrainingDuration: 0,
+        timeTrainingAfterPause: 0,
+        playStatus: false,
+        timerTrainingStatus: state.timerMode === "training" ? "pause" : "start",
+      }),
       false,
       "unsetForPersist"
     ),

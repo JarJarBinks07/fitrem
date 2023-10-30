@@ -68,6 +68,7 @@ const ImageContainer: React.FC = () => {
     setTimeTrainingDuration,
     setTimerMode,
     unsetWhenDone,
+    unsetForPersist,
     unsetNotificationTimer,
   } = useCombineStates();
 
@@ -80,9 +81,9 @@ const ImageContainer: React.FC = () => {
 
   //  Use when App reloads unexpectedly
 
-  // useEffect(() => {
-  //   unsetForPersist();
-  // }, []);
+  useEffect(() => {
+    unsetForPersist();
+  }, []);
 
   // use for disabling Go message
   const [disabledGO, setDisabledGO] = useState(false);
