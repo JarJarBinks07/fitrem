@@ -51,12 +51,12 @@ const TimerPage: React.FC = () => {
 
   // use when App goes to background and comes back to foreground
   useEffect(() => {
-    if (!isNotification) {
-      setupListener();
-    } else {
+    if (isNotification) {
       removeListener();
+    } else {
+      setupListener();
     }
-  }, []);
+  }, [isNotification]);
 
   const setupListener = async () => {
     App.addListener("appStateChange", ({ isActive }) => {
