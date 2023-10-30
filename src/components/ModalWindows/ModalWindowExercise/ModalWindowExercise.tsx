@@ -22,7 +22,7 @@ function ModalWindowExercise({ path, description, isOpen, setIsOpen, setOnFocus 
             <IonButton
               className="modal__btn"
               onClick={() => {
-                setOnFocus && setIsOpen;
+                setOnFocus ? setOnFocus(setIsOpen) : setIsOpen(false);
               }}
             >
               Close
