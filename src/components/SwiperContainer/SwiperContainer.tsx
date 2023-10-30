@@ -260,7 +260,7 @@ const ImageContainer: React.FC = () => {
       )}
 
       <SwiperUserButtons swiper={swiper as ISwiper} setIsOpenSwiperAlert={setIsOpenSwiperAlert} setSettings={setSettings} />
-      <IonButton
+      {/* <IonButton
         expand="full"
         onClick={() => {
           setExercisesAfterTraining();
@@ -269,7 +269,7 @@ const ImageContainer: React.FC = () => {
         }}
       >
         TEST
-      </IonButton>
+      </IonButton> */}
       {slicedUserTraining[swiperTrackIndex] ? (
         <ModalWindowExercise
           isOpen={isOpenModalExercise}

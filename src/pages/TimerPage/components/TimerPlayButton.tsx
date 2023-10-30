@@ -8,7 +8,7 @@ interface IProps {
 
 const TimerPlayButton: React.FC<IProps> = ({ timerStatus, timerHandler }) => {
   return (
-    <IonButton color="success" expand="full" onClick={timerHandler}>
+    <IonButton color="danger" expand="full" onClick={timerHandler}>
       <IonIcon icon={timerStatus === "running" ? pauseSharp : playSharp} size="large" />
     </IonButton>
   );

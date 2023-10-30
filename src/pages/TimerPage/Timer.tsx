@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import _ from "lodash";
 import "./Timer.css";
 import {
@@ -11,7 +11,6 @@ import {
   IonRow,
   IonTitle,
   IonToolbar,
-  IonMenuButton,
   IonMenuToggle,
   IonButton,
   IonIcon,
@@ -20,17 +19,12 @@ import {
 import TimerFace from "./components/TimerFace";
 import TimerPlayButton from "./components/TimerPlayButton";
 import { useCombineStates } from "../../store/useCombineStates";
-import MainMenu from "../../components/Menu/ProfileMenu";
-import FooterButtons from "../../components/Footer/FooterButtons";
 import TimerResetButton from "./components/TimerResetButton";
 import { setTimerLocalNotification, unsetTimerLocalNotifications } from "../../shared/constants/notification.constants";
-import { CombineState } from "../../store/useCombineStates";
 import SwiperContainer from "../../components/SwiperContainer/SwiperContainer";
 import { personCircle } from "ionicons/icons";
 import ProfileMenu from "../../components/Menu/ProfileMenu";
-import ListDoneExercises from "../../components/ListDoneExercises/ListDoneExercises";
 import { useWatcher } from "../../shared/hooks/useWatcher";
-import ModalWindowsStatistic from "../../components/ModalWindows/ModalWindowStatistic/ModalWindowStatistic";
 
 const TimerPage: React.FC = () => {
   const {
@@ -40,7 +34,6 @@ const TimerPage: React.FC = () => {
     timerNotificationKey,
     timeNotificationDuration,
     timeNotificationAfterPause,
-    doneExercisesDuringSession,
     setTimerNotificationStatus,
     setTimeNotificationDuration,
     setTimeNotificationAfterPause,

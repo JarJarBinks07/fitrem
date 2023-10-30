@@ -1,6 +1,6 @@
 import React from "react";
 import { IonButton, IonIcon } from "@ionic/react";
-import { syncOutline } from "ionicons/icons";
+import { playForward, playForwardOutline, syncOutline } from "ionicons/icons";
 import { useCombineStates } from "../../../store/useCombineStates";
 
 interface IProps {
@@ -12,7 +12,7 @@ const TimerResetButton: React.FC<IProps> = ({ timerStatus, unsetTimer }) => {
   const { setCounter } = useCombineStates();
   return (
     <IonButton
-      color="danger"
+      color="success"
       expand="full"
       disabled={timerStatus === "running"}
       onClick={() => {
@@ -20,7 +20,7 @@ const TimerResetButton: React.FC<IProps> = ({ timerStatus, unsetTimer }) => {
         setCounter();
       }}
     >
-      <IonIcon icon={syncOutline} size="large" />
+      <IonIcon icon={playForward} size="large" />
     </IonButton>
   );
 };
