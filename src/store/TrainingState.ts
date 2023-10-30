@@ -15,6 +15,7 @@ export interface ITraining {
   timeTrainingAfterPause: number;
   disabledNavigationButtons: boolean;
   disabledPlayDoneButtons: boolean;
+  isOpenSwiperAlert: boolean;
   setSwiperTrackIndex: (value: number) => void;
   setStartWorkout: (value: boolean) => void;
   setPlayStatus: (value: boolean) => void;
@@ -31,6 +32,7 @@ export interface ITraining {
   unsetForPersist: () => void;
   setDisabledNavigationButtons: (value: boolean) => void;
   setDisabledPlayDoneButtons: () => void;
+  setIsOpenSwiperAlert: (value: boolean) => void;
 }
 
 export const createTrainingState: MyStateCreator<ITraining> = (set) => ({
@@ -82,6 +84,9 @@ export const createTrainingState: MyStateCreator<ITraining> = (set) => ({
   disabledPlayDoneButtons: false,
   setDisabledPlayDoneButtons: () =>
     set((state) => ({ disabledPlayDoneButtons: !state.disabledPlayDoneButtons }), false, "setDisabledPlayDoneButtons"),
+
+  isOpenSwiperAlert: false,
+  setIsOpenSwiperAlert: (value) => set(() => ({ isOpenSwiperAlert: value }), false, "setIsOpenSwiperAlert"),
 
   unsetTrainingTimer: () =>
     set(

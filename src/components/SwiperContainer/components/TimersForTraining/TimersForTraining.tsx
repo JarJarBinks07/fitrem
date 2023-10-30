@@ -10,19 +10,11 @@ interface IProps {
   swiper: ISwiper;
   playAudio: () => Promise<void>;
   setPlayStatus: (value: boolean) => void;
-  setIsOpenSwiperAlert: React.Dispatch<React.SetStateAction<boolean>>;
   setDisabledGO: React.Dispatch<React.SetStateAction<boolean>>;
   setSettings: (interval: number, mode: "preparation" | "training" | "rest", status: boolean) => void;
 }
 
-const TimersForTraining: React.FC<IProps> = ({
-  swiper,
-  playAudio,
-  setPlayStatus,
-  setIsOpenSwiperAlert,
-  setDisabledGO,
-  setSettings,
-}) => {
+const TimersForTraining: React.FC<IProps> = ({ swiper, playAudio, setPlayStatus, setDisabledGO, setSettings }) => {
   const {
     timerTrainingKey,
     preparationTime,
@@ -37,6 +29,7 @@ const TimersForTraining: React.FC<IProps> = ({
     setDoneExercise,
     setTimerTrainingStatus,
     unsetTrainingTimer,
+    setIsOpenSwiperAlert,
     unsetWhenDone,
   } = useCombineStates();
 

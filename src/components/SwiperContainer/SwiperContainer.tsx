@@ -38,6 +38,7 @@ interface IVideo {
 
 const ImageContainer: React.FC = () => {
   const {
+    isOpenSwiperAlert,
     timeTrainingDuration,
     timeTrainingAfterPause,
     timerTrainingStatus,
@@ -70,6 +71,7 @@ const ImageContainer: React.FC = () => {
     unsetWhenDone,
     unsetForPersist,
     unsetNotificationTimer,
+    setIsOpenSwiperAlert,
   } = useCombineStates();
 
   //use for auto swiping when exercise was done
@@ -83,6 +85,7 @@ const ImageContainer: React.FC = () => {
 
   useEffect(() => {
     unsetForPersist();
+    // swiper?.slideTo(swiperTrackIndex, 500);
   }, []);
 
   // use for disabling Go message
@@ -123,7 +126,6 @@ const ImageContainer: React.FC = () => {
   const [isOpenModalExercise, setIsOpenModalExercise] = useState(false);
   const [isOpenModalSettings, setIsOpenModalSettings] = useState(false);
   const [isModalStatistic, setIsModalStatistic] = useState(false);
-  const [isOpenSwiperAlert, setIsOpenSwiperAlert] = useState(false);
 
   // use for applying changes in Modal Settings
   const onSaveSettingsHandler = (notificationValue: number, trainingValue: number, restValue: number) => {
@@ -188,7 +190,6 @@ const ImageContainer: React.FC = () => {
                 setPlayStatus={setPlayStatus}
                 setDisabledGO={setDisabledGO}
                 setSettings={setSettings}
-                setIsOpenSwiperAlert={setIsOpenSwiperAlert}
               />
               {timerMode === "training" && disabledGO ? <div className="swiper__message">GO</div> : null}
               {timerMode === "rest" ? <div className="swiper__message">REST</div> : null}
@@ -207,10 +208,8 @@ const ImageContainer: React.FC = () => {
                 speed={1200}
                 onSwiper={(swiper) => {
                   setSwiper(swiper);
-                  console.log("onSwiper", swiper);
                 }}
                 onRealIndexChange={(swiper) => {
-                  console.log("onRealIndexChange", swiper);
                   setSwiperTrackIndex(swiper.realIndex);
                 }}
               >
@@ -241,7 +240,7 @@ const ImageContainer: React.FC = () => {
         </div>
       )}
 
-      <SwiperUserButtons swiper={swiper as ISwiper} setIsOpenSwiperAlert={setIsOpenSwiperAlert} setSettings={setSettings} />
+      <SwiperUserButtons swiper={swiper as ISwiper} setSettings={setSettings} />
       {/* <IonButton
         expand="full"
         onClick={() => {

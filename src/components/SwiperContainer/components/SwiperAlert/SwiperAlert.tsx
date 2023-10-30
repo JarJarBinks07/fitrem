@@ -3,7 +3,8 @@ import { IonAlert } from "@ionic/react";
 
 type Props = {
   isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  // setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpen: (value: boolean) => void;
   setIsModalStatistic: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
