@@ -41,13 +41,31 @@ import { timer, settings, optionsOutline } from "ionicons/icons";
 import Tracks from "./pages/TracksPage/Tracks";
 import { useGetData } from "./shared/hooks/useGetData";
 import { useWatcher } from "./shared/hooks/useWatcher";
+import { NativeAudio } from "@capacitor-community/native-audio";
+import { useEffect } from "react";
 
 setupIonicReact();
 
 const App: React.FC = () => {
-  ////get data from DB and write to FS and Zustand Storage/////
-  useGetData();
+  // use for stopping and resuming timer and video when user switches in App
   const { setOnBlur, setOnFocus } = useWatcher();
+
+  // get data from DB and write to FS and Zustand Storage
+  useGetData();
+
+  // use for audio message
+  useEffect(() => {
+    preloadAudio();
+  }, []);
+
+  const preloadAudio = async () => {
+    NativeAudio.preload({
+      assetId: "countdown",
+      assetPath: "countdown.mp3",
+      audioChannelNum: 1,
+      isUrl: false,
+    });
+  };
 
   const { rehydrated } = useCombineStates();
   return (

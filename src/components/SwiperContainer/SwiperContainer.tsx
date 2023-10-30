@@ -72,21 +72,12 @@ const ImageContainer: React.FC = () => {
 
   useEffect(() => {
     setupListener();
-    preloadAudio();
   }, []);
 
   useEffect(() => {
     if (timerMode === "rest") {
-      swiperRef?.current?.slideNext();
+      swiper?.slideNext();
     }
-    // if (timerMode === "training") {
-    //   setTimeout(() => {
-    //     setDisabledGO(true);
-    //   });
-    //   setTimeout(() => {
-    //     setDisabledGO(false);
-    //   }, 3000);
-    // }
   }, [timerMode]);
 
   //  Use when App reloads unexpectedly
@@ -102,15 +93,6 @@ const ImageContainer: React.FC = () => {
   const { setOnBlur, setOnFocus } = useWatcher();
 
   // use for audio message
-  const preloadAudio = async () => {
-    NativeAudio.preload({
-      assetId: "countdown",
-      assetPath: "countdown.mp3",
-      audioChannelNum: 1,
-      isUrl: false,
-    });
-  };
-
   const playAudio = async () => {
     await NativeAudio.play({
       assetId: "countdown",
@@ -143,7 +125,7 @@ const ImageContainer: React.FC = () => {
   const slicedUserTraining = [...userTraining].slice(0, Object.keys(groupedByDoneCategory).length);
 
   // ref for activation next slide
-  const swiperRef = useRef<ISwiper>();
+  const [swiper, setSwiper] = useState<ISwiper>();
 
   // use platform if we want to disabled buttons in Swiper for device
   const platform = Capacitor.getPlatform();
@@ -167,11 +149,12 @@ const ImageContainer: React.FC = () => {
     setIsNotification(true);
     setIsModalStatistic(false);
     setExercisesAfterTraining();
-    swiperRef.current?.slideTo(0, 1000);
+    swiper?.slideTo(0, 1000);
     setStartWorkout(false);
     setDisabledNavigationButtons(true);
   };
 
+  console.log("swiper", swiper);
   console.log("counterDoneExercises", counterDoneExercises);
   console.log("userTraining: ", userTraining);
   console.log("passedExercises: ", passedExercises);
@@ -193,7 +176,6 @@ const ImageContainer: React.FC = () => {
             className="swiper__btn_settings"
             onClick={() => {
               setOnBlur(setIsOpenModalSettings);
-              // playAudio();
             }}
           >
             <IonIcon slot="icon-only" icon={optionsOutline}></IonIcon>
@@ -210,7 +192,7 @@ const ImageContainer: React.FC = () => {
             <div className="swiper__container">
               <SwiperInfoButton setOnBlur={setOnBlur} setIsOpen={setIsOpenModalExercise} />
               <TimersForTraining
-                swiper={swiperRef.current as ISwiper}
+                swiper={swiper as ISwiper}
                 playAudio={playAudio}
                 setPlayStatus={setPlayStatus}
                 setDisabledGO={setDisabledGO}
@@ -232,9 +214,11 @@ const ImageContainer: React.FC = () => {
                 touchRatio={0}
                 speed={1200}
                 onSwiper={(swiper) => {
-                  swiperRef.current = swiper;
+                  setSwiper(swiper);
+                  console.log("onSwiper", swiper);
                 }}
                 onRealIndexChange={(swiper) => {
+                  console.log("onRealIndexChange", swiper);
                   setSwiperTrackIndex(swiper.realIndex);
                 }}
               >
@@ -247,7 +231,7 @@ const ImageContainer: React.FC = () => {
                 ))}
                 {activeCategoryLength > 1 && disabledNavigationButtons ? (
                   <SwiperNavigationButtons
-                    swiper={swiperRef.current as ISwiper}
+                    swiper={swiper as ISwiper}
                     swiperTrackIndex={swiperTrackIndex}
                     activeCategoryLength={activeCategoryLength}
                   />
@@ -265,12 +249,12 @@ const ImageContainer: React.FC = () => {
         </div>
       )}
 
-      <SwiperUserButtons swiper={swiperRef.current as ISwiper} setIsOpenSwiperAlert={setIsOpenSwiperAlert} />
+      <SwiperUserButtons swiper={swiper as ISwiper} setIsOpenSwiperAlert={setIsOpenSwiperAlert} />
       <IonButton
         expand="full"
         onClick={() => {
           setExercisesAfterTraining();
-          swiperRef.current?.slideTo(0, 1000);
+          swiper?.slideTo(0, 1000);
         }}
       >
         TEST
