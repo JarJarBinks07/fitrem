@@ -8,17 +8,19 @@ import _ from "lodash";
 interface IProps {
   swiper: ISwiper;
   setIsOpenSwiperAlert: React.Dispatch<React.SetStateAction<boolean>>;
+  setSettings: (interval: number, mode: "preparation" | "training" | "rest", status: boolean) => void;
 }
 
-const SwiperUserButtons: React.FC<IProps> = ({ swiper, setIsOpenSwiperAlert }) => {
+const SwiperUserButtons: React.FC<IProps> = ({ swiper, setIsOpenSwiperAlert, setSettings }) => {
   const {
     preparationTime,
+    timerRestInterval,
+    timerTrainingInterval,
     swiperTrackIndex,
     playStatus,
     startWorkout,
     timerTrainingStatus,
     timeTrainingAfterPause,
-    timerTrainingInterval,
     userTraining,
     passedExercises,
     disabledPlayDoneButtons,
@@ -62,14 +64,6 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, setIsOpenSwiperAlert }) =
     setActiveSkippedButton();
   }, [swiperTrackIndex, userTraining?.length, passedExercises?.length]);
 
-  ////////////////////////////////////////////
-
-  const pauseButtonHandler = () => {
-    setTimerTrainingStatus("pause");
-    setTimeTrainingAfterPause();
-    setPlayStatus(false);
-  };
-
   const playButtonHandler = () => {
     if (timeTrainingAfterPause) {
       setTimeTrainingDuration(timeTrainingAfterPause);
@@ -79,6 +73,12 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, setIsOpenSwiperAlert }) =
     }
     setTimerTrainingStatus("start");
     setPlayStatus(true);
+  };
+
+  const pauseButtonHandler = () => {
+    setTimerTrainingStatus("pause");
+    setTimeTrainingAfterPause();
+    setPlayStatus(false);
   };
 
   return (
@@ -100,8 +100,7 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, setIsOpenSwiperAlert }) =
                     setDisabledNavigationButtons(false);
                     setDisabledPlayDoneButtons();
                     setTimerTrainingStatus("start");
-                    setTimerMode("preparation");
-                    setTimeTrainingDuration(preparationTime * 1000);
+                    setSettings(preparationTime, "preparation", false);
                   }}
                 >
                   <div className="ion-text-uppercase">Start Workout</div>
@@ -116,7 +115,6 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, setIsOpenSwiperAlert }) =
                   onClick={() => {
                     unsetWhenDone();
                     setSkippedExercise(swiperTrackIndex);
-                    // setPassedExercises(swiperTrackIndex, "skipped");
                   }}
                 >
                   <IonIcon className="swiper__bar_icon" slot="end" icon={reloadCircleOutline}></IonIcon>
@@ -138,7 +136,6 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, setIsOpenSwiperAlert }) =
                     className="swiper__bar_icon"
                     slot="end"
                     icon={status ? pauseCircleOutline : playCircleOutline}
-                    // icon={playStatus ? pauseOutline : playSharp}
                   ></IonIcon>
                   <div className="ion-text-uppercase">{playStatus ? "pause" : "play"}</div>
                 </IonButton>
@@ -153,21 +150,19 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, setIsOpenSwiperAlert }) =
                       swiper.slideNext();
                     }
                     if (swiperTrackIndex === counterActiveTracks - 1) {
-                      setTimerTrainingStatus("pause");
-                      setPlayStatus(false);
-                      setTimerMode("training");
-                      // setSettings(workIntervalForTraining, "training", false);
+                      setSettings(timerTrainingInterval, "training", false);
                       setIsOpenSwiperAlert(true);
                       setDoneExercise(swiperTrackIndex);
                       unsetWhenDone();
+                      setTimerTrainingStatus("pause");
                       return;
                     }
-                    setPlayStatus(false);
-                    unsetWhenDone();
-                    setTimerMode("rest");
+
+                    setSettings(timerRestInterval, "rest", false);
                     setDisabledPlayDoneButtons();
                     setTimerTrainingStatus("start");
                     setDoneExercise(swiperTrackIndex);
+                    unsetWhenDone();
                   }}
                 >
                   <IonIcon className="swiper__bar_icon" slot="end" icon={checkmarkCircleOutline}></IonIcon>

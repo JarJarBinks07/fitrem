@@ -127,11 +127,6 @@ const TimerPage: React.FC = () => {
           ) : (
             <SwiperContainer />
           )}
-          {doneExercisesDuringSession.length
-            ? doneExercisesDuringSession.map((e) => (
-                <ListDoneExercises key={e.id} category={e.category} exercise={e.exercise} path={e.image_path} />
-              ))
-            : null}
         </IonContent>
       </IonPage>
     </>

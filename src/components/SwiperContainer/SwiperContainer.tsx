@@ -67,6 +67,8 @@ const ImageContainer: React.FC = () => {
     setExercisesAfterTraining,
     setIsNotification,
     setDisabledNavigationButtons,
+    setTimeTrainingDuration,
+    setTimerMode,
     unsetWhenDone,
   } = useCombineStates();
 
@@ -91,6 +93,13 @@ const ImageContainer: React.FC = () => {
 
   // use for stopping and resuming timer and video when user switches in App
   const { setOnBlur, setOnFocus } = useWatcher();
+
+  // use in TimersForTraining and SwiperUserButtons
+  const setSettings = (interval: number, mode: "preparation" | "training" | "rest", status: boolean) => {
+    setTimeTrainingDuration(interval * 1000);
+    setTimerMode(mode);
+    setPlayStatus(status);
+  };
 
   // use for audio message
   const playAudio = async () => {
@@ -196,6 +205,7 @@ const ImageContainer: React.FC = () => {
                 playAudio={playAudio}
                 setPlayStatus={setPlayStatus}
                 setDisabledGO={setDisabledGO}
+                setSettings={setSettings}
                 setIsOpenSwiperAlert={setIsOpenSwiperAlert}
               />
               {timerMode === "training" && disabledGO ? <div className="swiper__message">GO</div> : null}
@@ -249,11 +259,12 @@ const ImageContainer: React.FC = () => {
         </div>
       )}
 
-      <SwiperUserButtons swiper={swiper as ISwiper} setIsOpenSwiperAlert={setIsOpenSwiperAlert} />
+      <SwiperUserButtons swiper={swiper as ISwiper} setIsOpenSwiperAlert={setIsOpenSwiperAlert} setSettings={setSettings} />
       <IonButton
         expand="full"
         onClick={() => {
           setExercisesAfterTraining();
+
           swiper?.slideTo(0, 1000);
         }}
       >

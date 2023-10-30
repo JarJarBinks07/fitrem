@@ -1,10 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import ISwiper from "swiper";
 import TimerFace from "../../../../pages/TimerPage/components/TimerFace";
 import { useCombineStates } from "../../../../store/useCombineStates";
+import _ from "lodash";
 
 import "./TimersForTraining.css";
-import _ from "lodash";
 
 interface IProps {
   swiper: ISwiper;
@@ -12,9 +12,17 @@ interface IProps {
   setPlayStatus: (value: boolean) => void;
   setIsOpenSwiperAlert: React.Dispatch<React.SetStateAction<boolean>>;
   setDisabledGO: React.Dispatch<React.SetStateAction<boolean>>;
+  setSettings: (interval: number, mode: "preparation" | "training" | "rest", status: boolean) => void;
 }
 
-const TimersForTraining: React.FC<IProps> = ({ swiper, playAudio, setPlayStatus, setIsOpenSwiperAlert, setDisabledGO }) => {
+const TimersForTraining: React.FC<IProps> = ({
+  swiper,
+  playAudio,
+  setPlayStatus,
+  setIsOpenSwiperAlert,
+  setDisabledGO,
+  setSettings,
+}) => {
   const {
     timerTrainingKey: timerKeyForTraining,
     preparationTime,
@@ -35,11 +43,6 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, playAudio, setPlayStatus,
   } = useCombineStates();
 
   const counterActiveTracks = Object.keys(_.groupBy(userTraining, "category")).length;
-  const setSettings = (interval: number, mode: "preparation" | "training" | "rest", status: boolean) => {
-    setTimeTrainingDuration(interval * 1000);
-    setTimerMode(mode);
-    setPlayStatus(status);
-  };
 
   const setGo = () => {
     setTimeout(() => {
@@ -87,7 +90,6 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, playAudio, setPlayStatus,
           timerDuration={timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()}
           timerActive={timerStatusForTraining === "start"}
           timerMode={timerMode}
-          // unsetTimer={unsetTrainingTimer}
           size={65}
           strokeWidth={4}
           colors={["#ffc409", "#ffc409"]}
@@ -104,7 +106,6 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, playAudio, setPlayStatus,
           timerDuration={timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()}
           timerActive={timerStatusForTraining === "start"}
           timerMode={timerMode}
-          // unsetTimer={unsetTrainingTimer}
           size={65}
           strokeWidth={4}
           colors={["#eb445a", "#eb445a"]}
@@ -127,7 +128,6 @@ const TimersForTraining: React.FC<IProps> = ({ swiper, playAudio, setPlayStatus,
           colorsTime={[15, 10]}
           timerFor={"exercise"}
           swiper={swiper}
-          // unsetTimer={unsetTrainingTimer}
           onCompleteSession={onCompleteSession}
         />
       )}
