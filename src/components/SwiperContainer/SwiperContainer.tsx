@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Capacitor } from "@capacitor/core";
-import { App } from "@capacitor/app";
 import { IonButton, IonIcon, IonImg } from "@ionic/react";
 import { optionsOutline } from "ionicons/icons";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -72,10 +71,7 @@ const ImageContainer: React.FC = () => {
     unsetWhenDone,
   } = useCombineStates();
 
-  useEffect(() => {
-    setupListener();
-  }, []);
-
+  //use for auto swiping when exercise was done
   useEffect(() => {
     if (timerMode === "rest") {
       swiper?.slideNext();
@@ -108,24 +104,6 @@ const ImageContainer: React.FC = () => {
     });
   };
 
-  // use when App goes to background and comes back to foreground
-  const setupListener = async () => {
-    App.addListener("appStateChange", ({ isActive }) => {
-      if (!isActive) {
-        console.log("CLOSEEEE", timerMode);
-        setPlayStatus(false);
-        setPlayerId();
-        setTimerTrainingStatus("pause");
-      } else {
-        const timerMode = useCombineStates.getState().timerMode;
-        console.log("OPENNNNN", timerMode);
-        if (timerMode !== "training") {
-          setTimerTrainingStatus("start");
-        }
-      }
-    });
-  };
-
   // use for disabling navigation
   const groupedByDoneCategory = _.groupBy([...userTraining], "category");
   const activeCategoryLength = Object.keys(groupedByDoneCategory).length;
@@ -145,6 +123,7 @@ const ImageContainer: React.FC = () => {
   const [isOpenModalSettings, setIsOpenModalSettings] = useState(false);
   const [isModalStatistic, setIsModalStatistic] = useState(false);
   const [isOpenSwiperAlert, setIsOpenSwiperAlert] = useState(false);
+
   // use for applying changes in Modal Settings
   const onSaveSettingsHandler = (notificationValue: number, trainingValue: number, restValue: number) => {
     setTimerNotificationInterval(notificationValue);
@@ -153,6 +132,7 @@ const ImageContainer: React.FC = () => {
     unsetWhenDone();
     setOnFocus(setIsOpenModalSettings);
   };
+
   // use when training was passed
   const onCompleteAfterTraining = () => {
     setIsNotification(true);

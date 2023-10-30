@@ -47,7 +47,7 @@ const TimersForTraining: React.FC<IProps> = ({
   const setGo = () => {
     setTimeout(() => {
       setDisabledGO(true);
-    });
+    }, 500);
     setTimeout(() => {
       setDisabledGO(false);
     }, 3000);

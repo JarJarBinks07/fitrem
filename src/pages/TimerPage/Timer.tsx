@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import _ from "lodash";
 import "./Timer.css";
 import {
@@ -25,9 +25,11 @@ import SwiperContainer from "../../components/SwiperContainer/SwiperContainer";
 import { personCircle } from "ionicons/icons";
 import ProfileMenu from "../../components/Menu/ProfileMenu";
 import { useWatcher } from "../../shared/hooks/useWatcher";
+import { App } from "@capacitor/app";
 
 const TimerPage: React.FC = () => {
   const {
+    timerMode,
     isNotification,
     timerNotificationInterval,
     timerNotificationStatus,
@@ -39,11 +41,45 @@ const TimerPage: React.FC = () => {
     setTimeNotificationAfterPause,
     setIsNotification,
     unsetNotificationTimer,
+    setPlayStatus,
+    setPlayerId,
+    setTimerTrainingStatus,
   } = useCombineStates();
 
   // use for stopping and resuming timer and video when user switches in App
   const { setOnBlur } = useWatcher();
 
+  // use when App goes to background and comes back to foreground
+  useEffect(() => {
+    if (!isNotification) {
+      setupListener();
+    } else {
+      removeListener();
+    }
+  }, []);
+
+  const setupListener = async () => {
+    App.addListener("appStateChange", ({ isActive }) => {
+      if (!isActive) {
+        console.log("CLOSEEEE", timerMode);
+        setPlayStatus(false);
+        setPlayerId();
+        setTimerTrainingStatus("pause");
+      } else {
+        const timerMode = useCombineStates.getState().timerMode;
+        console.log("OPENNNNN", timerMode);
+        if (timerMode !== "training") {
+          setTimerTrainingStatus("start");
+        }
+      }
+    });
+  };
+
+  // use for removing listener when Timer for Notification works
+  const removeListener = async () => {
+    await App.removeAllListeners();
+  };
+  //
   const pauseButtonHandler = () => {
     setTimerNotificationStatus("pause");
     setTimeNotificationAfterPause();
