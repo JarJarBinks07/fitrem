@@ -32,12 +32,14 @@ export class CustomSqliteStorage implements StateStorage {
   async setItem(name: string, value: string): Promise<void> {
     try {
       const res = await getAppStateRepository();
+      console.log("Before Error, getAppStateRepository find");
       await res?.upsert(
         {
           id: name,
           store: value,
         },
-        { conflictPaths: ["id"], skipUpdateIfNoValuesChanged: true }
+        // { conflictPaths: ["id"], skipUpdateIfNoValuesChanged: true }
+        { conflictPaths: ["id"] }
       );
       console.log("***SET_ITEM: ", await res?.find({}));
     } catch (error) {
