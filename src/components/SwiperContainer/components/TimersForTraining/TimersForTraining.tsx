@@ -85,50 +85,44 @@ const TimersForTraining: React.FC<IProps> = ({
     <div className="swiper__timer">
       {timerMode === "preparation" && (
         <TimerFace
-          timerKey={timerKeyForTraining}
-          timerInterval={preparationTime}
-          timerDuration={timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()}
-          timerActive={timerStatusForTraining === "start"}
-          timerMode={timerMode}
           size={65}
           strokeWidth={4}
           colors={["#ffc409", "#ffc409"]}
           colorsTime={[15, 10]}
           timerFor={"exercise"}
-          swiper={swiper}
-          onCompleteSession={onCompleteSession}
+          timerKey={timerKeyForTraining}
+          timerInterval={preparationTime}
+          timerDuration={timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()}
+          timerActive={timerStatusForTraining === "start"}
+          onComplete={onCompleteSession}
         />
       )}
       {timerMode === "training" && (
         <TimerFace
-          timerKey={timerKeyForTraining}
-          timerInterval={workIntervalForTraining}
-          timerDuration={timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()}
-          timerActive={timerStatusForTraining === "start"}
-          timerMode={timerMode}
           size={65}
           strokeWidth={4}
           colors={["#eb445a", "#eb445a"]}
           colorsTime={[15, 10]}
           timerFor={"exercise"}
-          swiper={swiper}
-          onCompleteSession={onCompleteSession}
+          timerKey={timerKeyForTraining}
+          timerInterval={workIntervalForTraining}
+          timerDuration={timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()}
+          timerActive={timerStatusForTraining === "start"}
+          onComplete={onCompleteSession}
         />
       )}
       {timerMode === "rest" && (
         <TimerFace
-          timerKey={timerKeyForTraining}
-          timerInterval={restIntervalForTraining}
-          timerDuration={timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()}
-          timerActive={timerStatusForTraining === "start"}
-          timerMode={timerMode}
           size={65}
           strokeWidth={4}
           colors={["#2fc22d", "#2dc275"]}
           colorsTime={[15, 10]}
           timerFor={"exercise"}
-          swiper={swiper}
-          onCompleteSession={onCompleteSession}
+          timerKey={timerKeyForTraining}
+          timerInterval={restIntervalForTraining}
+          timerDuration={timeAfterPauseForTraining ? timeAfterPauseForTraining : timerDurationForTraining - Date.now()}
+          timerActive={timerStatusForTraining === "start"}
+          onComplete={onCompleteSession}
         />
       )}
     </div>

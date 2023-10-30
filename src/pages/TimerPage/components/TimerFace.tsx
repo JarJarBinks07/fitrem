@@ -2,17 +2,14 @@ import React from "react";
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 import { Duration } from "luxon";
 import "./TimerFace.css";
-import ISwiper from "swiper";
 import _ from "lodash";
 
 interface IProps {
-  swiper: ISwiper;
   timerKey: number;
   timerInterval: number;
   timerDuration: number;
   timerActive: boolean;
   timerFor: "exercise" | "notification";
-  timerMode: "preparation" | "training" | "rest";
   size: number;
   strokeWidth: number;
   colors: {
@@ -27,11 +24,10 @@ interface IProps {
   } & number[];
 
   // unsetTimer: () => void;
-  onCompleteSession: () => void;
+  onComplete: () => void;
 }
 
 const TimerFace: React.FC<IProps> = ({
-  swiper,
   timerInterval,
   timerKey,
   timerDuration,
@@ -41,15 +37,9 @@ const TimerFace: React.FC<IProps> = ({
   timerFor,
   colors,
   colorsTime,
-  // unsetTimer,
-  onCompleteSession,
+  onComplete,
 }) => {
-  // const onComplete = () => {
-  //   unsetTimer();
-  //   onCompleteSession();
-  // };
-
-  /////for different timers/////
+  // use for different timers
   let fromMinuteToSeconds = timerFor === "exercise" ? 1 : 60;
   const timeLeft = timerDuration > 0 ? timerDuration / 1000 : timerInterval * fromMinuteToSeconds;
 
@@ -95,7 +85,7 @@ const TimerFace: React.FC<IProps> = ({
       rotation="clockwise"
       duration={timerInterval * fromMinuteToSeconds}
       initialRemainingTime={timeLeft > 0 ? timeLeft : timerInterval * fromMinuteToSeconds}
-      onComplete={onCompleteSession}
+      onComplete={onComplete}
     >
       {({ remainingTime }) => renderTime(remainingTime, timerActive)}
     </CountdownCircleTimer>

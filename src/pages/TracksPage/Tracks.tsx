@@ -21,13 +21,12 @@ import {
   IonToolbar,
 } from "@ionic/react";
 
-import { chevronForwardOutline, create, personCircle } from "ionicons/icons";
+import { chevronForwardOutline, personCircle } from "ionicons/icons";
 import ProfileMenu from "../../components/Menu/ProfileMenu";
 import ModalWindowTracks from "../../components/ModalWindows/ModalWindowTacks/ModalWindowTracks";
 import { useCombineStates } from "../../store/useCombineStates";
 
 import "./Tracks.css";
-import { ITrack } from "../../store/TracksState";
 
 const Tracks: React.FC = () => {
   const {
@@ -40,17 +39,15 @@ const Tracks: React.FC = () => {
     unsetWhenDone,
   } = useCombineStates();
 
-  //////////////ModalWindow/////////////
+  // ModalWindow
   const [isOpen, setIsOpen] = useState(false);
   const [currentCategory, setCurrentCategory] = useState("");
   const handlerCategory = (value: string) => {
     setIsOpen(true);
     setCurrentCategory(value);
   };
-  // console.log(isOpen);
-  // const [replacedTracks, setReplacedTracks] = useState<string[]>(["Biceps", "Jumps", "Steps"]);
 
-  ///////////Change order tracks///////////
+  // Change order tracks
   function handleReorder(event: CustomEvent<ItemReorderEventDetail>) {
     const newArrOfTracks = [...allTracks];
     const [removedTrackFrom] = newArrOfTracks.splice(event.detail.from, 1);

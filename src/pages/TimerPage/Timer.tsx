@@ -87,22 +87,22 @@ const TimerPage: React.FC = () => {
         </IonHeader>
         <IonContent>
           {isNotification ? (
-            // counterActiveTracks === counterDoneExercises
             <IonGrid>
               <IonRow>
                 <IonCol className="timer-page__content">
                   <TimerFace
+                    size={280}
+                    strokeWidth={22}
+                    colors={["#ffc409", "#F7B801", "#A30000", "#A30000"]}
+                    colorsTime={[7, 5, 2, 0]}
+                    timerFor={"notification"}
                     timerKey={timerNotificationKey}
                     timerInterval={timerNotificationInterval}
                     timerDuration={
                       timeNotificationAfterPause ? timeNotificationAfterPause : timeNotificationDuration - Date.now()
                     }
                     timerActive={timerNotificationStatus === "running"}
-                    unsetTimer={unsetNotificationTimer}
-                    size={280}
-                    strokeWidth={22}
-                    colors={["#ffc409", "#F7B801", "#A30000", "#A30000"]}
-                    colorsTime={[7, 5, 2, 0]}
+                    onComplete={unsetNotificationTimer}
                   />
                 </IonCol>
               </IonRow>
