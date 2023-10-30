@@ -205,7 +205,6 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
           doneExercisesDuringSession: [...state.doneExercisesDuringSession, _currentExercise],
           passedExercises: [...state.passedExercises, _currentExercise],
           savedInHistoryDoneExercises: [...state.savedInHistoryDoneExercises, setUpdatedStatus],
-          counterDoneExercises: ++state.counterDoneExercises,
         };
       },
       false,

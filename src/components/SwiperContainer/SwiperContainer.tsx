@@ -38,7 +38,6 @@ interface IVideo {
 
 const ImageContainer: React.FC = () => {
   const {
-    counterDoneExercises,
     timeTrainingDuration,
     timeTrainingAfterPause,
     timerTrainingStatus,
@@ -69,6 +68,7 @@ const ImageContainer: React.FC = () => {
     setTimeTrainingDuration,
     setTimerMode,
     unsetWhenDone,
+    unsetNotificationTimer,
   } = useCombineStates();
 
   //use for auto swiping when exercise was done
@@ -129,8 +129,9 @@ const ImageContainer: React.FC = () => {
     setTimerNotificationInterval(notificationValue);
     setTimerTrainingInterval(trainingValue);
     setTimerRestInterval(restValue);
-    unsetWhenDone();
     setOnFocus(setIsOpenModalSettings);
+    unsetWhenDone();
+    unsetNotificationTimer();
   };
 
   // use when training was passed
@@ -141,10 +142,10 @@ const ImageContainer: React.FC = () => {
     swiper?.slideTo(0, 1000);
     setStartWorkout(false);
     setDisabledNavigationButtons(true);
+    unsetNotificationTimer();
   };
 
   console.log("swiper", swiper);
-  console.log("counterDoneExercises", counterDoneExercises);
   console.log("userTraining: ", userTraining);
   console.log("passedExercises: ", passedExercises);
   console.log("doneExercisesDuringSession: ", doneExercisesDuringSession);

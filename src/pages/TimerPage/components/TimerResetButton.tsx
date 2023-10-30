@@ -1,7 +1,6 @@
 import React from "react";
 import { IonButton, IonIcon } from "@ionic/react";
-import { playForward, playForwardOutline, syncOutline } from "ionicons/icons";
-import { useCombineStates } from "../../../store/useCombineStates";
+import { playForward,} from "ionicons/icons";
 
 interface IProps {
   timerStatus: "idle" | "running" | "pause";
