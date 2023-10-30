@@ -26,6 +26,7 @@ interface IProps {
   category: string;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  unsetWhenDone: () => void;
 }
 
 interface IVideo {
@@ -39,7 +40,8 @@ interface IVideo {
 }
 
 function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
-  const { allExercises, selectedExercisesByID, setSelectedExercisesByID, generateUserTraining } = useCombineStates();
+  const { allExercises, selectedExercisesByID, setSelectedExercisesByID, generateUserTraining, unsetWhenDone } =
+    useCombineStates();
 
   const [openNewWindow, setOpenNewWindow] = useState(false);
   const [exerciseID, setExerciseID] = useState<number | null>(null);
@@ -89,6 +91,7 @@ function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
                   checked={selectedExercisesByID.includes(item.id)}
                   onIonChange={() => {
                     setSelectedExercisesByID(item.id);
+                    unsetWhenDone();
                     generateUserTraining();
                   }}
                 ></IonToggle>

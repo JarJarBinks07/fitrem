@@ -9,7 +9,7 @@ interface IProps {
   description: string;
   isOpen: boolean;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setOnFocus: (setOpen: (value: boolean) => void) => void;
+  setOnFocus?: (setOpen: (value: boolean) => void) => void;
 }
 
 function ModalWindowExercise({ path, description, isOpen, setIsOpen, setOnFocus }: IProps) {
@@ -22,7 +22,7 @@ function ModalWindowExercise({ path, description, isOpen, setIsOpen, setOnFocus 
             <IonButton
               className="modal__btn"
               onClick={() => {
-                setOnFocus(setIsOpen);
+                setOnFocus && setIsOpen;
               }}
             >
               Close

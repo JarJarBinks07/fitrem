@@ -164,12 +164,14 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
     set(
       (state) => {
         const _userTraining = [...state.userTraining];
+        const _passedExercises = [...state.passedExercises];
+        const combineExercises = _userTraining.concat(_passedExercises);
         const _activeTracks = [...state.selectedCategoryTracks];
         const _currentCategory = _userTraining[value].category;
         const _groupedByTrainingCategory = _.groupBy(_userTraining, "category");
 
         //check if user selected only one exercise from active track
-        if (_userTraining.length === Object.keys(_groupedByTrainingCategory).length) return state;
+        if (combineExercises.length === Object.keys(_groupedByTrainingCategory).length) return state;
 
         //if user selected more than one exercise from track
         const [replacedCurrentExercise] = _groupedByTrainingCategory[_currentCategory].splice(0, 1);

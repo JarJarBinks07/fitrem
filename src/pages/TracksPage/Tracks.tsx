@@ -37,6 +37,7 @@ const Tracks: React.FC = () => {
     allTracks,
     generateUserTraining,
     setOrderTracks,
+    unsetWhenDone,
   } = useCombineStates();
 
   //////////////ModalWindow/////////////
@@ -58,6 +59,7 @@ const Tracks: React.FC = () => {
     setOrderTracks(newArrOfTracks);
     setReorderedSelectedCategoryTracks();
     generateUserTraining();
+    unsetWhenDone();
     event.detail.complete();
   }
 
@@ -88,6 +90,7 @@ const Tracks: React.FC = () => {
                     checked={selectedCategoryTracks.includes(item.category)}
                     onIonChange={() => {
                       setSelectedCategoryTracks(item.category);
+                      unsetWhenDone();
                       generateUserTraining();
                     }}
                   />
@@ -117,7 +120,7 @@ const Tracks: React.FC = () => {
             </IonReorderGroup>
           </IonGrid>
         </IonContent>
-        <ModalWindowTracks isOpen={isOpen} setIsOpen={setIsOpen} category={currentCategory} />
+        <ModalWindowTracks isOpen={isOpen} setIsOpen={setIsOpen} category={currentCategory} unsetWhenDone={unsetWhenDone} />
       </IonPage>
     </>
   );
