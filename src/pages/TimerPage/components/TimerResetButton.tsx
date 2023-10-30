@@ -9,7 +9,6 @@ interface IProps {
 }
 
 const TimerResetButton: React.FC<IProps> = ({ timerStatus, unsetTimer }) => {
-  const { setCounter } = useCombineStates();
   return (
     <IonButton
       color="success"
@@ -17,7 +16,6 @@ const TimerResetButton: React.FC<IProps> = ({ timerStatus, unsetTimer }) => {
       disabled={timerStatus === "running"}
       onClick={() => {
         unsetTimer();
-        setCounter();
       }}
     >
       <IonIcon icon={playForward} size="large" />

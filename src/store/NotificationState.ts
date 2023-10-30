@@ -21,24 +21,26 @@ export const createNotificationState: MyStateCreator<INotification> = (set) => (
   setIsNotification: (value) => set(() => ({ isNotification: value }), false, "setNotificationStatus"),
 
   timerNotificationInterval: 25,
-  setTimerNotificationInterval: (value) => set(() => ({ timerNotificationInterval: value }), false, "setTimerInterval"),
+  setTimerNotificationInterval: (value) =>
+    set(() => ({ timerNotificationInterval: value }), false, "setTimerNotificationInterval"),
 
   timerNotificationStatus: "idle",
-  setTimerNotificationStatus: (value) => set(() => ({ timerNotificationStatus: value }), false, "setTimerStatus"),
+  setTimerNotificationStatus: (value) =>
+    set(() => ({ timerNotificationStatus: value }), false, "setTimerNotificationStatus"),
 
   timerNotificationKey: Date.now(),
-  setTimerNotificationKey: () => set(() => ({ timerNotificationKey: Date.now() }), false, "setTimerKey"),
+  setTimerNotificationKey: () => set(() => ({ timerNotificationKey: Date.now() }), false, "setTimerNotificationKey"),
 
   timeNotificationDuration: 0,
   setTimeNotificationDuration: (value) =>
-    set(() => ({ timeNotificationDuration: Date.now() + value }), false, "setTimerDuration"),
+    set(() => ({ timeNotificationDuration: Date.now() + value }), false, "setTimeNotificationDuration"),
 
   timeNotificationAfterPause: 0,
   setTimeNotificationAfterPause: () =>
     set(
       (state) => ({ timeNotificationAfterPause: state.timeNotificationDuration - Date.now() }),
       false,
-      "setTimeAfterPause"
+      "setTimeNotificationAfterPause"
     ),
 
   unsetNotificationTimer: () =>
@@ -50,6 +52,6 @@ export const createNotificationState: MyStateCreator<INotification> = (set) => (
         timerPausedTime: 0,
       }),
       false,
-      "unsetTimer"
+      "unsetNotificationTimer"
     ),
 });

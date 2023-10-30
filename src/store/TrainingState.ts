@@ -38,7 +38,7 @@ export const createTrainingState: MyStateCreator<ITraining> = (set) => ({
   setSwiperTrackIndex: (value) => set(() => ({ swiperTrackIndex: value }), false, "setSwiperTrackIndex"),
 
   startWorkout: false,
-  setStartWorkout: (value) => set((state) => ({ startWorkout: value }), false, "setWorkout"),
+  setStartWorkout: (value) => set((state) => ({ startWorkout: value }), false, "setStartWorkout"),
 
   playStatus: false,
   setPlayStatus: (value) => set(() => ({ playStatus: value }), false, "setPlayStatus"),
@@ -49,42 +49,38 @@ export const createTrainingState: MyStateCreator<ITraining> = (set) => ({
   preparationTime: 10,
 
   timerTrainingInterval: 45,
-  setTimerTrainingInterval: (value) => set(() => ({ timerTrainingInterval: value }), false, "setWorkIntervalForTraining"),
+  setTimerTrainingInterval: (value) => set(() => ({ timerTrainingInterval: value }), false, "setTimerTrainingInterval"),
 
   timerRestInterval: 30,
-  setTimerRestInterval: (value) => set(() => ({ timerRestInterval: value }), false, "setRestIntervalForTraining"),
+  setTimerRestInterval: (value) => set(() => ({ timerRestInterval: value }), false, "setTimerRestInterval"),
 
   timerTrainingStatus: "pause",
-  setTimerTrainingStatus: (value) => set(() => ({ timerTrainingStatus: value }), false, "setTimerStatusForTraining"),
+  setTimerTrainingStatus: (value) => set(() => ({ timerTrainingStatus: value }), false, "setTimerTrainingStatus"),
 
   timerMode: "training",
   setTimerMode: (value) => set(() => ({ timerMode: value }), false, "setTimerMode"),
 
   timerTrainingKey: Date.now(),
-  setTimerTrainingKey: () => set(() => ({ timerTrainingKey: Date.now() }), false, "setTimerKeyForTraining"),
+  setTimerTrainingKey: () => set(() => ({ timerTrainingKey: Date.now() }), false, "setTimerTrainingKey"),
 
   timeTrainingDuration: 0,
   setTimeTrainingDuration: (value) =>
-    set(() => ({ timeTrainingDuration: Date.now() + value }), false, "setTimerDurationForTraining"),
+    set(() => ({ timeTrainingDuration: Date.now() + value }), false, "setTimeTrainingDuration"),
 
   timeTrainingAfterPause: 0,
   setTimeTrainingAfterPause: () =>
     set(
       (state) => ({ timeTrainingAfterPause: state.timeTrainingDuration - Date.now() }),
       false,
-      "setTimerAfterPauseForTraining"
+      "setTimeTrainingAfterPause"
     ),
 
   disabledNavigationButtons: true,
   setDisabledNavigationButtons: (value) =>
-    set((state) => ({ disabledNavigationButtons: value }), false, "setDisabledNavButtonsWhenTrainingStarts"),
+    set((state) => ({ disabledNavigationButtons: value }), false, "setDisabledNavigationButtons"),
   disabledPlayDoneButtons: false,
   setDisabledPlayDoneButtons: () =>
-    set(
-      (state) => ({ disabledPlayDoneButtons: !state.disabledPlayDoneButtons }),
-      false,
-      "setDisabledMainButtonsExceptTraining"
-    ),
+    set((state) => ({ disabledPlayDoneButtons: !state.disabledPlayDoneButtons }), false, "setDisabledPlayDoneButtons"),
   unsetTrainingTimer: () =>
     set(
       (state) => ({
