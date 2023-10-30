@@ -49,7 +49,7 @@ export const createNotificationState: MyStateCreator<INotification> = (set) => (
         timerNotificationKey: Date.now(),
         timerNotificationStatus: "idle",
         timeNotificationDuration: 0,
-        timerPausedTime: 0,
+        timeNotificationAfterPause: 0,
       }),
       false,
       "unsetNotificationTimer"
