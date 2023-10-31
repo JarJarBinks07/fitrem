@@ -21,11 +21,11 @@ import "./ModalWindowStatistic.css";
 
 interface IProps {
   isOpen: boolean;
-  doneExercisesDuringSession: IExercise[];
+  passedExercises: IExercise[];
   onComplete: () => void;
 }
 
-const ModalWindowsStatistic: React.FC<IProps> = ({ isOpen, doneExercisesDuringSession, onComplete }) => {
+const ModalWindowsStatistic: React.FC<IProps> = ({ isOpen, passedExercises, onComplete }) => {
   return (
     <IonModal className="modal-statistic" isOpen={isOpen}>
       <IonHeader>
@@ -38,7 +38,7 @@ const ModalWindowsStatistic: React.FC<IProps> = ({ isOpen, doneExercisesDuringSe
       </IonHeader>
       <IonContent>
         <IonGrid className="modal-statistic__grid">
-          {doneExercisesDuringSession.map((e) => (
+          {passedExercises.map((e) => (
             <IonRow key={e.id} className="modal-statistic__row">
               <IonCol className="modal-statistic__col">
                 <CachedImage path={e.image_path}></CachedImage>

@@ -22,7 +22,6 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, counterActiveTracks, setS
     timerTrainingStatus,
     timeTrainingAfterPause,
     userTraining,
-    passedExercises,
     disabledPlayDoneButtons,
     setTimerTrainingStatus,
     setTimeTrainingAfterPause,
@@ -42,25 +41,22 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, counterActiveTracks, setS
     setStatus(playStatus);
   });
 
-  // Buttons are disabled if track and exercise not chosen
+  // buttons are disabled if track and exercise not chosen
   const disabledFromTraining = !Boolean(userTraining.length);
 
-  // Skip button is disabled
-  const [isActiveSkipButton, setIsActiveSkipButton] = useState(false);
-  const setActiveSkippedButton = () => {
+  // SKIP button is disabled
+  const [disabledSkipButton, setDisabledSkipButton] = useState(false);
+  const handlerDisabledSkipButton = () => {
     const currentCategory = userTraining[swiperTrackIndex]?.category;
-    const filteredUserTraining = userTraining.filter((e) => e.category === currentCategory);
-    const filteredDoneExercises = passedExercises.filter((e) => e.category === currentCategory);
-    if (filteredUserTraining?.length === 1 && filteredDoneExercises?.length === 0) {
-      setIsActiveSkipButton(true);
-    } else setIsActiveSkipButton(false);
+    const groupedByTrainingCategory = _.groupBy(userTraining, "category");
+    groupedByTrainingCategory[currentCategory]?.length === 1 ? setDisabledSkipButton(true) : setDisabledSkipButton(false);
   };
 
   useEffect(() => {
-    setActiveSkippedButton();
-  }, [swiperTrackIndex, userTraining?.length, passedExercises?.length]);
+    handlerDisabledSkipButton();
+  }, [swiperTrackIndex, userTraining?.length]);
 
-  //use when user clicks on Play or Pause button
+  //use when user clicks on PLAY or PAUSE button
   const playButtonHandler = () => {
     if (timeTrainingAfterPause) {
       setTimeTrainingDuration(timeTrainingAfterPause);
@@ -109,7 +105,8 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, counterActiveTracks, setS
 
               <IonCol>
                 <IonButton
-                  disabled={disabledFromTraining || isActiveSkipButton}
+                  disabled={disabledFromTraining || disabledSkipButton}
+                  // disabled={disabledSkipButton}
                   className="swiper__bar_btn"
                   expand="block"
                   onClick={() => {

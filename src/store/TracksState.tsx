@@ -27,8 +27,7 @@ export type TrackState = {
   selectedExercisesByID: number[];
   selectedCategoryTracks: string[];
   userTraining: IExercise[];
-  passedExercises: IExercise[];
-  doneExercisesDuringSession: IExercise[];
+  passedExercisesDuringSession: IExercise[];
   savedInHistoryDoneExercises: IExercise[];
   setAllTracks: (value: ITrack[]) => void;
   setOrderTracks: (value: ITrack[]) => void;
@@ -111,7 +110,7 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
   generateUserTraining: () =>
     set(
       (state) => {
-        /////Getting active exercises/////
+        // get active exercises
         const _activeTracks = [...state.selectedCategoryTracks];
         const _activeExercises = [];
         for (const key of state.selectedExercisesByID) {
@@ -120,11 +119,11 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
             _activeExercises.push(...currentActiveExercise);
           }
         }
-        /////Shuffle _activeTracks/////
+        // shuffle _activeTracks
         const newArrOfActiveExercises = [..._activeExercises];
         const shuffledArray = _.shuffle(newArrOfActiveExercises);
 
-        /////Sorting one by one/////
+        // sort one by one//
         const filteredExercises = shuffledArray.filter((e) => _activeTracks.includes(e.category));
         const groupedByCategory = _.groupBy(filteredExercises, "category");
         const result = [] as IExercise[];
@@ -151,27 +150,25 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
       "generateUserTraining"
     ),
 
-  doneExercisesDuringSession: [],
-  passedExercises: [],
+  passedExercisesDuringSession: [],
   savedInHistoryDoneExercises: [],
 
   setSkippedExercise: (value) =>
     set(
       (state) => {
         const _userTraining = [...state.userTraining];
-        const _passedExercises = [...state.passedExercises];
-        const combineExercises = _userTraining.concat(_passedExercises);
         const _activeTracks = [...state.selectedCategoryTracks];
         const _currentCategory = _userTraining[value].category;
         const _groupedByTrainingCategory = _.groupBy(_userTraining, "category");
+        const result = [];
 
         //check if user selected only one exercise from active track
-        if (combineExercises.length === Object.keys(_groupedByTrainingCategory).length) return state;
+        if (_userTraining.length === Object.keys(_groupedByTrainingCategory).length) return state;
 
         //if user selected more than one exercise from track
         const [replacedCurrentExercise] = _groupedByTrainingCategory[_currentCategory].splice(0, 1);
         _groupedByTrainingCategory[_currentCategory].push(replacedCurrentExercise);
-        const result = [] as IExercise[];
+
         let maxLength = 0;
         for (const key of _activeTracks) {
           if (!_groupedByTrainingCategory[key]) {
@@ -202,8 +199,7 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
         if (!_currentExercise) return state;
         const setUpdatedStatus = { ..._currentExercise, status: "done" as "done", date: Date.now() };
         return {
-          doneExercisesDuringSession: [...state.doneExercisesDuringSession, _currentExercise],
-          passedExercises: [...state.passedExercises, _currentExercise],
+          passedExercisesDuringSession: [...state.passedExercisesDuringSession, _currentExercise],
           savedInHistoryDoneExercises: [...state.savedInHistoryDoneExercises, setUpdatedStatus],
         };
       },
@@ -215,35 +211,33 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
     set(
       (state) => {
         const _userTraining = [...state.userTraining];
-        let _passedExercises = [...state.passedExercises];
-        const _groupedByPassedCategory = _.groupBy(_passedExercises, "category");
+        const _groupedByTrainingCategory = _.groupBy(_userTraining, "category");
         const _activeTracks = [...state.selectedCategoryTracks];
+        const result = [];
 
         //check if user selected only one exercise from active track
-        if (_userTraining.length === _passedExercises.length) return { passedExercises: [], doneExercisesDuringSession: [] };
+        if (_userTraining.length === Object.keys(_groupedByTrainingCategory).length) return state;
 
-        //check if unique exercise exists in userTraining
-        const filteredUserExercises = _.differenceBy(_userTraining, _passedExercises, "id");
-        if (filteredUserExercises.length) return { userTraining: filteredUserExercises, doneExercisesDuringSession: [] };
-
-        //check that user used all of valid exercise and then populate from passedExercises
-        if (!filteredUserExercises.length) {
+        //if user selected more than one exercise from track
+        let maxLength = 0;
+        for (const key of _activeTracks) {
+          if (!_groupedByTrainingCategory[key]) {
+            _groupedByTrainingCategory[key] = [];
+          }
+          const [replacedCurrentExercise] = _groupedByTrainingCategory[key].splice(0, 1);
+          _groupedByTrainingCategory[key].push(replacedCurrentExercise);
+          maxLength = Math.max(_groupedByTrainingCategory[key].length, maxLength);
+        }
+        for (let i = 0; i < maxLength; i++) {
           for (const key of _activeTracks) {
-            if (!_groupedByPassedCategory[key]) {
-              _groupedByPassedCategory[key] = [];
-            } else {
-              const [firstFromPassedCategory] = _groupedByPassedCategory[key].splice(0, 1);
-              filteredUserExercises.push(firstFromPassedCategory);
-              _passedExercises = _passedExercises.filter((e) => e.id !== firstFromPassedCategory.id);
+            const currentArray = _groupedByTrainingCategory[key];
+            if (i < currentArray.length) {
+              const currentElement = currentArray[i];
+              result.push(currentElement);
             }
           }
-          return {
-            userTraining: filteredUserExercises,
-            passedExercises: _passedExercises,
-            doneExercisesDuringSession: [],
-          };
         }
-        return state;
+        return { userTraining: result };
       },
       false,
       "setExercisesAfterTraining"

@@ -47,14 +47,13 @@ const ImageContainer: React.FC = () => {
     playStatus,
     playerId,
     userTraining,
-    passedExercises,
+    passedExercisesDuringSession,
     savedInHistoryDoneExercises,
     preloadedImage,
     disabledNavigationButtons,
     timerNotificationInterval,
     timerTrainingInterval,
     timerRestInterval,
-    doneExercisesDuringSession,
     setSwiperTrackIndex,
     setTimerTrainingStatus,
     setPlayStatus,
@@ -163,12 +162,10 @@ const ImageContainer: React.FC = () => {
     setTimerTrainingStatus("start");
   };
 
-  console.log("swiper", swiper);
+  // console.log("swiper", swiper);
   console.log("userTraining: ", userTraining);
-  console.log("passedExercises: ", passedExercises);
-  console.log("doneExercisesDuringSession: ", doneExercisesDuringSession);
+  console.log("passedExercisesDuringSession: ", passedExercisesDuringSession);
   console.log("savedInHistoryDoneExercises: ", savedInHistoryDoneExercises);
-  // // console.log("savedHistorySkippedExercises: ", savedHistorySkippedExercises);
   // console.log("disabledNavigationButtons: ", disabledNavigationButtons);
   // console.log("PlayStatus: ", playStatus);
   // console.log("timerTrainingStatus:", timerTrainingStatus);
@@ -289,7 +286,7 @@ const ImageContainer: React.FC = () => {
       />
       <ModalWindowsStatistic
         isOpen={isModalStatistic}
-        doneExercisesDuringSession={doneExercisesDuringSession}
+        passedExercises={passedExercisesDuringSession}
         onComplete={onCompleteAfterTraining}
       />
       <SwiperAlert
