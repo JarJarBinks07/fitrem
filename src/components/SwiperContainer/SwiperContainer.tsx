@@ -135,13 +135,12 @@ const ImageContainer: React.FC = () => {
 
   // use when training was passed
   const onCompleteAfterTraining = () => {
-    setIsNotification(true);
-    setIsModalStatistic(false);
     swiper?.slideTo(0, 1000);
-    setStartWorkout(false);
+    setIsNotification(true);
+    setStartWorkout(true);
     setDisabledNavigationButtons(true);
     setExercisesAfterTraining();
-    unsetNotificationTimer();
+    setIsModalStatistic(false);
   };
 
   //use after done exercise for reductive logic in TimersForTraining and SwiperUserButtons
@@ -152,8 +151,9 @@ const ImageContainer: React.FC = () => {
       setTimerTrainingStatus("pause");
       setSettings(timerTrainingInterval, "training", false);
       setIsOpenSwiperAlert(true);
-      setDoneExercise(swiperTrackIndex);
       unsetWhenDone();
+      setDoneExercise(swiperTrackIndex);
+
       return;
     }
     setDoneExercise(swiperTrackIndex);

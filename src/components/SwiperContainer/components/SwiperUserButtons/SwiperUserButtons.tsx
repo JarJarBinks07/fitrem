@@ -79,9 +79,9 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, counterActiveTracks, setS
     if (counterActiveTracks > 1) {
       swiper.slideTo(0, 1000);
     }
-    setStartWorkout(true);
+    setStartWorkout(false);
     setDisabledNavigationButtons(false);
-    setDisabledPlayDoneButtons();
+    setDisabledPlayDoneButtons(true);
     setTimerTrainingStatus("start");
     setSettings(preparationTime, "preparation", false);
   };
@@ -90,7 +90,7 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, counterActiveTracks, setS
     <div>
       <IonGrid className="swiper__grid_container">
         <IonRow className="swiper__grid_row">
-          {!startWorkout ? (
+          {startWorkout ? (
             <>
               <IonCol>
                 <IonButton

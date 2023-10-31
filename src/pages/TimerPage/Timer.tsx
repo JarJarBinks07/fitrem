@@ -51,11 +51,7 @@ const TimerPage: React.FC = () => {
 
   // use when App goes to background and comes back to foreground
   useEffect(() => {
-    if (isNotification) {
-      removeListener();
-    } else {
-      setupListener();
-    }
+    isNotification ? removeListener() : setupListener();
   }, [isNotification]);
 
   const setupListener = async () => {
@@ -98,6 +94,12 @@ const TimerPage: React.FC = () => {
     setTimerNotificationStatus("running");
   };
 
+  // use when notification done
+  const onCompleteNotification = () => {
+    setIsNotification(false);
+    unsetNotificationTimer();
+  };
+
   return (
     <>
       <ProfileMenu />
@@ -131,7 +133,7 @@ const TimerPage: React.FC = () => {
                       timeNotificationAfterPause ? timeNotificationAfterPause : timeNotificationDuration - Date.now()
                     }
                     timerActive={timerNotificationStatus === "running"}
-                    onComplete={unsetNotificationTimer}
+                    onComplete={onCompleteNotification}
                   />
                 </IonCol>
               </IonRow>
@@ -143,13 +145,7 @@ const TimerPage: React.FC = () => {
                   />
                 </IonCol>
                 <IonCol>
-                  <TimerResetButton
-                    unsetTimer={() => {
-                      setIsNotification(false);
-                      unsetNotificationTimer();
-                    }}
-                    timerStatus={timerNotificationStatus}
-                  />
+                  <TimerResetButton unsetTimer={onCompleteNotification} timerStatus={timerNotificationStatus} />
                 </IonCol>
               </IonRow>
             </IonGrid>

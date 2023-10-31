@@ -144,7 +144,7 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
           }
         }
 
-        return { userTraining: result, passedExercises: [] };
+        return { userTraining: result, passedExercisesDuringSession: [] };
       },
       false,
       "generateUserTraining"
@@ -216,7 +216,8 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
         const result = [];
 
         //check if user selected only one exercise from active track
-        if (_userTraining.length === Object.keys(_groupedByTrainingCategory).length) return state;
+        if (_userTraining.length === Object.keys(_groupedByTrainingCategory).length)
+          return { passedExercisesDuringSession: [] };
 
         //if user selected more than one exercise from track
         let maxLength = 0;
@@ -237,7 +238,7 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
             }
           }
         }
-        return { userTraining: result };
+        return { userTraining: result, passedExercisesDuringSession: [] };
       },
       false,
       "setExercisesAfterTraining"
