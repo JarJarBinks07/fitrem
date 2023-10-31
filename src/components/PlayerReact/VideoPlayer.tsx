@@ -10,11 +10,10 @@ interface IProps {
 }
 
 const VideoPlayerReact: React.FC<IProps> = ({ play, path, id }) => {
-  /////Fix problem with android launching/////
+  // use for fixing problem with android launching
   const [loading, setLoading] = useState(true);
 
   const video = useCachedResource(path, "video");
-
   return (
     <>
       <ReactPlayer

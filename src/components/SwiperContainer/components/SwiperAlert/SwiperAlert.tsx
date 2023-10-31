@@ -1,14 +1,14 @@
 import React from "react";
 import { IonAlert } from "@ionic/react";
 
-type Props = {
+interface IProps {
   isOpen: boolean;
-  // setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsOpen: (value: boolean) => void;
+  setSwiperTrackIndex: (value: number) => void;
   setIsModalStatistic: React.Dispatch<React.SetStateAction<boolean>>;
-};
+}
 
-function SwiperAlert({ isOpen, setIsOpen, setIsModalStatistic }: Props) {
+const SwiperAlert: React.FC<IProps> = ({ isOpen, setIsOpen, setIsModalStatistic, setSwiperTrackIndex }) => {
   return (
     <IonAlert
       isOpen={isOpen}
@@ -18,9 +18,10 @@ function SwiperAlert({ isOpen, setIsOpen, setIsModalStatistic }: Props) {
       buttons={["OK"]}
       onDidDismiss={() => {
         setIsModalStatistic(true);
+        setSwiperTrackIndex(0);
         setIsOpen(false);
       }}
     ></IonAlert>
   );
-}
+};
 export default SwiperAlert;

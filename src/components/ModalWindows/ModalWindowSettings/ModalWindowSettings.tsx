@@ -28,13 +28,13 @@ interface IProps {
   onSaveHandler: (notificationValue: number, trainingValue: number, restValue: number) => void;
 }
 
-function ModalWindowSettings({
+const ModalWindowSettings: React.FC<IProps> = ({
   isOpen,
   timerNotificationInterval,
   timerTrainingInterval,
   timerRestInterval,
   onSaveHandler,
-}: IProps) {
+}) => {
   const [notificationValue, setNotificationValue] = useState(timerNotificationInterval);
   const [trainingValue, setTrainingValue] = useState(timerTrainingInterval);
   const [restValue, setRestValue] = useState(timerRestInterval);
@@ -131,6 +131,6 @@ function ModalWindowSettings({
       </IonContent>
     </IonModal>
   );
-}
+};
 
 export default ModalWindowSettings;

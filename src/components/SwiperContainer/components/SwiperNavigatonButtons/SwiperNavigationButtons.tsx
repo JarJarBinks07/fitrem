@@ -1,5 +1,5 @@
 import { IonIcon } from "@ionic/react";
-import { caretBack, caretForward, chevronBack, chevronForward } from "ionicons/icons";
+import { chevronBack, chevronForward } from "ionicons/icons";
 import React from "react";
 import ISwiper from "swiper";
 

@@ -1,5 +1,5 @@
+import React from "react";
 import {
-  IonBackButton,
   IonButton,
   IonButtons,
   IonCol,
@@ -7,20 +7,17 @@ import {
   IonGrid,
   IonHeader,
   IonIcon,
-  IonImg,
-  IonItem,
   IonLabel,
   IonModal,
   IonRow,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import React from "react";
+import { checkmarkCircleOutline } from "ionicons/icons";
 import CachedImage from "../../CachedImage/CachedImage";
 import { IExercise } from "../../../store/TracksState";
 
 import "./ModalWindowStatistic.css";
-import { checkmarkCircleOutline } from "ionicons/icons";
 
 interface IProps {
   isOpen: boolean;
@@ -28,7 +25,7 @@ interface IProps {
   onComplete: () => void;
 }
 
-function ModalWindowsStatistic({ isOpen, doneExercisesDuringSession, onComplete }: IProps) {
+const ModalWindowsStatistic: React.FC<IProps> = ({ isOpen, doneExercisesDuringSession, onComplete }) => {
   return (
     <IonModal className="modal-statistic" isOpen={isOpen}>
       <IonHeader>
@@ -66,6 +63,6 @@ function ModalWindowsStatistic({ isOpen, doneExercisesDuringSession, onComplete 
       </IonContent>
     </IonModal>
   );
-}
+};
 
 export default ModalWindowsStatistic;

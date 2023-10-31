@@ -7,13 +7,14 @@ import _ from "lodash";
 
 interface IProps {
   swiper: ISwiper;
+  counterActiveTracks: number;
+  executorDoneExercise: () => void;
   setSettings: (interval: number, mode: "preparation" | "training" | "rest", status: boolean) => void;
 }
 
-const SwiperUserButtons: React.FC<IProps> = ({ swiper, setSettings }) => {
+const SwiperUserButtons: React.FC<IProps> = ({ swiper, counterActiveTracks, setSettings, executorDoneExercise }) => {
   const {
     preparationTime,
-    timerRestInterval,
     timerTrainingInterval,
     swiperTrackIndex,
     playStatus,
@@ -29,20 +30,14 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, setSettings }) => {
     unsetWhenDone,
     setDisabledNavigationButtons,
     setDisabledPlayDoneButtons,
-    setTimerMode,
     setStartWorkout,
     setPlayStatus,
     setSkippedExercise,
-    setDoneExercise,
-    setIsOpenSwiperAlert,
-    unsetTrainingTimer,
   } = useCombineStates();
 
-  const counterActiveTracks = Object.keys(_.groupBy(userTraining, "category")).length;
-
   // useEffect uses to exclude problem with play/pause mode for persist
-
   const [status, setStatus] = useState(false);
+
   useEffect(() => {
     setStatus(playStatus);
   });
@@ -52,19 +47,20 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, setSettings }) => {
 
   // Skip button is disabled
   const [isActiveSkipButton, setIsActiveSkipButton] = useState(false);
-  function setActiveSkippedButton() {
+  const setActiveSkippedButton = () => {
     const currentCategory = userTraining[swiperTrackIndex]?.category;
     const filteredUserTraining = userTraining.filter((e) => e.category === currentCategory);
     const filteredDoneExercises = passedExercises.filter((e) => e.category === currentCategory);
     if (filteredUserTraining?.length === 1 && filteredDoneExercises?.length === 0) {
       setIsActiveSkipButton(true);
     } else setIsActiveSkipButton(false);
-  }
+  };
 
   useEffect(() => {
     setActiveSkippedButton();
   }, [swiperTrackIndex, userTraining?.length, passedExercises?.length]);
 
+  //use when user clicks on Play or Pause button
   const playButtonHandler = () => {
     if (timeTrainingAfterPause) {
       setTimeTrainingDuration(timeTrainingAfterPause);
@@ -82,6 +78,18 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, setSettings }) => {
     setPlayStatus(false);
   };
 
+  // use when user clicks on Start Workout button
+  const startWorkoutClick = () => {
+    if (counterActiveTracks > 1) {
+      swiper.slideTo(0, 1000);
+    }
+    setStartWorkout(true);
+    setDisabledNavigationButtons(false);
+    setDisabledPlayDoneButtons();
+    setTimerTrainingStatus("start");
+    setSettings(preparationTime, "preparation", false);
+  };
+
   return (
     <div>
       <IonGrid className="swiper__grid_container">
@@ -93,16 +101,7 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, setSettings }) => {
                   className="swiper__bar_btn"
                   expand="block"
                   disabled={disabledFromTraining}
-                  onClick={() => {
-                    if (counterActiveTracks > 1) {
-                      swiper.slideTo(0, 1000);
-                    }
-                    setStartWorkout(true);
-                    setDisabledNavigationButtons(false);
-                    setDisabledPlayDoneButtons();
-                    setTimerTrainingStatus("start");
-                    setSettings(preparationTime, "preparation", false);
-                  }}
+                  onClick={startWorkoutClick}
                 >
                   <div className="ion-text-uppercase">Start Workout</div>
                 </IonButton>
@@ -146,37 +145,7 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, setSettings }) => {
                   className="swiper__bar_btn  swiper__bar_btn_done"
                   disabled={disabledPlayDoneButtons}
                   expand="block"
-                  onClick={() => {
-                    if (counterActiveTracks > 1) {
-                      swiper.slideNext();
-                    }
-                    if (swiperTrackIndex === counterActiveTracks - 1) {
-                      setTimerTrainingStatus("pause");
-                      setSettings(timerTrainingInterval, "training", false);
-                      setIsOpenSwiperAlert(true);
-                      setDoneExercise(swiperTrackIndex);
-                      unsetWhenDone();
-                      return;
-                    }
-                    setDoneExercise(swiperTrackIndex);
-                    setSettings(timerRestInterval, "rest", false);
-                    unsetTrainingTimer();
-
-                    // if (swiperTrackIndex === counterActiveTracks - 1) {
-                    //   setSettings(timerTrainingInterval, "training", false);
-                    //   setIsOpenSwiperAlert(true);
-                    //   setDoneExercise(swiperTrackIndex);
-                    //   unsetWhenDone();
-                    //   setTimerTrainingStatus("pause");
-                    //   return;
-                    // }
-
-                    // setSettings(timerRestInterval, "rest", false);
-                    // setDisabledPlayDoneButtons();
-                    // setTimerTrainingStatus("start");
-                    // setDoneExercise(swiperTrackIndex);
-                    // unsetWhenDone();
-                  }}
+                  onClick={executorDoneExercise}
                 >
                   <IonIcon className="swiper__bar_icon" slot="end" icon={checkmarkCircleOutline}></IonIcon>
 

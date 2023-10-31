@@ -12,7 +12,7 @@ interface IProps {
   setOnFocus?: (setOpen: (value: boolean) => void) => void;
 }
 
-function ModalWindowExercise({ path, description, isOpen, setIsOpen, setOnFocus }: IProps) {
+const ModalWindowExercise: React.FC<IProps> = ({ path, description, isOpen, setIsOpen, setOnFocus }: IProps) => {
   return (
     <IonModal isOpen={isOpen}>
       <IonHeader>
@@ -40,6 +40,6 @@ function ModalWindowExercise({ path, description, isOpen, setIsOpen, setOnFocus 
       </IonContent>
     </IonModal>
   );
-}
+};
 
 export default ModalWindowExercise;
