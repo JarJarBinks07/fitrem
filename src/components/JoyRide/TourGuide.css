@@ -1,8 +1,8 @@
 input {
   text-align: center;
+  background-color: #ffffff;
 }
-
-::placeholder {
+d ::placeholder {
   text-align: center;
 }
 
@@ -24,4 +24,13 @@ input {
 
 :-ms-input-placeholder {
   text-align: center;
+}
+
+.tour__check_box {
+  --size: 32px;
+  --checkbox-background-checked: var(--ion-color-warning);
+}
+.tour__check_box::part(container) {
+  border-radius: 6px;
+  border: 2px solid var(--ion-color-warning);
 }

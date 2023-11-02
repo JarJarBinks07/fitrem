@@ -1,4 +1,3 @@
-import { IUser } from "./../../.history/src/store/UserState_20231101162245";
 import { StateCreator, create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { createNotificationState, INotification } from "./NotificationState";
@@ -6,7 +5,7 @@ import { createTrainingState, ITraining } from "./TrainingState";
 import { CustomSqliteStorage } from "./CustomSqliteStorage";
 import { IRoot, createRootState } from "./RootState";
 import { TrackState, createTracksState } from "./TracksState";
-import { createUserState } from "./UserState";
+import { createUserState, IUser } from "./UserState";
 
 export type CombineState = IRoot & INotification & ITraining & TrackState & IUser;
 
