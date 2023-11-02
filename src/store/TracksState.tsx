@@ -1,4 +1,4 @@
-import { MyStateCreator } from "./useCombineStates";
+import MyStateCreator from "./useCombineStates";
 import _ from "lodash";
 
 export interface ITrack {

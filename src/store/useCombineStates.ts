@@ -1,3 +1,4 @@
+import { IUser } from "./../../.history/src/store/UserState_20231101162245";
 import { StateCreator, create } from "zustand";
 import { createJSONStorage, devtools, persist } from "zustand/middleware";
 import { createNotificationState, INotification } from "./NotificationState";
@@ -5,15 +6,12 @@ import { createTrainingState, ITraining } from "./TrainingState";
 import { CustomSqliteStorage } from "./CustomSqliteStorage";
 import { IRoot, createRootState } from "./RootState";
 import { TrackState, createTracksState } from "./TracksState";
+import { createUserState } from "./UserState";
 
-export type CombineState = IRoot & INotification & ITraining & TrackState;
+export type CombineState = IRoot & INotification & ITraining & TrackState & IUser;
 
-export type MyStateCreator<T> = StateCreator<
-  CombineState,
-  [["zustand/devtools", never], ["zustand/persist", unknown]],
-  [],
-  T
->;
+type MyStateCreator<T> = StateCreator<CombineState, [["zustand/devtools", never], ["zustand/persist", unknown]], [], T>;
+export default MyStateCreator;
 // Add keys to ignore from persist
 const ignoreList = ["timerStatus"];
 
@@ -27,6 +25,7 @@ export const useCombineStates = create<CombineState>()(
         ...createNotificationState(...a),
         ...createTrainingState(...a),
         ...createTracksState(...a),
+        ...createUserState(...a),
       }),
       {
         name: "combineStore",

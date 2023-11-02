@@ -1,4 +1,4 @@
-import { MyStateCreator } from "./useCombineStates";
+import MyStateCreator from "./useCombineStates";
 
 export interface IActiveTrack {
   selectedCategoryTracks: string[];
