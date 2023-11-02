@@ -1,6 +1,6 @@
 import { IonButton, IonCheckbox, IonInput, IonText, IonTextarea, IonTitle } from "@ionic/react";
 // import { useMount, useSetState } from "react-use";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Joyride, { CallBackProps, STATUS, Step } from "react-joyride";
 import { useCombineStates } from "../../store/useCombineStates";
 
@@ -16,7 +16,15 @@ interface State {
 
 const TourGuide: React.FC = () => {
   const { firstConnection, userName, isEquipment, setUserName, setIsEquipment, setFirstConnection } = useCombineStates();
+
+  // use for resolving problem with saving data
   const [name, setName] = useState("");
+
+  // use for resolving problem with reloading if firstConnection=false
+  const [run, setRun] = useState(false);
+  useEffect(() => {
+    firstConnection ? setRun(true) : setRun(false);
+  }, []);
 
   console.log("USER NAME ZUSTAND", userName);
   console.log("USER NAME LOCAL", name);
@@ -91,7 +99,7 @@ const TourGuide: React.FC = () => {
 
   const handleClickStart = (event: React.MouseEvent<HTMLElement>) => {
     event.preventDefault();
-    setState({ steps: [...steps], run: true });
+    // setState({ steps: [...steps], run: true });
   };
   function logGroup(type: string, data: any) {
     console.groupCollapsed(type);
@@ -131,7 +139,7 @@ const TourGuide: React.FC = () => {
       }}
     >
       <Joyride
-        run={firstConnection}
+        run={run && firstConnection}
         debug
         continuous
         callback={handleJoyrideCallback}
