@@ -9,6 +9,7 @@ const getAppStateRepository = async () => {
 export class CustomSqliteStorage implements StateStorage {
   //Get
   async getItem(name: string): Promise<string | null> {
+    console.log("START CONNECTION WITH STORAGE");
     await SqlConnectionService.initConnection();
 
     try {
@@ -21,7 +22,7 @@ export class CustomSqliteStorage implements StateStorage {
 
       if (!state) return null;
 
-      console.log("***GET_ITEM", state?.store);
+      console.log("GET_ITEM", state?.store);
       return state.store;
     } catch (error) {
       console.log("Error GET_ITEM:", error);

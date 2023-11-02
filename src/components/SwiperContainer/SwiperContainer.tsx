@@ -38,6 +38,7 @@ interface IVideo {
 
 const ImageContainer: React.FC = () => {
   const {
+    firstConnection,
     isOpenSwiperAlert,
     timeTrainingDuration,
     timeTrainingAfterPause,
@@ -72,6 +73,7 @@ const ImageContainer: React.FC = () => {
     unsetForPersist,
     unsetTrainingTimer,
     unsetNotificationTimer,
+    setFirstConnection,
   } = useCombineStates();
 
   //  use when App reloads unexpectedly
@@ -295,6 +297,7 @@ const ImageContainer: React.FC = () => {
         setIsModalStatistic={setIsModalStatistic}
         setSwiperTrackIndex={setSwiperTrackIndex}
       />
+      <IonButton onClick={() => setFirstConnection(true)}>TEST</IonButton>
     </div>
   );
 };

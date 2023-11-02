@@ -26,6 +26,7 @@ import { personCircle } from "ionicons/icons";
 import ProfileMenu from "../../components/Menu/ProfileMenu";
 import { useWatcher } from "../../shared/hooks/useWatcher";
 import { App } from "@capacitor/app";
+import TestTour from "../../components/JoyRide/TestTour";
 
 const TimerPage: React.FC = () => {
   const {
@@ -44,7 +45,9 @@ const TimerPage: React.FC = () => {
     setPlayStatus,
     setPlayerId,
     setTimerTrainingStatus,
+    firstConnection,
   } = useCombineStates();
+  console.log("FIRST CONNECTION", firstConnection);
 
   // use for stopping and resuming timer and video when user switches in App
   const { setOnBlur } = useWatcher();
@@ -154,6 +157,7 @@ const TimerPage: React.FC = () => {
           )}
         </IonContent>
       </IonPage>
+      <TestTour />
     </>
   );
 };

@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import Joyride, { CallBackProps, STATUS, Step } from "react-joyride";
 
 import "./TourGuide.css";
+import { useCombineStates } from "../../store/useCombineStates";
 
 interface State {
   run: boolean;
@@ -12,23 +13,16 @@ interface State {
 // type Placement = 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end';
 
 const TestTour: React.FC = () => {
-  const [{ run, steps }, setState] = useState<State>({
-    run: true,
-    steps: [
-      //STEP #1
-      {
-        title: "Test for button",
-        content: "test...test...test",
-        placement: "bottom",
-        target: ".testim",
-      },
-    ],
-  });
+  const { firstConnection, setFirstConnection } = useCombineStates();
+  const steps: Step[] = [
+    {
+      title: "Test for button",
+      content: "test...test...test",
+      placement: "bottom",
+      target: "body",
+    },
+  ];
 
-  const handleClickStart = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
-    setState({ steps: [...steps], run: true });
-  };
   function logGroup(type: string, data: any) {
     console.groupCollapsed(type);
     console.log(data);
@@ -39,7 +33,7 @@ const TestTour: React.FC = () => {
     const { status, type } = data;
     const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
     if (finishedStatuses.includes(status)) {
-      setState({ steps: [...steps], run: false });
+      setFirstConnection(false);
     }
     logGroup(type, data);
   };
@@ -56,15 +50,15 @@ const TestTour: React.FC = () => {
       }}
     >
       <Joyride
-        run={run}
+        run={firstConnection}
         debug
         continuous
         callback={handleJoyrideCallback}
         steps={steps}
         hideBackButton
         hideCloseButton
-        // scrollToFirstStep
-        // showProgress
+        scrollToFirstStep
+        showProgress
         styles={{
           options: {
             arrowColor: "#ffc409", //arrow

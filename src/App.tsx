@@ -21,7 +21,7 @@ import Tracks from "./pages/TracksPage/Tracks";
 import { useGetData } from "./shared/hooks/useGetData";
 import { useWatcher } from "./shared/hooks/useWatcher";
 import { NativeAudio } from "@capacitor-community/native-audio";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import TourGuide from "./components/JoyRide/TourGuide";
 
 /* Core CSS required for Ionic components to work properly */
@@ -68,66 +68,70 @@ const App: React.FC = () => {
   };
 
   const { rehydrated, firstConnection } = useCombineStates();
-  console.log(firstConnection);
+  // console.log("FIRST CONNECTION", firstConnection);
+  // console.log("REHYDRATED", rehydrated);
+
   return (
     <>
-      {firstConnection ? (
-        <TourGuide />
-      ) : (
-        <IonApp>
-          {rehydrated ? (
-            <IonReactRouter>
-              <IonTabs>
-                <IonRouterOutlet>
-                  <Route exact path="/timer">
-                    <TimerPage />
-                  </Route>
-                  {/* <Route exact path="/home">
+      <IonApp className="app">
+        {rehydrated ? (
+          <>
+            {!firstConnection ? (
+              <IonReactRouter>
+                <IonTabs>
+                  <IonRouterOutlet>
+                    <Route exact path="/timer">
+                      <TimerPage />
+                    </Route>
+                    {/* <Route exact path="/home">
                 <Home />
               </Route> */}
-                  <Route exact path="/tracks">
-                    <Tracks />
-                  </Route>
-                  <Route exact path="/settings">
-                    <Settings />
-                  </Route>
-                  <Route exact path="/">
-                    <Redirect to="/timer" />
-                  </Route>
-                </IonRouterOutlet>
-                <IonTabBar className="app__tab_bar" slot="bottom" color="warning">
-                  <IonTabButton className="app__tab_button" tab="timer" href="/timer">
-                    <IonButton className="app__btn" onClick={() => setOnFocus()}>
-                      <IonIcon className="app__icon" icon={timer} />
-                      <IonLabel className="app__label" color="light">
-                        Timer
-                      </IonLabel>
-                    </IonButton>
-                  </IonTabButton>
-                  <IonTabButton className="app__tab_button" tab="tracks" href="/tracks">
-                    <IonButton className="app__btn" onClick={() => setOnBlur()}>
-                      <IonIcon className="app__icon" icon={optionsOutline} />
-                      <IonLabel className="app__label" color="light">
-                        Tracks
-                      </IonLabel>
-                    </IonButton>
-                  </IonTabButton>
-                  <IonTabButton className="app__tab_button" tab="settings" href="/settings">
-                    <IonButton className="app__btn" onClick={() => setOnBlur()}>
-                      <IonIcon className="app__icon" icon={settings} />
-                      <IonLabel className="app__label" color="light">
-                        Settings
-                      </IonLabel>
-                    </IonButton>
-                  </IonTabButton>
-                </IonTabBar>
-              </IonTabs>
-            </IonReactRouter>
-          ) : (
-            <IonSpinner className="spinner" />
-          )}
-        </IonApp>
-      )}
+                    <Route exact path="/tracks">
+                      <Tracks />
+                    </Route>
+                    <Route exact path="/settings">
+                      <Settings />
+                    </Route>
+                    <Route exact path="/">
+                      <Redirect to="/timer" />
+                    </Route>
+                  </IonRouterOutlet>
+                  <IonTabBar className="app__tab_bar" slot="bottom" color="warning">
+                    <IonTabButton className="app__tab_button" tab="timer" href="/timer">
+                      <IonButton className="app__btn" onClick={() => setOnFocus()}>
+                        <IonIcon className="app__icon" icon={timer} />
+                        <IonLabel className="app__label" color="light">
+                          Timer
+                        </IonLabel>
+                      </IonButton>
+                    </IonTabButton>
+                    <IonTabButton className="app__tab_button" tab="tracks" href="/tracks">
+                      <IonButton className="app__btn" onClick={() => setOnBlur()}>
+                        <IonIcon className="app__icon" icon={optionsOutline} />
+                        <IonLabel className="app__label" color="light">
+                          Tracks
+                        </IonLabel>
+                      </IonButton>
+                    </IonTabButton>
+                    <IonTabButton className="app__tab_button" tab="settings" href="/settings">
+                      <IonButton className="app__btn" onClick={() => setOnBlur()}>
+                        <IonIcon className="app__icon" icon={settings} />
+                        <IonLabel className="app__label" color="light">
+                          Settings
+                        </IonLabel>
+                      </IonButton>
+                    </IonTabButton>
+                  </IonTabBar>
+                </IonTabs>
+              </IonReactRouter>
+            ) : (
+              <TourGuide />
+            )}
+          </>
+        ) : (
+          <IonSpinner className="spinner" />
+        )}
+      </IonApp>
     </>
   );
 };
