@@ -4,6 +4,7 @@ import { checkmarkCircleOutline, pauseCircleOutline, playCircleOutline, reloadCi
 import { useCombineStates } from "../../../../store/useCombineStates";
 import ISwiper from "swiper";
 import _ from "lodash";
+import TestTour from "../../../JoyRide/TestTour";
 
 interface IProps {
   swiper: ISwiper;
@@ -94,7 +95,7 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, counterActiveTracks, setS
             <>
               <IonCol>
                 <IonButton
-                  className="swiper__bar_btn"
+                  className="swiper__bar_btn testim"
                   expand="block"
                   disabled={disabledFromTraining}
                   onClick={startWorkoutClick}
@@ -153,6 +154,7 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, counterActiveTracks, setS
           )}
         </IonRow>
       </IonGrid>
+      {/* <TestTour /> */}
     </div>
   );
 };

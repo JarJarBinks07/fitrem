@@ -72,10 +72,8 @@ const App: React.FC = () => {
   return (
     <>
       {firstConnection ? (
-        // <IonApp>
         <TourGuide />
       ) : (
-        // </IonApp>
         <IonApp>
           {rehydrated ? (
             <IonReactRouter>

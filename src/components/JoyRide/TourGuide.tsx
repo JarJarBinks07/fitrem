@@ -23,12 +23,10 @@ const TourGuide: React.FC = () => {
   // use for resolving problem with reloading if firstConnection=false
   const [run, setRun] = useState(false);
   useEffect(() => {
-    firstConnection ? setRun(true) : setRun(false);
+    // firstConnection ? setRun(true) : setRun(false);
+    console.log("FIRST CONNECTION", firstConnection);
+    setRun(firstConnection);
   }, []);
-
-  console.log("USER NAME ZUSTAND", userName);
-  console.log("USER NAME LOCAL", name);
-  console.log("EQUIPMENT", isEquipment);
 
   const [{ steps }, setState] = useState<State>({
     // run: false,
@@ -123,6 +121,7 @@ const TourGuide: React.FC = () => {
     const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
     if (finishedStatuses.includes(status)) {
       setFirstConnection(false);
+      setRun(false);
     }
     logGroup(type, data);
   };
@@ -139,7 +138,7 @@ const TourGuide: React.FC = () => {
       }}
     >
       <Joyride
-        run={run && firstConnection}
+        run={run}
         debug
         continuous
         callback={handleJoyrideCallback}
