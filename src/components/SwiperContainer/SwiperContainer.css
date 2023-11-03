@@ -47,6 +47,7 @@
   max-width: 450px;
   height: 47vh;
   margin: 0 auto;
+  overflow: hidden;
 }
 .swiper__content {
   height: 100%;

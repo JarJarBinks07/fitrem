@@ -26,7 +26,7 @@ import { personCircle } from "ionicons/icons";
 import ProfileMenu from "../../components/Menu/ProfileMenu";
 import { useWatcher } from "../../shared/hooks/useWatcher";
 import { App } from "@capacitor/app";
-import TestTour from "../../components/JoyRide/TestTour";
+import MainButtonsTour from "../../components/JoyRide/MainButtonsTour";
 
 const TimerPage: React.FC = () => {
   const {
@@ -106,13 +106,13 @@ const TimerPage: React.FC = () => {
   return (
     <>
       <ProfileMenu />
-      <IonPage id="profile">
+      <IonPage>
         <IonHeader>
           <IonToolbar color="warning">
             <IonButtons slot="primary">
               <IonMenuToggle>
-                <IonButton className="timer-page__profile_btn" onClick={() => setOnBlur()}>
-                  <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
+                <IonButton id="profile" className="timer-page__profile_btn" onClick={() => setOnBlur()}>
+                  <IonIcon id="profile-btn" slot="icon-only" icon={personCircle}></IonIcon>
                 </IonButton>
               </IonMenuToggle>
             </IonButtons>
@@ -157,7 +157,7 @@ const TimerPage: React.FC = () => {
           )}
         </IonContent>
       </IonPage>
-      <TestTour />
+      <MainButtonsTour />
     </>
   );
 };

@@ -17,42 +17,25 @@ interface State {
 const TourGuide: React.FC = () => {
   const { firstConnection, userName, isEquipment, setUserName, setIsEquipment, setFirstConnection } = useCombineStates();
 
-  // use for resolving problem with saving data
-  const [name, setName] = useState("");
-
-  // use for resolving problem with reloading if firstConnection=false
-  const [run, setRun] = useState(false);
-  useEffect(() => {
-    // firstConnection ? setRun(true) : setRun(false);
-    console.log("FIRST CONNECTION", firstConnection);
-    setRun(firstConnection);
-  }, []);
-
   const [{ steps }, setState] = useState<State>({
     // run: false,
     steps: [
       //STEP #1
       {
-        title: "Let's begin our journey",
+        title: "Hi! I wanna ask you about...",
         content: <img style={{ width: "100px", height: "100px" }} src="./assets/icons/icon.png"></img>,
         placement: "center",
         target: "body",
       },
       //STEP #2
       {
-        title: " Please share your name",
+        title: "...name. It's so important for me!",
         content: (
-          // <IonInput
-          //   fill="outline"
-          //   placeholder="name"
-          //   onIonChange={(e) => setName(e.detail.value as string)}
-          // onIonChange={(e) => setUserName(e.detail.value as string)}
-          // ></IonInput>
           <input
             type="text"
             placeholder="name"
             onChange={(e) => {
-              setName(e.target.value);
+              setUserName(e.target.value);
             }}
           ></input>
         ),
@@ -62,16 +45,15 @@ const TourGuide: React.FC = () => {
       },
       //STEP #3
       {
-        title: `Do you have any equipment for training`,
+        title: "...equipment. Mark it, if you use it!",
         content: (
-          <input style={{ width: "32px", height: "32px" }} type="checkbox" onClick={setIsEquipment}></input>
+          <input className="intro_input" type="checkbox" onClick={setIsEquipment}></input>
 
           // <IonCheckbox
           //   className="tour__check_box"
-          //   checked={test}
           //   onIonChange={(e) => {
-          //     console.log(e.detail.value);
-          //     setEquipment();
+          //     e.preventDefault();
+          //     setIsEquipment();
           //   }}
           // ></IonCheckbox>
         ),
@@ -82,13 +64,7 @@ const TourGuide: React.FC = () => {
       {
         title: "",
         content: "",
-        placement: "center",
-        target: "body",
-      },
-      //STEP #5
-      {
-        title: "Let's start our training",
-        content: <img style={{ width: "100px", height: "100px" }} src="/assets/icons/bicep_image.png"></img>,
+
         placement: "center",
         target: "body",
       },
@@ -106,60 +82,49 @@ const TourGuide: React.FC = () => {
   }
 
   const handleJoyrideCallback = (data: CallBackProps) => {
-    if (data.index === 2 && name.length) {
-      setUserName(name);
-    }
     if (data.index === 3) {
-      if (!isEquipment) {
-        data.step.title = `Ok, ${userName}. We almost finish!`;
-        data.step.content = "I wanna give you advise. If you buy additional equipment, you'll have more...";
-      } else {
-        data.step.title = `Ok, ${userName}. We almost finish!`;
-      }
+      data.step.title = (
+        <div>
+          <h1>
+            Thanks <b>{userName}</b> for sharing!
+          </h1>
+          <h2>Now I give you a helper...</h2>
+
+          <img src="/assets/icons/beacon_50x50.webp" alt="beacon"></img>
+          <h2>...and let's start your training</h2>
+        </div>
+      );
     }
     const { status, type } = data;
     const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
     if (finishedStatuses.includes(status)) {
       setFirstConnection(false);
-      setRun(false);
     }
     logGroup(type, data);
   };
   return (
-    <div
-      style={{
-        background: "#f1f1f1",
-        height: "100%",
-        display: "flex",
-        gap: "10px",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
+    <Joyride
+      run={firstConnection}
+      debug
+      continuous
+      callback={handleJoyrideCallback}
+      steps={steps}
+      hideBackButton
+      hideCloseButton
+      scrollToFirstStep
+      // showProgress
+      styles={{
+        options: {
+          arrowColor: "#ffc409", //arrow
+          backgroundColor: "#ffffff", //background for card
+          overlayColor: "rgba(79, 26, 0, 0.4)", //background for App
+          primaryColor: "#ffc409", //button
+          textColor: "#000", //main text
+          width: 900,
+          zIndex: 1000,
+        },
       }}
-    >
-      <Joyride
-        run={run}
-        debug
-        continuous
-        callback={handleJoyrideCallback}
-        steps={steps}
-        hideBackButton
-        hideCloseButton
-        scrollToFirstStep
-        showProgress
-        styles={{
-          options: {
-            arrowColor: "#ffc409", //arrow
-            backgroundColor: "#ffffff", //background for card
-            overlayColor: "rgba(79, 26, 0, 0.4)", //background for App
-            primaryColor: "#ffc409", //button
-            textColor: "#000", //main text
-            // width: 900,
-            zIndex: 1000,
-          },
-        }}
-      />
-    </div>
+    />
   );
 };
 

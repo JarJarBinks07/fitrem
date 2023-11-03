@@ -28,7 +28,6 @@ import ProfileMenu from "../../components/Menu/ProfileMenu";
 
 import "./Settings.css";
 import Demo from "../../components/Demo/Demo";
-import TourGuide from "../../components/JoyRide/TourGuide";
 
 type RangeValue =
   | number
@@ -53,8 +52,9 @@ const Settings: React.FC = () => {
   };
 
   return (
-    <>
+    <div>
       <ProfileMenu />
+
       <IonPage id="profile">
         <IonHeader>
           <IonToolbar color="warning">
@@ -69,48 +69,45 @@ const Settings: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          {
-            true ? (
-              <IonGrid>
-                <IonRow>
-                  <IonCol>
-                    <IonText>
-                      <h2>Timer Settings</h2>
-                      <p>
-                        Your timer is set to ring in {initialValue.toString()} seconds.
-                        <IonIcon slot="icon-only" icon={helpCircleOutline} color="primary"></IonIcon>
-                      </p>
-                    </IonText>
-                    <IonRange
-                      min={5}
-                      max={60}
-                      step={5}
-                      snaps={true}
-                      color="primary"
-                      value={initialValue}
-                      onIonChange={(e) => setInitialValue(e.detail.value)}
-                    >
-                      <IonLabel slot="start">5 sec</IonLabel>
-                      <IonLabel slot="end">60 sec</IonLabel>
-                    </IonRange>
-                    <IonText>
-                      <small>
-                        If you wish to change the settings drag the nob to the desired time interval (5 to 60 seconds).
-                      </small>
-                    </IonText>
-                  </IonCol>
-                </IonRow>
-                <IonRow>
-                  <IonCol>
-                    <IonButton expand="block" onClick={onSaveHandler}>
-                      Save
-                    </IonButton>
-                  </IonCol>
-                </IonRow>
-              </IonGrid>
-            ) : null
-            // <TourGuide />
-          }
+          {true ? (
+            <IonGrid>
+              <IonRow>
+                <IonCol>
+                  <IonText>
+                    <h2>Timer Settings</h2>
+                    <p>
+                      Your timer is set to ring in {initialValue.toString()} seconds.
+                      <IonIcon slot="icon-only" icon={helpCircleOutline} color="primary"></IonIcon>
+                    </p>
+                  </IonText>
+                  <IonRange
+                    min={5}
+                    max={60}
+                    step={5}
+                    snaps={true}
+                    color="primary"
+                    value={initialValue}
+                    onIonChange={(e) => setInitialValue(e.detail.value)}
+                  >
+                    <IonLabel slot="start">5 sec</IonLabel>
+                    <IonLabel slot="end">60 sec</IonLabel>
+                  </IonRange>
+                  <IonText>
+                    <small>
+                      If you wish to change the settings drag the nob to the desired time interval (5 to 60 seconds).
+                    </small>
+                  </IonText>
+                </IonCol>
+              </IonRow>
+              <IonRow>
+                <IonCol>
+                  <IonButton id="settings-test" expand="block" onClick={onSaveHandler} className="buttonTest">
+                    Save
+                  </IonButton>
+                </IonCol>
+              </IonRow>
+            </IonGrid>
+          ) : null}
           {/* <Chart />
            */}
           {/* <IonDatetime></IonDatetime> */}
@@ -118,7 +115,7 @@ const Settings: React.FC = () => {
           {/* <TimerConfirmationSettings isOpen={isOpen} setIsOpen={setIsOpen} /> */}
         </IonContent>
       </IonPage>
-    </>
+    </div>
   );
 };
 

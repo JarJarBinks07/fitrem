@@ -1,42 +1,49 @@
 // import { useMount, useSetState } from "react-use";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Joyride, { CallBackProps, STATUS, Step } from "react-joyride";
-
-import "./TourGuide.css";
 import { useCombineStates } from "../../store/useCombineStates";
 
-interface State {
-  run: boolean;
-  steps: Step[];
-}
+import "./TourGuide.css";
 
 // type Placement = 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end';
 
-const TestTour: React.FC = () => {
+const MainButtonsTour: React.FC = () => {
   const { mainButtonsTour, setMainButtonsTour } = useCombineStates();
-  const stepForInfoBtn: Step[] = [
+  const stepsForMainButton: Step[] = [
+    // START
     {
-      title: "Test INFO Button",
-      content: "test...test...test",
+      title: "When you are ready! Click for start",
+      content: (
+        <div>
+          <h2>
+            <b>Now it's disabled! Just make your choice</b>
+          </h2>
+        </div>
+      ),
       placement: "bottom",
-      target: "#info-btn",
+      target: "#start-btn",
     },
-  ];
+    // SKIP
+    {
+      title: "Make your training more comfortable! ",
+      content: (
+        <div>
+          <h2>Just click and change exercise from category</h2>
+          <h2>
+            <b>If exercise is only one it'll be disabled</b>
+          </h2>
+        </div>
+      ),
 
-  const stepForProfileBtn: Step[] = [
-    {
-      title: "Test PROFILE Button",
-      content: "test...test...test",
       placement: "bottom",
-      target: "#profile-btn",
+      target: "#skip-btn",
     },
-  ];
-  const testtest: Step[] = [
+    // TRACK
     {
-      title: "Test PROFILE Button",
-      content: "test...test...test",
-      placement: "bottom",
-      target: "#settings-test",
+      title: "Here you can choose training",
+      content: "",
+      placement: "top",
+      target: "#track-btn",
     },
   ];
 
@@ -70,10 +77,10 @@ const TestTour: React.FC = () => {
         // run={infoBtnTour || profileBtnTour}
         run={mainButtonsTour}
         debug
-        // continuous
+        continuous
         callback={handleJoyrideCallback}
         // steps={infoBtnTour ? stepForInfoBtn : stepForProfileBtn}
-        steps={testtest}
+        steps={stepsForMainButton}
         hideBackButton
         hideCloseButton
         scrollToFirstStep
@@ -94,4 +101,4 @@ const TestTour: React.FC = () => {
   );
 };
 
-export default TestTour;
+export default MainButtonsTour;

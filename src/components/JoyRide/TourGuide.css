@@ -34,3 +34,7 @@ d ::placeholder {
   border-radius: 6px;
   border: 2px solid var(--ion-color-warning);
 }
+.intro_input {
+  width: 32px;
+  height: 32px;
+}

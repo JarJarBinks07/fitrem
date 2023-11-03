@@ -25,6 +25,7 @@ import "swiper/css/effect-fade";
 import "./SwiperContainer.css";
 import SwiperAlert from "./components/SwiperAlert/SwiperAlert";
 import ModalWindowsStatistic from "../ModalWindows/ModalWindowStatistic/ModalWindowStatistic";
+import { useVariables } from "../../shared/hooks/useVariables";
 
 interface IVideo {
   id: number;
@@ -38,11 +39,8 @@ interface IVideo {
 
 const ImageContainer: React.FC = () => {
   const {
-    firstConnection,
+    mainButtonsTour,
     isOpenSwiperAlert,
-    timeTrainingDuration,
-    timeTrainingAfterPause,
-    timerTrainingStatus,
     timerMode,
     swiperTrackIndex,
     playStatus,
@@ -56,28 +54,26 @@ const ImageContainer: React.FC = () => {
     timerTrainingInterval,
     timerRestInterval,
     setSwiperTrackIndex,
-    setTimerTrainingStatus,
-    setPlayStatus,
-    setStartWorkout,
-    setTimerNotificationInterval,
-    setTimerTrainingInterval,
-    setTimerRestInterval,
-    setExercisesAfterTraining,
-    setIsNotification,
-    setDisabledNavigationButtons,
-    setTimeTrainingDuration,
-    setTimerMode,
     setIsOpenSwiperAlert,
-    setDoneExercise,
-    unsetWhenDone,
     unsetForPersist,
-    unsetTrainingTimer,
-    unsetNotificationTimer,
-    setFirstConnection,
+    setMainButtonsTour,
   } = useCombineStates();
 
-  //  use when App reloads unexpectedly
+  const [swiper, setSwiper] = useState<ISwiper>();
+
+  //use for reductive logic in component
+  const { activeCategoryLength, setSettings, onSaveSettingsHandler, onCompleteAfterTraining, executorDoneExercise } =
+    useVariables();
+
+  //  use when App reloads unexpectedly and for starting tour guide
   useEffect(() => {
+    if (mainButtonsTour) {
+      setMainButtonsTour(false);
+      setTimeout(() => {
+        setMainButtonsTour(true);
+      }, 1000);
+    }
+
     unsetForPersist();
   }, []);
 
@@ -88,20 +84,11 @@ const ImageContainer: React.FC = () => {
     }
   }, [timerMode]);
 
-  const [swiper, setSwiper] = useState<ISwiper>();
-
   // use for disabling GG message
   const [disabledGO, setDisabledGO] = useState(false);
 
   // use for stopping and resuming timer and video when user switches in App
   const { setOnBlur, setOnFocus } = useWatcher();
-
-  // use in TimersForTraining and SwiperUserButtons
-  const setSettings = (interval: number, mode: "preparation" | "training" | "rest", status: boolean) => {
-    setTimeTrainingDuration(interval * 1000);
-    setTimerMode(mode);
-    setPlayStatus(status);
-  };
 
   // use for audio message
   const playAudio = async () => {
@@ -110,11 +97,8 @@ const ImageContainer: React.FC = () => {
     });
   };
 
-  // use for disabling navigation
-  const groupedByDoneCategory = _.groupBy([...userTraining], "category");
-  const activeCategoryLength = Object.keys(groupedByDoneCategory).length;
-
   // use for displaying slides
+  const groupedByDoneCategory = _.groupBy([...userTraining], "category");
   const slicedUserTraining = [...userTraining].slice(0, Object.keys(groupedByDoneCategory).length);
 
   // use platform if we want to disabled buttons in Swiper for device
@@ -125,55 +109,11 @@ const ImageContainer: React.FC = () => {
   const [isOpenModalSettings, setIsOpenModalSettings] = useState(false);
   const [isModalStatistic, setIsModalStatistic] = useState(false);
 
-  // use for applying changes in Modal Settings
-  const onSaveSettingsHandler = (notificationValue: number, trainingValue: number, restValue: number) => {
-    setTimerNotificationInterval(notificationValue);
-    setTimerTrainingInterval(trainingValue);
-    setTimerRestInterval(restValue);
-    setOnFocus(setIsOpenModalSettings);
-    unsetWhenDone();
-    unsetNotificationTimer();
-  };
-
-  // use when training was passed
-  const onCompleteAfterTraining = () => {
-    swiper?.slideTo(0, 1000);
-    setIsNotification(true);
-    setStartWorkout(true);
-    setDisabledNavigationButtons(true);
-    setExercisesAfterTraining();
-    setIsModalStatistic(false);
-  };
-
-  //use after done exercise for reductive logic in TimersForTraining and SwiperUserButtons
-  const counterActiveTracks = Object.keys(_.groupBy(userTraining, "category")).length;
-
-  const executorDoneExercise = () => {
-    if (swiperTrackIndex === counterActiveTracks - 1) {
-      setTimerTrainingStatus("pause");
-      setSettings(timerTrainingInterval, "training", false);
-      setIsOpenSwiperAlert(true);
-      unsetWhenDone();
-      setDoneExercise(swiperTrackIndex);
-
-      return;
-    }
-    setDoneExercise(swiperTrackIndex);
-    setSettings(timerRestInterval, "rest", false);
-    unsetTrainingTimer();
-    setTimerTrainingStatus("start");
-  };
-
-  // console.log("swiper", swiper);
+  //console views
+  console.log("mainButtonsTour: ", mainButtonsTour);
   console.log("userTraining: ", userTraining);
   console.log("passedExercisesDuringSession: ", passedExercisesDuringSession);
   console.log("savedInHistoryDoneExercises: ", savedInHistoryDoneExercises);
-  // console.log("disabledNavigationButtons: ", disabledNavigationButtons);
-  // console.log("PlayStatus: ", playStatus);
-  // console.log("timerTrainingStatus:", timerTrainingStatus);
-  // console.log("timeTrainingDuration: ", timeTrainingDuration);
-  // console.log("timeTrainingAfterPause: ", timeTrainingAfterPause);
-  // console.log("timerMode: ", timerMode);
 
   return (
     <div className="swiper">
@@ -198,6 +138,7 @@ const ImageContainer: React.FC = () => {
             )}
             <div className="swiper__container">
               <SwiperInfoButton setOnBlur={setOnBlur} setIsOpen={setIsOpenModalExercise} />
+
               <TimersForTraining
                 playAudio={playAudio}
                 setDisabledGO={setDisabledGO}
@@ -246,30 +187,17 @@ const ImageContainer: React.FC = () => {
           </div>
         </>
       ) : (
-        <div className="swiper__preload">
-          <div className="swiper__preload_video">
-            <IonImg src={preloadedImage} alt="" />
-            {/* <VideoPlayer play={false} path={preloadedImage.image_path} /> */}
-          </div>
+        <div className="swiper__container">
+          <IonImg src={preloadedImage} alt="" />
         </div>
       )}
 
       <SwiperUserButtons
         swiper={swiper as ISwiper}
         setSettings={setSettings}
-        counterActiveTracks={counterActiveTracks}
+        activeCategoryLength={activeCategoryLength}
         executorDoneExercise={executorDoneExercise}
       />
-      {/* <IonButton
-        expand="full"
-        onClick={() => {
-          setExercisesAfterTraining();
-
-          swiper?.slideTo(0, 1000);
-        }}
-      >
-        TEST
-      </IonButton> */}
       {slicedUserTraining[swiperTrackIndex] ? (
         <ModalWindowExercise
           isOpen={isOpenModalExercise}
@@ -285,11 +213,15 @@ const ImageContainer: React.FC = () => {
         timerTrainingInterval={timerTrainingInterval}
         timerRestInterval={timerRestInterval}
         onSaveHandler={onSaveSettingsHandler}
+        onFocus={setOnFocus}
+        setModalSettings={setIsOpenModalSettings}
       />
       <ModalWindowsStatistic
         isOpen={isModalStatistic}
         passedExercises={passedExercisesDuringSession}
         onComplete={onCompleteAfterTraining}
+        swiper={swiper as ISwiper}
+        setModalStatistic={setIsModalStatistic}
       />
       <SwiperAlert
         isOpen={isOpenSwiperAlert}
@@ -297,7 +229,7 @@ const ImageContainer: React.FC = () => {
         setIsModalStatistic={setIsModalStatistic}
         setSwiperTrackIndex={setSwiperTrackIndex}
       />
-      <IonButton onClick={() => setFirstConnection(true)}>TEST</IonButton>
+      <IonButton onClick={() => setMainButtonsTour(true)}>TEST</IonButton>
     </div>
   );
 };

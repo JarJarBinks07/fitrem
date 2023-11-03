@@ -4,16 +4,15 @@ import { checkmarkCircleOutline, pauseCircleOutline, playCircleOutline, reloadCi
 import { useCombineStates } from "../../../../store/useCombineStates";
 import ISwiper from "swiper";
 import _ from "lodash";
-import TestTour from "../../../JoyRide/TestTour";
 
 interface IProps {
   swiper: ISwiper;
-  counterActiveTracks: number;
+  activeCategoryLength: number;
   executorDoneExercise: () => void;
   setSettings: (interval: number, mode: "preparation" | "training" | "rest", status: boolean) => void;
 }
 
-const SwiperUserButtons: React.FC<IProps> = ({ swiper, counterActiveTracks, setSettings, executorDoneExercise }) => {
+const SwiperUserButtons: React.FC<IProps> = ({ swiper, activeCategoryLength, setSettings, executorDoneExercise }) => {
   const {
     preparationTime,
     timerTrainingInterval,
@@ -77,7 +76,7 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, counterActiveTracks, setS
 
   // use when user clicks on Start Workout button
   const startWorkoutClick = () => {
-    if (counterActiveTracks > 1) {
+    if (activeCategoryLength > 1) {
       swiper.slideTo(0, 1000);
     }
     setStartWorkout(false);
@@ -95,6 +94,7 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, counterActiveTracks, setS
             <>
               <IonCol>
                 <IonButton
+                  id="start-btn"
                   className="swiper__bar_btn testim"
                   expand="block"
                   disabled={disabledFromTraining}
@@ -106,6 +106,7 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, counterActiveTracks, setS
 
               <IonCol>
                 <IonButton
+                  id="skip-btn"
                   disabled={disabledFromTraining || disabledSkipButton}
                   // disabled={disabledSkipButton}
                   className="swiper__bar_btn"
@@ -154,7 +155,6 @@ const SwiperUserButtons: React.FC<IProps> = ({ swiper, counterActiveTracks, setS
           )}
         </IonRow>
       </IonGrid>
-      {/* <TestTour /> */}
     </div>
   );
 };

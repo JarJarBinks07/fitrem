@@ -26,6 +26,8 @@ interface IProps {
   timerTrainingInterval: number;
   timerRestInterval: number;
   onSaveHandler: (notificationValue: number, trainingValue: number, restValue: number) => void;
+  onFocus: (setOpen?: ((value: boolean) => void) | undefined) => void;
+  setModalSettings: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const ModalWindowSettings: React.FC<IProps> = ({
@@ -34,6 +36,8 @@ const ModalWindowSettings: React.FC<IProps> = ({
   timerTrainingInterval,
   timerRestInterval,
   onSaveHandler,
+  onFocus,
+  setModalSettings,
 }) => {
   const [notificationValue, setNotificationValue] = useState(timerNotificationInterval);
   const [trainingValue, setTrainingValue] = useState(timerTrainingInterval);
@@ -47,7 +51,10 @@ const ModalWindowSettings: React.FC<IProps> = ({
           <IonButtons slot="end">
             <IonButton
               className="modal-settings__btn"
-              onClick={() => onSaveHandler(notificationValue, trainingValue, restValue)}
+              onClick={() => {
+                onSaveHandler(notificationValue, trainingValue, restValue);
+                onFocus(setModalSettings);
+              }}
             >
               Done
             </IonButton>

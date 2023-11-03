@@ -1,4 +1,5 @@
 import React from "react";
+import ISwiper from "swiper";
 import {
   IonButton,
   IonButtons,
@@ -21,18 +22,27 @@ import "./ModalWindowStatistic.css";
 
 interface IProps {
   isOpen: boolean;
+  swiper: ISwiper;
   passedExercises: IExercise[];
-  onComplete: () => void;
+  onComplete: (swiper: ISwiper) => void;
+  setModalStatistic: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ModalWindowsStatistic: React.FC<IProps> = ({ isOpen, passedExercises, onComplete }) => {
+const ModalWindowsStatistic: React.FC<IProps> = ({ swiper, isOpen, passedExercises, onComplete, setModalStatistic }) => {
   return (
     <IonModal className="modal-statistic" isOpen={isOpen}>
       <IonHeader>
         <IonToolbar>
           <IonTitle>Statistic</IonTitle>
           <IonButtons slot="end">
-            <IonButton onClick={onComplete}>Done</IonButton>
+            <IonButton
+              onClick={() => {
+                setModalStatistic(false);
+                onComplete(swiper);
+              }}
+            >
+              Done
+            </IonButton>
           </IonButtons>
         </IonToolbar>
       </IonHeader>

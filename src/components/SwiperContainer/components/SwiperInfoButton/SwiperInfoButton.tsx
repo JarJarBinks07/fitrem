@@ -9,14 +9,17 @@ interface IProps {
 
 const SwiperInfoButton: React.FC<IProps> = ({ setIsOpen, setOnBlur }) => {
   return (
-    <IonButton
-      className="swiper__btn_info"
-      onClick={() => {
-        setOnBlur(setIsOpen);
-      }}
-    >
-      <IonIcon className="swiper__icon_info" slot="icon-only" icon={informationCircleOutline}></IonIcon>
-    </IonButton>
+    <>
+      <IonButton
+        id="info-btn"
+        className="swiper__btn_info info-button"
+        onClick={() => {
+          setOnBlur(setIsOpen);
+        }}
+      >
+        <IonIcon className="swiper__icon_info" slot="icon-only" icon={informationCircleOutline}></IonIcon>
+      </IonButton>
+    </>
   );
 };
 
