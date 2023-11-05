@@ -26,7 +26,13 @@ import { personCircle } from "ionicons/icons";
 import ProfileMenu from "../../components/Menu/ProfileMenu";
 import { useWatcher } from "../../shared/hooks/useWatcher";
 import { App } from "@capacitor/app";
-import MainButtonsTour from "../../components/JoyRide/MainButtonsTour";
+import { useLocation } from "react-router";
+import SkipTimerSettingsGuide from "../../components/TourGuide/components/GuideForSkipTimerSettings";
+import StartButtonGuide from "../../components/TourGuide/components/GuideForStartButton";
+import TrackButtonGuide from "../../components/TourGuide/components/GuideForTracksButton";
+import GuideForSkipTimerSettings from "../../components/TourGuide/components/GuideForSkipTimerSettings";
+import GuideForStartButton from "../../components/TourGuide/components/GuideForStartButton";
+import GuideForTracksButton from "../../components/TourGuide/components/GuideForTracksButton";
 
 const TimerPage: React.FC = () => {
   const {
@@ -46,9 +52,46 @@ const TimerPage: React.FC = () => {
     setPlayerId,
     setTimerTrainingStatus,
     firstConnection,
+    counterBeacons,
+    setCounterBeacons,
+    showGuideForTracksButton,
+    setGuideForTracksButton,
+    showGuideForSkipTimerSettings,
+    setGuideForSkipTimerSettings,
+    showGuideForStartButton,
+    setGuideForStartButton,
   } = useCombineStates();
-  console.log("FIRST CONNECTION", firstConnection);
 
+  console.log("COUNTER", counterBeacons);
+
+  // use for showing correctly tour guide. We also can use path in dependency
+  const location = useLocation();
+  const path = location.pathname.slice(1);
+
+  // use because JoyRide loses focus on element
+  useEffect(() => {
+    // for tracks button
+    if (counterBeacons === 5) {
+      setGuideForTracksButton(false);
+      setTimeout(() => {
+        setGuideForTracksButton(true);
+      }, 100);
+    }
+    // for skip-time-settings
+    if (counterBeacons === 0) {
+      setGuideForSkipTimerSettings(false);
+      setTimeout(() => {
+        setGuideForSkipTimerSettings(true);
+      }, 100);
+    }
+    // for start workout
+    if (counterBeacons === 3) {
+      setGuideForStartButton(false);
+      setTimeout(() => {
+        setGuideForStartButton(true);
+      }, 100);
+    }
+  }, [path, counterBeacons]);
   // use for stopping and resuming timer and video when user switches in App
   const { setOnBlur } = useWatcher();
 
@@ -156,8 +199,29 @@ const TimerPage: React.FC = () => {
             <SwiperContainer />
           )}
         </IonContent>
+        {/* <IonButton onClick={() => setShowSkipTimerSettingsGuide(true)}>TEST</IonButton> */}
       </IonPage>
-      <MainButtonsTour />
+      {path === "timer" ? (
+        <>
+          <GuideForTracksButton
+            showBeacon={showGuideForTracksButton}
+            setShowGuide={setGuideForTracksButton}
+            setCounterBeacons={setCounterBeacons}
+          />
+
+          <GuideForSkipTimerSettings
+            showBeacon={showGuideForSkipTimerSettings}
+            setShowGuide={setGuideForSkipTimerSettings}
+            setCounterBeacons={setCounterBeacons}
+          />
+
+          <GuideForStartButton
+            showBeacon={showGuideForStartButton}
+            setShowGuide={setGuideForStartButton}
+            setCounterBeacons={setCounterBeacons}
+          />
+        </>
+      ) : null}
     </>
   );
 };

@@ -19,6 +19,7 @@ import {
 } from "@ionic/react";
 
 import "./ModalWindowSettings.css";
+import { useCombineStates } from "../../../store/useCombineStates";
 
 interface IProps {
   isOpen: boolean;
@@ -42,6 +43,7 @@ const ModalWindowSettings: React.FC<IProps> = ({
   const [notificationValue, setNotificationValue] = useState(timerNotificationInterval);
   const [trainingValue, setTrainingValue] = useState(timerTrainingInterval);
   const [restValue, setRestValue] = useState(timerRestInterval);
+  const { counterBeacons, setCounterBeacons } = useCombineStates();
 
   return (
     <IonModal isOpen={isOpen}>
@@ -54,6 +56,9 @@ const ModalWindowSettings: React.FC<IProps> = ({
               onClick={() => {
                 onSaveHandler(notificationValue, trainingValue, restValue);
                 onFocus(setModalSettings);
+                if (counterBeacons === 2) {
+                  setCounterBeacons();
+                }
               }}
             >
               Done

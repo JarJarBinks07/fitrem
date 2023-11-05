@@ -4,7 +4,7 @@ import React, { useEffect, useState } from "react";
 import Joyride, { CallBackProps, STATUS, Step } from "react-joyride";
 import { useCombineStates } from "../../store/useCombineStates";
 
-import "./TourGuide.css";
+import "./index.css";
 import { NativeAudio } from "@capacitor-community/native-audio";
 
 interface State {
@@ -14,11 +14,10 @@ interface State {
 
 // type Placement = 'top' | 'top-start' | 'top-end' | 'bottom' | 'bottom-start' | 'bottom-end' | 'left' | 'left-start' | 'left-end' | 'right' | 'right-start' | 'right-end';
 
-const TourGuide: React.FC = () => {
-  const { firstConnection, userName, isEquipment, setUserName, setIsEquipment, setFirstConnection } = useCombineStates();
+const Introduction: React.FC = () => {
+  const { firstConnection, userName, setUserName, setIsEquipment, setFirstConnection } = useCombineStates();
 
   const [{ steps }, setState] = useState<State>({
-    // run: false,
     steps: [
       //STEP #1
       {
@@ -37,6 +36,7 @@ const TourGuide: React.FC = () => {
             onChange={(e) => {
               setUserName(e.target.value);
             }}
+            style={{ fontWeight: "600" }}
           ></input>
         ),
 
@@ -88,10 +88,12 @@ const TourGuide: React.FC = () => {
           <h1>
             Thanks <b>{userName}</b> for sharing!
           </h1>
-          <h2>Now I give you a helper...</h2>
+          <h2>Now I give you a helper!</h2>
 
           <img src="/assets/icons/beacon_50x50.webp" alt="beacon"></img>
-          <h2>...and let's start your training</h2>
+          <h2>
+            <b>Follow him and let's start your training</b>
+          </h2>
         </div>
       );
     }
@@ -128,4 +130,4 @@ const TourGuide: React.FC = () => {
   );
 };
 
-export default TourGuide;
+export default Introduction;

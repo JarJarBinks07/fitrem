@@ -6,8 +6,9 @@ import { CustomSqliteStorage } from "./CustomSqliteStorage";
 import { IRoot, createRootState } from "./RootState";
 import { TrackState, createTracksState } from "./TracksState";
 import { createUserState, IUser } from "./UserState";
+import { IGuide, createGuideState } from "./GuideState";
 
-export type CombineState = IRoot & INotification & ITraining & TrackState & IUser;
+export type CombineState = IRoot & INotification & ITraining & TrackState & IUser & IGuide;
 
 type MyStateCreator<T> = StateCreator<CombineState, [["zustand/devtools", never], ["zustand/persist", unknown]], [], T>;
 export default MyStateCreator;
@@ -25,6 +26,7 @@ export const useCombineStates = create<CombineState>()(
         ...createTrainingState(...a),
         ...createTracksState(...a),
         ...createUserState(...a),
+        ...createGuideState(...a),
       }),
       {
         name: "combineStore",

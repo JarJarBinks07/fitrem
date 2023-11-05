@@ -39,7 +39,6 @@ interface IVideo {
 
 const ImageContainer: React.FC = () => {
   const {
-    mainButtonsTour,
     isOpenSwiperAlert,
     timerMode,
     swiperTrackIndex,
@@ -56,7 +55,6 @@ const ImageContainer: React.FC = () => {
     setSwiperTrackIndex,
     setIsOpenSwiperAlert,
     unsetForPersist,
-    setMainButtonsTour,
   } = useCombineStates();
 
   const [swiper, setSwiper] = useState<ISwiper>();
@@ -67,13 +65,6 @@ const ImageContainer: React.FC = () => {
 
   //  use when App reloads unexpectedly and for starting tour guide
   useEffect(() => {
-    if (mainButtonsTour) {
-      setMainButtonsTour(false);
-      setTimeout(() => {
-        setMainButtonsTour(true);
-      }, 1000);
-    }
-
     unsetForPersist();
   }, []);
 
@@ -110,7 +101,6 @@ const ImageContainer: React.FC = () => {
   const [isModalStatistic, setIsModalStatistic] = useState(false);
 
   //console views
-  console.log("mainButtonsTour: ", mainButtonsTour);
   console.log("userTraining: ", userTraining);
   console.log("passedExercisesDuringSession: ", passedExercisesDuringSession);
   console.log("savedInHistoryDoneExercises: ", savedInHistoryDoneExercises);
@@ -125,7 +115,7 @@ const ImageContainer: React.FC = () => {
               setOnBlur(setIsOpenModalSettings);
             }}
           >
-            <IonIcon slot="icon-only" icon={optionsOutline}></IonIcon>
+            <IonIcon id="settings-btn" slot="icon-only" icon={optionsOutline}></IonIcon>
           </IonButton>
 
           <div>
@@ -229,7 +219,6 @@ const ImageContainer: React.FC = () => {
         setIsModalStatistic={setIsModalStatistic}
         setSwiperTrackIndex={setSwiperTrackIndex}
       />
-      <IonButton onClick={() => setMainButtonsTour(true)}>TEST</IonButton>
     </div>
   );
 };

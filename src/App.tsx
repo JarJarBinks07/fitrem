@@ -22,7 +22,7 @@ import { useGetData } from "./shared/hooks/useGetData";
 import { useWatcher } from "./shared/hooks/useWatcher";
 import { NativeAudio } from "@capacitor-community/native-audio";
 import { useEffect, useState } from "react";
-import TourGuide from "./components/JoyRide/TourGuide";
+import Introduction from "./components/TourGuide/Introduction";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -129,7 +129,7 @@ const App: React.FC = () => {
                 </IonReactRouter>
               </>
             ) : (
-              <TourGuide />
+              <Introduction />
             )}
           </>
         ) : (

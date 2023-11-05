@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ItemReorderEventDetail } from "@ionic/core";
 import {
   IonButton,
@@ -27,6 +27,8 @@ import ModalWindowTracks from "../../components/ModalWindows/ModalWindowTacks/Mo
 import { useCombineStates } from "../../store/useCombineStates";
 
 import "./Tracks.css";
+import TracksTour from "../../components/TourGuide/components/GuideForTracksButton";
+import { useLocation } from "react-router";
 
 const Tracks: React.FC = () => {
   const {
@@ -37,7 +39,21 @@ const Tracks: React.FC = () => {
     generateUserTraining,
     setOrderTracks,
     unsetWhenDone,
+    tracksTour,
+    setTracksTour,
   } = useCombineStates();
+
+  // use for showing correctly tour guide. We also can use path in dependency
+  const location = useLocation();
+  const path = location.pathname.slice(1);
+  useEffect(() => {
+    if (tracksTour) {
+      setTracksTour(false);
+      setTimeout(() => {
+        setTracksTour(true);
+      });
+    }
+  }, [path]);
 
   // ModalWindow
   const [isOpen, setIsOpen] = useState(false);
@@ -77,7 +93,7 @@ const Tracks: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen={true}>
-          <IonGrid>
+          <IonGrid id="tracks-tour">
             <IonReorderGroup disabled={false} onIonItemReorder={handleReorder}>
               {allTracks.map((item) => (
                 <div key={item.id}>
@@ -118,7 +134,9 @@ const Tracks: React.FC = () => {
           </IonGrid>
         </IonContent>
         <ModalWindowTracks isOpen={isOpen} setIsOpen={setIsOpen} category={currentCategory} unsetWhenDone={unsetWhenDone} />
+        <IonButton onClick={() => setTracksTour(true)}>TEST</IonButton>
       </IonPage>
+      {/* {path === "tracks" ? <TracksTour /> : null} */}
     </>
   );
 };

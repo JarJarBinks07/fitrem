@@ -58,7 +58,7 @@ const TimerFace: React.FC<IProps> = ({
       <>
         {timerFor === "notification" ? (
           <div className="time-wrapper">
-            <div>{timerActive ? "NEXT BREAK IS IN" : "CLICK PLAY BUTTON"}</div>
+            <div>{timerActive ? "NEXT BREAK IS IN" : "CLICK BUTTON"}</div>
             <div className="timer__digits_training">
               <div>{formattedTime}</div>
             </div>
@@ -75,20 +75,22 @@ const TimerFace: React.FC<IProps> = ({
   };
 
   return (
-    <CountdownCircleTimer
-      isPlaying={timerActive}
-      key={timerKey}
-      size={size}
-      strokeWidth={strokeWidth}
-      colors={colors}
-      colorsTime={colorsTime}
-      rotation="clockwise"
-      duration={timerInterval * fromMinuteToSeconds}
-      initialRemainingTime={timeLeft > 0 ? timeLeft : timerInterval * fromMinuteToSeconds}
-      onComplete={onComplete}
-    >
-      {({ remainingTime }) => renderTime(remainingTime, timerActive)}
-    </CountdownCircleTimer>
+    <div id="time-indicator">
+      <CountdownCircleTimer
+        isPlaying={timerActive}
+        key={timerKey}
+        size={size}
+        strokeWidth={strokeWidth}
+        colors={colors}
+        colorsTime={colorsTime}
+        rotation="clockwise"
+        duration={timerInterval * fromMinuteToSeconds}
+        initialRemainingTime={timeLeft > 0 ? timeLeft : timerInterval * fromMinuteToSeconds}
+        onComplete={onComplete}
+      >
+        {({ remainingTime }) => renderTime(remainingTime, timerActive)}
+      </CountdownCircleTimer>
+    </div>
   );
 };
 
