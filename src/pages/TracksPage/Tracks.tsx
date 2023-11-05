@@ -30,6 +30,7 @@ import "./Tracks.css";
 import TracksTour from "../../components/TourGuide/components/GuideForTracksButton";
 import { useLocation } from "react-router";
 import GuideForCheckBox from "../../components/TourGuide/components/GuideForCheckBox";
+import GuideForSelectionExercises from "../../components/TourGuide/components/GuideForSelectionExercises";
 
 const Tracks: React.FC = () => {
   const {
@@ -44,6 +45,8 @@ const Tracks: React.FC = () => {
     setCounterBeacons,
     showGuideForCheckbox,
     setGuideForCheckbox,
+    showGuideForSelectionExercises,
+    setGuideForSelectionExercises,
   } = useCombineStates();
 
   // use for showing correctly tour guide
@@ -59,7 +62,20 @@ const Tracks: React.FC = () => {
         setGuideForCheckbox(true);
       });
     }
-  }, [path, counterBeacons]);
+    if (counterBeacons == 4 && selectedCategoryTracks.length) {
+      setGuideForSelectionExercises(false);
+      setTimeout(() => {
+        setGuideForSelectionExercises(true);
+      });
+    }
+
+    if (counterBeacons == 7 && allTracks.length) {
+      // setGuideForSelectionExercises(false);
+      // setTimeout(() => {
+      //   setGuideForSelectionExercises(true);
+      // });
+    }
+  }, [path, counterBeacons, selectedCategoryTracks, allTracks]);
 
   // ModalWindow
   const [isOpen, setIsOpen] = useState(false);
@@ -103,7 +119,7 @@ const Tracks: React.FC = () => {
               {allTracks.map((item) => (
                 <div key={item.id}>
                   <IonCheckbox
-                    id="checkbox"
+                    // id="checkbox"
                     style={{ position: "fixed", left: 0, padding: 20 }}
                     className="tracks-page__check_box"
                     checked={selectedCategoryTracks.includes(item.category)}
@@ -114,6 +130,7 @@ const Tracks: React.FC = () => {
                     }}
                   />
                   <IonButton
+                    // id="selection-btn"
                     className="track-page__content__btn"
                     onClick={() => handlerCategory(item.category)}
                     style={{ position: "fixed", right: 0, zIndex: 5, padding: 15 }}
@@ -137,6 +154,12 @@ const Tracks: React.FC = () => {
                 </div>
               ))}
             </IonReorderGroup>
+            {/* for tour guide */}
+            <IonRow>
+              <IonCol id="checkbox" style={{ margin: "-7vh 0 0 0", padding: "5vh 0 20px 0" }}></IonCol>
+              <IonCol size="8"></IonCol>
+              <IonCol id="selection-btn" style={{ margin: "-7vh 0 0 0" }}></IonCol>
+            </IonRow>
           </IonGrid>
         </IonContent>
         <ModalWindowTracks isOpen={isOpen} setIsOpen={setIsOpen} category={currentCategory} unsetWhenDone={unsetWhenDone} />
@@ -146,6 +169,11 @@ const Tracks: React.FC = () => {
           <GuideForCheckBox
             showBeacon={showGuideForCheckbox}
             setShowGuide={setGuideForCheckbox}
+            setCounterBeacons={setCounterBeacons}
+          />
+          <GuideForSelectionExercises
+            showBeacon={showGuideForSelectionExercises}
+            setShowGuide={setGuideForSelectionExercises}
             setCounterBeacons={setCounterBeacons}
           />
         </>

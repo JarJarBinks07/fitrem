@@ -68,7 +68,7 @@ const App: React.FC = () => {
     });
   };
 
-  const { rehydrated, firstConnection, checkedDateAfterRegistration } = useCombineStates();
+  const { rehydrated, firstConnection, checkedDateAfterRegistration, isNotification } = useCombineStates();
 
   // console.log("FIRST CONNECTION", firstConnection);
   // console.log("REHYDRATED", rehydrated);
@@ -103,9 +103,15 @@ const App: React.FC = () => {
                       <IonTabButton className="app__tab_button" tab="timer" href="/timer">
                         <IonButton className="app__btn" onClick={() => setOnFocus()}>
                           <IonIcon className="app__icon" icon={timer} />
-                          <IonLabel className="app__label" color="light">
-                            Timer
-                          </IonLabel>
+                          {!isNotification ? (
+                            <IonLabel className="app__label" color="light">
+                              Training
+                            </IonLabel>
+                          ) : (
+                            <IonLabel className="app__label" color="light">
+                              Notification
+                            </IonLabel>
+                          )}
                         </IonButton>
                       </IonTabButton>
                       <IonTabButton className="app__tab_button" tab="tracks" href="/tracks">

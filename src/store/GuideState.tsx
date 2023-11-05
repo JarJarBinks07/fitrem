@@ -25,6 +25,8 @@ export interface IGuide {
   setGuideForTracksButton: (value: boolean) => void;
   showGuideForCheckbox: boolean;
   setGuideForCheckbox: (value: boolean) => void;
+  showGuideForSelectionExercises: boolean;
+  setGuideForSelectionExercises: (value: boolean) => void;
 }
 
 export const createGuideState: MyStateCreator<IGuide> = (set) => ({
@@ -66,4 +68,8 @@ export const createGuideState: MyStateCreator<IGuide> = (set) => ({
 
   showGuideForCheckbox: false,
   setGuideForCheckbox: (value) => set(() => ({ showGuideForCheckbox: value }), false, "setProfileBtnTour"),
+
+  showGuideForSelectionExercises: false,
+  setGuideForSelectionExercises: (value) =>
+    set(() => ({ showGuideForSelectionExercises: value }), false, "setGuideForSelectionExercises"),
 });
