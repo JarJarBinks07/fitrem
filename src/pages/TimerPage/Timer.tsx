@@ -27,12 +27,9 @@ import ProfileMenu from "../../components/Menu/ProfileMenu";
 import { useWatcher } from "../../shared/hooks/useWatcher";
 import { App } from "@capacitor/app";
 import { useLocation } from "react-router";
-import SkipTimerSettingsGuide from "../../components/TourGuide/components/GuideForSkipTimerSettings";
-import StartButtonGuide from "../../components/TourGuide/components/GuideForStartButton";
-import TrackButtonGuide from "../../components/TourGuide/components/GuideForTracksButton";
 import GuideForSkipTimerSettings from "../../components/TourGuide/components/GuideForSkipTimerSettings";
 import GuideForStartButton from "../../components/TourGuide/components/GuideForStartButton";
-import GuideForTracksButton from "../../components/TourGuide/components/GuideForTracksButton";
+import GuideForTabTracksButton from "../../components/TourGuide/components/GuideForTabTracksButton";
 
 const TimerPage: React.FC = () => {
   const {
@@ -54,8 +51,8 @@ const TimerPage: React.FC = () => {
     firstConnection,
     counterBeacons,
     setCounterBeacons,
-    showGuideForTracksButton,
-    setGuideForTracksButton,
+    showGuideForTabTracksButton,
+    setGuideForTabTracksButton,
     showGuideForSkipTimerSettings,
     setGuideForSkipTimerSettings,
     showGuideForStartButton,
@@ -72,25 +69,25 @@ const TimerPage: React.FC = () => {
   useEffect(() => {
     // for tracks button
     if (counterBeacons === 0) {
-      setGuideForTracksButton(false);
+      setGuideForTabTracksButton(false);
       setTimeout(() => {
-        setGuideForTracksButton(true);
+        setGuideForTabTracksButton(true);
       }, 100);
     }
     // for skip-time-settings
-    // if (counterBeacons === 0) {
-    //   setGuideForSkipTimerSettings(false);
-    //   setTimeout(() => {
-    //     setGuideForSkipTimerSettings(true);
-    //   }, 100);
-    // }
-    // // for start workout
-    // if (counterBeacons === 3) {
-    //   setGuideForStartButton(false);
-    //   setTimeout(() => {
-    //     setGuideForStartButton(true);
-    //   }, 100);
-    // }
+    if (counterBeacons === 9) {
+      setGuideForSkipTimerSettings(false);
+      setTimeout(() => {
+        setGuideForSkipTimerSettings(true);
+      }, 100);
+    }
+    // for start workout
+    if (counterBeacons === 12) {
+      setGuideForStartButton(false);
+      setTimeout(() => {
+        setGuideForStartButton(true);
+      }, 100);
+    }
   }, [path, counterBeacons]);
   // use for stopping and resuming timer and video when user switches in App
   const { setOnBlur } = useWatcher();
@@ -199,13 +196,12 @@ const TimerPage: React.FC = () => {
             <SwiperContainer />
           )}
         </IonContent>
-        {/* <IonButton onClick={() => setShowSkipTimerSettingsGuide(true)}>TEST</IonButton> */}
       </IonPage>
       {path === "timer" ? (
         <>
-          <GuideForTracksButton
-            showBeacon={showGuideForTracksButton}
-            setShowGuide={setGuideForTracksButton}
+          <GuideForTabTracksButton
+            showBeacon={showGuideForTabTracksButton}
+            setShowGuide={setGuideForTabTracksButton}
             setCounterBeacons={setCounterBeacons}
           />
 

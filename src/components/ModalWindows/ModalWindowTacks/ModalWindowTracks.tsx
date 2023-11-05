@@ -40,8 +40,16 @@ interface IVideo {
 }
 
 function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
-  const { allExercises, selectedExercisesByID, setSelectedExercisesByID, generateUserTraining, unsetWhenDone } =
-    useCombineStates();
+  const {
+    allExercises,
+    selectedExercisesByID,
+    counterBeacons,
+    userTraining,
+    setSelectedExercisesByID,
+    generateUserTraining,
+    unsetWhenDone,
+    setCounterBeacons,
+  } = useCombineStates();
 
   const [openNewWindow, setOpenNewWindow] = useState(false);
   const [exerciseID, setExerciseID] = useState<number | null>(null);
@@ -59,7 +67,15 @@ function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
         <IonToolbar>
           <IonTitle>{category}</IonTitle>
           <IonButtons slot="end">
-            <IonButton className="tracks__modal_btn" onClick={() => setIsOpen(false)}>
+            <IonButton
+              className="tracks__modal_btn"
+              onClick={() => {
+                setIsOpen(false);
+                if (counterBeacons === 6 && userTraining.length) {
+                  setCounterBeacons();
+                }
+              }}
+            >
               Close
             </IonButton>
           </IonButtons>

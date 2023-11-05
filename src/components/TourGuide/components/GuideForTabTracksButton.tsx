@@ -11,20 +11,18 @@ interface IProps {
   setCounterBeacons: () => void;
 }
 
-const GuideForStartButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setCounterBeacons }) => {
-  const stepForStartButton: Step[] = [
-    // START
+const GuideForTabTracksButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setCounterBeacons }) => {
+  const stepForTabTracksButton: Step[] = [
+    // TRACK
     {
-      title: <p className="tour__tile">Ok! Now you are ready!</p>,
+      title: <p className="tour__tile">Here you can choose favorite exercises</p>,
       content: (
-        <div>
-          <h1>
-            <b>Click and start your training</b>
-          </h1>
-        </div>
+        <p>
+          <b>Let's do it! Click on button</b>
+        </p>
       ),
-      placement: "bottom",
-      target: "#start-btn",
+      placement: "top",
+      target: "#track-btn",
     },
   ];
 
@@ -49,7 +47,7 @@ const GuideForStartButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setCo
       <Joyride
         run={showBeacon}
         callback={handleJoyrideCallback}
-        steps={stepForStartButton}
+        steps={stepForTabTracksButton}
         debug // without using app gets error with global undefined
         hideBackButton
         hideCloseButton
@@ -71,4 +69,4 @@ const GuideForStartButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setCo
   );
 };
 
-export default GuideForStartButton;
+export default GuideForTabTracksButton;

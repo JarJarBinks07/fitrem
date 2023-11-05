@@ -11,18 +11,22 @@ interface IProps {
   setCounterBeacons: () => void;
 }
 
-const GuideForTracksButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setCounterBeacons }) => {
-  const stepForTracksButton: Step[] = [
-    // TRACK
+const GuideForTabTrainingButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setCounterBeacons }) => {
+  const stepForTabTrainingButton: Step[] = [
+    // TAB TIMER
     {
-      title: "Here you can choose favorite exercises",
+      title: <p className="tour__tile">Now you created your own training</p>,
       content: (
-        <h1>
-          <b>Let's do it! Click on button</b>
-        </h1>
+        <div className="tab-button__container">
+          <p className="tab-button__content">Your exercises'll be showing randomly</p>
+          <p className="tab-button__content">During training you can do only one exercise from category</p>
+          <p className="tab-button__content">You can do as much exercises as active category you chose</p>
+          <p className="tab-button__content">Let's check it! Click on button</p>
+        </div>
       ),
+
       placement: "top",
-      target: "#track-btn",
+      target: "#timer-btn",
     },
   ];
 
@@ -47,7 +51,7 @@ const GuideForTracksButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setC
       <Joyride
         run={showBeacon}
         callback={handleJoyrideCallback}
-        steps={stepForTracksButton}
+        steps={stepForTabTrainingButton}
         debug // without using app gets error with global undefined
         hideBackButton
         hideCloseButton
@@ -69,4 +73,4 @@ const GuideForTracksButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setC
   );
 };
 
-export default GuideForTracksButton;
+export default GuideForTabTrainingButton;

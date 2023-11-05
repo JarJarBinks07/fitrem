@@ -56,7 +56,7 @@ const ModalWindowSettings: React.FC<IProps> = ({
               onClick={() => {
                 onSaveHandler(notificationValue, trainingValue, restValue);
                 onFocus(setModalSettings);
-                if (counterBeacons === 2) {
+                if (counterBeacons === 11) {
                   setCounterBeacons();
                 }
               }}

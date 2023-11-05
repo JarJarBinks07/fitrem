@@ -27,10 +27,10 @@ import ModalWindowTracks from "../../components/ModalWindows/ModalWindowTacks/Mo
 import { useCombineStates } from "../../store/useCombineStates";
 
 import "./Tracks.css";
-import TracksTour from "../../components/TourGuide/components/GuideForTracksButton";
 import { useLocation } from "react-router";
 import GuideForCheckBox from "../../components/TourGuide/components/GuideForCheckBox";
 import GuideForSelectionExercises from "../../components/TourGuide/components/GuideForSelectionExercises";
+import GuideForTabTrainingButton from "../../components/TourGuide/components/GuideForTabTrainingButton";
 
 const Tracks: React.FC = () => {
   const {
@@ -38,6 +38,7 @@ const Tracks: React.FC = () => {
     setSelectedCategoryTracks,
     selectedCategoryTracks,
     allTracks,
+    userTraining,
     generateUserTraining,
     setOrderTracks,
     unsetWhenDone,
@@ -47,6 +48,8 @@ const Tracks: React.FC = () => {
     setGuideForCheckbox,
     showGuideForSelectionExercises,
     setGuideForSelectionExercises,
+    showGuideForTabTrainingButton,
+    setGuideForTabTrainingButton,
   } = useCombineStates();
 
   // use for showing correctly tour guide
@@ -69,13 +72,13 @@ const Tracks: React.FC = () => {
       });
     }
 
-    if (counterBeacons == 7 && allTracks.length) {
-      // setGuideForSelectionExercises(false);
-      // setTimeout(() => {
-      //   setGuideForSelectionExercises(true);
-      // });
+    if (counterBeacons == 7 && userTraining.length) {
+      setGuideForTabTrainingButton(false);
+      setTimeout(() => {
+        setGuideForTabTrainingButton(true);
+      });
     }
-  }, [path, counterBeacons, selectedCategoryTracks, allTracks]);
+  }, [path, counterBeacons, selectedCategoryTracks, userTraining]);
 
   // ModalWindow
   const [isOpen, setIsOpen] = useState(false);
@@ -174,6 +177,11 @@ const Tracks: React.FC = () => {
           <GuideForSelectionExercises
             showBeacon={showGuideForSelectionExercises}
             setShowGuide={setGuideForSelectionExercises}
+            setCounterBeacons={setCounterBeacons}
+          />
+          <GuideForTabTrainingButton
+            showBeacon={showGuideForTabTrainingButton}
+            setShowGuide={setGuideForTabTrainingButton}
             setCounterBeacons={setCounterBeacons}
           />
         </>

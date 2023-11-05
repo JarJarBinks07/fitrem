@@ -21,12 +21,14 @@ export interface IGuide {
   setGuideForSkipTimerSettings: (value: boolean) => void;
   showGuideForStartButton: boolean;
   setGuideForStartButton: (value: boolean) => void;
-  showGuideForTracksButton: boolean;
-  setGuideForTracksButton: (value: boolean) => void;
+  showGuideForTabTracksButton: boolean;
+  setGuideForTabTracksButton: (value: boolean) => void;
   showGuideForCheckbox: boolean;
   setGuideForCheckbox: (value: boolean) => void;
   showGuideForSelectionExercises: boolean;
   setGuideForSelectionExercises: (value: boolean) => void;
+  showGuideForTabTrainingButton: boolean;
+  setGuideForTabTrainingButton: (value: boolean) => void;
 }
 
 export const createGuideState: MyStateCreator<IGuide> = (set) => ({
@@ -63,8 +65,9 @@ export const createGuideState: MyStateCreator<IGuide> = (set) => ({
   showGuideForStartButton: false,
   setGuideForStartButton: (value) => set(() => ({ showGuideForStartButton: value }), false, "setGuideForStartButton"),
 
-  showGuideForTracksButton: false,
-  setGuideForTracksButton: (value) => set(() => ({ showGuideForTracksButton: value }), false, "setGuideForTracksButton"),
+  showGuideForTabTracksButton: false,
+  setGuideForTabTracksButton: (value) =>
+    set(() => ({ showGuideForTabTracksButton: value }), false, "setGuideForTracksButton"),
 
   showGuideForCheckbox: false,
   setGuideForCheckbox: (value) => set(() => ({ showGuideForCheckbox: value }), false, "setProfileBtnTour"),
@@ -72,4 +75,8 @@ export const createGuideState: MyStateCreator<IGuide> = (set) => ({
   showGuideForSelectionExercises: false,
   setGuideForSelectionExercises: (value) =>
     set(() => ({ showGuideForSelectionExercises: value }), false, "setGuideForSelectionExercises"),
+
+  showGuideForTabTrainingButton: false,
+  setGuideForTabTrainingButton: (value) =>
+    set(() => ({ showGuideForTabTrainingButton: value }), false, "setGuideForTracksButton"),
 });

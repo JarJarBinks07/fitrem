@@ -46,8 +46,7 @@ input {
 
 /* TimerPageButtons */
 
-/* for timers indicator */
-
+/* timers indicator */
 .tour-timers__container {
   display: flex;
   justify-content: space-between;
@@ -67,8 +66,7 @@ input {
   font-weight: 600;
 }
 
-/* for settings for timers */
-
+/* settings for timers */
 .tour-settings__container {
   display: flex;
   flex-direction: column;
@@ -76,7 +74,6 @@ input {
   margin: 20px 0 0 0;
 }
 .tour-settings__content {
-  /* border: 1px solid #000; */
   border-radius: 8px;
   width: 25vh;
   margin: 0 0 20px 0;
@@ -91,4 +88,19 @@ input {
 }
 .tour-settings__content_green {
   background-color: #2fc22d;
+}
+/* timer tab-button  */
+.tab-button__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.tab-button__content {
+  font-weight: 600;
+  padding: 10px 0 10px 0;
+}
+.tab-button__content:last-child {
+  font-weight: 700;
+  margin: 10px 0 0 0;
 }

@@ -101,7 +101,7 @@ const App: React.FC = () => {
                     </IonRouterOutlet>
                     <IonTabBar className="app__tab_bar" slot="bottom" color="warning">
                       <IonTabButton className="app__tab_button" tab="timer" href="/timer">
-                        <IonButton className="app__btn" onClick={() => setOnFocus()}>
+                        <IonButton id="timer-btn" className="app__btn" onClick={() => setOnFocus()}>
                           <IonIcon className="app__icon" icon={timer} />
                           {!isNotification ? (
                             <IonLabel className="app__label" color="light">
