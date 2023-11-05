@@ -72,21 +72,21 @@ const TimerPage: React.FC = () => {
       setGuideForTabTracksButton(false);
       setTimeout(() => {
         setGuideForTabTracksButton(true);
-      }, 100);
+      });
     }
     // for skip-time-settings
     if (counterBeacons === 9) {
       setGuideForSkipTimerSettings(false);
       setTimeout(() => {
         setGuideForSkipTimerSettings(true);
-      }, 100);
+      });
     }
     // for start workout
     if (counterBeacons === 12) {
       setGuideForStartButton(false);
       setTimeout(() => {
         setGuideForStartButton(true);
-      }, 100);
+      });
     }
   }, [path, counterBeacons]);
   // use for stopping and resuming timer and video when user switches in App

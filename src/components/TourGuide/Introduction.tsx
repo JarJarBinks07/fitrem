@@ -70,11 +70,6 @@ const Introduction: React.FC = () => {
       },
     ],
   });
-
-  const handleClickStart = (event: React.MouseEvent<HTMLElement>) => {
-    event.preventDefault();
-    // setState({ steps: [...steps], run: true });
-  };
   function logGroup(type: string, data: any) {
     console.groupCollapsed(type);
     console.log(data);
@@ -90,7 +85,8 @@ const Introduction: React.FC = () => {
           </h1>
           <h2>Now I give you a helper!</h2>
 
-          <img src="/assets/icons/beacon_50x50.webp" alt="beacon"></img>
+          <img src="/assets/icons/beacon-green_45x45.webp" alt="beacon"></img>
+
           <h2>
             <b>Follow him and let's start your training</b>
           </h2>
