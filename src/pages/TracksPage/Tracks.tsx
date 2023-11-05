@@ -29,6 +29,7 @@ import { useCombineStates } from "../../store/useCombineStates";
 import "./Tracks.css";
 import TracksTour from "../../components/TourGuide/components/GuideForTracksButton";
 import { useLocation } from "react-router";
+import GuideForCheckBox from "../../components/TourGuide/components/GuideForCheckBox";
 
 const Tracks: React.FC = () => {
   const {
@@ -39,21 +40,26 @@ const Tracks: React.FC = () => {
     generateUserTraining,
     setOrderTracks,
     unsetWhenDone,
-    tracksTour,
-    setTracksTour,
+    counterBeacons,
+    setCounterBeacons,
+    showGuideForCheckbox,
+    setGuideForCheckbox,
   } = useCombineStates();
 
-  // use for showing correctly tour guide. We also can use path in dependency
+  // use for showing correctly tour guide
   const location = useLocation();
   const path = location.pathname.slice(1);
+
+  // use because JoyRide loses focus on element
   useEffect(() => {
-    if (tracksTour) {
-      setTracksTour(false);
+    // for checkbox
+    if (counterBeacons == 2) {
+      setGuideForCheckbox(false);
       setTimeout(() => {
-        setTracksTour(true);
+        setGuideForCheckbox(true);
       });
     }
-  }, [path]);
+  }, [path, counterBeacons]);
 
   // ModalWindow
   const [isOpen, setIsOpen] = useState(false);
@@ -67,7 +73,6 @@ const Tracks: React.FC = () => {
   function handleReorder(event: CustomEvent<ItemReorderEventDetail>) {
     const newArrOfTracks = [...allTracks];
     const [removedTrackFrom] = newArrOfTracks.splice(event.detail.from, 1);
-    console.log(removedTrackFrom);
     newArrOfTracks.splice(event.detail.to, 0, removedTrackFrom);
     setOrderTracks(newArrOfTracks);
     setReorderedSelectedCategoryTracks();
@@ -93,11 +98,12 @@ const Tracks: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen={true}>
-          <IonGrid id="tracks-tour">
+          <IonGrid>
             <IonReorderGroup disabled={false} onIonItemReorder={handleReorder}>
               {allTracks.map((item) => (
                 <div key={item.id}>
                   <IonCheckbox
+                    id="checkbox"
                     style={{ position: "fixed", left: 0, padding: 20 }}
                     className="tracks-page__check_box"
                     checked={selectedCategoryTracks.includes(item.category)}
@@ -134,9 +140,16 @@ const Tracks: React.FC = () => {
           </IonGrid>
         </IonContent>
         <ModalWindowTracks isOpen={isOpen} setIsOpen={setIsOpen} category={currentCategory} unsetWhenDone={unsetWhenDone} />
-        <IonButton onClick={() => setTracksTour(true)}>TEST</IonButton>
       </IonPage>
-      {/* {path === "tracks" ? <TracksTour /> : null} */}
+      {path === "tracks" ? (
+        <>
+          <GuideForCheckBox
+            showBeacon={showGuideForCheckbox}
+            setShowGuide={setGuideForCheckbox}
+            setCounterBeacons={setCounterBeacons}
+          />
+        </>
+      ) : null}
     </>
   );
 };

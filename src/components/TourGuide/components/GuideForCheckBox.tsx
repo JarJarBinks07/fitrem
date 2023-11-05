@@ -11,18 +11,20 @@ interface IProps {
   setCounterBeacons: () => void;
 }
 
-const GuideForTracksButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setCounterBeacons }) => {
-  const stepForTracksButton: Step[] = [
-    // TRACK
+const GuideForCheckBox: React.FC<IProps> = ({ showBeacon, setShowGuide, setCounterBeacons }) => {
+  const stepForCheckBox: Step[] = [
+    // CHECKBOX
     {
-      title: "Here you can choose favorite exercises",
+      title: <p className="tour__tile">Choose at least one Track!</p>,
       content: (
-        <h1>
-          <b>Let's do it! Click on button</b>
-        </h1>
+        <div>
+          <h1>
+            <b>And go further</b>
+          </h1>
+        </div>
       ),
-      placement: "top",
-      target: "#track-btn",
+      placement: "right",
+      target: "#checkbox",
     },
   ];
 
@@ -47,7 +49,7 @@ const GuideForTracksButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setC
       <Joyride
         run={showBeacon}
         callback={handleJoyrideCallback}
-        steps={stepForTracksButton}
+        steps={stepForCheckBox}
         debug // without using app gets error with global undefined
         hideBackButton
         hideCloseButton
@@ -69,4 +71,4 @@ const GuideForTracksButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setC
   );
 };
 
-export default GuideForTracksButton;
+export default GuideForCheckBox;

@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const GuideForSkipTimerSettings: React.FC<IProps> = ({ showBeacon, setShowGuide, setCounterBeacons }) => {
-  const stepsForButtons: Step[] = [
+  const stepsSkipTimerSettings: Step[] = [
     // SKIP
     {
       title: <p className="tour__tile">Make your training more comfortable!</p>,
@@ -93,7 +93,7 @@ const GuideForSkipTimerSettings: React.FC<IProps> = ({ showBeacon, setShowGuide,
       <Joyride
         run={showBeacon}
         callback={handleJoyrideCallback}
-        steps={stepsForButtons}
+        steps={stepsSkipTimerSettings}
         debug // without using app gets error with global undefined
         continuous
         hideBackButton
@@ -105,7 +105,7 @@ const GuideForSkipTimerSettings: React.FC<IProps> = ({ showBeacon, setShowGuide,
             arrowColor: "#ffc409", //arrow
             backgroundColor: "#ffffff", //background for card
             overlayColor: "rgba(79, 26, 0, 0.4)", //background for App
-            primaryColor: "#ffc409", //button
+            primaryColor: "#2fc22d", //button
             textColor: "#000", //main text
             // width: 900,
             zIndex: 1000,

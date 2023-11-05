@@ -12,9 +12,7 @@ export interface IGuide {
   firstConnection: boolean;
   introButtonsStatus: Introduction;
 
-  tracksTour: boolean;
   setFirstConnection: (value: boolean) => void;
-  setTracksTour: (value: boolean) => void;
   checkedDateAfterRegistration: () => void;
   //
   counterBeacons: number;
@@ -25,6 +23,8 @@ export interface IGuide {
   setGuideForStartButton: (value: boolean) => void;
   showGuideForTracksButton: boolean;
   setGuideForTracksButton: (value: boolean) => void;
+  showGuideForCheckbox: boolean;
+  setGuideForCheckbox: (value: boolean) => void;
 }
 
 export const createGuideState: MyStateCreator<IGuide> = (set) => ({
@@ -54,9 +54,6 @@ export const createGuideState: MyStateCreator<IGuide> = (set) => ({
   firstConnection: true,
   setFirstConnection: (value) => set(() => ({ firstConnection: value }), false, "setFirstConnection"),
 
-  tracksTour: true,
-  setTracksTour: (value) => set(() => ({ tracksTour: value }), false, "setProfileBtnTour"),
-
   showGuideForSkipTimerSettings: false,
   setGuideForSkipTimerSettings: (value) =>
     set(() => ({ showGuideForSkipTimerSettings: value }), false, "setGuideForSkipTimerSettings"),
@@ -66,4 +63,7 @@ export const createGuideState: MyStateCreator<IGuide> = (set) => ({
 
   showGuideForTracksButton: false,
   setGuideForTracksButton: (value) => set(() => ({ showGuideForTracksButton: value }), false, "setGuideForTracksButton"),
+
+  showGuideForCheckbox: false,
+  setGuideForCheckbox: (value) => set(() => ({ showGuideForCheckbox: value }), false, "setProfileBtnTour"),
 });

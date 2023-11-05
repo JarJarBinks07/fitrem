@@ -60,7 +60,7 @@ const GuideForStartButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setCo
             arrowColor: "#ffc409", //arrow
             backgroundColor: "#ffffff", //background for card
             overlayColor: "rgba(79, 26, 0, 0.4)", //background for App
-            primaryColor: "#ffc409", //button
+            primaryColor: "#2fc22d", //button
             textColor: "#000", //main text
             // width: 900,
             zIndex: 1000,

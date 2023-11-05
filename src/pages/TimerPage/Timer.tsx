@@ -71,26 +71,26 @@ const TimerPage: React.FC = () => {
   // use because JoyRide loses focus on element
   useEffect(() => {
     // for tracks button
-    if (counterBeacons === 5) {
+    if (counterBeacons === 0) {
       setGuideForTracksButton(false);
       setTimeout(() => {
         setGuideForTracksButton(true);
       }, 100);
     }
     // for skip-time-settings
-    if (counterBeacons === 0) {
-      setGuideForSkipTimerSettings(false);
-      setTimeout(() => {
-        setGuideForSkipTimerSettings(true);
-      }, 100);
-    }
-    // for start workout
-    if (counterBeacons === 3) {
-      setGuideForStartButton(false);
-      setTimeout(() => {
-        setGuideForStartButton(true);
-      }, 100);
-    }
+    // if (counterBeacons === 0) {
+    //   setGuideForSkipTimerSettings(false);
+    //   setTimeout(() => {
+    //     setGuideForSkipTimerSettings(true);
+    //   }, 100);
+    // }
+    // // for start workout
+    // if (counterBeacons === 3) {
+    //   setGuideForStartButton(false);
+    //   setTimeout(() => {
+    //     setGuideForStartButton(true);
+    //   }, 100);
+    // }
   }, [path, counterBeacons]);
   // use for stopping and resuming timer and video when user switches in App
   const { setOnBlur } = useWatcher();
