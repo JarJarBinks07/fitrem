@@ -1,6 +1,7 @@
 import { IonButton, IonIcon } from "@ionic/react";
 import { informationCircleOutline } from "ionicons/icons";
 import React from "react";
+import { useCombineStates } from "../../../../store/useCombineStates";
 
 interface IProps {
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -8,16 +9,20 @@ interface IProps {
 }
 
 const SwiperInfoButton: React.FC<IProps> = ({ setIsOpen, setOnBlur }) => {
+  const { setInfoButtonStatus, introButtonsStatus } = useCombineStates();
   return (
     <>
       <IonButton
         id="info-btn"
         className="swiper__btn_info info-button"
         onClick={() => {
+          if (introButtonsStatus.infoBtn) {
+            setInfoButtonStatus(false);
+          }
           setOnBlur(setIsOpen);
         }}
       >
-        <IonIcon className="swiper__icon_info" slot="icon-only" icon={informationCircleOutline}></IonIcon>
+        <IonIcon id="info-btn" className="swiper__icon_info" slot="icon-only" icon={informationCircleOutline}></IonIcon>
       </IonButton>
     </>
   );

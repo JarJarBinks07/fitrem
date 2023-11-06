@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import _ from "lodash";
 import "./Timer.css";
 import {
@@ -31,6 +31,7 @@ import GuideForSkipTimerSettings from "../../components/TourGuide/components/Gui
 import GuideForStartButton from "../../components/TourGuide/components/GuideForStartButton";
 import GuideForTabTracksButton from "../../components/TourGuide/components/GuideForTabTracksButton";
 import GuideForNotification from "../../components/TourGuide/components/GuideForNotification";
+import GuideForInfoButton from "../../components/TourGuide/components/GuideForInfoButton";
 
 const TimerPage: React.FC = () => {
   const {
@@ -60,6 +61,14 @@ const TimerPage: React.FC = () => {
     setGuideForStartButton,
     showGuideForNotification,
     setGuideForNotification,
+    checkedDateAfterRegistration,
+    delayForShowingGuide,
+    differenceInTimeForGuide,
+    introButtonsStatus,
+    setInfoButtonStatus,
+    setProfileButtonStatus,
+    userTraining,
+    registrationDate,
   } = useCombineStates();
 
   console.log("COUNTER", counterBeacons);
@@ -67,6 +76,21 @@ const TimerPage: React.FC = () => {
   // use for showing correctly tour guide. We also can use path in dependency
   const location = useLocation();
   const path = location.pathname.slice(1);
+
+  // use for deffered Guide. Check if time is over
+  const [activatedGuideForInfoButton, setActivatedGuideForInfoButton] = useState(false);
+  useEffect(() => {
+    if (
+      differenceInTimeForGuide > delayForShowingGuide &&
+      userTraining.length &&
+      introButtonsStatus.infoBtn &&
+      !isNotification
+    ) {
+      setActivatedGuideForInfoButton(true);
+    } else {
+      checkedDateAfterRegistration();
+    }
+  }, []);
 
   // use because JoyRide loses focus on element
   useEffect(() => {
@@ -214,22 +238,24 @@ const TimerPage: React.FC = () => {
             setShowGuide={setGuideForTabTracksButton}
             setCounterBeacons={setCounterBeacons}
           />
-
           <GuideForSkipTimerSettings
             showBeacon={showGuideForSkipTimerSettings}
             setShowGuide={setGuideForSkipTimerSettings}
             setCounterBeacons={setCounterBeacons}
           />
-
           <GuideForStartButton
             showBeacon={showGuideForStartButton}
             setShowGuide={setGuideForStartButton}
             setCounterBeacons={setCounterBeacons}
           />
-
           <GuideForNotification
             showBeacon={showGuideForNotification}
             setShowGuide={setGuideForNotification}
+            setCounterBeacons={setCounterBeacons}
+          />
+          <GuideForInfoButton
+            showBeacon={activatedGuideForInfoButton}
+            setShowGuide={setInfoButtonStatus}
             setCounterBeacons={setCounterBeacons}
           />
         </>

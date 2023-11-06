@@ -4,14 +4,17 @@ import { DateTime } from "luxon";
 export interface Introduction {
   infoBtn: boolean;
   profileBtn: boolean;
-  settingsBtn: boolean;
 }
 
 export interface IGuide {
   registrationDate: number;
   firstConnection: boolean;
   introButtonsStatus: Introduction;
-
+  delayForShowingGuide: number;
+  differenceInTimeForGuide: number;
+  setInfoButtonStatus: (value: boolean) => void;
+  setProfileButtonStatus: (value: boolean) => void;
+  //
   setFirstConnection: (value: boolean) => void;
   checkedDateAfterRegistration: () => void;
   //
@@ -34,31 +37,40 @@ export interface IGuide {
 }
 
 export const createGuideState: MyStateCreator<IGuide> = (set) => ({
+  firstConnection: true,
+  setFirstConnection: (value) => set(() => ({ firstConnection: value }), false, "setFirstConnection"),
+
   counterBeacons: 0,
   setCounterBeacons: () => set((state) => ({ counterBeacons: ++state.counterBeacons }), false, "setCounterBeacons"),
 
-  registrationDate: 1698951545544,
+  introButtonsStatus: {
+    infoBtn: true,
+    profileBtn: true,
+  },
+  registrationDate: Date.now(),
+  delayForShowingGuide: 30, //must be in sec
+  differenceInTimeForGuide: 0,
   checkedDateAfterRegistration: () =>
     set(
       (state) => {
         const currentDate = DateTime.fromMillis(Date.now());
         const registraTionDate = DateTime.fromMillis(state.registrationDate);
-
-        const diffInDays = currentDate.diff(registraTionDate, "second");
-        const result = diffInDays.toObject(); //=> { months: 1 }
-        console.log("DIFFERENCE", result);
-        return state;
+        const diffInSeconds = currentDate.diff(registraTionDate, "second");
+        const result = diffInSeconds.toObject();
+        console.log("DIFFERENCE", result.seconds);
+        return { differenceInTimeForGuide: result.seconds };
       },
       false,
       "checkedDateAfterRegistration"
     ),
-  introButtonsStatus: {
-    infoBtn: false,
-    profileBtn: false,
-    settingsBtn: false,
-  },
-  firstConnection: true,
-  setFirstConnection: (value) => set(() => ({ firstConnection: value }), false, "setFirstConnection"),
+  setInfoButtonStatus: (value) =>
+    set((state) => ({ introButtonsStatus: { ...state.introButtonsStatus, infoBtn: value } }), false, "setInfoButtonStatus"),
+  setProfileButtonStatus: (value) =>
+    set(
+      (state) => ({ introButtonsStatus: { ...state.introButtonsStatus, profileBtn: value } }),
+      false,
+      "setProfileButtonStatus"
+    ),
 
   showGuideForSkipTimerSettings: false,
   setGuideForSkipTimerSettings: (value) =>
