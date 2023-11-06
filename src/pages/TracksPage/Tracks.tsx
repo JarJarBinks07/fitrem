@@ -31,13 +31,13 @@ import TourGuide from "../../components/TourGuide/TourGuide";
 
 const Tracks: React.FC = () => {
   const {
-    stepsForBeacons,
     allTracks,
     selectedCategoryTracks,
-    setReorderedSelectedCategoryTracks,
-    setSelectedCategoryTracks,
-    generateUserTraining,
     setOrderTracks,
+    generateUserTraining,
+    setIsOpenProfileMenu,
+    setSelectedCategoryTracks,
+    setReorderedSelectedCategoryTracks,
     unsetWhenDone,
   } = useCombineStates();
 
@@ -73,7 +73,7 @@ const Tracks: React.FC = () => {
           <IonToolbar color="warning">
             <IonButtons slot="primary">
               <IonMenuToggle>
-                <IonButton className="tracks-page__profile_btn">
+                <IonButton className="tracks-page__profile_btn" onClick={() => setIsOpenProfileMenu(true)}>
                   <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
                 </IonButton>
               </IonMenuToggle>

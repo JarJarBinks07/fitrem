@@ -5,7 +5,7 @@ interface IProps {
   isOpen: boolean;
   setIsOpen: (value: boolean) => void;
   setSwiperTrackIndex: (value: number) => void;
-  setIsModalStatistic: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsModalStatistic: (value: boolean) => void;
 }
 
 const SwiperAlert: React.FC<IProps> = ({ isOpen, setIsOpen, setIsModalStatistic, setSwiperTrackIndex }) => {

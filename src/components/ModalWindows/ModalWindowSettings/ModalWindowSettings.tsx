@@ -28,7 +28,7 @@ interface IProps {
   timerRestInterval: number;
   onSaveHandler: (notificationValue: number, trainingValue: number, restValue: number) => void;
   onFocus: (setOpen?: ((value: boolean) => void) | undefined) => void;
-  setModalSettings: React.Dispatch<React.SetStateAction<boolean>>;
+  setModalSettings: (value: boolean) => void;
 }
 
 const ModalWindowSettings: React.FC<IProps> = ({

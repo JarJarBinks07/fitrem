@@ -26,6 +26,9 @@ const TourGuide: React.FC<IProps> = ({ path }) => {
     introButtonsStatus,
     delayForShowingGuide,
     differenceInTimeForGuide,
+    isOpenModalExercise,
+    isOpenModalSettings,
+    isOpenProfileMenu,
     setInfoButtonStatus,
     setStepsForBeacons,
     checkedDateAfterRegistration,
@@ -112,27 +115,33 @@ const TourGuide: React.FC<IProps> = ({ path }) => {
       {path === "timer" && (
         <div>
           <GuideForTabTracksButton //0
-            showBeacon={activatedGuideForTabTracksButton}
+            showBeacon={!isOpenProfileMenu ? activatedGuideForTabTracksButton : false}
             setShowGuide={setActivatedGuideForTabTracksButton}
             handleCallback={handleJoyrideCallback}
           />
           <GuideForSkipTimerSettings //9
-            showBeacon={activatedGuideForSkipTimerSettings}
-            setShowGuide={setActivatedGuideForInfoButton}
+            showBeacon={
+              !isOpenModalExercise && !isOpenModalSettings && !isOpenProfileMenu ? activatedGuideForSkipTimerSettings : false
+            }
+            setShowGuide={setActivatedGuideForSkipTimerSettings}
             handleCallback={handleJoyrideCallback}
           />
           <GuideForStartButton //12
-            showBeacon={activatedGuideForStartButton}
+            showBeacon={
+              !isOpenModalExercise && !isOpenModalSettings && !isOpenProfileMenu ? activatedGuideForStartButton : false
+            }
             setShowGuide={setActivatedGuideForStartButton}
             handleCallback={handleJoyrideCallback}
           />
           <GuideForNotification //15
-            showBeacon={activatedGuideForNotification}
+            showBeacon={!isOpenProfileMenu ? activatedGuideForNotification : false}
             setShowGuide={setActivatedGuideForNotification}
             handleCallback={handleJoyrideCallback}
           />
           <GuideForInfoButton //optional
-            showBeacon={activatedGuideForInfoButton}
+            showBeacon={
+              !isOpenModalExercise && !isOpenModalSettings && !isOpenProfileMenu ? activatedGuideForInfoButton : false
+            }
             setShowGuide={changeStatusInfoButton}
             handleCallback={handleJoyrideCallback}
           />
@@ -147,7 +156,7 @@ const TourGuide: React.FC<IProps> = ({ path }) => {
             handleCallback={handleJoyrideCallback}
           />
           <GuideForSelectionExercises //4
-            showBeacon={activatedGuideForSelectionExercises}
+            showBeacon={!isOpenProfileMenu ? activatedGuideForSelectionExercises : false}
             setShowGuide={setActivatedGuideForSelectionExercises}
             handleCallback={handleJoyrideCallback}
           />
@@ -155,7 +164,6 @@ const TourGuide: React.FC<IProps> = ({ path }) => {
             showBeacon={activatedGuideForTabTrainingButton}
             setShowGuide={setActivatedGuideForTabTrainingButton}
             handleCallback={handleJoyrideCallback}
-            // setStepsForBeacons={setStepsForBeacons}
           />
         </div>
       )}

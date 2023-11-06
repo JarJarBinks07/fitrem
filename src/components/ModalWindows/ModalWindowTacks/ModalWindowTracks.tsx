@@ -8,16 +8,13 @@ import {
   IonToolbar,
   IonTitle,
   IonItem,
-  IonCheckbox,
   IonCol,
   IonGrid,
   IonRow,
-  IonThumbnail,
   IonToggle,
 } from "@ionic/react";
 
 import "./ModalWindowTracks.css";
-import { exercisesData } from "../../../shared/tracks/tracks";
 import ModalWindowExercise from "../ModalWindowExercise/ModalWindowExercise";
 import { useCombineStates } from "../../../store/useCombineStates";
 import CashedImage from "../../CachedImage/CachedImage";

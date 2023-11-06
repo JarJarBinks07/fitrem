@@ -8,7 +8,7 @@ interface IProps {
   path: string;
   description: string;
   isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpen: (value: boolean) => void;
   setOnFocus?: (setOpen: (value: boolean) => void) => void;
 }
 

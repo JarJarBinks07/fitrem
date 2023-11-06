@@ -1,6 +1,5 @@
 import React from "react";
 import {
-  IonBackButton,
   IonButton,
   IonButtons,
   IonContent,
@@ -14,27 +13,17 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import {
-  closeCircleOutline,
-  logoFacebook,
-  logoInstagram,
-  mailOpen,
-  stopwatch,
-  videocam,
-  home,
-  settings,
-  chatbubbles,
-  person,
-  timer,
-} from "ionicons/icons";
+import { closeCircleOutline, home, settings, chatbubbles, person, timer } from "ionicons/icons";
 
 import "./ProfileMenu.css";
 import Chart from "../Chart/Chart";
 import ProfileChart from "../Chart/ProfileChart";
 import { useWatcher } from "../../shared/hooks/useWatcher";
+import { useCombineStates } from "../../store/useCombineStates";
 
 const ProfileMenu: React.FC = () => {
   const { setOnFocus } = useWatcher();
+  const { isOpenProfileMenu, setIsOpenProfileMenu } = useCombineStates();
 
   const profileArr = [
     { icon: home, label: "Timer", router: "/timer" },
@@ -49,7 +38,15 @@ const ProfileMenu: React.FC = () => {
         <IonToolbar color="dark">
           <IonButtons slot="start">
             <IonMenuToggle>
-              <IonButton className="profile__bar_btn" onClick={() => setOnFocus()}>
+              <IonButton
+                className="profile__bar_btn"
+                onClick={() => {
+                  if (isOpenProfileMenu) {
+                    setIsOpenProfileMenu(false);
+                  }
+                  setOnFocus();
+                }}
+              >
                 <IonIcon slot="icon-only" icon={closeCircleOutline} color="warning" />
               </IonButton>
             </IonMenuToggle>
