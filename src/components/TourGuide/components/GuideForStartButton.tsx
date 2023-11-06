@@ -8,10 +8,10 @@ import "../index.css";
 interface IProps {
   showBeacon: boolean | undefined;
   setShowGuide: (value: boolean) => void;
-  setCounterBeacons: () => void;
+  setStepsForBeacons: () => void;
 }
 
-const GuideForStartButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setCounterBeacons }) => {
+const GuideForStartButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setStepsForBeacons }) => {
   const stepForStartButton: Step[] = [
     // START
     {
@@ -33,7 +33,7 @@ const GuideForStartButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setCo
     const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
     if (finishedStatuses.includes(status)) {
       setShowGuide(false);
-      setCounterBeacons();
+      setStepsForBeacons();
     }
     logGroup(type, data);
   };

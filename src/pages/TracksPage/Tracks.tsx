@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ItemReorderEventDetail } from "@ionic/core";
 import {
   IonButton,
@@ -10,7 +10,6 @@ import {
   IonHeader,
   IonIcon,
   IonItem,
-  IonLabel,
   IonMenuToggle,
   IonPage,
   IonReorder,
@@ -28,57 +27,23 @@ import { useCombineStates } from "../../store/useCombineStates";
 
 import "./Tracks.css";
 import { useLocation } from "react-router";
-import GuideForCheckBox from "../../components/TourGuide/components/GuideForCheckBox";
-import GuideForSelectionExercises from "../../components/TourGuide/components/GuideForSelectionExercises";
-import GuideForTabTrainingButton from "../../components/TourGuide/components/GuideForTabTrainingButton";
+import TourGuide from "../../components/TourGuide/TourGuide";
 
 const Tracks: React.FC = () => {
   const {
+    stepsForBeacons,
+    allTracks,
+    selectedCategoryTracks,
     setReorderedSelectedCategoryTracks,
     setSelectedCategoryTracks,
-    selectedCategoryTracks,
-    allTracks,
-    userTraining,
     generateUserTraining,
     setOrderTracks,
     unsetWhenDone,
-    counterBeacons,
-    setCounterBeacons,
-    showGuideForCheckbox,
-    setGuideForCheckbox,
-    showGuideForSelectionExercises,
-    setGuideForSelectionExercises,
-    showGuideForTabTrainingButton,
-    setGuideForTabTrainingButton,
   } = useCombineStates();
 
-  // use for showing correctly tour guide
+  // use for tour guide
   const location = useLocation();
   const path = location.pathname.slice(1);
-
-  // use because JoyRide loses focus on element
-  useEffect(() => {
-    // for checkbox
-    if (counterBeacons == 2) {
-      setGuideForCheckbox(false);
-      setTimeout(() => {
-        setGuideForCheckbox(true);
-      });
-    }
-    if (counterBeacons == 4 && selectedCategoryTracks.length) {
-      setGuideForSelectionExercises(false);
-      setTimeout(() => {
-        setGuideForSelectionExercises(true);
-      });
-    }
-
-    if (counterBeacons == 7 && userTraining.length) {
-      setGuideForTabTrainingButton(false);
-      setTimeout(() => {
-        setGuideForTabTrainingButton(true);
-      });
-    }
-  }, [path, counterBeacons, selectedCategoryTracks, userTraining]);
 
   // ModalWindow
   const [isOpen, setIsOpen] = useState(false);
@@ -122,7 +87,6 @@ const Tracks: React.FC = () => {
               {allTracks.map((item) => (
                 <div key={item.id}>
                   <IonCheckbox
-                    // id="checkbox"
                     style={{ position: "fixed", left: 0, padding: 20 }}
                     className="tracks-page__check_box"
                     checked={selectedCategoryTracks.includes(item.category)}
@@ -133,14 +97,12 @@ const Tracks: React.FC = () => {
                     }}
                   />
                   <IonButton
-                    // id="selection-btn"
                     className="track-page__content__btn"
                     onClick={() => handlerCategory(item.category)}
                     style={{ position: "fixed", right: 0, zIndex: 5, padding: 15 }}
                   >
                     <IonIcon slot="end" icon={chevronForwardOutline}></IonIcon>
                   </IonButton>
-
                   <IonReorder>
                     <IonRow>
                       <IonCol size="2"></IonCol>
@@ -167,25 +129,7 @@ const Tracks: React.FC = () => {
         </IonContent>
         <ModalWindowTracks isOpen={isOpen} setIsOpen={setIsOpen} category={currentCategory} unsetWhenDone={unsetWhenDone} />
       </IonPage>
-      {path === "tracks" ? (
-        <>
-          <GuideForCheckBox
-            showBeacon={showGuideForCheckbox}
-            setShowGuide={setGuideForCheckbox}
-            setCounterBeacons={setCounterBeacons}
-          />
-          <GuideForSelectionExercises
-            showBeacon={showGuideForSelectionExercises}
-            setShowGuide={setGuideForSelectionExercises}
-            setCounterBeacons={setCounterBeacons}
-          />
-          <GuideForTabTrainingButton
-            showBeacon={showGuideForTabTrainingButton}
-            setShowGuide={setGuideForTabTrainingButton}
-            setCounterBeacons={setCounterBeacons}
-          />
-        </>
-      ) : null}
+      {path === "tracks" ? <TourGuide path={path} /> : null}
     </>
   );
 };

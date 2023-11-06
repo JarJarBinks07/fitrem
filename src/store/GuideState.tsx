@@ -7,41 +7,25 @@ export interface Introduction {
 }
 
 export interface IGuide {
-  registrationDate: number;
   firstConnection: boolean;
+  stepsForBeacons: number;
   introButtonsStatus: Introduction;
+  registrationDate: number;
   delayForShowingGuide: number;
   differenceInTimeForGuide: number;
+  setFirstConnection: (value: boolean) => void;
+  setStepsForBeacons: () => void;
+  checkedDateAfterRegistration: () => void;
   setInfoButtonStatus: (value: boolean) => void;
   setProfileButtonStatus: (value: boolean) => void;
-  //
-  setFirstConnection: (value: boolean) => void;
-  checkedDateAfterRegistration: () => void;
-  //
-  counterBeacons: number;
-  setCounterBeacons: () => void;
-  showGuideForSkipTimerSettings: boolean;
-  setGuideForSkipTimerSettings: (value: boolean) => void;
-  showGuideForStartButton: boolean;
-  setGuideForStartButton: (value: boolean) => void;
-  showGuideForTabTracksButton: boolean;
-  setGuideForTabTracksButton: (value: boolean) => void;
-  showGuideForCheckbox: boolean;
-  setGuideForCheckbox: (value: boolean) => void;
-  showGuideForSelectionExercises: boolean;
-  setGuideForSelectionExercises: (value: boolean) => void;
-  showGuideForTabTrainingButton: boolean;
-  setGuideForTabTrainingButton: (value: boolean) => void;
-  showGuideForNotification: boolean;
-  setGuideForNotification: (value: boolean) => void;
 }
 
 export const createGuideState: MyStateCreator<IGuide> = (set) => ({
   firstConnection: true,
   setFirstConnection: (value) => set(() => ({ firstConnection: value }), false, "setFirstConnection"),
 
-  counterBeacons: 0,
-  setCounterBeacons: () => set((state) => ({ counterBeacons: ++state.counterBeacons }), false, "setCounterBeacons"),
+  stepsForBeacons: 0,
+  setStepsForBeacons: () => set((state) => ({ stepsForBeacons: ++state.stepsForBeacons }), false, "setCounterBeacons"),
 
   introButtonsStatus: {
     infoBtn: true,
@@ -57,7 +41,6 @@ export const createGuideState: MyStateCreator<IGuide> = (set) => ({
         const registraTionDate = DateTime.fromMillis(state.registrationDate);
         const diffInSeconds = currentDate.diff(registraTionDate, "second");
         const result = diffInSeconds.toObject();
-        console.log("DIFFERENCE", result.seconds);
         return { differenceInTimeForGuide: result.seconds };
       },
       false,
@@ -71,29 +54,4 @@ export const createGuideState: MyStateCreator<IGuide> = (set) => ({
       false,
       "setProfileButtonStatus"
     ),
-
-  showGuideForSkipTimerSettings: false,
-  setGuideForSkipTimerSettings: (value) =>
-    set(() => ({ showGuideForSkipTimerSettings: value }), false, "setGuideForSkipTimerSettings"),
-
-  showGuideForStartButton: false,
-  setGuideForStartButton: (value) => set(() => ({ showGuideForStartButton: value }), false, "setGuideForStartButton"),
-
-  showGuideForTabTracksButton: false,
-  setGuideForTabTracksButton: (value) =>
-    set(() => ({ showGuideForTabTracksButton: value }), false, "setGuideForTracksButton"),
-
-  showGuideForCheckbox: false,
-  setGuideForCheckbox: (value) => set(() => ({ showGuideForCheckbox: value }), false, "setProfileBtnTour"),
-
-  showGuideForSelectionExercises: false,
-  setGuideForSelectionExercises: (value) =>
-    set(() => ({ showGuideForSelectionExercises: value }), false, "setGuideForSelectionExercises"),
-
-  showGuideForTabTrainingButton: false,
-  setGuideForTabTrainingButton: (value) =>
-    set(() => ({ showGuideForTabTrainingButton: value }), false, "setGuideForTracksButton"),
-
-  showGuideForNotification: false,
-  setGuideForNotification: (value) => set(() => ({ showGuideForNotification: value }), false, "setGuideForNotification"),
 });

@@ -43,7 +43,7 @@ const ModalWindowSettings: React.FC<IProps> = ({
   const [notificationValue, setNotificationValue] = useState(timerNotificationInterval);
   const [trainingValue, setTrainingValue] = useState(timerTrainingInterval);
   const [restValue, setRestValue] = useState(timerRestInterval);
-  const { counterBeacons, setCounterBeacons } = useCombineStates();
+  const { stepsForBeacons: counterBeacons, setStepsForBeacons: setCounterBeacons } = useCombineStates();
 
   return (
     <IonModal isOpen={isOpen}>

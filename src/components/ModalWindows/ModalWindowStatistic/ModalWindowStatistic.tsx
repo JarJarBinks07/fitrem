@@ -30,7 +30,7 @@ interface IProps {
 }
 
 const ModalWindowsStatistic: React.FC<IProps> = ({ swiper, isOpen, passedExercises, onComplete, setModalStatistic }) => {
-  const { counterBeacons, setCounterBeacons } = useCombineStates();
+  const { stepsForBeacons: counterBeacons, setStepsForBeacons: setCounterBeacons } = useCombineStates();
   return (
     <IonModal className="modal-statistic" isOpen={isOpen}>
       <IonHeader>

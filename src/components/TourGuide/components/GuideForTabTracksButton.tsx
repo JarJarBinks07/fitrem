@@ -8,12 +8,12 @@ import "../index.css";
 interface IProps {
   showBeacon: boolean | undefined;
   setShowGuide: (value: boolean) => void;
-  setCounterBeacons: () => void;
+  setStepsForBeacons: () => void;
 }
 
-const GuideForTabTracksButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setCounterBeacons }) => {
+const GuideForTabTracksButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setStepsForBeacons }) => {
   const stepForTabTracksButton: Step[] = [
-    // TRACK
+    // TAB TRACK
     {
       title: <p className="tour__tile">Here you can choose favorite exercises</p>,
       content: <p className="tour__content">Let's do it! Click on button</p>,
@@ -33,7 +33,7 @@ const GuideForTabTracksButton: React.FC<IProps> = ({ showBeacon, setShowGuide, s
     const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
     if (finishedStatuses.includes(status)) {
       setShowGuide(false);
-      setCounterBeacons();
+      setStepsForBeacons();
     }
     logGroup(type, data);
   };

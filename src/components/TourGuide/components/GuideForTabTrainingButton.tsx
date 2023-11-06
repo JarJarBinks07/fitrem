@@ -8,17 +8,17 @@ import "../index.css";
 interface IProps {
   showBeacon: boolean | undefined;
   setShowGuide: (value: boolean) => void;
-  setCounterBeacons: () => void;
+  setStepsForBeacons: () => void;
 }
 
-const GuideForTabTrainingButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setCounterBeacons }) => {
+const GuideForTabTrainingButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setStepsForBeacons }) => {
   const stepForTabTrainingButton: Step[] = [
     // TAB TIMER
     {
       title: <p className="tour__tile">Now you created your own training</p>,
       content: (
         <div className="tab-button__container">
-          <p className="tour__content tour__backgroundt">Your exercises'll be showing randomly</p>
+          <p className="tour__content tour__background">Your exercises'll be showing randomly</p>
           <p className="tour__content tour__background">During training you can do only one exercise from category</p>
           <p className="tour__content tour__background">You can do as much exercises as active category you chose</p>
           <p className="tour__content">Let's check it! Click on button</p>
@@ -41,7 +41,7 @@ const GuideForTabTrainingButton: React.FC<IProps> = ({ showBeacon, setShowGuide,
     const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
     if (finishedStatuses.includes(status)) {
       setShowGuide(false);
-      setCounterBeacons();
+      setStepsForBeacons();
     }
     logGroup(type, data);
   };

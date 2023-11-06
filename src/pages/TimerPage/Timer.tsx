@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import _ from "lodash";
 import "./Timer.css";
 import {
@@ -27,14 +27,11 @@ import ProfileMenu from "../../components/Menu/ProfileMenu";
 import { useWatcher } from "../../shared/hooks/useWatcher";
 import { App } from "@capacitor/app";
 import { useLocation } from "react-router";
-import GuideForSkipTimerSettings from "../../components/TourGuide/components/GuideForSkipTimerSettings";
-import GuideForStartButton from "../../components/TourGuide/components/GuideForStartButton";
-import GuideForTabTracksButton from "../../components/TourGuide/components/GuideForTabTracksButton";
-import GuideForNotification from "../../components/TourGuide/components/GuideForNotification";
-import GuideForInfoButton from "../../components/TourGuide/components/GuideForInfoButton";
+import TourGuide from "../../components/TourGuide/TourGuide";
 
 const TimerPage: React.FC = () => {
   const {
+    stepsForBeacons,
     timerMode,
     isNotification,
     timerNotificationInterval,
@@ -50,79 +47,14 @@ const TimerPage: React.FC = () => {
     setPlayStatus,
     setPlayerId,
     setTimerTrainingStatus,
-    firstConnection,
-    counterBeacons,
-    setCounterBeacons,
-    showGuideForTabTracksButton,
-    setGuideForTabTracksButton,
-    showGuideForSkipTimerSettings,
-    setGuideForSkipTimerSettings,
-    showGuideForStartButton,
-    setGuideForStartButton,
-    showGuideForNotification,
-    setGuideForNotification,
-    checkedDateAfterRegistration,
-    delayForShowingGuide,
-    differenceInTimeForGuide,
-    introButtonsStatus,
-    setInfoButtonStatus,
-    setProfileButtonStatus,
-    userTraining,
-    registrationDate,
+    userName,
+    isEquipment,
   } = useCombineStates();
 
-  console.log("COUNTER", counterBeacons);
-
-  // use for showing correctly tour guide. We also can use path in dependency
+  // use for tour guide
   const location = useLocation();
   const path = location.pathname.slice(1);
 
-  // use for deffered Guide. Check if time is over
-  const [activatedGuideForInfoButton, setActivatedGuideForInfoButton] = useState(false);
-  useEffect(() => {
-    if (
-      differenceInTimeForGuide > delayForShowingGuide &&
-      userTraining.length &&
-      introButtonsStatus.infoBtn &&
-      !isNotification
-    ) {
-      setActivatedGuideForInfoButton(true);
-    } else {
-      checkedDateAfterRegistration();
-    }
-  }, []);
-
-  // use because JoyRide loses focus on element
-  useEffect(() => {
-    // for tracks button
-    if (counterBeacons === 0) {
-      setGuideForTabTracksButton(false);
-      setTimeout(() => {
-        setGuideForTabTracksButton(true);
-      });
-    }
-    // for skip-time-settings
-    if (counterBeacons === 9) {
-      setGuideForSkipTimerSettings(false);
-      setTimeout(() => {
-        setGuideForSkipTimerSettings(true);
-      });
-    }
-    // for start workout
-    if (counterBeacons === 12) {
-      setGuideForStartButton(false);
-      setTimeout(() => {
-        setGuideForStartButton(true);
-      });
-    }
-    // for notification
-    if (counterBeacons === 15) {
-      setGuideForNotification(false);
-      setTimeout(() => {
-        setGuideForNotification(true);
-      });
-    }
-  }, [path, counterBeacons]);
   // use for stopping and resuming timer and video when user switches in App
   const { setOnBlur } = useWatcher();
 
@@ -231,35 +163,7 @@ const TimerPage: React.FC = () => {
           )}
         </IonContent>
       </IonPage>
-      {path === "timer" ? (
-        <>
-          <GuideForTabTracksButton
-            showBeacon={showGuideForTabTracksButton}
-            setShowGuide={setGuideForTabTracksButton}
-            setCounterBeacons={setCounterBeacons}
-          />
-          <GuideForSkipTimerSettings
-            showBeacon={showGuideForSkipTimerSettings}
-            setShowGuide={setGuideForSkipTimerSettings}
-            setCounterBeacons={setCounterBeacons}
-          />
-          <GuideForStartButton
-            showBeacon={showGuideForStartButton}
-            setShowGuide={setGuideForStartButton}
-            setCounterBeacons={setCounterBeacons}
-          />
-          <GuideForNotification
-            showBeacon={showGuideForNotification}
-            setShowGuide={setGuideForNotification}
-            setCounterBeacons={setCounterBeacons}
-          />
-          <GuideForInfoButton
-            showBeacon={activatedGuideForInfoButton}
-            setShowGuide={setInfoButtonStatus}
-            setCounterBeacons={setCounterBeacons}
-          />
-        </>
-      ) : null}
+      {path === "timer" ? <TourGuide path={path} /> : null}
     </>
   );
 };

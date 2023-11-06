@@ -43,12 +43,12 @@ function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
   const {
     allExercises,
     selectedExercisesByID,
-    counterBeacons,
+    stepsForBeacons: counterBeacons,
     userTraining,
     setSelectedExercisesByID,
     generateUserTraining,
     unsetWhenDone,
-    setCounterBeacons,
+    setStepsForBeacons: setCounterBeacons,
   } = useCombineStates();
 
   const [openNewWindow, setOpenNewWindow] = useState(false);

@@ -8,10 +8,10 @@ import "../index.css";
 interface IProps {
   showBeacon: boolean | undefined;
   setShowGuide: (value: boolean) => void;
-  setCounterBeacons: () => void;
+  setStepsForBeacons: () => void;
 }
 
-const GuideForCheckBox: React.FC<IProps> = ({ showBeacon, setShowGuide, setCounterBeacons }) => {
+const GuideForCheckBox: React.FC<IProps> = ({ showBeacon, setShowGuide, setStepsForBeacons }) => {
   const stepForCheckBox: Step[] = [
     // CHECKBOX
     {
@@ -33,7 +33,7 @@ const GuideForCheckBox: React.FC<IProps> = ({ showBeacon, setShowGuide, setCount
     const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
     if (finishedStatuses.includes(status)) {
       setShowGuide(false);
-      setCounterBeacons();
+      setStepsForBeacons();
     }
     logGroup(type, data);
   };

@@ -8,12 +8,12 @@ import "../index.css";
 interface IProps {
   showBeacon: boolean | undefined;
   setShowGuide: (value: boolean) => void;
-  setCounterBeacons: () => void;
+  setStepsForBeacons: () => void;
 }
 
-const GuideForSelectionExercises: React.FC<IProps> = ({ showBeacon, setShowGuide, setCounterBeacons }) => {
+const GuideForSelectionExercises: React.FC<IProps> = ({ showBeacon, setShowGuide, setStepsForBeacons }) => {
   const stepForSelectionExercises: Step[] = [
-    // CHECKBOX
+    // SELECTION
     {
       title: <p className="tour__tile">Choose several exercises</p>,
       content: <p className="tour__content">And you can watch more functionalities</p>,
@@ -33,7 +33,7 @@ const GuideForSelectionExercises: React.FC<IProps> = ({ showBeacon, setShowGuide
     const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
     if (finishedStatuses.includes(status)) {
       setShowGuide(false);
-      setCounterBeacons();
+      setStepsForBeacons();
     }
     logGroup(type, data);
   };
