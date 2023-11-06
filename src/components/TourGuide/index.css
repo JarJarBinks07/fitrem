@@ -104,3 +104,14 @@ input {
   font-weight: 700;
   margin: 10px 0 0 0;
 }
+
+/* notification */
+.notification__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.notification__content {
+  font-weight: 600;
+  padding: 10px 0 10px 0;
+}

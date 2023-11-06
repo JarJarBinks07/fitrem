@@ -30,6 +30,7 @@ import { useLocation } from "react-router";
 import GuideForSkipTimerSettings from "../../components/TourGuide/components/GuideForSkipTimerSettings";
 import GuideForStartButton from "../../components/TourGuide/components/GuideForStartButton";
 import GuideForTabTracksButton from "../../components/TourGuide/components/GuideForTabTracksButton";
+import GuideForNotification from "../../components/TourGuide/components/GuideForNotification";
 
 const TimerPage: React.FC = () => {
   const {
@@ -57,6 +58,8 @@ const TimerPage: React.FC = () => {
     setGuideForSkipTimerSettings,
     showGuideForStartButton,
     setGuideForStartButton,
+    showGuideForNotification,
+    setGuideForNotification,
   } = useCombineStates();
 
   console.log("COUNTER", counterBeacons);
@@ -86,6 +89,13 @@ const TimerPage: React.FC = () => {
       setGuideForStartButton(false);
       setTimeout(() => {
         setGuideForStartButton(true);
+      });
+    }
+    // for notification
+    if (counterBeacons === 15) {
+      setGuideForNotification(false);
+      setTimeout(() => {
+        setGuideForNotification(true);
       });
     }
   }, [path, counterBeacons]);
@@ -161,7 +171,7 @@ const TimerPage: React.FC = () => {
         </IonHeader>
         <IonContent>
           {isNotification ? (
-            <IonGrid>
+            <IonGrid id="notification">
               <IonRow>
                 <IonCol className="timer-page__content">
                   <TimerFace
@@ -214,6 +224,12 @@ const TimerPage: React.FC = () => {
           <GuideForStartButton
             showBeacon={showGuideForStartButton}
             setShowGuide={setGuideForStartButton}
+            setCounterBeacons={setCounterBeacons}
+          />
+
+          <GuideForNotification
+            showBeacon={showGuideForNotification}
+            setShowGuide={setGuideForNotification}
             setCounterBeacons={setCounterBeacons}
           />
         </>

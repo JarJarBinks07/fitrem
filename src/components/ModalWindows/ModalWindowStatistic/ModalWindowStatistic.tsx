@@ -19,6 +19,7 @@ import CachedImage from "../../CachedImage/CachedImage";
 import { IExercise } from "../../../store/TracksState";
 
 import "./ModalWindowStatistic.css";
+import { useCombineStates } from "../../../store/useCombineStates";
 
 interface IProps {
   isOpen: boolean;
@@ -29,6 +30,7 @@ interface IProps {
 }
 
 const ModalWindowsStatistic: React.FC<IProps> = ({ swiper, isOpen, passedExercises, onComplete, setModalStatistic }) => {
+  const { counterBeacons, setCounterBeacons } = useCombineStates();
   return (
     <IonModal className="modal-statistic" isOpen={isOpen}>
       <IonHeader>
@@ -37,6 +39,9 @@ const ModalWindowsStatistic: React.FC<IProps> = ({ swiper, isOpen, passedExercis
           <IonButtons slot="end">
             <IonButton
               onClick={() => {
+                if (counterBeacons === 14) {
+                  setCounterBeacons();
+                }
                 setModalStatistic(false);
                 onComplete(swiper);
               }}

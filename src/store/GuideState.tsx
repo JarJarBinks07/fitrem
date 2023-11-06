@@ -29,6 +29,8 @@ export interface IGuide {
   setGuideForSelectionExercises: (value: boolean) => void;
   showGuideForTabTrainingButton: boolean;
   setGuideForTabTrainingButton: (value: boolean) => void;
+  showGuideForNotification: boolean;
+  setGuideForNotification: (value: boolean) => void;
 }
 
 export const createGuideState: MyStateCreator<IGuide> = (set) => ({
@@ -79,4 +81,7 @@ export const createGuideState: MyStateCreator<IGuide> = (set) => ({
   showGuideForTabTrainingButton: false,
   setGuideForTabTrainingButton: (value) =>
     set(() => ({ showGuideForTabTrainingButton: value }), false, "setGuideForTracksButton"),
+
+  showGuideForNotification: false,
+  setGuideForNotification: (value) => set(() => ({ showGuideForNotification: value }), false, "setGuideForNotification"),
 });
