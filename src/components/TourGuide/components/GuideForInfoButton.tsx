@@ -8,10 +8,10 @@ import "../index.css";
 interface IProps {
   showBeacon: boolean | undefined;
   setShowGuide: (value: boolean) => void;
-  setStepsForBeacons: () => void;
+  handleCallback: (data: CallBackProps, callback: (value: boolean) => void) => void;
 }
 
-const GuideForInfoButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setStepsForBeacons }) => {
+const GuideForInfoButton: React.FC<IProps> = ({ showBeacon, setShowGuide, handleCallback }) => {
   const stepFoInfoButton: Step[] = [
     // INFO
     {
@@ -22,27 +22,11 @@ const GuideForInfoButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setSte
     },
   ];
 
-  function logGroup(type: string, data: any) {
-    console.groupCollapsed(type);
-    console.log(data);
-    console.groupEnd();
-  }
-
-  const handleJoyrideCallback = (data: CallBackProps) => {
-    const { status, type } = data;
-    const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
-    if (finishedStatuses.includes(status)) {
-      setShowGuide(false);
-      setStepsForBeacons();
-    }
-    logGroup(type, data);
-  };
-
   return (
     <div>
       <Joyride
         run={showBeacon}
-        callback={handleJoyrideCallback}
+        callback={(data) => handleCallback(data, setShowGuide)}
         steps={stepFoInfoButton}
         debug // without using app gets error with global undefined
         hideBackButton

@@ -61,7 +61,6 @@ const TourGuide: React.FC<IProps> = ({ path }) => {
 
   // steps for JoyRide
   useEffect(() => {
-    console.log("DONE DONE DONE");
     // for tracks button
     if (stepsForBeacons === 0) {
       setActivatedGuideForTabTracksButton(true);
@@ -74,6 +73,7 @@ const TourGuide: React.FC<IProps> = ({ path }) => {
     if (stepsForBeacons == 4 && selectedCategoryTracks.length) {
       setActivatedGuideForSelectionExercises(true);
     }
+    // after choosing exercises (modalTracks+1)
     if (stepsForBeacons == 7 && userTraining.length) {
       setActivatedGuideForTabTrainingButton(true);
     }
@@ -81,7 +81,7 @@ const TourGuide: React.FC<IProps> = ({ path }) => {
     if (stepsForBeacons === 9) {
       setActivatedGuideForSkipTimerSettings(true);
     }
-    // for start workout
+    // for start workout (modalSettings +1)
     if (stepsForBeacons === 12) {
       setActivatedGuideForStartButton(true);
     }
@@ -97,11 +97,12 @@ const TourGuide: React.FC<IProps> = ({ path }) => {
     console.groupEnd();
   }
 
-  const handleJoyrideCallback = (data: CallBackProps) => {
+  const handleJoyrideCallback = (data: CallBackProps, cb: (value: boolean) => void) => {
     const { status, type } = data;
     const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
     if (finishedStatuses.includes(status)) {
-      //action after tour
+      cb(false);
+      setStepsForBeacons();
     }
     logGroup(type, data);
   };
@@ -113,27 +114,27 @@ const TourGuide: React.FC<IProps> = ({ path }) => {
           <GuideForTabTracksButton //0
             showBeacon={activatedGuideForTabTracksButton}
             setShowGuide={setActivatedGuideForTabTracksButton}
-            setStepsForBeacons={setStepsForBeacons}
+            handleCallback={handleJoyrideCallback}
           />
           <GuideForSkipTimerSettings //9
             showBeacon={activatedGuideForSkipTimerSettings}
             setShowGuide={setActivatedGuideForInfoButton}
-            setStepsForBeacons={setStepsForBeacons}
+            handleCallback={handleJoyrideCallback}
           />
           <GuideForStartButton //12
             showBeacon={activatedGuideForStartButton}
             setShowGuide={setActivatedGuideForStartButton}
-            setStepsForBeacons={setStepsForBeacons}
+            handleCallback={handleJoyrideCallback}
           />
           <GuideForNotification //15
             showBeacon={activatedGuideForNotification}
             setShowGuide={setActivatedGuideForNotification}
-            setStepsForBeacons={setStepsForBeacons}
+            handleCallback={handleJoyrideCallback}
           />
           <GuideForInfoButton //optional
             showBeacon={activatedGuideForInfoButton}
             setShowGuide={changeStatusInfoButton}
-            setStepsForBeacons={setStepsForBeacons}
+            handleCallback={handleJoyrideCallback}
           />
         </div>
       )}
@@ -143,17 +144,18 @@ const TourGuide: React.FC<IProps> = ({ path }) => {
           <GuideForCheckBox //2
             showBeacon={activatedGuideForCheckbox}
             setShowGuide={setActivatedGuideForCheckbox}
-            setStepsForBeacons={setStepsForBeacons}
+            handleCallback={handleJoyrideCallback}
           />
           <GuideForSelectionExercises //4
             showBeacon={activatedGuideForSelectionExercises}
             setShowGuide={setActivatedGuideForSelectionExercises}
-            setStepsForBeacons={setStepsForBeacons}
+            handleCallback={handleJoyrideCallback}
           />
           <GuideForTabTrainingButton //7
             showBeacon={activatedGuideForTabTrainingButton}
             setShowGuide={setActivatedGuideForTabTrainingButton}
-            setStepsForBeacons={setStepsForBeacons}
+            handleCallback={handleJoyrideCallback}
+            // setStepsForBeacons={setStepsForBeacons}
           />
         </div>
       )}
