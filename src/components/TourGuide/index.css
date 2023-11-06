@@ -65,6 +65,10 @@ input {
 .tour-timers__subtile {
   font-weight: 600;
 }
+.tour-timers__last {
+  font-size: 16px;
+  font-weight: 600;
+}
 
 /* settings for timers */
 .tour-settings__container {
@@ -74,8 +78,10 @@ input {
   margin: 20px 0 0 0;
 }
 .tour-settings__content {
+  font-weight: 600;
   border-radius: 8px;
-  width: 25vh;
+
+  width: 50%;
   margin: 0 0 20px 0;
   padding: 10px 0 10px 0;
 }
@@ -96,10 +102,6 @@ input {
   align-items: center;
 }
 
-.tab-button__content {
-  font-weight: 600;
-  padding: 10px 0 10px 0;
-}
 .tab-button__content:last-child {
   font-weight: 700;
   margin: 10px 0 0 0;
@@ -114,4 +116,18 @@ input {
 .notification__content {
   font-weight: 600;
   padding: 10px 0 10px 0;
+}
+/* common */
+
+.tour__content {
+  font-size: 17px;
+  font-weight: 600;
+  padding: 10px 0 10px 0;
+}
+
+.tour__background {
+  background-color: #ffc409;
+  margin: 0 0 10px 0;
+  border-radius: 8px;
+  width: 100%;
 }

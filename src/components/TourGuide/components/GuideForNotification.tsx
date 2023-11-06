@@ -18,9 +18,9 @@ const GuideForNotification: React.FC<IProps> = ({ showBeacon, setShowGuide, setC
       title: <p className="tour__tile">This is timer for notification</p>,
       content: (
         <div className="notification__container">
-          <p className="notification__content">After current time you'll get notification for training</p>
-          <p className="notification__content">It works even App'll be closed</p>
-          <p className="notification__content">If you want to train earlier, you can click forward button</p>
+          <p className="tour__content tour__background">After current time you'll get notification for training</p>
+          <p className="tour__content tour__background">It works even App'll be closed</p>
+          <p className="tour__content tour__background">If you want to train earlier, you can click forward button</p>
         </div>
       ),
       placement: "bottom",

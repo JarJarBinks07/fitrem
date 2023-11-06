@@ -16,7 +16,7 @@ const GuideForInfoButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setCou
     // INFO
     {
       title: <p className="tour__tile">Get description of Exercise</p>,
-      content: <p>CLICK</p>,
+      content: <p className="tour__content">CLICK</p>,
       placement: "bottom",
       target: "#info-btn",
     },

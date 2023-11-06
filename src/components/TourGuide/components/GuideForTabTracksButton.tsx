@@ -16,11 +16,7 @@ const GuideForTabTracksButton: React.FC<IProps> = ({ showBeacon, setShowGuide, s
     // TRACK
     {
       title: <p className="tour__tile">Here you can choose favorite exercises</p>,
-      content: (
-        <p>
-          <b>Let's do it! Click on button</b>
-        </p>
-      ),
+      content: <p className="tour__content">Let's do it! Click on button</p>,
       placement: "top",
       target: "#track-btn",
     },

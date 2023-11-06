@@ -15,14 +15,8 @@ const GuideForCheckBox: React.FC<IProps> = ({ showBeacon, setShowGuide, setCount
   const stepForCheckBox: Step[] = [
     // CHECKBOX
     {
-      title: <p className="tour__tile">Choose at least one Track!</p>,
-      content: (
-        <div>
-          <h1>
-            <b>And go further</b>
-          </h1>
-        </div>
-      ),
+      title: <p className="tour__tile">Choose at least one category</p>,
+      content: <p className="tour__content">And go further</p>,
       placement: "bottom",
       target: "#checkbox",
     },

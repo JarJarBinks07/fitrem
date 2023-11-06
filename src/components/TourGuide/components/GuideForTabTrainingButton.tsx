@@ -18,10 +18,10 @@ const GuideForTabTrainingButton: React.FC<IProps> = ({ showBeacon, setShowGuide,
       title: <p className="tour__tile">Now you created your own training</p>,
       content: (
         <div className="tab-button__container">
-          <p className="tab-button__content">Your exercises'll be showing randomly</p>
-          <p className="tab-button__content">During training you can do only one exercise from category</p>
-          <p className="tab-button__content">You can do as much exercises as active category you chose</p>
-          <p className="tab-button__content">Let's check it! Click on button</p>
+          <p className="tour__content tour__backgroundt">Your exercises'll be showing randomly</p>
+          <p className="tour__content tour__background">During training you can do only one exercise from category</p>
+          <p className="tour__content tour__background">You can do as much exercises as active category you chose</p>
+          <p className="tour__content">Let's check it! Click on button</p>
         </div>
       ),
 

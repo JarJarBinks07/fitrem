@@ -16,13 +16,7 @@ const GuideForStartButton: React.FC<IProps> = ({ showBeacon, setShowGuide, setCo
     // START
     {
       title: <p className="tour__tile">Ok! Now you are ready!</p>,
-      content: (
-        <div>
-          <h1>
-            <b>Click and start your training</b>
-          </h1>
-        </div>
-      ),
+      content: <p className="tour__content">Click and start your training</p>,
       placement: "bottom",
       target: "#start-btn",
     },

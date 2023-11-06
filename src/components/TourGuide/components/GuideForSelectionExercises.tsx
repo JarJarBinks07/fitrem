@@ -15,14 +15,8 @@ const GuideForSelectionExercises: React.FC<IProps> = ({ showBeacon, setShowGuide
   const stepForSelectionExercises: Step[] = [
     // CHECKBOX
     {
-      title: <p className="tour__tile">Choose several exercises!</p>,
-      content: (
-        <div>
-          <h1>
-            <b>And you can watch more functionality </b>
-          </h1>
-        </div>
-      ),
+      title: <p className="tour__tile">Choose several exercises</p>,
+      content: <p className="tour__content">And you can watch more functionalities</p>,
       placement: "bottom",
       target: "#selection-btn",
     },

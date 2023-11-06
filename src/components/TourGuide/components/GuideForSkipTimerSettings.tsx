@@ -18,10 +18,8 @@ const GuideForSkipTimerSettings: React.FC<IProps> = ({ showBeacon, setShowGuide,
       title: <p className="tour__tile">Make your training more comfortable!</p>,
       content: (
         <div>
-          <h1>Just click and replace exercise from category</h1>
-          <h1>
-            <b>If exercise is only one, button'll be disabled</b>
-          </h1>
+          <p className="tour__content tour__background">Just click and replace exercise from category</p>
+          <p className="tour__content tour__background">If exercise is only one, button'll be disabled</p>
         </div>
       ),
       placement: "bottom",
@@ -46,9 +44,9 @@ const GuideForSkipTimerSettings: React.FC<IProps> = ({ showBeacon, setShowGuide,
               <p className="tour-timers__subtile"> Rest</p>
             </div>
           </div>
-          <h2>
+          <p className="tour-timers__last">
             You can change time in <b>Settings</b> for timer
-          </h2>
+          </p>
         </div>
       ),
       placement: "bottom",
@@ -62,9 +60,9 @@ const GuideForSkipTimerSettings: React.FC<IProps> = ({ showBeacon, setShowGuide,
           <div className="tour-settings__content tour-settings__content_yellow">Notification</div>
           <div className="tour-settings__content tour-settings__content_red">Training</div>
           <div className="tour-settings__content tour-settings__content_green">Rest</div>
-          <h2>
+          <p className="tour-timers__last">
             Click and go to <b>Settings</b>
-          </h2>
+          </p>
         </div>
       ),
       placement: "bottom",
