@@ -1,0 +1,9 @@
+.chart__card {
+  box-shadow: none;
+}
+.chart__btn {
+  margin: 0 16px 10px;
+}
+.chart__btn::part(native) {
+  box-shadow: none;
+}

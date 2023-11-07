@@ -16,8 +16,8 @@ import {
 import { closeCircleOutline, home, settings, chatbubbles, person, timer } from "ionicons/icons";
 
 import "./ProfileMenu.css";
-import Chart from "../Chart/Chart";
-import ProfileChart from "../Chart/ProfileChart";
+import Chart from "../Graph/Chart/Chart";
+import ProfileChart from "../Graph/Chart/ProfileChart";
 import { useWatcher } from "../../shared/hooks/useWatcher";
 import { useCombineStates } from "../../store/useCombineStates";
 

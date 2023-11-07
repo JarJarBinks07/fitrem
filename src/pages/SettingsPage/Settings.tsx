@@ -22,12 +22,13 @@ import {
 import { helpCircleOutline, personCircle } from "ionicons/icons";
 import { useCombineStates } from "../../store/useCombineStates";
 import TimerConfirmationSettings from "./components/TimerConfirmationSettings";
-import Chart from "../../components/Chart/Chart";
+import Chart from "../../components/Graph/Chart/Chart";
 import FooterButtons from "../../components/Footer/FooterButtons";
 import ProfileMenu from "../../components/Menu/ProfileMenu";
 
 import "./Settings.css";
 import Demo from "../../components/Demo/Demo";
+import Recharts from "../../components/Graph/REcharts";
 
 type RangeValue =
   | number
@@ -69,7 +70,7 @@ const Settings: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent>
-          {true ? (
+          {false ? (
             <IonGrid>
               <IonRow>
                 <IonCol>
@@ -108,8 +109,8 @@ const Settings: React.FC = () => {
               </IonRow>
             </IonGrid>
           ) : null}
-          {/* <Chart />
-           */}
+          <Chart />
+          {/* <Recharts /> */}
           {/* <IonDatetime></IonDatetime> */}
           {/* <Demo /> */}
           {/* <TimerConfirmationSettings isOpen={isOpen} setIsOpen={setIsOpen} /> */}
