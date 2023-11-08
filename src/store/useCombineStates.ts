@@ -7,8 +7,9 @@ import { IRoot, createRootState } from "./RootState";
 import { TrackState, createTracksState } from "./TracksState";
 import { createUserState, IUser } from "./UserState";
 import { IGuide, createGuideState } from "./GuideState";
+import { IModal, createModalWindowsState } from "./ModalWindowsState";
 
-export type CombineState = IRoot & INotification & ITraining & TrackState & IUser & IGuide;
+export type CombineState = IRoot & INotification & ITraining & TrackState & IUser & IGuide & IModal;
 
 type MyStateCreator<T> = StateCreator<CombineState, [["zustand/devtools", never], ["zustand/persist", unknown]], [], T>;
 export default MyStateCreator;
@@ -21,12 +22,13 @@ export const useCombineStates = create<CombineState>()(
   devtools(
     persist(
       (...a) => ({
-        ...createRootState(...a),
-        ...createNotificationState(...a),
-        ...createTrainingState(...a),
-        ...createTracksState(...a),
-        ...createUserState(...a),
+        ...createModalWindowsState(...a),
         ...createGuideState(...a),
+        ...createUserState(...a),
+        ...createTracksState(...a),
+        ...createTrainingState(...a),
+        ...createNotificationState(...a),
+        ...createRootState(...a),
       }),
       {
         name: "combineStore",

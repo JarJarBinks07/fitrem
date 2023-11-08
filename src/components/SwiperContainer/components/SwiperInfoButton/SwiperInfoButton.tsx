@@ -4,7 +4,7 @@ import React from "react";
 import { useCombineStates } from "../../../../store/useCombineStates";
 
 interface IProps {
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsOpen: (value: boolean) => void;
   setOnBlur: (setModal: (value: boolean) => void) => void;
 }
 

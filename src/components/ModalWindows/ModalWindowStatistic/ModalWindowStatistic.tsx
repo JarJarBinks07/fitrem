@@ -26,7 +26,7 @@ interface IProps {
   swiper: ISwiper;
   passedExercises: IExercise[];
   onComplete: (swiper: ISwiper) => void;
-  setModalStatistic: React.Dispatch<React.SetStateAction<boolean>>;
+  setModalStatistic: (value: boolean) => void;
 }
 
 const ModalWindowsStatistic: React.FC<IProps> = ({ swiper, isOpen, passedExercises, onComplete, setModalStatistic }) => {

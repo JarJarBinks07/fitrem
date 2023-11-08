@@ -15,8 +15,9 @@ export interface IExercise {
   exercise: string;
   tools: boolean;
   description: string;
-  status?: "done" | "skipped";
   date?: number;
+  duration?: number;
+  status?: "done" | "skipped";
 }
 
 export type TrackState = {
@@ -195,9 +196,15 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
     set(
       (state) => {
         const _userTraining = [...state.userTraining];
+
         const _currentExercise = _userTraining[value];
         if (!_currentExercise) return state;
-        const setUpdatedStatus = { ..._currentExercise, status: "done" as "done", date: Date.now() };
+        const setUpdatedStatus = {
+          ..._currentExercise,
+          status: "done" as "done",
+          date: Date.now(),
+          duration: state.timerTrainingInterval,
+        };
         return {
           passedExercisesDuringSession: [...state.passedExercisesDuringSession, _currentExercise],
           savedInHistoryDoneExercises: [...state.savedInHistoryDoneExercises, setUpdatedStatus],

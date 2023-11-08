@@ -31,7 +31,6 @@ import TourGuide from "../../components/TourGuide/TourGuide";
 
 const TimerPage: React.FC = () => {
   const {
-    stepsForBeacons,
     timerMode,
     isNotification,
     timerNotificationInterval,
@@ -39,17 +38,20 @@ const TimerPage: React.FC = () => {
     timerNotificationKey,
     timeNotificationDuration,
     timeNotificationAfterPause,
+    setPlayerId,
+    setPlayStatus,
+    setIsNotification,
+    setIsOpenProfileMenu,
+    setTimerTrainingStatus,
     setTimerNotificationStatus,
     setTimeNotificationDuration,
     setTimeNotificationAfterPause,
-    setIsNotification,
     unsetNotificationTimer,
-    setPlayStatus,
-    setPlayerId,
-    setTimerTrainingStatus,
-    userName,
-    isEquipment,
+
+    stepsForBeacons,
   } = useCombineStates();
+
+  console.log("COUNTER", stepsForBeacons);
 
   // use for tour guide
   const location = useLocation();
@@ -112,13 +114,19 @@ const TimerPage: React.FC = () => {
   return (
     <>
       <ProfileMenu />
-      <IonPage>
+      <IonPage id="profile">
         <IonHeader>
           <IonToolbar color="warning">
             <IonButtons slot="primary">
               <IonMenuToggle>
-                <IonButton id="profile" className="timer-page__profile_btn" onClick={() => setOnBlur()}>
-                  <IonIcon id="profile-btn" slot="icon-only" icon={personCircle}></IonIcon>
+                <IonButton
+                  className="timer-page__profile_btn"
+                  onClick={() => {
+                    setOnBlur();
+                    setIsOpenProfileMenu(true);
+                  }}
+                >
+                  <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
                 </IonButton>
               </IonMenuToggle>
             </IonButtons>

@@ -40,6 +40,9 @@ interface IVideo {
 const ImageContainer: React.FC = () => {
   const {
     isOpenSwiperAlert,
+    isOpenModalExercise,
+    isOpenModalSettings,
+    isModalStatistic,
     timerMode,
     swiperTrackIndex,
     playStatus,
@@ -54,6 +57,9 @@ const ImageContainer: React.FC = () => {
     timerRestInterval,
     setSwiperTrackIndex,
     setIsOpenSwiperAlert,
+    setIsOpenModalExercise,
+    setIsOpenModalSettings,
+    setIsModalStatistic,
     unsetForPersist,
   } = useCombineStates();
 
@@ -96,9 +102,9 @@ const ImageContainer: React.FC = () => {
   const platform = Capacitor.getPlatform();
 
   // modal windows
-  const [isOpenModalExercise, setIsOpenModalExercise] = useState(false);
-  const [isOpenModalSettings, setIsOpenModalSettings] = useState(false);
-  const [isModalStatistic, setIsModalStatistic] = useState(false);
+  // const [isOpenModalExercise, setIsOpenModalExercise] = useState(false);
+  // const [isOpenModalSettings, setIsOpenModalSettings] = useState(false);
+  // const [isModalStatistic, setIsModalStatistic] = useState(false);
 
   //console views
   console.log("userTraining: ", userTraining);

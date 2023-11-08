@@ -26,6 +26,9 @@ export const exercisesData = [
     tools: true,
     description:
       "1_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+    date: 0,
+    duration: 0,
+    status: "",
   },
   {
     id: 2,
@@ -36,6 +39,9 @@ export const exercisesData = [
     tools: true,
     description:
       "2_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+    date: 0,
+    duration: 0,
+    status: "",
   },
   {
     id: 3,
@@ -46,6 +52,9 @@ export const exercisesData = [
     tools: true,
     description:
       "3_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+    date: 0,
+    duration: 0,
+    status: "",
   },
   {
     id: 4,
@@ -56,6 +65,9 @@ export const exercisesData = [
     tools: true,
     description:
       "4_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+    date: 0,
+    duration: 0,
+    status: "",
   },
   {
     id: 5,
@@ -66,6 +78,9 @@ export const exercisesData = [
     tools: false,
     description:
       "5_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+    date: 0,
+    duration: 0,
+    status: "",
   },
   {
     id: 6,
@@ -76,6 +91,9 @@ export const exercisesData = [
     tools: false,
     description:
       "6_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+    date: 0,
+    duration: 0,
+    status: "",
   },
   {
     id: 7,
@@ -86,6 +104,9 @@ export const exercisesData = [
     tools: false,
     description:
       "7_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+    date: 0,
+    duration: 0,
+    status: "",
   },
   {
     id: 8,
@@ -96,6 +117,9 @@ export const exercisesData = [
     tools: false,
     description:
       "8_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+    date: 0,
+    duration: 0,
+    status: "",
   },
   {
     id: 9,
@@ -106,6 +130,9 @@ export const exercisesData = [
     tools: false,
     description:
       "9_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+    date: 0,
+    duration: 0,
+    status: "",
   },
   {
     id: 10,
@@ -116,6 +143,9 @@ export const exercisesData = [
     tools: false,
     description:
       "10_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+    date: 0,
+    duration: 0,
+    status: "",
   },
   {
     id: 11,
@@ -126,6 +156,9 @@ export const exercisesData = [
     tools: false,
     description:
       "11_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+    date: 0,
+    duration: 0,
+    status: "",
   },
   {
     id: 12,
@@ -136,5 +169,8 @@ export const exercisesData = [
     tools: false,
     description:
       "12_Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni illum quidem recusandae ducimus quos reprehenderit. Veniam, molestias quos, dolorum consequuntur nisi deserunt omnis id illo sit cum qui. Eaque, dicta",
+    date: 0,
+    duration: 0,
+    status: "",
   },
 ];
