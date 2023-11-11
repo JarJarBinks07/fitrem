@@ -164,7 +164,7 @@ const ImageContainer: React.FC = () => {
                   setSwiperTrackIndex(swiper.realIndex);
                 }}
               >
-                {slicedUserTraining.map((item, index) => (
+                {slicedUserTraining.map((item) => (
                   // <div className="swiper__slide">
                   <SwiperSlide key={item.id}>
                     <VideoPlayer id={playerId} play={playStatus} path={item.video_path} />

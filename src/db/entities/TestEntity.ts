@@ -9,8 +9,8 @@ export class TestEntity {
   @Column({ type: "boolean" })
   isActive: boolean;
 
-  // @Column({ type: "boolean" })
-  // isActive2: boolean;
+  @Column({ type: "boolean" })
+  isActive2: boolean;
 
   // @Column({ type: "varchar", length: 255 })
   // name: string;
