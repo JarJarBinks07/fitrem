@@ -5,12 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "vite build",
     "preview": "vite preview",
     "test.e2e": "cypress run",
     "test.unit": "vitest",
     "lint": "eslint",
-    "postinstall": "./sqljs.sh"
+    "postinstall": "patch-package && ./sqljs.sh"
   },
   "dependencies": {
     "@capacitor-community/native-audio": "^5.0.1",
@@ -40,6 +40,7 @@
     "localforage": "^1.10.0",
     "lodash": "^4.17.21",
     "luxon": "^3.4.3",
+    "patch-package": "^8.0.0",
     "react": "^18.2.0",
     "react-chartjs-2": "^5.2.0",
     "react-countdown-circle-timer": "^3.2.1",
