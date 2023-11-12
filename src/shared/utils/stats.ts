@@ -72,7 +72,6 @@ export const getStatsFromLastMonth = (arr: IExercise[]) => {
   const _exercisesFromLastMonth = findExercisesFromLastMonth(arr);
   const _changedTimeStamps = _exercisesFromLastMonth.map((e) => ({ ...e, date: getDaysFromDate(e.date!) }));
   const _groupedByDays = _.groupBy(_changedTimeStamps, "date");
-  console.log(_changedTimeStamps);
   const daysInMonth = getNumberOfDaysFromThisMonth();
   for (let i = 0; i < daysInMonth; i++) {
     if (!_groupedByDays[i + 1]?.length) {
