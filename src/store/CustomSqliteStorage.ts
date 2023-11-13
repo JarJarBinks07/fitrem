@@ -1,5 +1,5 @@
 import { StateStorage } from "zustand/middleware";
-import { SqlConnectionService } from "../db";
+import { SqlConnectionService } from "../db/db";
 import { AppState } from "../db/entities/AppState";
 
 const getAppStateRepository = async () => {

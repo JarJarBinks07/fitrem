@@ -1,12 +1,12 @@
 import { CapacitorSQLite, SQLiteConnection } from "@capacitor-community/sqlite";
 import { DataSource, LoggerOptions } from "typeorm";
-import { TestEntity } from "./db/entities/TestEntity";
-import { AppState } from "./db/entities/AppState";
-import { Item1695050284142 } from "./db/migrations/1inite1";
-import { Item1695471857674 } from "./db/migrations/5inite5";
+import { TestEntity } from "./entities/TestEntity";
+import { AppState } from "./entities/AppState";
+import { Item1695050284142 } from "./migrations/1inite1";
+import { Item1695471857674 } from "./migrations/5inite5";
 import { Capacitor } from "@capacitor/core";
 import initSqlite from "sql.js";
-import { Item21695050284142 } from "./db/migrations/2inite2";
+import { Item21695050284142 } from "./migrations/2inite2";
 
 const sharedDbSettings = {
   entities: [TestEntity, AppState],

@@ -23,7 +23,7 @@ import { SQLItem } from "../../types/types";
 import MainMenu from "../../components/Menu/ProfileMenu";
 import FooterButtons from "../../components/Footer/FooterButtons";
 import { useCombineStates } from "../../store/useCombineStates";
-import { SqlConnectionService } from "../../db";
+import { SqlConnectionService } from "../../db/db";
 import { TestEntity } from "../../db/entities/TestEntity";
 import {
   removeTrack,

@@ -11,7 +11,7 @@ import {
   PointElement,
   Filler,
 } from "chart.js";
-import { Chart } from "react-chartjs-2";
+import { Bar, Chart, Line } from "react-chartjs-2";
 import annotationPlugin from "chartjs-plugin-annotation";
 import _ from "lodash";
 import { useCombineStates } from "../../../store/useCombineStates";
@@ -144,9 +144,9 @@ const ChartForStats: React.FC<IProps> = ({ type }) => {
       {/* <Chart type={type} data={type === "bar" ? dataForBar : dataForLine} options={options as any} /> */}
 
       {type === "bar" ? (
-        <Chart type="bar" data={dataForBar} options={options as any} />
+        <Bar data={dataForBar} options={options as any} />
       ) : (
-        <Chart type="line" data={dataForLine} options={options as any} />
+        <Line data={dataForLine} options={options as any} />
       )}
     </div>
   );
