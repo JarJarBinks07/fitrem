@@ -48,8 +48,8 @@ const ChartForStats: React.FC<IProps> = ({ type }) => {
     durationOfExercisesByDaysFromLastWeek.reduce((acc, el) => (acc += el)) / numberOfActiveDaysFromLastWeek;
 
   //stats for month
-  const numbersOFDays = getNumberOfDaysFromThisMonth();
-  const labelForMonth = Array.from({ length: numbersOFDays }, (_, index) => (index + 1).toString());
+  const numbersOfDays = getNumberOfDaysFromThisMonth();
+  const labelForMonth = Array.from({ length: numbersOfDays }, (_, index) => (index + 1).toString());
   const durationOfExercisesByDaysFromLastMonth = getStatsFromLastMonth(testTraining);
   const numberOfActiveDaysFromLastMonth = [...durationOfExercisesByDaysFromLastMonth].filter((e) => e !== 0).length;
   const averageDurationFromMonth =
