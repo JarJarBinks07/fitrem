@@ -63,12 +63,18 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
     set(
       (state) => {
         let _exercisesID = [...state.selectedExercisesByID];
+        let _categories = [...state.selectedCategoryTracks];
+        const currentCategory = state.allExercises.find((e) => e.id === value);
         if (_exercisesID.includes(value)) {
+          // removing checkbox with last exercise removing
+          if (_exercisesID.length === 1) {
+            _categories = _categories.filter((e) => e !== currentCategory?.category);
+          }
           _exercisesID = _exercisesID.filter((e) => e !== value);
         } else {
           _exercisesID.push(value);
         }
-        return { selectedExercisesByID: _exercisesID };
+        return { selectedExercisesByID: _exercisesID, selectedCategoryTracks: _categories };
       },
       false,
       "setSelectedExercisesByID"
