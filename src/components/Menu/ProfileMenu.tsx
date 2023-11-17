@@ -58,8 +58,8 @@ const ProfileMenu: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
-          <SelectorForChart chartInterval={chartInterval} setChartInterval={setChartInterval} />
-          {/* <SelectorTest chartInterval={chartInterval} setChartInterval={setChartInterval} /> */}
+          {/* <SelectorForChart chartInterval={chartInterval} setChartInterval={setChartInterval} /> */}
+          <SelectorTest chartInterval={chartInterval} setChartInterval={setChartInterval} />
           <Chart />
 
           <IonList>

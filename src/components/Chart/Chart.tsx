@@ -12,9 +12,10 @@ import {
   Filler,
   Colors,
 } from "chart.js";
+import _ from "lodash";
 import { Bar, Line } from "react-chartjs-2";
 import annotationPlugin from "chartjs-plugin-annotation";
-import _ from "lodash";
+
 import { useCombineStates } from "../../store/useCombineStates";
 import { testTraining } from "../../shared/constants/test.training";
 import {
@@ -61,10 +62,9 @@ const Chart: React.FC = () => {
     if (chartInterval === "12 months") setDateValue(dayTwelveMonthsBack);
   }, [chartInterval]);
 
-  const formattedDateToMilliseconds = Date.parse("Thu Nov 16 2023 21:58:08");
-  console.log(formattedDateToMilliseconds);
-
-  const labelForWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  // const generatedDateToMilliseconds = Date.parse("Thu Nov 16 2023 21:58:08");
+  // console.log(generatedDateToMilliseconds);
+  // const labelsForWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
   // Bar
 
@@ -82,12 +82,12 @@ const Chart: React.FC = () => {
           // "rgba(255, 159, 64, 0.6)",
           // "rgba(245, 78, 142, 0.6)",
         ],
-        // data: labels.map(() => faker.number.int({ min: 0, max: 30 })),
       },
     ],
   };
 
   //Line
+
   const dataForLine = {
     labels: generatedDates,
     datasets: [
@@ -99,7 +99,6 @@ const Chart: React.FC = () => {
         borderWidth: 1,
         pointRadius: 0,
         tension: 0.4,
-        // data: labels.map(() => faker.number.int({ min: 0, max: 30 })),
       },
     ],
   };
