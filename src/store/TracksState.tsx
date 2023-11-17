@@ -35,8 +35,9 @@ export type TrackState = {
   setAllExercises: (value: IExercise[]) => void;
   setSelectedExercisesByID: (value: number) => void;
   setSelectedAllExercise: (value: string) => void;
-  setSelectedCategoryTracks: (value: string) => void;
-  setReorderedSelectedCategoryTracks: () => void;
+  setSelectedCategory: (value: string) => void;
+  setSelectedAllCategories: () => void;
+  setReorderedSelectedCategory: () => void;
   generateUserTraining: () => void;
   setExercisesAfterTraining: () => void;
   setSkippedExercise: (value: number) => void;
@@ -92,7 +93,7 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
     ),
 
   selectedCategoryTracks: [],
-  setSelectedCategoryTracks: (value: string) =>
+  setSelectedCategory: (value: string) =>
     set(
       (state) => {
         let _categories = [...state.selectedCategoryTracks];
@@ -111,7 +112,20 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
       "setSelectedCategoryTracks"
     ),
 
-  setReorderedSelectedCategoryTracks: () =>
+  setSelectedAllCategories: () =>
+    set(
+      (state) => {
+        const _categories = [...state.allTracks];
+        const _filteredCategories = _categories
+          .map((e) => e.category)
+          .filter((e) => !state.selectedCategoryTracks.includes(e));
+        return { selectedCategoryTracks: [...state.selectedCategoryTracks, ..._filteredCategories] };
+      },
+      false,
+      "setSelectedAllCategoriesTracks"
+    ),
+
+  setReorderedSelectedCategory: () =>
     set(
       (state) => {
         const reorderedArr = [...state.allTracks].map((item) => item.category);

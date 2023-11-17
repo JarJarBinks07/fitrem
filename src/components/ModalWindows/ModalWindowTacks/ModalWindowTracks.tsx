@@ -47,6 +47,7 @@ const ModalWindowTracks: React.FC<IProps> = ({ isOpen, setIsOpen, category }) =>
     userTraining,
     setSelectedExercisesByID,
     setSelectedAllExercise,
+    setSelectedAllCategoriesTracks,
     generateUserTraining,
     unsetWhenDone,
     setStepsForBeacons,

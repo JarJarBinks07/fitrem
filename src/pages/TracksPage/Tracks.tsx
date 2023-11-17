@@ -36,8 +36,9 @@ const Tracks: React.FC = () => {
     setOrderTracks,
     generateUserTraining,
     setIsOpenProfileMenu,
-    setSelectedCategoryTracks,
-    setReorderedSelectedCategoryTracks,
+    setSelectedCategory,
+    setSelectedAllCategories,
+    setReorderedSelectedCategory,
     unsetWhenDone,
   } = useCombineStates();
 
@@ -59,7 +60,7 @@ const Tracks: React.FC = () => {
     const [removedTrackFrom] = newArrOfTracks.splice(event.detail.from, 1);
     newArrOfTracks.splice(event.detail.to, 0, removedTrackFrom);
     setOrderTracks(newArrOfTracks);
-    setReorderedSelectedCategoryTracks();
+    setReorderedSelectedCategory();
     generateUserTraining();
     unsetWhenDone();
     event.detail.complete();
@@ -71,6 +72,18 @@ const Tracks: React.FC = () => {
       <IonPage id="profile">
         <IonHeader>
           <IonToolbar color="warning">
+            <IonButtons slot="start">
+              <IonButton
+                className="tracks__modal_btn"
+                onClick={() => {
+                  setSelectedAllCategories();
+                  unsetWhenDone();
+                  generateUserTraining();
+                }}
+              >
+                Select all
+              </IonButton>
+            </IonButtons>
             <IonButtons slot="primary">
               <IonMenuToggle>
                 <IonButton className="tracks-page__profile_btn" onClick={() => setIsOpenProfileMenu(true)}>
@@ -91,7 +104,7 @@ const Tracks: React.FC = () => {
                     className="tracks-page__check_box"
                     checked={selectedCategoryTracks.includes(item.category)}
                     onIonChange={() => {
-                      setSelectedCategoryTracks(item.category);
+                      setSelectedCategory(item.category);
                       unsetWhenDone();
                       generateUserTraining();
                     }}
