@@ -4,7 +4,19 @@ const randomDuration = faker.number.int({ min: 30, max: 540 });
 
 export const testTraining = [
   {
-    date: 1699300688000, //Mon Nov 06 2023 21:58:08
+    date: 1699905488000, //Mon Nov 13 2023 21:58:08
+    duration: randomDuration,
+  },
+  {
+    date: 1699905488000, //Mon Nov 13 2023 21:58:08
+    duration: randomDuration,
+  },
+  {
+    date: 1699905488000, //Mon Nov 13 2023 21:58:08
+    duration: randomDuration,
+  },
+  {
+    date: 1699905488000, //Mon Nov 13 2023 21:58:08
     duration: randomDuration,
   },
   {
@@ -21,6 +33,22 @@ export const testTraining = [
   },
   {
     date: 1699300688000, //Mon Nov 06 2023 21:58:08
+    duration: randomDuration,
+  },
+  {
+    date: 1699300688000, //Mon Nov 06 2023 21:58:08
+    duration: randomDuration,
+  },
+  {
+    date: 1699991888000, //Tue Nov 14 2023 21:58:08
+    duration: randomDuration,
+  },
+  {
+    date: 1699991888000, //Tue Nov 14 2023 21:58:08
+    duration: randomDuration,
+  },
+  {
+    date: 1699991888000, //Tue Nov 14 2023 21:58:08
     duration: randomDuration,
   },
   {
@@ -52,7 +80,19 @@ export const testTraining = [
     duration: randomDuration,
   },
   {
-    date: 1699559888000, //Thu Nov 09 2023 21:58:08
+    date: 1698173888000, //"Tue Oct 24 2023 21:58:08"
+    duration: randomDuration,
+  },
+  {
+    date: 1698173888000, //"Tue Oct 24 2023 21:58:08"
+    duration: randomDuration,
+  },
+  {
+    date: 1698173888000, //"Tue Oct 24 2023 21:58:08"
+    duration: randomDuration,
+  },
+  {
+    date: 1698173888000, //"Tue Oct 24 2023 21:58:08"
     duration: randomDuration,
   },
   {
@@ -73,7 +113,7 @@ export const testTraining = [
     duration: randomDuration,
   },
   {
-    date: 1699646288000, //Fri Nov 10 2023 21:58:08
+    date: 1697828288000, //Fri Oct 20 2023 21:58:08
     // date: 1699041488000, //"Fri Nov 03 2023 21:58:08"
     duration: randomDuration,
   },
@@ -89,6 +129,12 @@ export const testTraining = [
     date: 1697828288000, // "Fri Oct 20 2023 21:58:08"
     duration: randomDuration,
   },
+  {
+    date: 1699646288000, //Fri Nov 10 2023 21:58:08
+    // date: 1699041488000, //"Fri Nov 03 2023 21:58:08"
+    duration: randomDuration,
+  },
+
   {
     date: 1699732688000, //Sat Nov 11 2023 21:58:08
     duration: randomDuration,

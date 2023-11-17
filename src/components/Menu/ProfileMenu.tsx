@@ -16,14 +16,16 @@ import {
 import { closeCircleOutline, home, settings, chatbubbles, person, timer } from "ionicons/icons";
 
 import "./ProfileMenu.css";
-import Chart from "../Graph/Chart/ChartForStats";
+import Chart from "../Graph/Graph";
 import ProfileChart from "../Graph/Chart/ProfileChart";
 import { useWatcher } from "../../shared/hooks/useWatcher";
 import { useCombineStates } from "../../store/useCombineStates";
+import Graph from "../Graph/Graph";
+import SelectedPeriod from "../SelectedPeriod/SelectedPeriod";
 
 const ProfileMenu: React.FC = () => {
   const { setOnFocus } = useWatcher();
-  const { isOpenProfileMenu, setIsOpenProfileMenu } = useCombineStates();
+  const { isOpenProfileMenu, chartInterval, setIsOpenProfileMenu, setChartInterval } = useCombineStates();
 
   const profileArr = [
     { icon: home, label: "Timer", router: "/timer" },
@@ -55,7 +57,9 @@ const ProfileMenu: React.FC = () => {
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">
-        <Chart />
+        <SelectedPeriod chartInterval={chartInterval} setChartInterval={setChartInterval} />
+        <Graph />
+
         <IonList>
           {profileArr.map((item) => (
             <IonMenuToggle key={item.label}>

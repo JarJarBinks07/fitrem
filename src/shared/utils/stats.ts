@@ -3,86 +3,90 @@ import { IExercise } from "../../store/TracksState";
 import { DateTime } from "luxon";
 
 // get value of weekdays(1-7)
-const getWeekDayFromDate = (date: number) => {
+const getWeekDay = (date: number) => {
   return DateTime.fromMillis(date).weekday;
 };
 
 // get value of days from month (1 -29/30/31)
-const getDaysFromDate = (date: number) => {
+const getDay = (date: number) => {
   return DateTime.fromMillis(date).day;
 };
 
 // get value of week(1-52/53)
-const getWeekFromDate = (date: number) => {
+const getWeekNumber = (date: number) => {
   return DateTime.fromMillis(date).weekNumber;
 };
 
 // get value of month(1-12)
-const getMonthFromDate = (date: number) => {
+const getMonth = (date: number) => {
   return DateTime.fromMillis(date).month;
 };
 
 // get value of year(2023)
-const getYearFromDate = (date: number) => {
+const getYear = (date: number) => {
   return DateTime.fromMillis(date).year;
 };
 
-//LAST WEEK
-
-const findExercisesFromLastWeek = (arr: IExercise[]) => {
-  const _currentWeek = getWeekFromDate(Date.now()); //(1-52/53)
-  const _filteredExercisesByLastWeek = arr.filter((item) => getWeekFromDate(item.date!) === _currentWeek);
-  return _filteredExercisesByLastWeek;
+const getFirstDayOfWeek = () => {
+  const now = new Date();
+  const dayOfWeek = now.getDay();
+  const diff = now.getDate() - dayOfWeek + (dayOfWeek === 0 ? -6 : 1);
+  const firstDay = new Date(now.setDate(diff));
+  return +firstDay;
 };
 
-export const getStatsFromLastWeek = (arr: IExercise[]) => {
-  let _exercisesDurationByDay = [];
-  const _exercisesFromLastWeek = findExercisesFromLastWeek(arr);
-  const _changedTimeStamps = _exercisesFromLastWeek.map((e) => ({ ...e, date: getWeekDayFromDate(e.date!) }));
-  const _groupedByDays = _.groupBy(_changedTimeStamps, "date");
-  for (let i = 0; i < 7; i++) {
-    if (!_groupedByDays[i + 1]?.length) {
-      _exercisesDurationByDay.push(0);
-      continue;
-    }
-    const sum = _groupedByDays[i + 1].reduce((acc, obj) => {
-      acc = acc + obj.duration!;
-      return acc;
-    }, 0);
-    _exercisesDurationByDay.push(sum / 60); // convert duration in minutes
-  }
-  return _exercisesDurationByDay;
+const getCustomDay = (value: number) => {
+  const now = new Date();
+  return now.setMonth(now.getMonth() - value);
 };
 
-//LAST MONTH
+export const firstDayWeek = getFirstDayOfWeek();
+export const dayTwoWeeksBack = Date.now() - 14 * 24 * 60 * 60 * 1000;
+export const dayMonthBack = getCustomDay(1);
+export const dayThreeMonthsBack = getCustomDay(3);
+export const daySixMonthsBack = getCustomDay(6);
+export const dayTwelveMonthsBack = getCustomDay(12);
+const currentDate = new Date();
+const millisInMonth = 30 * 24 * 60 * 60 * 1000;
 
-const findExercisesFromLastMonth = (arr: IExercise[]) => {
-  const _currentMonth = getMonthFromDate(Date.now()); //(1-12)
-  const _filteredExercisesByLastMonth = arr.filter((item) => getMonthFromDate(item.date!) === _currentMonth);
-  return _filteredExercisesByLastMonth;
+const convertedDate = (date: Date) => {
+  // if (currentDate.getTime() - date.getTime() >= millisInMonth)
+  //   return date.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "2-digit" }).replace(/\//g, ".");
+  return date.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit" }).replace(/\//g, ".");
 };
-
-export const getNumberOfDaysFromThisMonth = () => {
+const generateDatesForPeriod = (date: number) => {
+  const _datesArray = [];
+  let _previousDate = new Date(date);
   const currentDate = new Date();
-  return new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0).getDate();
+  while (_previousDate <= currentDate) {
+    _datesArray.push(convertedDate(_previousDate));
+    _previousDate.setDate(_previousDate.getDate() + 1);
+  }
+  return _datesArray; // ["12.10", "13.10".....]
 };
 
-export const getStatsFromLastMonth = (arr: IExercise[]) => {
-  let _exercisesDurationByDay = [];
-  const _exercisesFromLastMonth = findExercisesFromLastMonth(arr);
-  const _changedTimeStamps = _exercisesFromLastMonth.map((e) => ({ ...e, date: getDaysFromDate(e.date!) }));
-  const _groupedByDays = _.groupBy(_changedTimeStamps, "date");
-  const daysInMonth = getNumberOfDaysFromThisMonth();
-  for (let i = 0; i < daysInMonth; i++) {
-    if (!_groupedByDays[i + 1]?.length) {
-      _exercisesDurationByDay.push(0);
+export const getStatsForPeriod = (arr: IExercise[], date: number) => {
+  let durationOfExercisesByDays = [];
+  const generatedDates = generateDatesForPeriod(date);
+  const _changedExercisesForPeriod = [...arr]
+    .filter((e) => e.date! >= date)
+    .map((e) => ({ ...e, date: convertedDate(new Date(e.date!)) }));
+  const _groupedByDays = _.groupBy(_changedExercisesForPeriod, "date");
+  console.log(generatedDates);
+  console.log(_groupedByDays);
+  for (let key of generatedDates) {
+    if (!_groupedByDays[key]) {
+      console.log("FALSE:", key);
+      durationOfExercisesByDays.push(0);
       continue;
     }
-    const sum = _groupedByDays[i + 1].reduce((acc, obj) => {
+    console.log("TRUE:", key);
+    const sum = _groupedByDays[key].reduce((acc, obj) => {
       acc = acc + obj.duration!;
       return acc;
     }, 0);
-    _exercisesDurationByDay.push(sum / 60); // convert duration in minutes
+    durationOfExercisesByDays.push(Math.ceil(sum / 60));
   }
-  return _exercisesDurationByDay;
+  console.log(durationOfExercisesByDays);
+  return { durationOfExercisesByDays, generatedDates };
 };

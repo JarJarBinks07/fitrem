@@ -24,7 +24,7 @@ import { useCombineStates } from "../../store/useCombineStates";
 import ProfileMenu from "../../components/Menu/ProfileMenu";
 
 import "./Settings.css";
-import ChartForStats from "../../components/Graph/Chart/ChartForStats";
+import ChartForStats from "../../components/Graph/Graph";
 import Calendar from "react-calendar";
 import CalendarTest from "../../components/Calendar/CalendarTest";
 
@@ -107,7 +107,6 @@ const Settings: React.FC = () => {
               </IonRow>
             </IonGrid>
           ) : null}
-          <CalendarTest />
           {/* <ChartForStats type={"bar"} />
           <ChartForStats type={"line"} /> */}
         </IonContent>

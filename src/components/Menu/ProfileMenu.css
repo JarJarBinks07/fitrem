@@ -19,3 +19,7 @@
   border-radius: 20px 20px 20px 20px;
   box-shadow: 4px 0px 16px rgba(98, 95, 98, 0.18);
 } */
+
+ion-select::part(text) {
+  color: #3880ff;
+}
