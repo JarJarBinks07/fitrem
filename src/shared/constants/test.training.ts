@@ -113,6 +113,36 @@ export const testTraining = [
     duration: randomDuration,
   },
   {
+    date: 1700164688000, //Thu Nov 16 2023 21:58:08
+    // date: 1701374288000, // Thu Nov 30 2023 21:58:08
+    duration: randomDuration,
+  },
+  {
+    date: 1700164688000, //Thu Nov 16 2023 21:58:08
+    // date: 1701374288000, // Thu Nov 30 2023 21:58:08
+    duration: randomDuration,
+  },
+  {
+    date: 1700164688000, //Thu Nov 16 2023 21:58:08
+    // date: 1701374288000, // Thu Nov 30 2023 21:58:08
+    duration: randomDuration,
+  },
+  {
+    date: 1700164688000, //Thu Nov 16 2023 21:58:08
+    // date: 1701374288000, // Thu Nov 30 2023 21:58:08
+    duration: randomDuration,
+  },
+  {
+    date: 1700164688000, //Thu Nov 16 2023 21:58:08
+    // date: 1701374288000, // Thu Nov 30 2023 21:58:08
+    duration: randomDuration,
+  },
+  {
+    date: 1700164688000, //Thu Nov 16 2023 21:58:08
+    // date: 1701374288000, // Thu Nov 30 2023 21:58:08
+    duration: randomDuration,
+  },
+  {
     date: 1697828288000, //Fri Oct 20 2023 21:58:08
     // date: 1699041488000, //"Fri Nov 03 2023 21:58:08"
     duration: randomDuration,
@@ -136,9 +166,26 @@ export const testTraining = [
   },
 
   {
-    date: 1699732688000, //Sat Nov 11 2023 21:58:08
+    date: 1687633088000, //Sat Jun 24 2023 21:58:08
     duration: randomDuration,
   },
+  {
+    date: 1687633088000, //Sat Jun 24 2023 21:58:08
+    duration: randomDuration,
+  },
+  {
+    date: 1687633088000, //Sat Jun 24 2023 21:58:08
+    duration: randomDuration,
+  },
+  {
+    date: 1671911888000, //Sat Dec 24 2022 21:58:08
+    duration: randomDuration,
+  },
+  {
+    date: 1671911888000, //Sat Dec 24 2022 21:58:08
+    duration: randomDuration,
+  },
+
   {
     date: 1699732688000, //Sat Nov 11 2023 21:58:08
     duration: randomDuration,
@@ -148,7 +195,15 @@ export const testTraining = [
     duration: randomDuration,
   },
   {
-    date: 1699819088000, //Sun Nov 12 2023 21:58:08
+    date: 1693162688000, //Sun Aug 27 2023 21:58:08
+    duration: randomDuration,
+  },
+  {
+    date: 1693162688000, //Sun Aug 27 2023 21:58:08
+    duration: randomDuration,
+  },
+  {
+    date: 1693162688000, //Sun Aug 27 2023 21:58:08
     duration: randomDuration,
   },
   {

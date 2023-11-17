@@ -27,9 +27,9 @@ import {
   dayTwelveMonthsBack,
 } from "../../shared/utils/stats";
 
-import "./Graph.css";
+import "./Chart.css";
 
-const Graph: React.FC = () => {
+const Chart: React.FC = () => {
   ChartJS.register(
     CategoryScale,
     LinearScale,
@@ -61,7 +61,7 @@ const Graph: React.FC = () => {
     if (chartInterval === "12 months") setDateValue(dayTwelveMonthsBack);
   }, [chartInterval]);
 
-  const formattedDateToMilliseconds = Date.parse("Tue Nov 14 2023 21:58:08");
+  const formattedDateToMilliseconds = Date.parse("Thu Nov 16 2023 21:58:08");
   console.log(formattedDateToMilliseconds);
 
   const labelForWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
@@ -97,7 +97,7 @@ const Graph: React.FC = () => {
         borderColor: "rgb(53, 162, 235)",
         backgroundColor: "rgba(53, 162, 235, 0.5)",
         borderWidth: 1,
-        pointRadius: 1,
+        pointRadius: 0,
         tension: 0.4,
         // data: labels.map(() => faker.number.int({ min: 0, max: 30 })),
       },
@@ -138,6 +138,9 @@ const Graph: React.FC = () => {
       title: {
         display: true,
         text: chartInterval,
+        font: {
+          size: 16,
+        },
       },
       annotation: {
         annotations: [
@@ -172,4 +175,4 @@ const Graph: React.FC = () => {
   );
 };
 
-export default Graph;
+export default Chart;

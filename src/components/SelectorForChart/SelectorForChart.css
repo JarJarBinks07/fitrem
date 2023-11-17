@@ -1,0 +1,21 @@
+.chart__container {
+}
+.chart__row {
+  display: flex;
+  align-items: center;
+}
+.chart__col {
+  text-align: center;
+}
+
+ion-select::part(text) {
+  color: transparent;
+}
+ion-select::part(icon) {
+  width: 20px;
+  height: 20px;
+  color: #000000;
+  padding: 10px;
+  border-radius: 10px;
+  /* background-color: #ffc409; */
+}

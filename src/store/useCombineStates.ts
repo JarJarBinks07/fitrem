@@ -15,7 +15,7 @@ export type CombineState = IRoot & INotification & ITraining & TrackState & IUse
 type MyStateCreator<T> = StateCreator<CombineState, [["zustand/devtools", never], ["zustand/persist", unknown]], [], T>;
 export default MyStateCreator;
 // Add keys to ignore from persist
-const ignoreList = ["timerStatus"];
+const ignoreList = ["timerStatus", "registrationDate"];
 
 const SqliteStorage = new CustomSqliteStorage();
 

@@ -52,12 +52,13 @@ const millisInMonth = 30 * 24 * 60 * 60 * 1000;
 const convertedDate = (date: Date) => {
   // if (currentDate.getTime() - date.getTime() >= millisInMonth)
   //   return date.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "2-digit" }).replace(/\//g, ".");
+  // return date.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit", year: "2-digit" }).replace(/\//g, ".");
   return date.toLocaleDateString("en-GB", { day: "2-digit", month: "2-digit" }).replace(/\//g, ".");
 };
 const generateDatesForPeriod = (date: number) => {
   const _datesArray = [];
   let _previousDate = new Date(date);
-  const currentDate = new Date();
+  // const currentDate = new Date();
   while (_previousDate <= currentDate) {
     _datesArray.push(convertedDate(_previousDate));
     _previousDate.setDate(_previousDate.getDate() + 1);
@@ -76,11 +77,9 @@ export const getStatsForPeriod = (arr: IExercise[], date: number) => {
   console.log(_groupedByDays);
   for (let key of generatedDates) {
     if (!_groupedByDays[key]) {
-      console.log("FALSE:", key);
       durationOfExercisesByDays.push(0);
       continue;
     }
-    console.log("TRUE:", key);
     const sum = _groupedByDays[key].reduce((acc, obj) => {
       acc = acc + obj.duration!;
       return acc;
