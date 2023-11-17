@@ -63,12 +63,8 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
     set(
       (state) => {
         let _exercisesID = [...state.selectedExercisesByID];
-        if (state.selectedExercisesByID.includes(value)) {
-          if (state.selectedExercisesByID.length) {
-            _exercisesID = state.selectedExercisesByID.filter((e) => e != value);
-          } else {
-            return state;
-          }
+        if (_exercisesID.includes(value)) {
+          _exercisesID = _exercisesID.filter((e) => e !== value);
         } else {
           _exercisesID.push(value);
         }
@@ -83,10 +79,10 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
       (state) => {
         const _allExercises = [...state.allExercises];
         const _groupedByCategory = _.groupBy(_allExercises, "category");
-        const _exercisesIDFromCurrentCategory = _groupedByCategory[value].map((e) => e.id);
-        const _filteredExercises = _exercisesIDFromCurrentCategory.filter((e) => !state.selectedExercisesByID.includes(e));
-        console.log(_filteredExercises);
-        return { selectedExercisesByID: [...state.selectedExercisesByID, ..._filteredExercises] };
+        const _filteredExercisesID = _groupedByCategory[value]
+          .map((e) => e.id)
+          .filter((e) => !state.selectedExercisesByID.includes(e));
+        return { selectedExercisesByID: [...state.selectedExercisesByID, ..._filteredExercisesID] };
       },
       false,
       "setSelectedAllExercise"
@@ -97,16 +93,12 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
     set(
       (state) => {
         let _categories = [...state.selectedCategoryTracks];
-        if (state.selectedCategoryTracks.includes(value)) {
-          if (state.selectedCategoryTracks.length) {
-            _categories = state.selectedCategoryTracks.filter((e) => e !== value);
-          } else {
-            return state;
-          }
+        if (_categories.includes(value)) {
+          _categories = _categories.filter((e) => e !== value);
         } else {
           _categories.push(value);
         }
-        return { ...state, selectedCategoryTracks: _categories };
+        return { selectedCategoryTracks: _categories };
       },
       false,
       "setSelectedCategoryTracks"

@@ -47,11 +47,12 @@ const ModalWindowTracks: React.FC<IProps> = ({ isOpen, setIsOpen, category }) =>
     userTraining,
     setSelectedExercisesByID,
     setSelectedAllExercise,
-    setSelectedAllCategoriesTracks,
     generateUserTraining,
     unsetWhenDone,
     setStepsForBeacons,
   } = useCombineStates();
+
+  console.log("selectedExercisesByID", selectedExercisesByID);
 
   const [openNewWindow, setOpenNewWindow] = useState(false);
   const [exerciseID, setExerciseID] = useState<number | null>(null);
