@@ -34,6 +34,7 @@ export type TrackState = {
   setOrderTracks: (value: ITrack[]) => void;
   setAllExercises: (value: IExercise[]) => void;
   setSelectedExercisesByID: (value: number) => void;
+  setSelectedAllExercise: (value: string) => void;
   setSelectedCategoryTracks: (value: string) => void;
   setReorderedSelectedCategoryTracks: () => void;
   generateUserTraining: () => void;
@@ -74,6 +75,20 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
       },
       false,
       "setSelectedExercisesByID"
+    ),
+
+  setSelectedAllExercise: (value) =>
+    set(
+      (state) => {
+        const _allExercises = [...state.allExercises];
+        const _groupedByCategory = _.groupBy(_allExercises, "category");
+        const _exercisesIDFromCurrentCategory = _groupedByCategory[value].map((e) => e.id);
+        const _filteredExercises = _exercisesIDFromCurrentCategory.filter((e) => !state.selectedExercisesByID.includes(e));
+        console.log(_filteredExercises);
+        return { selectedExercisesByID: [...state.selectedExercisesByID, ..._filteredExercises] };
+      },
+      false,
+      "setSelectedAllExercise"
     ),
 
   selectedCategoryTracks: [],

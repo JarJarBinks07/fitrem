@@ -36,16 +36,20 @@ interface IVideo {
   description: string;
 }
 
-function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
+const ModalWindowTracks: React.FC<IProps> = ({ isOpen, setIsOpen, category }) => {
+  //use for selection all exercises
+  const [selectAll, setSelectAll] = useState(false);
+
   const {
     allExercises,
     selectedExercisesByID,
-    stepsForBeacons: counterBeacons,
+    stepsForBeacons,
     userTraining,
     setSelectedExercisesByID,
+    setSelectedAllExercise,
     generateUserTraining,
     unsetWhenDone,
-    setStepsForBeacons: setCounterBeacons,
+    setStepsForBeacons,
   } = useCombineStates();
 
   const [openNewWindow, setOpenNewWindow] = useState(false);
@@ -55,6 +59,7 @@ function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
     setExerciseID(id);
     setOpenNewWindow(true);
   };
+
   const filteredData = allExercises?.filter((item) => item.category.toLowerCase() === category.toLowerCase());
   const [currentExercise] = filteredData.filter((item) => item.id === exerciseID);
 
@@ -62,14 +67,26 @@ function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
     <IonModal isOpen={isOpen}>
       <IonHeader>
         <IonToolbar>
+          <IonButtons slot="start">
+            <IonButton
+              className="tracks__modal_btn"
+              onClick={() => {
+                setSelectedAllExercise(category);
+                unsetWhenDone();
+                generateUserTraining();
+              }}
+            >
+              Select all
+            </IonButton>
+          </IonButtons>
           <IonTitle>{category}</IonTitle>
           <IonButtons slot="end">
             <IonButton
               className="tracks__modal_btn"
               onClick={() => {
                 setIsOpen(false);
-                if (counterBeacons === 6 && userTraining.length) {
-                  setCounterBeacons();
+                if (stepsForBeacons === 6 && userTraining.length) {
+                  setStepsForBeacons();
                 }
               }}
             >
@@ -121,6 +138,6 @@ function ModalWindowTracks({ isOpen, setIsOpen, category }: IProps) {
       />
     </IonModal>
   );
-}
+};
 
 export default ModalWindowTracks;
