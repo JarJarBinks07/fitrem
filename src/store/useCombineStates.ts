@@ -8,9 +8,9 @@ import { TrackState, createTracksState } from "./TracksState";
 import { createUserState, IUser } from "./UserState";
 import { IGuide, createGuideState } from "./GuideState";
 import { IModal, createModalWindowsState } from "./ModalWindowsState";
-import { IGraph, createGraphState } from "./GraphState";
+import { IChart, createChartState } from "./ChartState";
 
-export type CombineState = IRoot & INotification & ITraining & TrackState & IUser & IGuide & IModal & IGraph;
+export type CombineState = IRoot & INotification & ITraining & TrackState & IUser & IGuide & IModal & IChart;
 
 type MyStateCreator<T> = StateCreator<CombineState, [["zustand/devtools", never], ["zustand/persist", unknown]], [], T>;
 export default MyStateCreator;
@@ -23,7 +23,7 @@ export const useCombineStates = create<CombineState>()(
   devtools(
     persist(
       (...a) => ({
-        ...createGraphState(...a),
+        ...createChartState(...a),
         ...createModalWindowsState(...a),
         ...createGuideState(...a),
         ...createUserState(...a),

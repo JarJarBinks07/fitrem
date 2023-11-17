@@ -20,8 +20,8 @@ import ProfileChart from "../Chart/Graph/ProfileChart";
 import { useWatcher } from "../../shared/hooks/useWatcher";
 import { useCombineStates } from "../../store/useCombineStates";
 import Chart from "../Chart/Chart";
-import SelectorForChart from "../SelectorForChart/SelectorForChart";
-import SelectorTest from "../SelectorForChart/SelectorTest";
+import SelectorForChart from "../Chart/components/SelectorForChart/SelectorForChart";
+import ChartSelector from "../Chart/components/SelectorForChart/ChartSelector";
 
 const ProfileMenu: React.FC = () => {
   const { setOnFocus } = useWatcher();
@@ -58,8 +58,8 @@ const ProfileMenu: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent className="ion-padding">
-          {/* <SelectorForChart chartInterval={chartInterval} setChartInterval={setChartInterval} /> */}
-          <SelectorTest chartInterval={chartInterval} setChartInterval={setChartInterval} />
+          {/* <SelectorForChart setChartInterval={setChartInterval} /> */}
+          <ChartSelector setChartInterval={setChartInterval} />
           <Chart />
 
           <IonList>

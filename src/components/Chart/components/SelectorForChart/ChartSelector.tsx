@@ -3,12 +3,12 @@ import { IonButton, IonButtons, IonContent, IonIcon, IonItem, IonList, IonPopove
 import { caretDown } from "ionicons/icons";
 
 import "./SelectorForChart.css";
+import { ChartType } from "../../../../store/ChartState";
 interface IProps {
-  chartInterval: string | "week" | "2 weeks" | "month" | "3 months" | "6 months" | "12 months";
-  setChartInterval: (value: string) => void;
+  setChartInterval: (value: ChartType) => void;
 }
 
-const SelectorTest: React.FC<IProps> = ({ chartInterval, setChartInterval }) => {
+const ChartSelector: React.FC<IProps> = ({ setChartInterval }) => {
   const intervalName = ["week", "2 weeks", "month", "3 months", "6 months", "12 months"];
   return (
     <>
@@ -22,7 +22,7 @@ const SelectorTest: React.FC<IProps> = ({ chartInterval, setChartInterval }) => 
           <IonList>
             {intervalName.map((item) => (
               <div key={item}>
-                <IonItem button={true} detail={false} onClick={() => setChartInterval(item)}>
+                <IonItem button={true} detail={false} onClick={() => setChartInterval(item as ChartType)}>
                   {item}
                 </IonItem>
               </div>
@@ -33,4 +33,4 @@ const SelectorTest: React.FC<IProps> = ({ chartInterval, setChartInterval }) => 
     </>
   );
 };
-export default SelectorTest;
+export default ChartSelector;

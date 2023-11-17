@@ -1,17 +1,16 @@
 import React, { useState } from "react";
 import { IonList, IonItem, IonSelect, IonSelectOption } from "@ionic/react";
 import { caretDownSharp } from "ionicons/icons";
+import { ChartType } from "../../../../store/ChartState";
 
 import "./SelectorForChart.css";
 
 interface IProps {
-  chartInterval: string | "week" | "2 weeks" | "month" | "3 months" | "6 months" | "12 months";
-  setChartInterval: (value: string) => void;
+  setChartInterval: (value: ChartType) => void;
 }
 
-const SelectorForChart: React.FC<IProps> = ({ chartInterval, setChartInterval }) => {
+const SelectorForChart: React.FC<IProps> = ({ setChartInterval }) => {
   const nameOfPeriod = ["week", "2 weeks", "month", "3 months", "6 months", "12 months"];
-  const [test, setTest] = useState(chartInterval);
   return (
     <div className="chart__container">
       <IonList>
@@ -20,7 +19,6 @@ const SelectorForChart: React.FC<IProps> = ({ chartInterval, setChartInterval })
             className="never-flip"
             toggleIcon={caretDownSharp}
             interface="popover"
-            // placeholder="Select period"
             labelPlacement="end"
             onIonChange={(e) => setChartInterval(e.detail.value)}
           >
