@@ -13,7 +13,7 @@ import {
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { closeCircleOutline, home, settings, chatbubbles, person, timer } from "ionicons/icons";
+import { closeCircleOutline, home, settings, chatbubbles, person, timer, caretDown } from "ionicons/icons";
 
 import "./ProfileMenu.css";
 import ProfileChart from "../Chart/Graph/ProfileChart";
@@ -21,6 +21,7 @@ import { useWatcher } from "../../shared/hooks/useWatcher";
 import { useCombineStates } from "../../store/useCombineStates";
 import Chart from "../Chart/Chart";
 import SelectorForChart from "../SelectorForChart/SelectorForChart";
+import SelectorTest from "../SelectorForChart/SelectorTest";
 
 const ProfileMenu: React.FC = () => {
   const { setOnFocus } = useWatcher();
@@ -58,6 +59,7 @@ const ProfileMenu: React.FC = () => {
         </IonHeader>
         <IonContent className="ion-padding">
           <SelectorForChart chartInterval={chartInterval} setChartInterval={setChartInterval} />
+          {/* <SelectorTest chartInterval={chartInterval} setChartInterval={setChartInterval} /> */}
           <Chart />
 
           <IonList>

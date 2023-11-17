@@ -1,32 +1,32 @@
 import React from "react";
-import { IonButton, IonContent, IonItem, IonList, IonPopover } from "@ionic/react";
+import { IonButton, IonButtons, IonContent, IonIcon, IonItem, IonList, IonPopover } from "@ionic/react";
+import { caretDown } from "ionicons/icons";
 
-const SelectorTest: React.FC = () => {
+import "./SelectorForChart.css";
+interface IProps {
+  chartInterval: string | "week" | "2 weeks" | "month" | "3 months" | "6 months" | "12 months";
+  setChartInterval: (value: string) => void;
+}
+
+const SelectorTest: React.FC<IProps> = ({ chartInterval, setChartInterval }) => {
+  const intervalName = ["week", "2 weeks", "month", "3 months", "6 months", "12 months"];
   return (
     <>
-      <IonButton id="popover-button">Open Menu</IonButton>
-      <IonPopover trigger="popover-button" dismissOnSelect={true}>
+      <IonButtons className="selector__buttons">
+        <IonButton id="popover-button" className="selector__button">
+          <IonIcon className="selector__icon" slot="icon-only" icon={caretDown}></IonIcon>
+        </IonButton>
+      </IonButtons>
+      <IonPopover trigger="popover-button" side="bottom" alignment="start" dismissOnSelect={true}>
         <IonContent>
           <IonList>
-            <IonItem button={true} detail={false}>
-              Option 1
-            </IonItem>
-            <IonItem button={true} detail={false}>
-              Option 2
-            </IonItem>
-            <IonItem button={true} id="nested-trigger">
-              More options...
-            </IonItem>
-
-            <IonPopover trigger="nested-trigger" dismissOnSelect={true} side="end">
-              <IonContent>
-                <IonList>
-                  <IonItem button={true} detail={false}>
-                    Nested option
-                  </IonItem>
-                </IonList>
-              </IonContent>
-            </IonPopover>
+            {intervalName.map((item) => (
+              <div key={item}>
+                <IonItem button={true} detail={false} onClick={() => setChartInterval(item)}>
+                  {item}
+                </IonItem>
+              </div>
+            ))}
           </IonList>
         </IonContent>
       </IonPopover>

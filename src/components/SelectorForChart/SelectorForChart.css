@@ -14,8 +14,15 @@ ion-select::part(text) {
 ion-select::part(icon) {
   width: 20px;
   height: 20px;
-  color: #000000;
+  color: #000;
   padding: 10px;
   border-radius: 10px;
   /* background-color: #ffc409; */
+}
+.selector__buttons {
+  position: absolute;
+  right: 10px;
+}
+.selector__icon {
+  color: #000;
 }

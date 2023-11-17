@@ -5,8 +5,8 @@ import { caretDownSharp } from "ionicons/icons";
 import "./SelectorForChart.css";
 
 interface IProps {
-  chartInterval: "" | "week" | "2 weeks" | "month" | "3 months" | "6 months" | "12 months";
-  setChartInterval: (value: "week" | "2 weeks" | "month" | "3 months" | "6 months" | "12 months") => void;
+  chartInterval: string | "week" | "2 weeks" | "month" | "3 months" | "6 months" | "12 months";
+  setChartInterval: (value: string) => void;
 }
 
 const SelectorForChart: React.FC<IProps> = ({ chartInterval, setChartInterval }) => {
