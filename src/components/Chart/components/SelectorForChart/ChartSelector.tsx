@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { IonButton, IonButtons, IonContent, IonIcon, IonItem, IonList, IonPopover } from "@ionic/react";
 import { caretDown } from "ionicons/icons";
 
@@ -9,7 +9,9 @@ interface IProps {
 }
 
 const ChartSelector: React.FC<IProps> = ({ setChartInterval }) => {
+  const popRef = useRef<HTMLIonPopoverElement>(null);
   const intervalName = ["week", "2 weeks", "month", "3 months", "6 months", "12 months"];
+
   return (
     <>
       <IonButtons className="selector__buttons">
@@ -17,7 +19,7 @@ const ChartSelector: React.FC<IProps> = ({ setChartInterval }) => {
           <IonIcon className="selector__icon" slot="icon-only" icon={caretDown}></IonIcon>
         </IonButton>
       </IonButtons>
-      <IonPopover trigger="popover-button" side="bottom" alignment="start" dismissOnSelect={true}>
+      <IonPopover ref={popRef} trigger="popover-button" side="bottom" alignment="start" dismissOnSelect={true}>
         <IonContent>
           <IonList>
             {intervalName.map((item) => (
