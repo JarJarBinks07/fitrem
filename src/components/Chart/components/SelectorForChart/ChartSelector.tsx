@@ -24,7 +24,14 @@ const ChartSelector: React.FC<IProps> = ({ setChartInterval }) => {
           <IonIcon className="selector__icon" slot="icon-only" icon={caretDown}></IonIcon>
         </IonButton>
       </IonButtons>
-      <IonPopover ref={popRef} isOpen={popOpen} side="bottom" alignment="start" dismissOnSelect={true}>
+      <IonPopover
+        ref={popRef}
+        isOpen={popOpen}
+        side="bottom"
+        alignment="start"
+        dismissOnSelect={true}
+        onDidDismiss={() => setPopOpen(false)}
+      >
         <IonContent>
           <IonList>
             {intervalName.map((item) => (
@@ -34,7 +41,6 @@ const ChartSelector: React.FC<IProps> = ({ setChartInterval }) => {
                   detail={false}
                   onClick={() => {
                     setChartInterval(item as ChartType);
-                    setPopOpen(false);
                   }}
                 >
                   {item}
