@@ -27,6 +27,7 @@ import "./Settings.css";
 import ChartForStats from "../../components/Chart/Chart";
 import Calendar from "react-calendar";
 import CalendarTest from "../../components/Calendar/CalendarTest";
+import Registration from "../../components/Chart/components/Registration/Registration";
 
 type RangeValue =
   | number
@@ -107,6 +108,7 @@ const Settings: React.FC = () => {
               </IonRow>
             </IonGrid>
           ) : null}
+          <Registration />
           {/* <ChartForStats type={"bar"} />
           <ChartForStats type={"line"} /> */}
         </IonContent>
