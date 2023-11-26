@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import ISwiper from "swiper";
 import {
   IonAvatar,
@@ -54,7 +54,7 @@ const ModalMessageWindow: React.FC<IProps> = ({ isOpen, setIsOpen }) => {
             </IonButton>
           </IonButtons>
           <IonButtons slot="start">
-            <IonButton onClick={removeAllMessages}>Remove</IonButton>
+            <IonButton onClick={removeAllMessages}>Clear all</IonButton>
           </IonButtons>
           <IonTitle>Message</IonTitle>
           <IonButtons slot="end">
@@ -75,15 +75,17 @@ const ModalMessageWindow: React.FC<IProps> = ({ isOpen, setIsOpen }) => {
             <IonItemSliding>
               <IonItem
                 button={true}
-                detail={true}
+                detail={e.status}
                 detailIcon={chevronBack}
                 color={!e.status ? "success" : "default"}
-                onClick={() => changeMessageStatus(e.id)}
+                onClick={() => {
+                  changeMessageStatus(e.id);
+                }}
               >
                 <IonLabel>{e.text}</IonLabel>
               </IonItem>
-              <IonItemOptions slot="end" onIonSwipe={() => console.log("hello")}>
-                <IonItemOption color="danger" expandable={true} onClick={() => removeMessage(e.id)}>
+              <IonItemOptions slot="end">
+                <IonItemOption disabled={!e.status} color="danger" expandable={true} onClick={() => removeMessage(e.id)}>
                   <IonIcon slot="icon-only" icon={trash}></IonIcon>
                 </IonItemOption>
               </IonItemOptions>

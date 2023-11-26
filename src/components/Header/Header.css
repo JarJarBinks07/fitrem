@@ -1,0 +1,11 @@
+.header__btn::part(native) {
+  background-color: transparent;
+  box-shadow: none;
+  padding: 5px;
+}
+.header__title {
+  padding: 0 15px 0px 15px;
+}
+.header__badge {
+  margin: -20px 0 0 -10px;
+}

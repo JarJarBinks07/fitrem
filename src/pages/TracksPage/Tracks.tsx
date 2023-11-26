@@ -28,9 +28,11 @@ import { useCombineStates } from "../../store/useCombineStates";
 import "./Tracks.css";
 import { useLocation } from "react-router";
 import TourGuide from "../../components/TourGuide/TourGuide";
+import Header from "../../components/Header/Header";
 
 const Tracks: React.FC = () => {
   const {
+    badges,
     allTracks,
     selectedCategoryTracks,
     setOrderTracks,
@@ -70,30 +72,7 @@ const Tracks: React.FC = () => {
     <>
       <ProfileMenu />
       <IonPage id="profile">
-        <IonHeader>
-          <IonToolbar color="warning">
-            <IonButtons slot="start">
-              <IonButton
-                className="tracks__modal_btn"
-                onClick={() => {
-                  setSelectedAllCategories();
-                  unsetWhenDone();
-                  generateUserTraining();
-                }}
-              >
-                Select all
-              </IonButton>
-            </IonButtons>
-            <IonButtons slot="primary">
-              <IonMenuToggle>
-                <IonButton className="tracks-page__profile_btn" onClick={() => setIsOpenProfileMenu(true)}>
-                  <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
-                </IonButton>
-              </IonMenuToggle>
-            </IonButtons>
-            <IonTitle className="tracks-page__title">Tracks</IonTitle>
-          </IonToolbar>
-        </IonHeader>
+        <Header title="Tracks" badges={badges} />
         <IonContent fullscreen={true}>
           <IonGrid>
             <IonReorderGroup disabled={false} onIonItemReorder={handleReorder}>

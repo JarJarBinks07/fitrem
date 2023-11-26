@@ -11,6 +11,7 @@ import {
   IonList,
   IonMenu,
   IonMenuToggle,
+  IonTabButton,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
@@ -29,7 +30,7 @@ import ModalMessageWindow from "../ModalWindows/MessageWindow/ModalMessageWindow
 
 const ProfileMenu: React.FC = () => {
   const { setOnFocus } = useWatcher();
-  const { isOpenProfileMenu, chartInterval, setIsOpenProfileMenu, setChartInterval } = useCombineStates();
+  const { isOpenProfileMenu, badges, setIsOpenProfileMenu, setChartInterval } = useCombineStates();
 
   //use for buttons below stats
 
@@ -43,9 +44,9 @@ const ProfileMenu: React.FC = () => {
   // };
 
   const profileArr = [
-    { icon: person, label: "Profile", func: setIsProfileWindow },
-    { icon: ribbon, label: "Activities & Rewards", func: setIsRewardsWindow },
-    { icon: chatbubbles, label: "Message", func: setIsMessageWindow },
+    { icon: person, label: "Profile", isBadge: false, func: setIsProfileWindow },
+    { icon: ribbon, label: "Activities & Rewards", isBadge: false, func: setIsRewardsWindow },
+    { icon: chatbubbles, label: "Message", isBadge: true, func: setIsMessageWindow },
   ];
 
   return (
@@ -95,17 +96,20 @@ const ProfileMenu: React.FC = () => {
                       item.func(true);
                     }}
                   >
-                    <IonIcon slot="start" icon={item.icon} className="profile__icon" color="dark" />
-                    <IonLabel color="dark">{item.label}</IonLabel>
+                    <div className="profile__btn_container">
+                      <IonIcon slot="start" icon={item.icon} className="profile__icon" color="dark" />
+                      {badges > 0 && item.isBadge ? (
+                        <IonBadge className="profile__badge" color="danger">
+                          {badges}
+                        </IonBadge>
+                      ) : null}
+                    </div>
+                    <IonLabel className="profile__label" color="dark">
+                      {item.label}
+                    </IonLabel>
                   </IonButton>
                 </IonButtons>
               </div>
-              // <IonMenuToggle key={item.label}>
-              //   <IonItem button={true} detail={false} className="profile__item">
-              //     <IonIcon slot="start" icon={item.icon} className="profile__icon" />
-              //     <IonLabel>{item.label}</IonLabel>
-              //   </IonItem>
-              // </IonMenuToggle>
             ))}
           </IonList>
         </IonContent>

@@ -29,6 +29,7 @@ import { App } from "@capacitor/app";
 import { useLocation } from "react-router";
 import TourGuide from "../../components/TourGuide/TourGuide";
 import RewardCard from "../../components/Cards/RewardCard";
+import Header from "../../components/Header/Header";
 
 const TimerPage: React.FC = () => {
   const {
@@ -39,17 +40,15 @@ const TimerPage: React.FC = () => {
     timerNotificationKey,
     timeNotificationDuration,
     timeNotificationAfterPause,
+    badges,
     setPlayerId,
     setPlayStatus,
     setIsNotification,
-    setIsOpenProfileMenu,
     setTimerTrainingStatus,
     setTimerNotificationStatus,
     setTimeNotificationDuration,
     setTimeNotificationAfterPause,
     unsetNotificationTimer,
-
-    stepsForBeacons,
   } = useCombineStates();
 
   //test for rewards
@@ -117,24 +116,7 @@ const TimerPage: React.FC = () => {
     <>
       <ProfileMenu />
       <IonPage id="profile">
-        <IonHeader>
-          <IonToolbar color="warning">
-            <IonButtons slot="primary">
-              <IonMenuToggle>
-                <IonButton
-                  className="timer-page__profile_btn"
-                  onClick={() => {
-                    setOnBlur();
-                    setIsOpenProfileMenu(true);
-                  }}
-                >
-                  <IonIcon slot="icon-only" icon={personCircle}></IonIcon>
-                </IonButton>
-              </IonMenuToggle>
-            </IonButtons>
-            <IonTitle className="timer-page__title">Timer</IonTitle>
-          </IonToolbar>
-        </IonHeader>
+        <Header title="Training" badges={badges} />
         <IonContent className="timer-page__content">
           <>
             {isNotification ? (

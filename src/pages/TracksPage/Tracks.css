@@ -1,10 +1,3 @@
-.tracks-page__profile_btn::part(native) {
-  background-color: transparent;
-  box-shadow: none;
-}
-.tracks-page__title {
-  padding: 0 15px 0px 15px;
-}
 .track-page__item {
   margin: 10px 0 0 0;
 }

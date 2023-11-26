@@ -1,12 +1,1 @@
-.settings-page__profile_btn::part(native) {
-  background-color: transparent;
-  box-shadow: none;
-}
-.settings-page__title {
-  padding: 0 15px 0px 15px;
-}
 
-/* .buttonTest::part(native) {
-  color: #ffffff;
-  background-color: #ffffff;
-} */

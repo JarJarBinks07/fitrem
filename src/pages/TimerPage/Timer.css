@@ -1,15 +1,5 @@
-.timer-page__title {
-  padding: 0 15px 0px 15px;
-}
-.timer-page__content {
-  /* position: relative; */
-}
 .timer-page__col {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-.timer-page__profile_btn::part(native) {
-  background-color: transparent;
-  box-shadow: none;
 }
