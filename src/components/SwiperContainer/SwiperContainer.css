@@ -41,6 +41,16 @@
   background-color: transparent;
   box-shadow: none;
 }
+.swiper__alert {
+  color: #2dd36f;
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%);
+}
+.swiper__alert::part(native) {
+  background-color: transparent;
+  box-shadow: none;
+}
 
 .swiper__container {
   position: relative;

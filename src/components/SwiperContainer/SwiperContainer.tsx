@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Capacitor } from "@capacitor/core";
 import { IonButton, IonIcon, IonImg } from "@ionic/react";
-import { optionsOutline } from "ionicons/icons";
+import { alert, mail, optionsOutline } from "ionicons/icons";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ISwiper from "swiper";
 import { Pagination, Navigation, EffectFade } from "swiper/modules";
@@ -23,9 +23,10 @@ import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/effect-fade";
 import "./SwiperContainer.css";
-import SwiperAlert from "./components/SwiperAlert/SwiperAlert";
 import ModalWindowsStatistic from "../ModalWindows/WindowStatistic/ModalWindowStatistic";
 import { useVariables } from "../../shared/hooks/useVariables";
+import AlertWindow from "../AlertMessageWindow/AlertWindow";
+import { IMessage } from "../../store/MessageState";
 
 interface IVideo {
   id: number;
@@ -39,6 +40,7 @@ interface IVideo {
 
 const ImageContainer: React.FC = () => {
   const {
+    messages,
     isOpenSwiperAlert,
     isOpenModalExercise,
     isOpenModalSettings,
@@ -61,9 +63,12 @@ const ImageContainer: React.FC = () => {
     setIsOpenModalSettings,
     setIsModalStatistic,
     unsetForPersist,
+    setMessages,
+    changeMessageStatus,
   } = useCombineStates();
 
   const [swiper, setSwiper] = useState<ISwiper>();
+  const [isMessageWindow, setIsMessageWindow] = useState(false);
 
   //use for reductive logic in component
   const { activeCategoryLength, setSettings, onSaveSettingsHandler, onCompleteAfterTraining, executorDoneExercise } =
@@ -72,7 +77,19 @@ const ImageContainer: React.FC = () => {
   //  use when App reloads unexpectedly and for starting tour guide
   useEffect(() => {
     unsetForPersist();
+    //test for message
+    const testMessage: IMessage = {
+      id: Date.now(),
+      text: "TestTestTestTestTestTestTestTestTestTestTestTestTestTestTestTest",
+      priority: true,
+      statusRead: false,
+    };
+    setTimeout(() => {
+      setMessages(testMessage);
+    }, 15000);
   }, []);
+
+  const foundPriorityMessage = messages?.find((e) => Boolean(e.priority));
 
   //use for auto swiping when exercise was done. Be careful also works when you manually click on DONE
   useEffect(() => {
@@ -101,15 +118,16 @@ const ImageContainer: React.FC = () => {
   // use platform if we want to disabled buttons in Swiper for device
   const platform = Capacitor.getPlatform();
 
-  // modal windows
-  // const [isOpenModalExercise, setIsOpenModalExercise] = useState(false);
-  // const [isOpenModalSettings, setIsOpenModalSettings] = useState(false);
-  // const [isModalStatistic, setIsModalStatistic] = useState(false);
-
   //console views
   console.log("userTraining: ", userTraining);
   console.log("passedExercisesDuringSession: ", passedExercisesDuringSession);
   console.log("savedInHistoryDoneExercises: ", savedInHistoryDoneExercises);
+
+  const onCompleteAlertWindow = () => {
+    setIsModalStatistic(true);
+    setSwiperTrackIndex(0);
+    setIsOpenSwiperAlert(false);
+  };
 
   return (
     <div className="swiper">
@@ -123,6 +141,17 @@ const ImageContainer: React.FC = () => {
           >
             <IonIcon id="settings-btn" slot="icon-only" icon={optionsOutline}></IonIcon>
           </IonButton>
+          {foundPriorityMessage ? (
+            <IonButton
+              className="swiper__alert"
+              onClick={() => {
+                setIsMessageWindow(true);
+                changeMessageStatus(foundPriorityMessage.id);
+              }}
+            >
+              <IonIcon slot="icon-only" icon={mail}></IonIcon>
+            </IonButton>
+          ) : null}
 
           <div>
             {slicedUserTraining.map((item, index) =>
@@ -219,12 +248,13 @@ const ImageContainer: React.FC = () => {
         swiper={swiper as ISwiper}
         setModalStatistic={setIsModalStatistic}
       />
-      <SwiperAlert
+      <AlertWindow
+        message="Let's check your result!"
+        subHeader="Keep it up"
         isOpen={isOpenSwiperAlert}
-        setIsOpen={setIsOpenSwiperAlert}
-        setIsModalStatistic={setIsModalStatistic}
-        setSwiperTrackIndex={setSwiperTrackIndex}
+        onComplete={onCompleteAlertWindow}
       />
+      <AlertWindow message="Test" subHeader="" isOpen={isMessageWindow} onComplete={() => setIsMessageWindow(false)} />
     </div>
   );
 };

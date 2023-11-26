@@ -2,25 +2,15 @@ import React from "react";
 import { IonAlert } from "@ionic/react";
 
 interface IProps {
-  header?: string;
-  subHeader?: string;
+  subHeader: string;
   message: string;
   isOpen: boolean;
-  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  onComplete: () => void;
 }
 
-const AlertWindow: React.FC<IProps> = ({ message, isOpen, setIsOpen }) => {
+const AlertWindow: React.FC<IProps> = ({ subHeader, message, isOpen, onComplete }) => {
   return (
-    <IonAlert
-      isOpen={isOpen}
-      header=""
-      subHeader=""
-      message={message}
-      buttons={["OK"]}
-      onDidDismiss={() => {
-        setIsOpen(false);
-      }}
-    ></IonAlert>
+    <IonAlert isOpen={isOpen} subHeader={subHeader} message={message} buttons={["OK"]} onDidDismiss={onComplete}></IonAlert>
   );
 };
 

@@ -6,7 +6,7 @@ interface IProps {
   attachment: { temporary_url?: string; path?: string };
 }
 
-const VideoPlayerCapacitor = ({ attachment }: IProps) => {
+const VideoPlayerCapacitor: React.FC<IProps> = ({ attachment }) => {
   useEffect(() => {
     const playVideo = async () => {
       const url = attachment.path ? attachment.path : attachment.temporary_url;

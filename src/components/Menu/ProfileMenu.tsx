@@ -6,27 +6,23 @@ import {
   IonContent,
   IonHeader,
   IonIcon,
-  IonItem,
   IonLabel,
   IonList,
   IonMenu,
   IonMenuToggle,
-  IonTabButton,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
-import { closeCircleOutline, home, settings, chatbubbles, person, timer, caretDown, ribbon } from "ionicons/icons";
-import { menuController } from "@ionic/core/components";
-import "./ProfileMenu.css";
-import ProfileChart from "../Chart/Graph/ProfileChart";
+import { closeCircleOutline, chatbubbles, person, ribbon } from "ionicons/icons";
 import { useWatcher } from "../../shared/hooks/useWatcher";
 import { useCombineStates } from "../../store/useCombineStates";
 import Chart from "../Chart/Chart";
-import SelectorForChart from "../Chart/components/SelectorForChart/SelectorForChart";
 import ChartSelector from "../Chart/components/SelectorForChart/ChartSelector";
 import ModalProfileWindows from "../ModalWindows/ProfileWindow/ModalProfileWindows";
 import ModalRewardsWindow from "../ModalWindows/RewardsWindow/ModalRewardsWindow";
 import ModalMessageWindow from "../ModalWindows/MessageWindow/ModalMessageWindow";
+
+import "./ProfileMenu.css";
 
 const ProfileMenu: React.FC = () => {
   const { setOnFocus } = useWatcher();

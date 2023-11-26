@@ -1,21 +1,22 @@
 import MyStateCreator from "./useCombineStates";
 
-interface IText {
+export interface IMessage {
   id: number;
   text: string;
-  status: boolean;
+  priority: boolean;
+  statusRead: boolean;
 }
 
-export interface IMessage {
-  messages: IText[];
+export interface IMessageState {
+  messages: IMessage[];
   badges: number;
-  setMessages: (value: IText) => void;
+  setMessages: (value: IMessage) => void;
   removeMessage: (value: number) => void;
   removeAllMessages: () => void;
   changeMessageStatus: (value: number) => void;
 }
 
-export const createMessageState: MyStateCreator<IMessage> = (set) => ({
+export const createMessageState: MyStateCreator<IMessageState> = (set) => ({
   messages: [],
   badges: 0,
 
@@ -43,8 +44,8 @@ export const createMessageState: MyStateCreator<IMessage> = (set) => ({
       (state) => {
         const _messages = [...state.messages];
         const _currentMessage = _messages.find((e) => e.id === value);
-        if (_currentMessage?.status) return state;
-        const _result = _messages.map((e) => (e.id === value ? { ...e, status: true } : e));
+        if (_currentMessage?.statusRead) return state;
+        const _result = _messages.map((e) => (e.id === value ? { ...e, statusRead: true, priority: false } : e));
         return { messages: _result, badges: --state.badges };
       },
       false,

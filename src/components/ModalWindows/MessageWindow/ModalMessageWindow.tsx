@@ -1,13 +1,9 @@
 import React, { useRef, useState } from "react";
 import ISwiper from "swiper";
 import {
-  IonAlert,
-  IonAvatar,
   IonButton,
   IonButtons,
-  IonCol,
   IonContent,
-  IonGrid,
   IonHeader,
   IonIcon,
   IonItem,
@@ -15,18 +11,18 @@ import {
   IonItemOptions,
   IonItemSliding,
   IonLabel,
-  IonList,
   IonModal,
-  IonRow,
   IonTitle,
   IonToolbar,
 } from "@ionic/react";
 
 import "./ModalMessageWindow.css";
-import { arrowBack, chevronBack, pin, share, trash } from "ionicons/icons";
+import { chevronBack, trash } from "ionicons/icons";
 import { useCombineStates } from "../../../store/useCombineStates";
 
 import "./ModalMessageWindow.css";
+import AlertWindow from "../../AlertMessageWindow/AlertWindow";
+import { IMessage } from "../../../store/MessageState";
 
 interface IProps {
   isOpen: boolean;
@@ -35,10 +31,11 @@ interface IProps {
 
 const ModalMessageWindow: React.FC<IProps> = ({ isOpen, setIsOpen }) => {
   const { messages, setMessages, removeMessage, removeAllMessages, changeMessageStatus } = useCombineStates();
-  const testMessage = {
+  const testMessage: IMessage = {
     id: Date.now(),
     text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere minima sed doloribus unde consequuntur! Necessitatibus commodi facilis dolores quidem vitae minima, architecto, eum corporis fuga possimus harum, voluptatibus expedita eius?",
-    status: false,
+    priority: false,
+    statusRead: false,
   };
 
   const [isAlertOpen, setIsAlertOpen] = useState(false);
@@ -79,9 +76,9 @@ const ModalMessageWindow: React.FC<IProps> = ({ isOpen, setIsOpen }) => {
               <IonItemSliding>
                 <IonItem
                   button={true}
-                  detail={e.status}
+                  detail={e.statusRead}
                   detailIcon={chevronBack}
-                  color={!e.status ? "success" : "default"}
+                  color={!e.statusRead ? "success" : "default"}
                   onClick={() => {
                     setIsAlertOpen(true);
                     changeMessageStatus(e.id);
@@ -90,7 +87,12 @@ const ModalMessageWindow: React.FC<IProps> = ({ isOpen, setIsOpen }) => {
                   <IonLabel>{e.text}</IonLabel>
                 </IonItem>
                 <IonItemOptions slot="end">
-                  <IonItemOption disabled={!e.status} color="danger" expandable={true} onClick={() => removeMessage(e.id)}>
+                  <IonItemOption
+                    disabled={!e.statusRead}
+                    color="danger"
+                    expandable={true}
+                    onClick={() => removeMessage(e.id)}
+                  >
                     <IonIcon slot="icon-only" icon={trash}></IonIcon>
                   </IonItemOption>
                 </IonItemOptions>
@@ -100,16 +102,7 @@ const ModalMessageWindow: React.FC<IProps> = ({ isOpen, setIsOpen }) => {
           {/* </IonList> */}
         </IonContent>
       </IonModal>
-      <IonAlert
-        isOpen={isAlertOpen}
-        header=""
-        subHeader=""
-        message={testMessage.text}
-        buttons={["OK"]}
-        onDidDismiss={() => {
-          setIsAlertOpen(false);
-        }}
-      ></IonAlert>
+      <AlertWindow message={testMessage.text} subHeader="" isOpen={isAlertOpen} onComplete={() => setIsAlertOpen(false)} />
     </>
   );
 };

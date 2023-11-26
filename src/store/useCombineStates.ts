@@ -9,9 +9,9 @@ import { createUserState, IUser } from "./UserState";
 import { IGuide, createGuideState } from "./GuideState";
 import { IModal, createModalWindowsState } from "./ModalWindowsState";
 import { IChart, createChartState } from "./ChartState";
-import { IMessage, createMessageState } from "./MessageState";
+import { IMessageState, createMessageState } from "./MessageState";
 
-export type CombineState = IRoot & INotification & ITraining & TrackState & IUser & IGuide & IModal & IChart & IMessage;
+export type CombineState = IRoot & INotification & ITraining & TrackState & IUser & IGuide & IModal & IChart & IMessageState;
 
 type MyStateCreator<T> = StateCreator<CombineState, [["zustand/devtools", never], ["zustand/persist", unknown]], [], T>;
 export default MyStateCreator;
