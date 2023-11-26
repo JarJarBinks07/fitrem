@@ -1,6 +1,7 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import ISwiper from "swiper";
 import {
+  IonAlert,
   IonAvatar,
   IonButton,
   IonButtons,
@@ -40,61 +41,76 @@ const ModalMessageWindow: React.FC<IProps> = ({ isOpen, setIsOpen }) => {
     status: false,
   };
 
+  const [isAlertOpen, setIsAlertOpen] = useState(false);
+
   return (
-    <IonModal className="modal-statistic" isOpen={isOpen}>
-      <IonHeader>
-        <IonToolbar>
-          <IonButtons slot="start">
-            <IonButton
-              onClick={() => {
-                setMessages(testMessage);
-              }}
-            >
-              +
-            </IonButton>
-          </IonButtons>
-          <IonButtons slot="start">
-            <IonButton onClick={removeAllMessages}>Clear all</IonButton>
-          </IonButtons>
-          <IonTitle>Message</IonTitle>
-          <IonButtons slot="end">
-            <IonButton
-              onClick={() => {
-                setIsOpen(false);
-              }}
-            >
-              Close
-            </IonButton>
-          </IonButtons>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent>
-        {/* <IonList inset={true}> */}
-        {messages.map((e) => (
-          <div className="message__container" key={e.id}>
-            <IonItemSliding>
-              <IonItem
-                button={true}
-                detail={e.status}
-                detailIcon={chevronBack}
-                color={!e.status ? "success" : "default"}
+    <>
+      <IonModal className="modal-statistic" isOpen={isOpen}>
+        <IonHeader>
+          <IonToolbar>
+            <IonButtons slot="start">
+              <IonButton
                 onClick={() => {
-                  changeMessageStatus(e.id);
+                  setMessages(testMessage);
                 }}
               >
-                <IonLabel>{e.text}</IonLabel>
-              </IonItem>
-              <IonItemOptions slot="end">
-                <IonItemOption disabled={!e.status} color="danger" expandable={true} onClick={() => removeMessage(e.id)}>
-                  <IonIcon slot="icon-only" icon={trash}></IonIcon>
-                </IonItemOption>
-              </IonItemOptions>
-            </IonItemSliding>
-          </div>
-        ))}
-        {/* </IonList> */}
-      </IonContent>
-    </IonModal>
+                +
+              </IonButton>
+            </IonButtons>
+            <IonButtons slot="start">
+              <IonButton onClick={removeAllMessages}>Clear all</IonButton>
+            </IonButtons>
+            <IonTitle>Message</IonTitle>
+            <IonButtons slot="end">
+              <IonButton
+                onClick={() => {
+                  setIsOpen(false);
+                }}
+              >
+                Close
+              </IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          {/* <IonList inset={true}> */}
+          {messages.map((e) => (
+            <div className="message__container" key={e.id}>
+              <IonItemSliding>
+                <IonItem
+                  button={true}
+                  detail={e.status}
+                  detailIcon={chevronBack}
+                  color={!e.status ? "success" : "default"}
+                  onClick={() => {
+                    setIsAlertOpen(true);
+                    changeMessageStatus(e.id);
+                  }}
+                >
+                  <IonLabel>{e.text}</IonLabel>
+                </IonItem>
+                <IonItemOptions slot="end">
+                  <IonItemOption disabled={!e.status} color="danger" expandable={true} onClick={() => removeMessage(e.id)}>
+                    <IonIcon slot="icon-only" icon={trash}></IonIcon>
+                  </IonItemOption>
+                </IonItemOptions>
+              </IonItemSliding>
+            </div>
+          ))}
+          {/* </IonList> */}
+        </IonContent>
+      </IonModal>
+      <IonAlert
+        isOpen={isAlertOpen}
+        header=""
+        subHeader=""
+        message={testMessage.text}
+        buttons={["OK"]}
+        onDidDismiss={() => {
+          setIsAlertOpen(false);
+        }}
+      ></IonAlert>
+    </>
   );
 };
 
