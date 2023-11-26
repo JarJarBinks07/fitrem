@@ -28,6 +28,7 @@ import ChartForStats from "../../components/Chart/Chart";
 import Calendar from "react-calendar";
 import CalendarTest from "../../components/Calendar/CalendarTest";
 import Registration from "../../components/Chart/components/Registration/Registration";
+import RewardCard from "../../components/Cards/RewardCard";
 
 type RangeValue =
   | number
@@ -54,7 +55,6 @@ const Settings: React.FC = () => {
   return (
     <div>
       <ProfileMenu />
-
       <IonPage id="profile">
         <IonHeader>
           <IonToolbar color="warning">
@@ -108,7 +108,9 @@ const Settings: React.FC = () => {
               </IonRow>
             </IonGrid>
           ) : null}
-          <Registration />
+          <RewardCard />
+          {/* <CalendarTest /> */}
+          {/* <Registration /> */}
           {/* <ChartForStats type={"bar"} />
           <ChartForStats type={"line"} /> */}
         </IonContent>

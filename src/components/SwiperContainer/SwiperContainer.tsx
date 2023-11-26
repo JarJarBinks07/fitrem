@@ -8,8 +8,8 @@ import { Pagination, Navigation, EffectFade } from "swiper/modules";
 import VideoPlayer from "../PlayerReact/VideoPlayer";
 import { useCombineStates } from "../../store/useCombineStates";
 import { NativeAudio } from "@capacitor-community/native-audio";
-import ModalWindowExercise from "../ModalWindows/ModalWindowExercise/ModalWindowExercise";
-import ModalWindowSettings from "../ModalWindows/ModalWindowSettings/ModalWindowSettings";
+import ModalWindowExercise from "../ModalWindows/WindowExercise/ModalWindowExercise";
+import ModalWindowSettings from "../ModalWindows/WindowSettings/ModalWindowSettings";
 import TimersForTraining from "./components/TimersForTraining/TimersForTraining";
 import SwiperUserButtons from "./components/SwiperUserButtons/SwiperUserButtons";
 import SwiperTitle from "./components/SwiperTitle/SwiperTitle";
@@ -24,7 +24,7 @@ import "swiper/css/navigation";
 import "swiper/css/effect-fade";
 import "./SwiperContainer.css";
 import SwiperAlert from "./components/SwiperAlert/SwiperAlert";
-import ModalWindowsStatistic from "../ModalWindows/ModalWindowStatistic/ModalWindowStatistic";
+import ModalWindowsStatistic from "../ModalWindows/WindowStatistic/ModalWindowStatistic";
 import { useVariables } from "../../shared/hooks/useVariables";
 
 interface IVideo {

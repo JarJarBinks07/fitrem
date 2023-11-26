@@ -22,7 +22,7 @@ import {
 
 import { chevronForwardOutline, personCircle } from "ionicons/icons";
 import ProfileMenu from "../../components/Menu/ProfileMenu";
-import ModalWindowTracks from "../../components/ModalWindows/ModalWindowTacks/ModalWindowTracks";
+import ModalWindowTracks from "../../components/ModalWindows/WindowTacks/ModalWindowTracks";
 import { useCombineStates } from "../../store/useCombineStates";
 
 import "./Tracks.css";

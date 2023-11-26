@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import _ from "lodash";
 import "./Timer.css";
 import {
@@ -28,6 +28,7 @@ import { useWatcher } from "../../shared/hooks/useWatcher";
 import { App } from "@capacitor/app";
 import { useLocation } from "react-router";
 import TourGuide from "../../components/TourGuide/TourGuide";
+import RewardCard from "../../components/Cards/RewardCard";
 
 const TimerPage: React.FC = () => {
   const {
@@ -51,7 +52,8 @@ const TimerPage: React.FC = () => {
     stepsForBeacons,
   } = useCombineStates();
 
-  console.log("COUNTER", stepsForBeacons);
+  //test for rewards
+  const [isReward, setIsReward] = useState(true);
 
   // use for tour guide
   const location = useLocation();
@@ -133,42 +135,45 @@ const TimerPage: React.FC = () => {
             <IonTitle className="timer-page__title">Timer</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <IonContent>
-          {isNotification ? (
-            <IonGrid id="notification">
-              <IonRow>
-                <IonCol className="timer-page__content">
-                  <TimerFace
-                    size={280}
-                    strokeWidth={22}
-                    colors={["#ffc409", "#F7B801", "#A30000", "#A30000"]}
-                    colorsTime={[7, 5, 2, 0]}
-                    timerFor={"notification"}
-                    timerKey={timerNotificationKey}
-                    timerInterval={timerNotificationInterval}
-                    timerDuration={
-                      timeNotificationAfterPause ? timeNotificationAfterPause : timeNotificationDuration - Date.now()
-                    }
-                    timerActive={timerNotificationStatus === "running"}
-                    onComplete={onCompleteNotification}
-                  />
-                </IonCol>
-              </IonRow>
-              <IonRow className="ion-text-center">
-                <IonCol>
-                  <TimerPlayButton
-                    timerHandler={timerNotificationStatus === "running" ? pauseButtonHandler : playButtonHandler}
-                    timerStatus={timerNotificationStatus}
-                  />
-                </IonCol>
-                <IonCol>
-                  <TimerResetButton unsetTimer={onCompleteNotification} timerStatus={timerNotificationStatus} />
-                </IonCol>
-              </IonRow>
-            </IonGrid>
-          ) : (
-            <SwiperContainer />
-          )}
+        <IonContent className="timer-page__content">
+          <>
+            {isNotification ? (
+              <IonGrid id="notification">
+                <IonRow>
+                  <IonCol className="timer-page__col">
+                    <TimerFace
+                      size={280}
+                      strokeWidth={22}
+                      colors={["#ffc409", "#F7B801", "#A30000", "#A30000"]}
+                      colorsTime={[7, 5, 2, 0]}
+                      timerFor={"notification"}
+                      timerKey={timerNotificationKey}
+                      timerInterval={timerNotificationInterval}
+                      timerDuration={
+                        timeNotificationAfterPause ? timeNotificationAfterPause : timeNotificationDuration - Date.now()
+                      }
+                      timerActive={timerNotificationStatus === "running"}
+                      onComplete={onCompleteNotification}
+                    />
+                  </IonCol>
+                </IonRow>
+                <IonRow className="ion-text-center">
+                  <IonCol>
+                    <TimerPlayButton
+                      timerHandler={timerNotificationStatus === "running" ? pauseButtonHandler : playButtonHandler}
+                      timerStatus={timerNotificationStatus}
+                    />
+                  </IonCol>
+                  <IonCol>
+                    <TimerResetButton unsetTimer={onCompleteNotification} timerStatus={timerNotificationStatus} />
+                  </IonCol>
+                </IonRow>
+              </IonGrid>
+            ) : (
+              <SwiperContainer />
+            )}
+            {/* {isReward && <RewardCard />} */}
+          </>
         </IonContent>
       </IonPage>
       {path === "timer" ? <TourGuide path={path} /> : null}

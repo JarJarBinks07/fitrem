@@ -15,7 +15,7 @@ import {
 } from "@ionic/react";
 
 import "./ModalWindowTracks.css";
-import ModalWindowExercise from "../ModalWindowExercise/ModalWindowExercise";
+import ModalWindowExercise from "../WindowExercise/ModalWindowExercise";
 import { useCombineStates } from "../../../store/useCombineStates";
 import CashedImage from "../../CachedImage/CachedImage";
 

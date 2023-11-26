@@ -21,7 +21,6 @@ const GuideForTabTracksButton: React.FC<IProps> = ({ showBeacon, setShowGuide, h
       target: "#track-btn",
     },
   ];
-
   return (
     <div>
       <Joyride
