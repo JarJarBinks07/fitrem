@@ -86,7 +86,7 @@ const ImageContainer: React.FC = () => {
     };
     setTimeout(() => {
       setMessages(testMessage);
-    }, 15000);
+    }, 10000);
   }, []);
 
   const foundPriorityMessage = messages?.find((e) => Boolean(e.priority));

@@ -45,7 +45,7 @@
   color: #2dd36f;
   position: absolute;
   left: 50%;
-  transform: translate(-50%);
+  transform: translate(-50%, -10%);
 }
 .swiper__alert::part(native) {
   background-color: transparent;

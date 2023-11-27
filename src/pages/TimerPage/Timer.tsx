@@ -158,7 +158,7 @@ const TimerPage: React.FC = () => {
           </>
         </IonContent>
       </IonPage>
-      {path === "timer" ? <TourGuide path={path} /> : null}
+      {/* {path === "timer" ? <TourGuide path={path} /> : null} */}
     </>
   );
 };
