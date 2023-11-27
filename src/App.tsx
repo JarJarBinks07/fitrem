@@ -14,7 +14,7 @@ import {
 import { IonReactRouter } from "@ionic/react-router";
 import Settings from "./pages/SettingsPage/Settings";
 import TimerPage from "./pages/TimerPage/Timer";
-import Home from "./pages/HomePage/Home";
+import Home from "./pages/home/Home";
 import { useCombineStates } from "./store/useCombineStates";
 import { timer, settings, optionsOutline } from "ionicons/icons";
 import Tracks from "./pages/TracksPage/Tracks";
@@ -22,7 +22,7 @@ import { useGetData } from "./shared/hooks/useGetData";
 import { useWatcher } from "./shared/hooks/useWatcher";
 import { NativeAudio } from "@capacitor-community/native-audio";
 import { useEffect, useState } from "react";
-import Introduction from "./components/TourGuide/Introduction";
+import { Introduction } from "./components/";
 
 /* Core CSS required for Ionic components to work properly */
 import "@ionic/react/css/core.css";
@@ -45,28 +45,28 @@ import "./theme/variables.css";
 import "./App.css";
 
 setupIonicReact();
+const preloadAudio = async () => {
+  NativeAudio.preload({
+    assetId: "countdown",
+    assetPath: "countdown.mp3",
+    audioChannelNum: 1,
+    isUrl: false,
+  });
+};
+preloadAudio();
 
 const App: React.FC = () => {
   // use for stopping and resuming timer and video when user switches in App
   const { setOnBlur, setOnFocus } = useWatcher();
 
   // get data from DB and write to FS and Zustand Storage
-  useGetData();
+  const { fetchData } = useGetData();
 
   // use for audio message
   useEffect(() => {
-    preloadAudio();
     checkedDateAfterRegistration();
+    fetchData();
   }, []);
-
-  const preloadAudio = async () => {
-    NativeAudio.preload({
-      assetId: "countdown",
-      assetPath: "countdown.mp3",
-      audioChannelNum: 1,
-      isUrl: false,
-    });
-  };
 
   const { rehydrated, firstConnection, checkedDateAfterRegistration, isNotification } = useCombineStates();
 

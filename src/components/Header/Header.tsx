@@ -12,7 +12,7 @@ interface IProps {
   onSelect?: () => void;
 }
 
-const Header: React.FC<IProps> = ({ title, badges, path, onSelect }) => {
+export const Header: React.FC<IProps> = ({ title, badges, path, onSelect }) => {
   return (
     <IonHeader className="header">
       <IonToolbar color="warning">
@@ -40,5 +40,3 @@ const Header: React.FC<IProps> = ({ title, badges, path, onSelect }) => {
     </IonHeader>
   );
 };
-
-export default Header;

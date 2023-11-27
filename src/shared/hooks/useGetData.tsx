@@ -21,7 +21,5 @@ export function useGetData() {
     setAllExercises(responseWithExercises);
   };
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  return { fetchData };
 }

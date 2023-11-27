@@ -17,7 +17,7 @@ interface IProps {
   path: string;
 }
 
-const TourGuide: React.FC<IProps> = ({ path }) => {
+export const TourGuide: React.FC<IProps> = ({ path }) => {
   const {
     stepsForBeacons,
     userTraining,
@@ -170,5 +170,3 @@ const TourGuide: React.FC<IProps> = ({ path }) => {
     </>
   );
 };
-
-export default TourGuide;

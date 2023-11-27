@@ -24,7 +24,7 @@ import ModalMessageWindow from "../ModalWindows/MessageWindow/ModalMessageWindow
 
 import "./ProfileMenu.css";
 
-const ProfileMenu: React.FC = () => {
+export const ProfileMenu: React.FC = () => {
   const { setOnFocus } = useWatcher();
   const { isOpenProfileMenu, badges, setIsOpenProfileMenu, setChartInterval } = useCombineStates();
 
@@ -116,5 +116,3 @@ const ProfileMenu: React.FC = () => {
     </div>
   );
 };
-
-export default ProfileMenu;

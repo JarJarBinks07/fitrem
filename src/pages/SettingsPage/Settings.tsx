@@ -21,15 +21,14 @@ import {
 
 import { helpCircleOutline, personCircle } from "ionicons/icons";
 import { useCombineStates } from "../../store/useCombineStates";
-import ProfileMenu from "../../components/Menu/ProfileMenu";
-
+import { ProfileMenu } from "../../components";
 import "./Settings.css";
 import ChartForStats from "../../components/Chart/Chart";
 import Calendar from "react-calendar";
 import CalendarTest from "../../components/Calendar/CalendarTest";
 import Registration from "../../components/Chart/components/Registration/Registration";
 import RewardCard from "../../components/Cards/RewardCard";
-import Header from "../../components/Header/Header";
+import { Header } from "../../components";
 
 type RangeValue =
   | number

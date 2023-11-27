@@ -14,6 +14,14 @@ const config: CapacitorConfig = {
       iconColor: "#FF0000",
       sound: "birds.wav",
     },
+    BackgroundRunner: {
+      label: "io.ionic.starter.task",
+      src: "background.js",
+      event: "testLoad",
+      repeat: true,
+      interval: 2,
+      autoStart: false,
+    },
   },
 };
 

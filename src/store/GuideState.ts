@@ -38,8 +38,8 @@ export const createGuideState: MyStateCreator<IGuide> = (set) => ({
     set(
       (state) => {
         const currentDate = DateTime.fromMillis(Date.now());
-        const registraTionDate = DateTime.fromMillis(state.registrationDate);
-        const diffInSeconds = currentDate.diff(registraTionDate, "second");
+        const registeredDate = DateTime.fromMillis(state.registrationDate);
+        const diffInSeconds = currentDate.diff(registeredDate, "second");
         const result = diffInSeconds.toObject();
         return { differenceInTimeForGuide: result.seconds };
       },

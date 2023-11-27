@@ -17,7 +17,7 @@ import { Bar, Line } from "react-chartjs-2";
 import annotationPlugin from "chartjs-plugin-annotation";
 
 import { useCombineStates } from "../../store/useCombineStates";
-import { testTraining } from "../../shared/constants/test.training";
+import { testTraining } from "../../shared/constants";
 import {
   getStatsForPeriod,
   firstDayWeek,

@@ -17,14 +17,13 @@ import {
 } from "@ionic/react";
 
 import { chevronForwardOutline, personCircle } from "ionicons/icons";
-import ProfileMenu from "../../components/Menu/ProfileMenu";
+import { ProfileMenu, TourGuide } from "../../components/";
 import ModalWindowTracks from "../../components/ModalWindows/WindowTacks/ModalWindowTracks";
 import { useCombineStates } from "../../store/useCombineStates";
 
 import "./Tracks.css";
 import { useLocation } from "react-router";
-import TourGuide from "../../components/TourGuide/TourGuide";
-import Header from "../../components/Header/Header";
+import { Header } from "../../components";
 
 const Tracks: React.FC = () => {
   const {
