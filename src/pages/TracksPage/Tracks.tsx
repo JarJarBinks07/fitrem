@@ -2,22 +2,18 @@ import React, { useState } from "react";
 import { ItemReorderEventDetail } from "@ionic/core";
 import {
   IonButton,
-  IonButtons,
   IonCheckbox,
   IonCol,
   IonContent,
   IonGrid,
-  IonHeader,
   IonIcon,
   IonItem,
-  IonMenuToggle,
   IonPage,
   IonReorder,
   IonReorderGroup,
   IonRow,
   IonThumbnail,
   IonTitle,
-  IonToolbar,
 } from "@ionic/react";
 
 import { chevronForwardOutline, personCircle } from "ionicons/icons";
@@ -67,12 +63,18 @@ const Tracks: React.FC = () => {
     unsetWhenDone();
     event.detail.complete();
   }
+  // use for select all tracks
+  const onSelectAll = () => {
+    setSelectedAllCategories();
+    unsetWhenDone();
+    generateUserTraining();
+  };
 
   return (
     <>
       <ProfileMenu />
       <IonPage id="profile">
-        <Header title="Tracks" badges={badges} />
+        <Header title="Tracks" badges={badges} path={"/track"} onSelect={onSelectAll} />
         <IonContent fullscreen={true}>
           <IonGrid>
             <IonReorderGroup disabled={false} onIonItemReorder={handleReorder}>
