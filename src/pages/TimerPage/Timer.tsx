@@ -1,76 +1,20 @@
 import React, { useEffect, useState } from "react";
 import _ from "lodash";
-import "./Timer.css";
-import { IonButton, IonCol, IonContent, IonGrid, IonPage, IonRow } from "@ionic/react";
-
+import { IonCol, IonContent, IonGrid, IonPage, IonRow } from "@ionic/react";
 import TimerFace from "./components/TimerFace";
 import TimerPlayButton from "./components/TimerPlayButton";
 import { useCombineStates } from "../../store/useCombineStates";
 import TimerResetButton from "./components/TimerResetButton";
 import { setTimerLocalNotification, unsetTimerLocalNotifications } from "../../shared/constants";
 import SwiperContainer from "../../components/SwiperContainer/SwiperContainer";
-import { personCircle } from "ionicons/icons";
-// import ProfileMenu from "../../components/Menu/ProfileMenu";
 import { useWatcher } from "../../shared/hooks/useWatcher";
 import { App } from "@capacitor/app";
 import { useLocation } from "react-router";
-import { ProfileMenu, TourGuide, Header } from "../../components";
-import RewardCard from "../../components/Cards/RewardCard";
-import { BackgroundRunner } from "@capacitor/background-runner";
-ProfileMenu;
+import { Header, ProfileMenu } from "../../components";
+
+import "./Timer.css";
 
 const TimerPage: React.FC = () => {
-  //TEST//
-  useEffect(() => {
-    const init = async () => {
-      try {
-        const permissions = await BackgroundRunner.requestPermissions({
-          apis: ["notifications"],
-        });
-        console.log("permissions", permissions);
-      } catch (err) {
-        console.log(`ERROR: ${err}`);
-      }
-    };
-    init();
-  }, []);
-
-  // const scheduleNotification = async () => {
-  //   await BackgroundRunner.dispatchEvent({
-  //     label: "io.ionic.starter.task",
-  //     event: "notificationTest",
-  //     details: {},
-  //   });
-  // };
-  const getFetch = async () => {
-    await BackgroundRunner.dispatchEvent({
-      label: "io.ionic.starter.task",
-      event: "fetchTest",
-      details: {},
-    });
-  };
-  ////////////////
-  // Test the KV Store
-
-  const testSave = async () => {
-    const result = await BackgroundRunner.dispatchEvent({
-      label: "io.ionic.starter.task",
-      event: "testSave",
-      details: {},
-    });
-    console.log("save result", result);
-  };
-
-  const testLoad = async () => {
-    const result = await BackgroundRunner.dispatchEvent({
-      label: "io.ionic.starter.task",
-      event: "testLoad",
-      details: {},
-    });
-    console.log("load result", result);
-  };
-  ///////////////
-  //TEST//
   const {
     timerMode,
     isNotification,
@@ -193,14 +137,9 @@ const TimerPage: React.FC = () => {
             ) : (
               <SwiperContainer />
             )}
-            {/* {isReward && <RewardCard />} */}
           </>
-          <IonButton expand="full" onClick={getFetch}>
-            TEST
-          </IonButton>
         </IonContent>
       </IonPage>
-      {/* {path === "timer" ? <TourGuide path={path} /> : null} */}
     </>
   );
 };

@@ -85,10 +85,10 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
       (state) => {
         const _allExercises = [...state.allExercises];
         const _groupedByCategory = _.groupBy(_allExercises, "category");
-        const _filteredExercisesID = _groupedByCategory[value]
+        const filteredExercisesID = _groupedByCategory[value]
           .map((e) => e.id)
           .filter((e) => !state.selectedExercisesByID.includes(e));
-        return { selectedExercisesByID: [...state.selectedExercisesByID, ..._filteredExercisesID] };
+        return { selectedExercisesByID: [...state.selectedExercisesByID, ...filteredExercisesID] };
       },
       false,
       "setSelectedAllExercise"
@@ -147,12 +147,8 @@ export const createTracksState: MyStateCreator<TrackState> = (set) => ({
             _activeExercises.push(...currentActiveExercise);
           }
         }
-        // shuffle _activeTracks
-        const newArrOfActiveExercises = [..._activeExercises];
-        const shuffledArray = _.shuffle(newArrOfActiveExercises);
-
         // sort one by one//
-        const filteredExercises = shuffledArray.filter((e) => _activeTracks.includes(e.category));
+        const filteredExercises = _activeExercises.filter((e) => _activeTracks.includes(e.category));
         const groupedByCategory = _.groupBy(filteredExercises, "category");
         const result = [] as IExercise[];
         let maxLength = 0;

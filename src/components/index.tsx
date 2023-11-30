@@ -1,3 +1,2 @@
-export * from "./Menu";
-export * from "./TourGuide";
+export * from "./ProfileMenu";
 export * from "./Header";

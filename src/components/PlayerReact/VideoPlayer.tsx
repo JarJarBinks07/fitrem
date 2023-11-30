@@ -30,7 +30,6 @@ const VideoPlayerReact: React.FC<IProps> = ({ play, path, id }) => {
         // url={[{ src: path }]}
         //   className="react-player"
       />
-      <span>{id}</span>
     </>
   );
 };

@@ -9,14 +9,12 @@
     opacity: 1;
   }
 }
-
 .swiper {
   display: flex;
   /* min-height: 100%; */
   flex-direction: column;
   overflow: hidden;
 }
-
 .swiper__track_exercise {
   background-color: #222428;
   color: #f4f5f8;
@@ -55,7 +53,7 @@
 .swiper__container {
   position: relative;
   max-width: 450px;
-  height: 47vh;
+  height: 50%;
   margin: 0 auto;
   overflow: hidden;
 }
@@ -79,10 +77,6 @@
   height: 100%;
 }
 
-/* .swiper__content .swiper-pagination-bullet {
-  width: 10px;
-  height: 10px;
-} */
 .swiper__btn_info {
   position: absolute;
   top: 10px;

@@ -3,8 +3,6 @@ PODS:
     - CapacitorCordova
   - CapacitorApp (5.0.6):
     - Capacitor
-  - CapacitorBackgroundRunner (1.0.5):
-    - Capacitor
   - CapacitorCamera (5.0.7):
     - Capacitor
   - CapacitorCommunityNativeAudio (5.0.1):
@@ -36,7 +34,6 @@ PODS:
 DEPENDENCIES:
   - "Capacitor (from `../../node_modules/@capacitor/ios`)"
   - "CapacitorApp (from `../../node_modules/@capacitor/app`)"
-  - "CapacitorBackgroundRunner (from `../../node_modules/@capacitor/background-runner`)"
   - "CapacitorCamera (from `../../node_modules/@capacitor/camera`)"
   - "CapacitorCommunityNativeAudio (from `../../node_modules/@capacitor-community/native-audio`)"
   - "CapacitorCommunitySqlite (from `../../node_modules/@capacitor-community/sqlite`)"
@@ -58,8 +55,6 @@ EXTERNAL SOURCES:
     :path: "../../node_modules/@capacitor/ios"
   CapacitorApp:
     :path: "../../node_modules/@capacitor/app"
-  CapacitorBackgroundRunner:
-    :path: "../../node_modules/@capacitor/background-runner"
   CapacitorCamera:
     :path: "../../node_modules/@capacitor/camera"
   CapacitorCommunityNativeAudio:
@@ -84,7 +79,6 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   Capacitor: 1ac9165943bc4f2137642d218c5ba05df811de69
   CapacitorApp: 024e1b1bea5f883d79f6330d309bc441c88ad04a
-  CapacitorBackgroundRunner: f2415aebbcea4e744eb45f785a50f07ba72f1d0b
   CapacitorCamera: 084b0b228bba7d00587910337b1c89e93b1d32ab
   CapacitorCommunityNativeAudio: 1a4d5490acb59f155602c0b6bcf1b42ee4efe91b
   CapacitorCommunitySqlite: a5f20dbf90c77ae67ef8b50c8e269c6b5f6b40d2
@@ -98,6 +92,6 @@ SPEC CHECKSUMS:
   SQLCipher: f2e96b3822e3006b379181a0e4fd145f6de29b56
   ZIPFoundation: d170fa8e270b2a32bef9dcdcabff5b8f1a5deced
 
-PODFILE CHECKSUM: 11df7260e3de7bcdc337f6c3bfb15cc395793de5
+PODFILE CHECKSUM: b9bbecf0fe7ad35902c3e90349f40e3f501c5522
 
 COCOAPODS: 1.12.1

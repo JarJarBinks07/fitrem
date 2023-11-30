@@ -15,15 +15,14 @@ import {
   IonThumbnail,
   IonTitle,
 } from "@ionic/react";
-
-import { chevronForwardOutline, personCircle } from "ionicons/icons";
-import { ProfileMenu, TourGuide } from "../../components/";
-import ModalWindowTracks from "../../components/ModalWindows/WindowTacks/ModalWindowTracks";
+import { chevronForwardOutline } from "ionicons/icons";
+import { ProfileMenu } from "../../components/";
+import ModalWindowTracks from "../../components/ModalWindows/ModalWindowTacks/ModalWindowTracks";
 import { useCombineStates } from "../../store/useCombineStates";
-
-import "./Tracks.css";
 import { useLocation } from "react-router";
 import { Header } from "../../components";
+
+import "./Tracks.css";
 
 const Tracks: React.FC = () => {
   const {
@@ -112,7 +111,7 @@ const Tracks: React.FC = () => {
                 </div>
               ))}
             </IonReorderGroup>
-            {/* for tour guide */}
+            {/* for tour */}
             <IonRow>
               <IonCol id="checkbox" style={{ margin: "-7vh 0 0 0", padding: "5vh 0 20px 0" }}></IonCol>
               <IonCol size="8"></IonCol>
@@ -122,7 +121,6 @@ const Tracks: React.FC = () => {
         </IonContent>
         <ModalWindowTracks isOpen={isOpen} setIsOpen={setIsOpen} category={currentCategory} unsetWhenDone={unsetWhenDone} />
       </IonPage>
-      {path === "tracks" ? <TourGuide path={path} /> : null}
     </>
   );
 };

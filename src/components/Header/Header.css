@@ -5,6 +5,7 @@
 }
 .header__title {
   padding: 0 15px 0px 15px;
+  text-align: center;
 }
 .header__badge {
   margin: -20px 0 0 -10px;
