@@ -196,7 +196,7 @@ const ImageContainer: React.FC = () => {
                 {slicedUserTraining.map((item) => (
                   // <div className="swiper__slide">
                   <SwiperSlide key={item.id}>
-                    <VideoPlayer id={playerId} play={playStatus} path={item.video_path} />
+                    <VideoPlayer id={playerId} play={playStatus} path={item?.video_path} />
                   </SwiperSlide>
                   // </div>
                 ))}
